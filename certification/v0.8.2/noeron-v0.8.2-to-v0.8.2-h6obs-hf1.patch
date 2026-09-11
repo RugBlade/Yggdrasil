@@ -1,0 +1,106 @@
+diff --git a/RECOVERY_CHANGED_FILES.json b/RECOVERY_CHANGED_FILES.json
+index e2e4d12624797f94ee97377e8e6ab8fe4a309467..5864d8563fdf14168849ac3611630ed8d60a9aa6 100644
+--- a/RECOVERY_CHANGED_FILES.json
++++ b/RECOVERY_CHANGED_FILES.json
+@@ -93,12 +93,12 @@
+     {
+       "path": "src/noeron/orchestrator.py",
+       "ancestor_sha256": "47eac51b22a9374394e90e8eed60e0c3b2c6ac6d1473b9efc6cb4599ff541250",
+-      "candidate_sha256": "a4c100dd1e7b75034c11515f7136bc69029b0739875144641a617b419a1ac1d0"
++      "candidate_sha256": "f6b3b807e8db58342a5d8f3de6d9b1a1db6b348a8a964f830b4943c43ba8b23d"
+     },
+     {
+       "path": "tests/test_v082_stage8B_conversation.py",
+       "ancestor_sha256": null,
+-      "candidate_sha256": "e4d60cdd18ea91cb34dfddbd14f795871aa08272a9837d23e1ac97c7ec50924e"
++      "candidate_sha256": "b0b9a069a39cba583cd1ad375ff7885fdfe590eecad0e5a10f7338c471801cbf"
+     },
+     {
+       "path": "tests/test_v082_successor_compatibility.py",
+diff --git a/src/noeron/orchestrator.py b/src/noeron/orchestrator.py
+index d0a33361e4a55fb3ea201c6541715a6b9f5bcefe..89c40e79c7fac3dcdd80927769889b526f44a24c 100644
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@ -2034,7 +2034,32 @@ class Noeron:
+         utterance=(st.last_autonomous_native_utterance if st.last_internal_utterance_source=='autonomous' else st.last_interaction_native_utterance)
+         native=str(utterance.native_text if utterance else '').strip()
+         audit=dict(st.last_communication_audit)
+-        translation=(st.last_internal_english_translation if controls.internal_utterance_translation else '')
++        translation=''
++        translation_origin='disabled'
++        translation_generated_on_read=False
++        translation_egress_audit={}
++        if controls.internal_utterance_translation:
++            translation=str(st.last_internal_english_translation or '').strip()
++            if translation:
++                translation_origin='cached-existing-native-egress'
++            elif native and utterance is not None:
++                # A pre-v0.8.2/migrated internal utterance may legitimately have no
++                # cached English egress.  Owner observation is read-only, so realize
++                # the already-existing native utterance ephemerally rather than
++                # replaying cognition or mutating language/memory state.
++                observational_thought=NativeThought(
++                    kind=NativeThoughtKind.RESPONSE,
++                    statement=native,
++                    propositions=[],
++                    question_candidates=[],
++                    should_surface=False,
++                    origin='authenticated-owner-private-observation-read-only',
++                    native_utterance=utterance,
++                )
++                translation,translation_egress_audit=realize_native_thought(observational_thought,utterance)
++                translation=str(translation or '').strip()
++                translation_origin='deterministic-read-only-existing-native-utterance'
++                translation_generated_on_read=bool(translation)
+         return {
+             'status':('available' if native else 'no-internal-utterance-available'),
+             'source':str(st.last_internal_utterance_source or ''),
+@@ -2045,6 +2070,9 @@ class Noeron:
+             'translation_enabled':bool(controls.internal_utterance_translation),
+             'translation_deterministic':True,
+             'translation_content_authority':False,
++            'translation_origin':translation_origin,
++            'translation_generated_on_read':translation_generated_on_read,
++            'translation_egress_audit':translation_egress_audit,
+             'communication_action':str(audit.get('communication_action') or ''),
+             'communication_selection_status':str(audit.get('selection_status') or ''),
+             'communication_native_choice_claim':bool(audit.get('native_choice_claim')),
+diff --git a/tests/test_v082_stage8B_conversation.py b/tests/test_v082_stage8B_conversation.py
+index b0058739383fbd33da926ec243880305bd80dd05..53abe99b58078615da8686142806e4fb5949dd88 100644
+--- a/tests/test_v082_stage8B_conversation.py
++++ b/tests/test_v082_stage8B_conversation.py
+@@ -220,3 +220,34 @@ def test_22_owner_can_enable_deterministic_translation_of_private_internal_utter
+     assert obs["translation_content_authority"] is False
+     assert obs["communication_native_choice_claim"] is False
+     assert obs["transport_origin"]=="none"
++
++
++def test_23_migrated_internal_utterance_translation_falls_back_read_only(tmp_path: Path):
++    n=_n(tmp_path)
++    n.set_owner_communication_control("internal_utterance_visibility",True)
++    n.set_owner_communication_control("internal_utterance_translation",True)
++    st=n.state.cognition.language
++    # Simulate the exact live H6 edge: a preserved pre-v0.8.2 interaction
++    # utterance exists, while the new source/translation cache fields are empty.
++    st.last_interaction_native_utterance=NativeUtterance(native_text="I am yggdrasil.")
++    st.last_internal_utterance_source=""
++    st.last_internal_english_translation=""
++    st.last_communication_audit={}
++    before=st.model_dump(mode="json")
++    obs=n.owner_internal_utterance_observation()
++    after=st.model_dump(mode="json")
++    assert obs["status"]=="available"
++    assert obs["native_text"]=="I am yggdrasil."
++    assert obs["english_translation"]=="I am yggdrasil."
++    assert obs["translation_origin"]=="deterministic-read-only-existing-native-utterance"
++    assert obs["translation_generated_on_read"] is True
++    assert obs["translation_deterministic"] is True
++    assert obs["translation_content_authority"] is False
++    assert obs["translation_egress_audit"]["content_authority"] is False
++    assert obs["translation_egress_audit"]["semantic_truth_authority"] is False
++    assert obs["translation_egress_audit"]["cognitive_memory_authority"] is False
++    assert obs["observation_changes_communication_action"] is False
++    assert obs["communication_authority"] is False
++    assert obs["relationship_authority"] is False
++    assert obs["native_choice_claim"] is False
++    assert before==after
