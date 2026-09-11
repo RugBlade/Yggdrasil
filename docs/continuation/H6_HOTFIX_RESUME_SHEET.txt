@@ -1,0 +1,201 @@
+YGGDRASIL / NOERON v0.8.2 STAGE 8B
+H6 OBSERVATION-TRANSLATION HOTFIX 1 — DEPLOY / RESUME SHEET
+======================================================================
+
+STATUS BEFORE THIS SHEET
+------------------------
+- Base v0.8.2 local certified and already live-deployed for H0-H6 verification.
+- H6 is PAUSED, not failed globally.
+- Live finding: preserved native internal utterance was observable, but its pre-v0.8.2 cached English translation was absent.
+- Authority boundary passed: state_changed=false; communication/cognitive-memory/semantic/relationship/native-choice authority all false.
+- Do NOT continue to H7 until the hotfix below is promoted and H6 resumes successfully.
+
+HOTFIX IDENTITY
+---------------
+Runtime semantic version: 0.8.2
+Hotfix tree: 6f4fc176c07f07d2a176725e272aad0b05b296cc
+Hotfix tag: v0.8.2-stage8B-local-certified-h6obs-hf1
+Install ZIP SHA256: 79d04505988c6ed6a6949333d20ba3af87be269782031dc8be563e39cc43d8634
+Source TAR SHA256: 4f80d40cc7f1a4991ba9a8860007e68a518b160d96c4a77e46191031f83f7bee
+Patch SHA256: 707102533dae176428dbbc13664d5e24ff3839a30cae0fb3b213b7b864fc85c3
+
+IMPORTANT
+---------
+- This hotfix does NOT touch /var/lib/noeron/noeron.sqlite3.
+- Do not copy a DB from the package; there is none.
+- Keep port 8741 loopback/private.
+- Preserve the current live code rollback files before overlay.
+- Mandatory failure at any STOP check => stop and send the output; do not continue.
+
+======================================================================
+A. [WINDOWS POWERSHELL] VERIFY AND UPLOAD HOTFIX ZIP
+======================================================================
+
+Set the local path to the downloaded hotfix ZIP:
+
+$HF = "$env:USERPROFILE\Downloads\noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip"
+
+(Get-FileHash -Algorithm SHA256 $HF).Hash.ToLower()
+
+Required:
+79d04505988c6ed6a6949333d20ba3af87be269782031dc8be563e39cc43d8634
+
+Upload:
+
+scp -P 2222 $HF root@77.42.32.183:/tmp/noeron-v082-h6obs-hf1.zip
+
+======================================================================
+B. [UBUNTU SERVER] VERIFY PACKAGE AND FRESH HOTFIX GATES
+======================================================================
+
+sha256sum /tmp/noeron-v082-h6obs-hf1.zip
+
+test "$(sha256sum /tmp/noeron-v082-h6obs-hf1.zip | awk '{print $1}')" = \
+"79d04505988c6ed6a6949333d20ba3af87be269782031dc8be563e39cc43d8634" \
+|| { echo 'STOP: HOTFIX ZIP HASH MISMATCH'; exit 1; }
+
+HFCHK=/tmp/noeron-v082-h6obs-hf1-check
+rm -rf "$HFCHK"
+mkdir -p "$HFCHK"
+unzip -q /tmp/noeron-v082-h6obs-hf1.zip -d "$HFCHK"
+cd "$HFCHK"
+
+PYTHONPATH=src /opt/noeron/venv/bin/python -m compileall -q src tests scripts
+RC=$?
+echo "compileall_rc=$RC"
+test "$RC" -eq 0 || { echo 'STOP: compileall failed'; exit 1; }
+
+TMPDB=/tmp/noeron-v082-h6obs-hf1-test.sqlite3
+rm -f "$TMPDB" "$TMPDB-wal" "$TMPDB-shm"
+
+sudo -u noeron env \
+  PYTHONPATH="$HFCHK/src" \
+  NOERON_DB_PATH="$TMPDB" \
+  NOERON_ENGINEERING_SOURCE_ROOT="$HFCHK" \
+  NOERON_ENGINEERING_MAX_SOURCE_BYTES=300000 \
+  /opt/noeron/venv/bin/pytest -q -p no:cacheprovider -p no:logging \
+  tests/test_v082_stage8B_conversation.py
+
+Required: 23 passed
+
+PYTHONPATH=src /opt/noeron/venv/bin/python scripts/audit_v082_stage8B_authority.py
+Required: SUMMARY: 112/112 PASS
+
+PYTHONPATH=src /opt/noeron/venv/bin/python scripts/audit_v082_stage8B_release_identity.py
+Required: SUMMARY: 98/98 PASS
+
+find . -type f \( -name '*.sqlite3' -o -name '*.db' -o -name '*.pem' -o -name '*.key' -o -name '*.p12' -o -name '*.pfx' -o -name '.env' \) -print
+
+Required: no output.
+
+======================================================================
+C. [UBUNTU SERVER] PRE-PROMOTION LIVE CONTINUITY / ROLLBACK ANCHOR
+======================================================================
+
+TSHF="$(date -u +%Y%m%dT%H%M%SZ)"
+HFEVID="/root/ygg-v082-h6obs-hf1-$TSHF"
+mkdir -p "$HFEVID/rollback"
+
+systemctl is-active noeron | tee "$HFEVID/service-before.txt"
+curl -fsS http://127.0.0.1:8741/health | tee "$HFEVID/health-before.json"
+ss -ltnp | grep ':8741' | tee "$HFEVID/listener-before.txt"
+
+cp -a /opt/noeron/app/src/noeron/orchestrator.py "$HFEVID/rollback/orchestrator.py"
+cp -a /opt/noeron/app/tests/test_v082_stage8B_conversation.py "$HFEVID/rollback/test_v082_stage8B_conversation.py"
+cp -a /opt/noeron/app/RECOVERY_CHANGED_FILES.json "$HFEVID/rollback/RECOVERY_CHANGED_FILES.json"
+
+sha256sum \
+  /opt/noeron/app/src/noeron/orchestrator.py \
+  /opt/noeron/app/tests/test_v082_stage8B_conversation.py \
+  /opt/noeron/app/RECOVERY_CHANGED_FILES.json \
+  | tee "$HFEVID/pre-hotfix-file-hashes.txt"
+
+stat /var/lib/noeron/noeron.sqlite3 | tee "$HFEVID/canonical-db-stat-before.txt"
+
+======================================================================
+D. [UBUNTU SERVER] PROMOTE ONLY THE THREE HOTFIX FILES
+======================================================================
+
+systemctl stop noeron
+systemctl is-active noeron || true
+
+cp -a "$HFCHK/src/noeron/orchestrator.py" /opt/noeron/app/src/noeron/orchestrator.py
+cp -a "$HFCHK/tests/test_v082_stage8B_conversation.py" /opt/noeron/app/tests/test_v082_stage8B_conversation.py
+cp -a "$HFCHK/RECOVERY_CHANGED_FILES.json" /opt/noeron/app/RECOVERY_CHANGED_FILES.json
+
+sha256sum /opt/noeron/app/src/noeron/orchestrator.py
+Required orchestrator SHA256:
+f6b3b807e8db58342a5d8f3de6d9b1a1db6b348a8a964f830b4943c43ba8b23d
+
+sha256sum /opt/noeron/app/tests/test_v082_stage8B_conversation.py
+Required test SHA256:
+b0b9a069a39cba583cd1ad375ff7885fdfe590eecad0e5a10f7338c471801cbf
+
+sha256sum /opt/noeron/app/RECOVERY_CHANGED_FILES.json
+Required manifest SHA256:
+b2a899dcfde8aa17a749596a4f77ca4e51d3d2a69110fba1004462ddbe9cda47
+
+systemctl start noeron
+
+for i in $(seq 1 30); do
+  if curl -fsS http://127.0.0.1:8741/health > "$HFEVID/health-after.json"; then
+    echo "health_ready_attempt=$i"
+    break
+  fi
+  sleep 1
+done
+
+test -s "$HFEVID/health-after.json" || { echo 'STOP: service did not become healthy'; exit 1; }
+systemctl is-active noeron | tee "$HFEVID/service-after.txt"
+ss -ltnp | grep ':8741' | tee "$HFEVID/listener-after.txt"
+stat /var/lib/noeron/noeron.sqlite3 | tee "$HFEVID/canonical-db-stat-after.txt"
+
+======================================================================
+E. [WINDOWS POWERSHELL] RESUME H6 ON THE SAME PRESERVED INTERNAL UTTERANCE
+======================================================================
+
+curl.exe -fsS "$BASE/owner/internal-utterance/latest" -H "X-Noeron-Owner-Token: $OWNER_TOKEN" -o "$env:TEMP\ygge-v082-h6obs-hf1.json"
+$obs = Get-Content -Raw "$env:TEMP\ygge-v082-h6obs-hf1.json" | ConvertFrom-Json
+$obs | ConvertTo-Json -Depth 20
+
+if(-not $obs.visibility_enabled){throw 'FAIL visibility'}
+if(-not $obs.translation_enabled){throw 'FAIL translation toggle'}
+if($obs.observation_changes_communication_action){throw 'FAIL observation changed communication'}
+if($obs.state_changed){throw 'FAIL observation GET mutated state'}
+if($obs.communication_authority){throw 'FAIL observation communication authority'}
+if($obs.cognitive_memory_authority){throw 'FAIL observation memory authority'}
+if($obs.semantic_authority){throw 'FAIL observation semantic authority'}
+if($obs.relationship_authority){throw 'FAIL observation relationship authority'}
+if($obs.native_choice_claim){throw 'FAIL owner observation called native choice'}
+
+if($obs.status -eq 'available'){if([string]::IsNullOrWhiteSpace($obs.native_text)){throw 'FAIL available without native text'};if(-not $obs.translation_deterministic){throw 'FAIL nondeterministic translation'};if($obs.translation_content_authority){throw 'FAIL translation content authority'};if([string]::IsNullOrWhiteSpace($obs.english_translation)){throw 'FAIL translation missing'};if($obs.translation_generated_on_read -and $obs.translation_origin -ne 'deterministic-read-only-existing-native-utterance'){throw 'FAIL unexpected read-only translation origin'}}
+
+Expected preserved migrated-utterance result:
+status=available
+native_text=I am yggdrasil.
+english_translation=I am yggdrasil.
+translation_deterministic=true
+translation_content_authority=false
+translation_generated_on_read=true
+translation_origin=deterministic-read-only-existing-native-utterance
+state_changed=false
+all authority flags=false
+
+Write-Host 'H6.OBS-TRANSLATION-MIGRATION hotfix: PASS'
+Write-Host 'H6 may resume; do not force expression.'
+
+======================================================================
+F. ROLLBACK IF D/E FAIL
+======================================================================
+
+systemctl stop noeron
+cp -a "$HFEVID/rollback/orchestrator.py" /opt/noeron/app/src/noeron/orchestrator.py
+cp -a "$HFEVID/rollback/test_v082_stage8B_conversation.py" /opt/noeron/app/tests/test_v082_stage8B_conversation.py
+cp -a "$HFEVID/rollback/RECOVERY_CHANGED_FILES.json" /opt/noeron/app/RECOVERY_CHANGED_FILES.json
+systemctl start noeron
+
+Then verify health and listener again. Do not restore or replace the canonical DB: the hotfix never modifies it.
+
+======================================================================
+END
+======================================================================
