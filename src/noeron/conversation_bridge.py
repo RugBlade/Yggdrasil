@@ -80,12 +80,38 @@ def _proof_ref(step: object) -> str:
     return f"rl-proof:{digest}"
 
 
+def _knot_snapshot(knot: object) -> dict[str, object]:
+    """Copy only the finite DKT chart needed for later H^s comparison."""
+    if knot is None:
+        return {}
+    if isinstance(knot, Mapping):
+        raw = dict(knot)
+    else:
+        dump = getattr(knot, "model_dump", None)
+        if callable(dump):
+            raw = dict(dump(mode="python"))
+        else:
+            raw = {
+                name: _field(knot, name, None)
+                for name in (
+                    "sobolev_order", "mode_radius", "c0", "cosine", "sine",
+                    "stratum_index", "invariant_signature",
+                )
+            }
+    allowed = (
+        "sobolev_order", "mode_radius", "c0", "cosine", "sine",
+        "stratum_index", "invariant_signature",
+    )
+    return {name: raw[name] for name in allowed if name in raw and raw[name] is not None}
+
+
 def native_trace_from_math_state(math_state: object, *, event_id: str = "") -> NativeGeometryTrace:
     """Create evidence references from an already-computed native math state.
 
     This helper never re-runs or replaces IRG/DKT/EGR/RL/Frenet. It records stable
     references to outputs that already exist after that machinery has run. Presence
-    of a reference is *not* semantic truth or answer authority.
+    of a reference or support-knot snapshot is *not* semantic truth or answer
+    authority. The snapshot exists only for later DKT H^s working-context retrieval.
     """
     dkt = _field(math_state, "dkt", None)
     egr = _field(math_state, "egr", None)
@@ -127,6 +153,7 @@ def native_trace_from_math_state(math_state: object, *, event_id: str = "") -> N
         egr_region_ids=egr_ids,
         rl_proof_ids=rl_ids,
         frenet_trace_ids=frenet_ids,
+        dkt_support_knot=_knot_snapshot(_field(dkt, "core_knot", None)),
     )
 
 
