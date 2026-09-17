@@ -50,7 +50,8 @@ def gate_inference_candidates(
     For ordinary queries each candidate's proposition is audited as the proof target.
     For ``why-proposition`` the candidate list represents explanatory support while
     ``why_targets`` contains the event/property proposition(s) being explained. The
-    event itself therefore cannot pass as its own explanation merely by being true.
+    event itself is explicitly removed from its own explanatory-support set, so event
+    truth can never pass as a reason merely by being true.
     """
     premises = tuple(provenance_premises)
     steps = tuple(inference_steps)
@@ -77,11 +78,15 @@ def gate_inference_candidates(
                 blocked_candidate_count=len(answer_rows),
                 authority=_zero_authority(),
             )
-        explanation_canonicals = tuple(c for c in (_canonical(row) for row in answer_rows) if c)
+        raw_explanations = tuple(c for c in (_canonical(row) for row in answer_rows) if c)
         for target in targets:
             target_canonical = _canonical(target)
             if not target_canonical:
                 continue
+            # Critical H9 invariant: P cannot explain why P merely because P is a
+            # supported event. Other explicit explanatory candidates and genuine
+            # inference ancestry remain available without ranking.
+            explanation_canonicals = tuple(c for c in raw_explanations if c != target_canonical)
             audits.append(
                 audit_proof_support(
                     target_canonical,
