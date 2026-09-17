@@ -12,7 +12,7 @@ ranking. Exact metric ties at the selection boundary remain selected together.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, Iterable, Mapping, Sequence
+from typing import Callable, Iterable, Mapping
 
 from noeron.conversation_premises import ConversationalPremiseEnvelope
 
@@ -43,7 +43,8 @@ def select_bounded_premises_by_native_geometry(
 
     Selection is source-turn geometric activation, not truth assignment. All
     active/conflicting premises from a selected source turn are retained. Expired,
-    superseded, unadmitted, and geometry-less rows cannot enter proof closure.
+    superseded, unadmitted, non-dialogue-origin, and geometry-less rows cannot enter
+    proof closure.
 
     ``limit`` is the nominal number of source-turn geometry groups, not premise
     rows. If the cutoff source turn is exactly tied with further turns according to
@@ -60,6 +61,9 @@ def select_bounded_premises_by_native_geometry(
                 "selected_source_turns": [],
                 "source_turn_distances": {},
                 "missing_geometry_source_turns": [],
+                "inconsistent_geometry_source_turns": [],
+                "non_dialogue_origin_source_turns": [],
+                "invalid_distance_source_turns": [],
                 "cutoff_distance": None,
                 "exact_tie_at_cutoff": False,
                 "semantic_truth_authority": False,
@@ -72,27 +76,34 @@ def select_bounded_premises_by_native_geometry(
 
     eligible: list[ConversationalPremiseEnvelope] = []
     missing_turns: set[int] = set()
+    inconsistent_turns: set[int] = set()
+    non_dialogue_turns: set[int] = set()
     groups: dict[int, tuple[Mapping[str, object], list[ConversationalPremiseEnvelope]]] = {}
 
     for row in envelopes:
         if not row.admitted or row.status not in {"active", "conflict"}:
             continue
         row.authority.assert_bounded_safe()
+        turn = int(row.source_turn)
+        if row.origin not in {"current-turn", "bounded-dialogue-turn"}:
+            non_dialogue_turns.add(turn)
+            continue
+        if turn in inconsistent_turns:
+            continue
         eligible.append(row)
         knot = _support_knot(row)
         if knot is None:
-            missing_turns.add(int(row.source_turn))
+            missing_turns.add(turn)
             continue
-        turn = int(row.source_turn)
         if turn not in groups:
             groups[turn] = (knot, [row])
         else:
             support, rows = groups[turn]
             # Premises admitted from one turn must refer to the same source-turn
-            # geometry. Mismatch is treated as unusable evidence, never resolved by
-            # choosing one serialization arbitrarily.
+            # geometry. Mismatch invalidates that entire turn rather than selecting
+            # one serialization by arrival order.
             if dict(support) != dict(knot):
-                missing_turns.add(turn)
+                inconsistent_turns.add(turn)
                 groups.pop(turn, None)
                 continue
             rows.append(row)
@@ -111,6 +122,17 @@ def select_bounded_premises_by_native_geometry(
         distances[turn] = d
 
     ranked = sorted(distances.items(), key=lambda item: (item[1], item[0]))
+    common_audit = {
+        "missing_geometry_source_turns": sorted(missing_turns),
+        "inconsistent_geometry_source_turns": sorted(inconsistent_turns),
+        "non_dialogue_origin_source_turns": sorted(non_dialogue_turns),
+        "invalid_distance_source_turns": sorted(invalid_distance_turns),
+        "semantic_truth_authority": False,
+        "answer_authority": False,
+        "speech_act_authority": False,
+        "cognitive_memory_authority": False,
+        "metric_authority": "runtime-injected-native-DKT-Hs-distance-only",
+    }
     if not ranked:
         return BoundedGeometrySelection(
             selected=(),
@@ -118,21 +140,15 @@ def select_bounded_premises_by_native_geometry(
                 "selection_status": "unresolved-no-usable-bounded-geometry",
                 "selected_source_turns": [],
                 "source_turn_distances": {},
-                "missing_geometry_source_turns": sorted(missing_turns),
-                "invalid_distance_source_turns": sorted(invalid_distance_turns),
                 "cutoff_distance": None,
                 "exact_tie_at_cutoff": False,
-                "semantic_truth_authority": False,
-                "answer_authority": False,
-                "speech_act_authority": False,
-                "cognitive_memory_authority": False,
-                "metric_authority": "runtime-injected-native-DKT-Hs-distance-only",
+                **common_audit,
             },
         )
 
     base_count = min(limit, len(ranked))
     cutoff = ranked[base_count - 1][1]
-    selected_turns = [turn for turn, d in ranked[:base_count]]
+    selected_turns = [turn for turn, _d in ranked[:base_count]]
     tied_beyond_cutoff: list[int] = []
     for turn, d in ranked[base_count:]:
         if tied_fn(d, cutoff):
@@ -157,17 +173,11 @@ def select_bounded_premises_by_native_geometry(
             "selection_status": status,
             "selected_source_turns": selected_turns,
             "source_turn_distances": {str(k): distances[k] for k in sorted(distances)},
-            "missing_geometry_source_turns": sorted(missing_turns),
-            "invalid_distance_source_turns": sorted(invalid_distance_turns),
             "cutoff_distance": cutoff,
             "exact_tie_at_cutoff": bool(tied_beyond_cutoff),
             "tied_source_turns_beyond_nominal_limit": tied_beyond_cutoff,
             "selected_premise_count": len(selected_rows),
-            "semantic_truth_authority": False,
-            "answer_authority": False,
-            "speech_act_authority": False,
-            "cognitive_memory_authority": False,
-            "metric_authority": "runtime-injected-native-DKT-Hs-distance-only",
             "ordering_authority": False,
+            **common_audit,
         },
     )
