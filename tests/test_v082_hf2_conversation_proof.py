@@ -122,6 +122,16 @@ def test_conflicting_bounded_premise_cannot_silently_become_proof_support():
     assert audit.support_gate_passed is False
 
 
+def test_independent_uncontested_duplicate_support_is_not_poisoned_by_bounded_conflict():
+    target = "box::is::red"
+    conflicted = row(target, turn=2, status="conflict", conflict_with=("box::is::blue",))
+    uncontested = row(target, turn=3, status="active")
+    audit = audit_proof_support(target, premises=[conflicted, uncontested])
+    assert audit.status == "proof-support-auditable"
+    assert audit.conflicting_support == ()
+    assert len(audit.provenance) == 2
+
+
 def test_derived_proof_with_missing_leaf_provenance_is_rejected():
     target = "room::is::bright"
     audit = audit_proof_support(
