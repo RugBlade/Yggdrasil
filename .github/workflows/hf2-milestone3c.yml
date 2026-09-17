@@ -1,0 +1,54 @@
+name: HF2 Milestone 3C - proof provenance and ambiguity
+
+on:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'src/noeron/conversation_proof.py'
+      - 'src/noeron/conversation_premises.py'
+      - 'tests/test_v082_hf2_conversation_proof.py'
+      - '.github/workflows/hf2-milestone3c.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  proof-provenance-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout engineering carrier
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install narrow test dependency
+        run: python -m pip install --disable-pip-version-check pytest
+
+      - name: Compile milestone source
+        run: |
+          python -m compileall -q \
+            src/noeron/conversation_premises.py \
+            src/noeron/conversation_proof.py
+
+      - name: Run causal provenance and ambiguity tests
+        env:
+          PYTHONPATH: src
+        run: python -m pytest -q tests/test_v082_hf2_conversation_proof.py
+
+      - name: Native authority boundary source scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'explanation-missing-causal-support' src/noeron/conversation_proof.py
+          grep -q 'proof-unresolved-ambiguity' src/noeron/conversation_proof.py
+          grep -q 'proof-unresolved-conflict' src/noeron/conversation_proof.py
+          grep -q 'IRG->DKT->regional-EGR->RL/Frenet->DKT->native-cognition/action' src/noeron/conversation_proof.py
+          grep -q '"answer": False' src/noeron/conversation_proof.py
+          grep -q '"semantic_truth": False' src/noeron/conversation_proof.py
+          echo 'proof_provenance_authority_scan=PASS'
