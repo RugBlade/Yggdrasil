@@ -88,9 +88,10 @@ def ambiguity_constraints_from_structure(structure: Mapping[str, object] | None)
     """Extract only explicit ambiguity dependency metadata.
 
     The parser may preserve ambiguity without knowing which proof node it affects.
-    Such rows remain *unscoped* and are audited but do not automatically poison an
-    unrelated proof. A later parser/bridge can provide ``affected_canonicals`` or
-    ``candidate_canonicals`` to make the dependency machine-checkable.
+    Such rows remain *unscoped*. They are always audited. A caller may conservatively
+    gate on them when the runtime cannot prove that the ambiguity is irrelevant to
+    the candidate proof. A later parser/bridge can provide ``affected_canonicals``
+    or ``candidate_canonicals`` for a narrower dependency gate.
     """
     out: list[AmbiguityConstraint] = []
     for index, raw in enumerate(list((structure or {}).get("ambiguities") or [])):
@@ -152,12 +153,18 @@ def audit_proof_support(
     ambiguities: Iterable[AmbiguityConstraint] = (),
     require_explanation: bool = False,
     explanatory_support_canonicals: Iterable[str] = (),
+    block_unscoped_ambiguity: bool = False,
 ) -> ProofSupportAudit:
     """Audit provenance and ambiguity for one candidate proof target.
 
     ``support_gate_passed`` means only that this support package is sufficiently
     auditable to continue into downstream native consequence reasoning. It is NOT an
     answer selection or a truth claim.
+
+    ``block_unscoped_ambiguity`` is intentionally conservative. Use it when the live
+    parser reports unresolved alternatives but does not yet expose a machine-checkable
+    proposition dependency. The ambiguity then remains unresolved rather than being
+    silently treated as irrelevant.
     """
     target = str(target or "").strip()
     if not target:
@@ -250,7 +257,7 @@ def audit_proof_support(
     elif missing_provenance:
         status = "proof-incomplete-provenance"
         passed = False
-    elif unresolved:
+    elif unresolved or (block_unscoped_ambiguity and unscoped):
         status = "proof-unresolved-ambiguity"
         passed = False
     elif conflicting:
