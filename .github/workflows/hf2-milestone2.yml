@@ -7,8 +7,10 @@ on:
     paths:
       - 'src/noeron/conversation_premises.py'
       - 'src/noeron/conversation_bridge.py'
+      - 'patches/hf2/0002-hf2-current-turn-runtime-bridge.patch'
       - 'tests/test_v082_hf2_conversation_premises.py'
       - 'tests/test_v082_hf2_conversation_bridge.py'
+      - 'tests/test_v082_hf2_runtime_patch_contract.py'
       - '.github/workflows/hf2-milestone2.yml'
   workflow_dispatch:
 
@@ -37,13 +39,14 @@ jobs:
             src/noeron/conversation_premises.py \
             src/noeron/conversation_bridge.py
 
-      - name: Run bounded premise and current-turn bridge tests
+      - name: Run bounded premise, bridge, and runtime patch contract tests
         env:
           PYTHONPATH: src
         run: |
           python -m pytest -q \
             tests/test_v082_hf2_conversation_premises.py \
-            tests/test_v082_hf2_conversation_bridge.py
+            tests/test_v082_hf2_conversation_bridge.py \
+            tests/test_v082_hf2_runtime_patch_contract.py
 
       - name: Authority-boundary source scan
         shell: bash
@@ -54,4 +57,5 @@ jobs:
           grep -q 'IRG->DKT->regional-EGR->RL/Frenet->DKT->native-cognition/action' src/noeron/conversation_premises.py
           grep -q 'historical_replay_api_present' src/noeron/conversation_bridge.py
           grep -q 'native_geometry_is_evidence_not_truth' src/noeron/conversation_bridge.py
+          grep -q 'language_interpretation=current_language_interpretation' patches/hf2/0002-hf2-current-turn-runtime-bridge.patch
           echo 'authority_boundary_scan=PASS'
