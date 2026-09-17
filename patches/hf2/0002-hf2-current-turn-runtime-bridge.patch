@@ -1,0 +1,90 @@
+--- a/src/noeron/models.py	2026-09-12 00:00:00.000000000 +0000
++++ b/src/noeron/models.py	2026-09-17 19:38:19.610634734 +0000
+@@ -62,6 +62,9 @@
+     transport_origin: str = 'none'
+     native_text_available_for_audit: bool = False
+     english_egress_audit: dict[str,Any] = Field(default_factory=dict)
++    # Exact current-turn HF2 audit. This is reply-local observational metadata,
++    # not cognitive memory, semantic truth, answer authority, or relationship state.
++    language_interpretation: dict[str,Any] = Field(default_factory=dict)
+     state: NoeronState
+     security: SecurityDecision
+ 
+--- a/src/noeron/orchestrator.py	2026-09-12 00:00:00.000000000 +0000
++++ b/src/noeron/orchestrator.py	2026-09-17 19:38:19.611084536 +0000
+@@ -39,6 +39,8 @@
+ from noeron.language_composition import COMPOSITION_VERSION, LANGUAGE_MECHANISM_VERSION, analyze_surface_composition
+ from noeron.language_dialogue import CONVERSATION_VERSION, DIALOGUE_VERSION, PRODUCTIVE_ENGLISH_VERSION
+ from noeron.english_egress import ENGLISH_EGRESS_VERSION, realize_native_thought
++from noeron.conversation_premises import BoundedConversationalPremiseContext
++from noeron.conversation_bridge import admit_live_current_turn, native_trace_from_math_state
+ from noeron.source_identity import identify_source, provenance_digest
+ from noeron.stratification import ReclusterEntry, build_recluster_plan
+ from noeron.llm import LanguageEngine
+@@ -81,6 +83,12 @@
+         self._migrate_v0751_restart_preservation()
+         self._migrate_v081_stage8b_language()
+         self._migrate_v082_stage8b_conversation()
++        # HF2 bounded working premises begin prospectively at this process start.
++        # Historical dialogue is deliberately not replayed as cognitive truth.
++        self._hf2_premise_floor_turn=int(self.state.conversational_turn)
++        self._hf2_conversation_premises=BoundedConversationalPremiseContext(
++            max_turns=max(1,int(self.state.cognition.language.dialogue.max_turns))
++        )
+         self.room=RoomController(self,store,store.path,native_decoder_executable=room_native_decoder_executable,asr_executable=room_asr_executable,max_payload_bytes=room_max_payload_bytes)
+         self.room.migrate()
+         self.security.checkpoint(self.state)
+@@ -1425,6 +1433,26 @@
+             self._resolve_pending_realization_outcome(result,event)
+             self._observe_owner_relation(event,result)
+             self.state.math_kernel=result.state; self.state.logical_entropy=result.state.rl.entropy_normalized; self.state.active_strata={target:1.0}; self.state.conversational_turn+=1; self.state.last_event_id=event.id
++            # HF2 current-turn audit is produced from the exact admitted input and
++            # the already-computed IRG proposition set. It cannot alter truth,
++            # answer selection, memory, relationship state, or native speech choice.
++            current_language_interpretation={}
++            nonconversational_observation=bool(event.metadata.get('nonconversational_observation'))
++            if event.content.strip() and not event.metadata.get('endogenous') and not nonconversational_observation:
++                speaker=self._owner_referent() if owner_authenticated else 'external:unknown'
++                current_structure=self.language.dialogue_structure(
++                    event.content,self.state.cognition.language,speaker=speaker,addressee=self._self_referent()
++                )
++                current_bridge=admit_live_current_turn(
++                    self._hf2_conversation_premises,
++                    turn=int(self.state.conversational_turn),
++                    input_text=event.content,
++                    propositions=list(result.state.irg.logical_propositions),
++                    structure=current_structure,
++                    native_trace=native_trace_from_math_state(result.state,event_id=str(event.id)),
++                    prospective_floor_turn=self._hf2_premise_floor_turn,
++                )
++                current_language_interpretation=dict(current_bridge.language_interpretation)
+             if result.state.reasoning.native_inference_active: self._observe_reasoning_concept(result)
+             self._observe_affective_pattern(result,event)
+             provenance_mem=self._record_provenance_memory(event,result,memories)
+@@ -1434,7 +1462,6 @@
+                     source=f'admitted-interaction:{event.source}',source_memory_id=provenance_mem.id,
+                 )
+             thought=self.cognition.response(event,self.state,result,None)
+-            nonconversational_observation=bool(event.metadata.get('nonconversational_observation'))
+             native_text='';english_text='';text='';renderer_used=False;communication_audit={};egress_audit={}
+             if thought.statement or thought.propositions or thought.question_candidates:
+                 utterance=self._native_realize(thought,source='interaction'); self.store.append_thought(thought)
+@@ -1464,6 +1491,7 @@
+                 communication_native_choice_claim=bool(communication_audit.get('native_choice_claim')),
+                 transport_origin=str(communication_audit.get('transport_origin') or 'none'),
+                 native_text_available_for_audit=bool(native_text),english_egress_audit=egress_audit,
++                language_interpretation=current_language_interpretation,
+                 state=deepcopy(self.state),security=decision,
+             )
+ 
+--- a/src/noeron/api.py	2026-09-12 00:00:00.000000000 +0000
++++ b/src/noeron/api.py	2026-09-17 19:38:19.611375575 +0000
+@@ -197,7 +197,7 @@
+         return {'text':out.text,'english_text':(out.english_text if out.text else ''),'native_text':(out.native_text if native_visible else ''),'native_text_available_for_audit':out.native_text_available_for_audit,
+             'native_text_visibility_enabled':native_visible,'renderer_used':out.renderer_used,'conversational_turn':out.state.conversational_turn,
+             'communication_action':out.communication_action,'communication_selection_status':out.communication_selection_status,'communication_native_choice_claim':out.communication_native_choice_claim,'transport_origin':out.transport_origin,
+-            'owner_authenticated':ok,'owner_command':r.owner_command,'language_interpretation':(lang.last_interpretation.model_dump(mode='json') if lang.last_interpretation else None),
++            'owner_authenticated':ok,'owner_command':r.owner_command,'language_interpretation':dict(out.language_interpretation),
+             'realization':out.state.cognition.realization_development.model_dump(mode='json'),
+             'native_utterance':(lang.last_interaction_native_utterance.model_dump(mode='json') if native_visible and lang.last_interaction_native_utterance else None),
+             'internal_utterance_observation':internal_observation,
