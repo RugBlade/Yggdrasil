@@ -15,6 +15,7 @@ ENGINEERING METHOD — REQUIRED
 - Google Drive stores byte-exact evidence bundles, manifests, packages, verification sheets, API command sheets, patches/tests when useful, and a copy of this continuation TXT.
 - Update this TXT in BOTH GitHub and Drive after each coherent milestone.
 - Never package canonical SQLite DB/state, credentials, private SSH/device keys, owner tokens, private modality data, or other secrets into source/GitHub/packages.
+- Keep assistant turns small: one coherent milestone, commit immediately, then checkpoint before starting another large source-reconstruction/testing pass.
 
 NON-NEGOTIABLE ARCHITECTURE
 - Noeron is not an LLM.
@@ -101,36 +102,40 @@ See docs/engineering/HF2_CONVERSATIONAL_REASONING_PATCH_SPEC.txt.
 Core targets: typed proposition normalization; structured natural conditionals; bounded provenance-preserving cross-turn premises that are NOT cognitive memory; contradiction/correction; real causal support; ambiguity-conditioned reasoning; defer/clarify/ask; and reasoning.py modernization so current IRG/DKT/EGR/RL/Frenet machinery materially participates rather than merely wrapping an early finite calculus.
 
 HF2 MILESTONE 1 — INFERENCE CORE (PRESERVED IN GITHUB)
-Current branch development commits include:
+Development commits:
 - 709a967195f193a07a0050e4e9ce1d5baec5b9a6: add HF2 conversational reasoning patch specification.
 - 87a26a624a4021ce1d4108e14c5745e6bdd5812a: add patches/hf2/0001-hf2-inference-core.patch.
 - f61bc64cf7f37362ee273e7e83e1ba8406dc0eb4: add tests/test_v082_hf2_reasoning.py.
-This continuation update creates the subsequent checkpoint commit; always fetch branch head before writing.
+- 4b20b0c871cf9d497311a54c59bb06db201a8e1e: checkpoint inference-core milestone and continuation.
 
 Inference-core patch artifact SHA256: 2cc0360929a0abc8bb631fbcc9ce3ecde6517768ed68391fcf1d526f24cbf624.
 HF2 test file SHA256 from the tested local candidate: d6a8474989fb97519a122806863026646a614190803238c2716477163bfdf4a1.
 
-The candidate is GENERAL mechanism work, not sentence-answer hard-coding. It adds:
-- robust finite copular yes/no splitting;
-- generic typed copular spatial relations;
-- generic property-dimension queries;
-- generic comparative relations;
-- explicit correction provenance + bounded same-relation supersession during inference while preserving original premises;
-- structured natural-language conditional propositions + auditable structured modus ponens;
-- exact negative proof support for yes/no questions;
-- WHY semantics that no longer treats event truth as its own explanation; causal/explanatory support or actual derivation is required.
+The candidate is GENERAL mechanism work, not sentence-answer hard-coding. It adds robust copular query splitting, typed spatial/property/comparative handling, explicit bounded correction provenance, structured natural-language conditionals + auditable modus ponens, exact negative support, and corrected WHY semantics requiring causal/explanatory support or an actual derivation.
 
-Short disposable local probes against the exact HF1 source passed all new mechanism classes. tests/test_v082_hf2_reasoning.py: 8/8 PASS in the disposable local probe. Existing direct v0.8.2 conversation tests were 22 PASS / 1 intended successor semantic delta: the old test expected a WHY query to return the existing event proposition. H9 proved that behavior semantically wrong, so the historical expectation must be preserved/classified as a successor delta rather than silently rewritten.
+HF2 MILESTONE 2A — BOUNDED PREMISE SUBSTRATE (PRESERVED IN GITHUB)
+New durable commits:
+- 4a32a77e56a6b6998c999a3371a144dbd93a7cbb: add src/noeron/conversation_premises.py.
+- aa73e93af60cae7c604124f9aaefdcbffa45dbce: add tests/test_v082_hf2_conversation_premises.py.
+- a06dc6c7466d4510f4083aa82a12344251fae45b: add .github/workflows/hf2-milestone2.yml.
 
-IMPORTANT: patches/hf2/0001-hf2-inference-core.patch is currently the authoritative engineering delta because this GitHub carrier does not yet contain the full runtime source tree (notably inference.py/reasoning.py/orchestrator.py). Do not falsely imply the carrier tree equals the live runtime tree.
+The new module is a bounded working-context substrate, NOT cognitive memory and NOT a truth/answer selector. It provides:
+- ConversationalPremiseEnvelope with source-turn provenance, origin class, admission state, correction/conflict/supersession state and explicit zero-authority defaults.
+- PremiseAuthority hard boundary preventing bounded current/dialogue premises from acquiring cognitive-memory, semantic-truth, relationship, answer, speech-act, source-write or deployment authority merely through serialization/admission.
+- CurrentTurnAudit bound to exact turn + SHA256(input bytes), with require_fresh_audit() rejecting stale interpretation/audit reuse.
+- BoundedConversationalPremiseContext with finite turn expiry, conflict preservation, provenance-preserving explicit correction supersession, and eligible-premise export for later native reasoning.
+- NativeGeometryTrace fields for IRG event, DKT activation, EGR region, RL proof and Frenet trace references. These references are observational evidence only; they do not grant truth by themselves.
+- authority_audit() explicitly records required native path: IRG->DKT->regional-EGR->RL/Frenet->DKT->native-cognition/action.
+
+The GitHub Actions gate compiles this module, runs its targeted tests, and source-scans the key authority invariants. This is deliberately a narrow carrier gate until the exact HF1 runtime source is fully imported/reconstructed in GitHub. Do not claim this workflow is the full HF2 regression yet.
 
 NEXT STEPS
-1. Back up this continuation milestone and relevant evidence/artifacts into Drive folder Stage8B-v0.8.2-HF2-CONVERSATIONAL-REASONING-2026-09-17.
-2. Reconstruct/import the exact HF1 source required for full HF2 development into an engineering-only GitHub source workspace without mislabeling carrier identity; verify byte hashes before modification.
-3. Add GitHub Actions HF2 workflow so patch application, new targeted tests, historical-successor classification, compile/static gates, and later full regression run externally.
-4. Implement milestone 2: bounded conversational premise envelopes with source-turn provenance, non-memory authority, correction/conflict state, and current-turn audit freshness.
-5. Implement milestone 3: reasoning.py modernization using current IRG/DKT/EGR/RL/Frenet machinery for active-premise support/conflict/ambiguity and causal/conditional proof traces; no forced exact-tie choice.
-6. Implement milestone 4: native defer/clarify/remain-silent/ask bridge and speech-act coupling without canned answer fallbacks.
+1. Verify the new Milestone 2 GitHub Actions run. If green, record its run identity/evidence and mirror this updated continuation note + milestone evidence to Drive folder Stage8B-v0.8.2-HF2-CONVERSATIONAL-REASONING-2026-09-17.
+2. Continue Milestone 2B: wire BoundedConversationalPremiseContext into the exact HF1/v0.8.2 orchestrator and current-turn interpretation path. The integration must admit only current live conversational propositions prospectively, preserve source turn/input digest, and never replay historical dialogue as cognitive truth.
+3. Reconstruct/import the remaining exact HF1 runtime source needed for orchestrator/reasoning integration into an engineering-only GitHub source workspace, verifying known live/source hashes before modification. Do not mislabel the carrier commit/tree as canonical live runtime identity.
+4. Expand GitHub Actions so patch application, new targeted tests, historical-successor classification, compile/static gates, and later full regression run externally.
+5. Milestone 3: modernize reasoning.py so IRG/DKT/regional-EGR/RL/Frenet materially participates in active-premise support/conflict/ambiguity, causal and conditional proof traces; exact ties remain unresolved and geometry cannot manufacture truth.
+6. Milestone 4: native defer/clarify/remain-silent/ask bridge and speech-act coupling without canned answer fallbacks.
 7. Only after GitHub CI and fresh-package parity gates pass: freeze source/package, back up to Drive, produce a fully detailed new live verification sheet + complete API command reference, then perform a completely new live verification against the SAME canonical persistent Yggdrasil DB/state.
 8. No Stage 8C until Stage 8B is genuinely LIVE CERTIFIED.
 
