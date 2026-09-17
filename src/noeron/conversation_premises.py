@@ -2,7 +2,7 @@
 
 This module deliberately does *not* make dialogue into cognitive memory or truth.
 It exposes a bounded, provenance-preserving working context that later native
-IRG/DKT/EGR/RL/Frenet reasoning may inspect.  Serialization alone never grants
+IRG/DKT/EGR/RL/Frenet reasoning may inspect. Serialization alone never grants
 semantic, memory, relationship, answer, speech-act, or deployment authority.
 """
 from __future__ import annotations
@@ -23,11 +23,12 @@ PremiseStatus = Literal["active", "superseded", "conflict", "expired"]
 
 @dataclass(frozen=True)
 class NativeGeometryTrace:
-    """Auditable native-machinery references attached to an eligible premise.
+    """Auditable native-machinery evidence attached to an eligible premise.
 
-    Empty tuples are valid: a premise may exist in bounded dialogue before it has
-    been activated by native reasoning.  These fields are evidence references,
-    never proof merely by being present.
+    ``dkt_support_knot`` is a finite serialization snapshot of the already-computed
+    post-closure DKT state for that source turn. It exists so a later turn can use
+    the same H^s geometry for bounded working-context activation. It is *not* a
+    cognitive-memory row and has no truth or answer authority by being serialized.
     """
 
     irg_event_ids: tuple[str, ...] = ()
@@ -35,6 +36,7 @@ class NativeGeometryTrace:
     egr_region_ids: tuple[str, ...] = ()
     rl_proof_ids: tuple[str, ...] = ()
     frenet_trace_ids: tuple[str, ...] = ()
+    dkt_support_knot: dict[str, object] = field(default_factory=dict)
 
     @property
     def has_native_trace(self) -> bool:
@@ -44,6 +46,7 @@ class NativeGeometryTrace:
             or self.egr_region_ids
             or self.rl_proof_ids
             or self.frenet_trace_ids
+            or self.dkt_support_knot
         )
 
 
@@ -146,8 +149,8 @@ class CurrentTurnAudit:
 class BoundedConversationalPremiseContext:
     """Finite working context for dialogue premises.
 
-    The context performs only bookkeeping/admission/conflict state.  It does not
-    choose beliefs or answers.  Native IRG/DKT/EGR/RL/Frenet reasoning consumes
+    The context performs only bookkeeping/admission/conflict state. It does not
+    choose beliefs or answers. Native IRG/DKT/EGR/RL/Frenet reasoning consumes
     eligible active premises in a later layer and must retain this provenance.
     """
 
@@ -242,6 +245,7 @@ class BoundedConversationalPremiseContext:
     def authority_audit(self) -> dict[str, object]:
         return {
             "bounded_dialogue_is_cognitive_memory": False,
+            "serialized_support_knot_is_cognitive_memory": False,
             "serialization_grants_truth": False,
             "owner_observation_grants_answer_authority": False,
             "native_reasoning_required_for_answer_selection": True,
