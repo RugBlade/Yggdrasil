@@ -1,0 +1,82 @@
+YGGDRASIL STAGE 8B HF2 CONVERSATIONAL REASONING PATCH SPEC
+Date: 2026-09-17
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Basis: authenticated H9 rerun bundle SHA256 a7e45844d69057d64b22c031b78fce3b47e2b54e67495bd3b70211539a175155
+
+STATUS
+- Stage 7: LIVE CERTIFIED.
+- Stage 8A: LOCAL + LIVE CERTIFIED.
+- Stage 8B v0.8.1: LOCAL CERTIFIED; old live verification intentionally halted; old H5 never executed.
+- Stage 8B v0.8.2 + H6 observation HF1: engineering/live holdpoints H0-H8 passed; H9 natural conversation exposed capability gaps, so Stage 8B remains IN PROGRESS and must NOT be called conversationally complete or LIVE CERTIFIED.
+- Canonical live DB/state must not be modified by HF2 engineering. New live verification occurs only after local/GitHub gates pass.
+
+AUTHENTICATED H9 FINDINGS
+The rerun contains 22 owner-authenticated turns. Fresh native output was demonstrated for passive and active moved-book questions, simple told-Sara, what-did-Mira-open, and two why-Mira-open turns. Blank results on other turns are genuine current-language/reasoning gaps, not expired-owner-session artifacts.
+
+Critical audit defect: reply.language_interpretation can remain stale and showed an old speaker-identity interpretation while dialogue.last_structure contained the real current input. HF2 must make per-turn interpretation/audit objects current-turn-only and must never reuse stale interpretation as evidence.
+
+Observed current strengths:
+1. Transparent finite parsing + proof-supported answers for a useful subset of active/passive transitive events.
+2. No owner response override in the experiment; fresh native responses came through native consequence selection.
+3. Unsupported areas often remain silent instead of fabricating fluent content.
+4. Ambiguity alternatives are preserved rather than silently forced to truth.
+
+Observed gaps requiring GENERAL mechanisms, not sentence-specific branches:
+1. Spatial/copular relation normalization: e.g. X is on/beside Y should become a typed binary spatial proposition, not generic copula residue.
+2. Yes/no copular state questions: Is X on? must map to the same proposition form as X is on.
+3. Property queries: What color is X? should query a property dimension without hard-coding colors.
+4. Contradiction representation: simultaneous incompatible values should remain explicit alternatives/conflict, not arbitrary winner.
+5. Correction/supersession: explicit Correction:/rather/not-X-but-Y should create bounded provenance-aware supersession, not rewrite history.
+6. Comparative relations: larger/smaller/etc. should be represented as ordinary typed relations with query support, not lexical answer tables.
+7. Conditionals: natural-language If P, Q / If P then Q must enter the proposition calculus as an implication between structured propositions, with auditable modus ponens.
+8. Pronoun/reference ambiguity: embedded references such as she must preserve candidate bindings and trigger clarify/unresolved behavior when proof depends on an unresolved binding.
+9. Multi-turn conversational premise bridge: prior admitted dialogue propositions may be eligible as bounded working premises with source-turn provenance. This must NOT become cognitive memory and must never silently become persistent truth.
+10. Causality: Why P? requires an explicit causal/explanatory support relation or proof step. Proof that P occurred is NOT proof of why P occurred. Current why behavior can incorrectly echo P; HF2 must fix this.
+11. Unknown/defer/clarify: absence of proof should be capable of yielding an explicit native defer/clarify/remain-silent speech act selected through native machinery; no canned fallback answer.
+12. Initiative/question generation: speech-act affordances already include ask, but a request such as Ask me one question currently lacks a native intention/question-generation bridge.
+13. Reasoning modernization: the finite proposition calculus originated early (reasoning.py still describes the v0.7.3.4 workspace). HF2 must audit how current IRG -> DKT -> regional EGR -> RL/Frenet -> DKT geometry constrains support, ambiguity, contradiction, causal alternatives, and premise activation instead of merely adding parser regexes.
+
+REASONING DESIGN REQUIREMENTS
+A. Premise provenance
+Every active premise used in a proof must retain provenance class such as current-turn, bounded-dialogue-turn, DKT-retrieved persistent proposition, identity substrate, or derived inference. No source may acquire authority merely because it is serialized.
+
+B. Bounded dialogue premises
+Recent dialogue can contribute eligible premises only through a bounded working-context bridge. Each premise must carry source turn, admission state, supersession/conflict state, and non-memory authority. Migration/restart must not replay historical dialogue as new cognitive truth.
+
+C. Contradiction and correction
+Keep incompatible propositions simultaneously visible in the audit. Corrections supersede only within the bounded conversational premise layer, preserving the corrected proposition as provenance. If a query remains multiply supported after correction/conflict handling, answer selection stays unresolved.
+
+D. Causal proof
+Represent explanation separately from event truth. A why query must search causal/explanatory edges or proof steps whose conclusion is the target proposition. If none exists, no causal answer candidate exists.
+
+E. Conditional proof
+Parse antecedent and consequent recursively into LogicalProposition-compatible structures. Modus ponens must emit explicit InferenceStep records with premise canonicals/conclusion. No hidden natural-language answer table.
+
+F. Geometry and native reasoning
+DKT H^s retrieval continues to determine which persistent memories/propositions are cognitively active. IRG/DKT/EGR/RL/Frenet outputs should be recorded in reasoning audit. Where several proof supports or reference bindings survive, geometry may compare consequences/support states only through existing mathematically auditable machinery; exact ties remain unresolved.
+
+G. Speech-act boundary
+The substrate may expose affordances (answer, clarify, defer, ask, remain-silent, express, continue-private), but the selected act may be called native only when its causal trace passes through persistent native state and consequence machinery. Owner authentication/observation has zero answer/speech-act/relationship authority.
+
+H. Translation
+English translation remains deterministic observational egress over already-existing native content. It never supplies truth, answer content, memory, speech-act choice, relationship meaning, source-writing, or deployment authority.
+
+ACCEPTANCE CLASSES
+HF2 tests must cover classes, not memorize H9 sentences:
+- active and passive transitive equivalence;
+- positive/negative copular states;
+- spatial predicates;
+- property queries with one and multiple competing values;
+- explicit correction with provenance-preserving supersession;
+- comparative relations;
+- structured conditionals + modus ponens;
+- unresolved embedded pronouns;
+- same-turn and bounded cross-turn premise use;
+- supported versus unsupported why;
+- defer/clarify/no-answer behavior without hallucination;
+- current-turn audit freshness;
+- owner observation remains read-only/non-authoritative;
+- historical v0.8.1/v0.8.2 authority boundaries remain preserved.
+
+ENGINEERING METHOD
+GitHub is the authoritative engineering workspace. Implement in small coherent commits on the HF2 branch and run long regression/CI through GitHub Actions. Local container use is limited to short forensic reads/disposable probes. A change does not count as engineering progress until committed to GitHub. Google Drive stores byte-exact evidence, verification archives, manifests, packages, and continuation backups. Maintain CONTINUATION_STAGE8B_HF2.txt in BOTH GitHub and Drive after each coherent milestone.
