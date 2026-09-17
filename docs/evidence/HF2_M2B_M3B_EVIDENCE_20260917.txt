@@ -1,0 +1,72 @@
+YGGDRASIL STAGE 8B HF2 — MILESTONE 2B / 3B ENGINEERING EVIDENCE
+Date: 2026-09-17
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Status boundary: ENGINEERING / GITHUB CI ONLY. This is not local certification and not live certification.
+
+BASE / LIVE BOUNDARY
+- Exact live HF1 package SHA256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+- Exact live HF1 orchestrator.py SHA256: f6b3b807e8db58342a5d8f3de6d9b1a1db6b348a8a964f830b4943c43ba8b23d
+- Exact HF1 package recovered from Drive folder H6-Observation-Hotfix1-2026-09-12 for short forensic source inspection only.
+- Canonical live SQLite DB/state was not accessed or modified by these engineering milestones.
+
+MILESTONE 2B — CURRENT-TURN AUDIT / BOUNDED WORKING CONTEXT BRIDGE
+Commits:
+- d7fa37b4461db725758f118071763e690b1b30ae — add src/noeron/conversation_bridge.py
+- 256cb93b243fb4f9704edd27f78822bb2f490901 — bridge tests
+- a56f153df8a32db86ae8fff2798436718e8afc50 — extend Milestone-2 CI
+- 8354640639e1040d8a1211a8203bd750616b7d62 — bind audit to already-computed native math evidence
+- 0da3bf5fe88a25a7084361fddc8ff28f26cb3998 — native math trace tests
+- 94e9fbd82d9e755c245d5871882edfad1dbe4cfa — exact-HF1 runtime bridge patch artifact 0002
+- 1fc4875f5d3038ef3df81648f8fb1f93057a222c — runtime patch contract tests
+- 63536c1710328b4914a045753103838d594e452c — gate runtime patch contract
+
+GitHub Actions evidence:
+- Run 35265650389 / job 105352039213: SUCCESS. Compile + bounded-premise/current-turn bridge tests + authority scan passed.
+- Run 35266203107 / job 105353903179: SUCCESS. Compile + bounded-premise/bridge/runtime-patch contract tests + authority scan passed.
+
+Mechanism boundary:
+- reply-local language_interpretation is keyed to exact current input SHA256; stale serialized LanguageFacultyState.last_interpretation is no longer the intended API source after patch 0002.
+- bounded conversational context begins prospectively; no historical replay API exists.
+- dialogue working premises have zero cognitive-memory, semantic-truth, answer, speech-act, relationship, source-write, or deployment authority.
+- native math trace records outputs that ALREADY EXIST after IRG/DKT/EGR/RL/Frenet execution; recording them does not grant truth.
+
+MILESTONE 3A/3B — NATIVE DKT-GATED BOUNDED PREMISE ACTIVATION
+Commits:
+- 94709bf2c6cd9364b5df76e5534c18b72aca04b6 — add finite post-closure DKT support-knot field to bounded trace
+- dcc9080c3336a98231ac98dbea2b10263a3157a0 — snapshot already-computed DKT core knot in current-turn bridge
+- 7d5f1c70b43ef14040c9c442a9959e29dde009a9 — DKT support trace tests
+- 0e376cd4e03fb4a63da0db6de6ec2aae59c9bdf9 — add src/noeron/conversation_reasoning.py
+- 1fec973ec22777720fb6b6f5cea999be894903e0 — DKT-gated bounded activation tests
+- 6da62db9170400c2bf9858a87de620f1abe5706c — add Milestone-3 GitHub Actions gate
+- 47ea7cd3ef9f43bae3497d3b0f9b1bae8360b70c — harden source-turn geometry grouping and reject non-dialogue origins
+- dfa41089f71ab52dd0e3e48c9439a98fe0c84d75 — runtime reasoning patch artifact 0003
+- e20221ea659bc6b99df91761fd27ea242261ec0e — runtime reasoning patch contract tests
+- 5d4f46625cb6c0e2abef4e83afd78a4aa91ec65e — gate runtime reasoning patch contract
+
+GitHub Actions evidence:
+- Run 35266680064 / job 105355488071: SUCCESS. Native geometry trace + bounded activation tests + authority scan passed.
+- Run 35266991880: SUCCESS after grouping hardening.
+- Run 35267081206 / job 105356801579: SUCCESS. Native geometry, bounded-selection, runtime-patch-contract tests and source scan all passed.
+
+Native reasoning design implemented in carrier + runtime patch artifact:
+1. A source turn may carry only a finite serialization of its ALREADY-COMPUTED post-closure DKT knot: sobolev_order, mode_radius, c0, Fourier cosine/sine coefficients, stratum index, invariant signature.
+2. On a later conversational turn, current cognition still executes the canonical path first: Environment -> IRG -> DKT persistent-memory retrieval -> regional EGR -> RL/Frenet -> DKT post-closure.
+3. Only at final native proposition reasoning does HF2 compare current post-closure DKT geometry with bounded source-turn support knots.
+4. Runtime selection injects the actual noeron.math.dkt.sobolev_distance and existing numerically_tied policy. The carrier contains no imitation metric.
+5. Selection is distance-only. No lexical/content ranking participates. Exact cutoff ties are preserved together.
+6. Active/conflicting premises from selected source turns remain explicit. Superseded, expired, unadmitted, missing/inconsistent geometry, invalid metric results, and non-dialogue-origin rows cannot enter bounded proof closure.
+7. Selection grants no truth or answer authority. Selected propositions enter the transparent proof calculus as bounded-dialogue provenance only.
+8. Generic correction control is stripped before global proof closure because correction supersession is bounded-layer bookkeeping and must not rewrite current-turn or persistent-memory propositions.
+9. Current-turn propositions remain IRG-derived; persistent language propositions remain DKT-retrieval-gated. Bounded dialogue is a third, non-memory, post-closure DKT-gated premise source.
+10. Orchestrator patch passes only PRIOR eligible bounded dialogue into math.update. The current turn is admitted only after its own math update, preventing a current-turn geometry causal loop.
+
+IMPORTANT LIMITATIONS / NOT YET CERTIFIED
+- 0002 and 0003 are authoritative runtime patch artifacts against exact HF1 source, but the GitHub carrier still does not equal the complete runtime source tree. Contract CI proves carrier mechanisms and patch invariants; it does NOT yet prove full exact-HF1 patch application + full regression.
+- Do not deploy these patches live yet.
+- No Stage 8B LOCAL/LIVE certification claim is authorized from this evidence.
+
+NEXT
+1. Create an exact-HF1 patch-application CI fixture/carrier so GitHub Actions can reconstruct/apply 0001 + 0002 + 0003 and compile/test the actual runtime source externally.
+2. Then implement reasoning Milestone 3C: causal-support/proof provenance audit and ambiguity-conditioned proof admission using the same native machinery; no event-truth-as-cause regression.
+3. Milestone 4: native defer/clarify/remain-silent/ask bridge through native consequence selection, not canned fallback.
+4. Run full external regression, successor-delta classification, freeze/package/parity/security/OpenAPI gates, Drive evidence backup, then a completely new live verification against the same canonical persistent Yggdrasil DB/state.
