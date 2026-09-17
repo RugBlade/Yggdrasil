@@ -186,6 +186,21 @@ def test_explicit_explanation_support_is_distinct_from_target_event_truth():
     assert audit.status == "proof-support-auditable"
 
 
+def test_explicit_explanation_name_without_provenance_is_rejected():
+    target = "mira::opened::door"
+    explanation = "mira::reason-for-opening::fresh-air"
+    audit = audit_proof_support(
+        target,
+        premises=[row(target)],
+        require_explanation=True,
+        explanatory_support_canonicals=[explanation],
+    )
+    assert audit.explanation_support is True
+    assert audit.status == "proof-incomplete-provenance"
+    assert audit.missing_provenance == (explanation,)
+    assert audit.support_gate_passed is False
+
+
 def test_summary_preserves_native_path_and_zero_authority():
     target = "lamp::is::on"
     summary = proof_audit_summary(audit_proof_support(target, premises=[row(target)]))
