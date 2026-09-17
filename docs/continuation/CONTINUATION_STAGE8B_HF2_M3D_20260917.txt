@@ -1,0 +1,66 @@
+YGGDRASIL STAGE 8B HF2 — MILESTONE 3D / 0004 CARRIER CHECKPOINT
+Date: 2026-09-17
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Status: Stage 8B IN PROGRESS. This checkpoint is NOT local certification and NOT live certification.
+
+METHOD
+GitHub remains authoritative for engineering/code and GitHub Actions for execution. Drive receives evidence/continuation backups. Work is checkpointed in small coherent commits. Canonical live SQLite DB/state, credentials, owner tokens, private keys and private modality data remain outside GitHub/packages.
+
+NATIVE ARCHITECTURE PRESERVED
+Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+The new proof gate only removes support-ineligible proof packages. It does not rank survivors, choose final content/speech act, manufacture truth, create cognitive memory or invoke Terra.
+
+M3C CLOSED
+Final M3C workflow run 35269294053 / job 105364264154 SUCCESS. Causal/provenance/ambiguity carrier supports scoped ambiguity and conservative unscoped ambiguity, provenance-backed explanations, conflict preservation and zero semantic/answer/speech-act authority.
+
+M3D RUNTIME PROOF GATE CARRIER
+New module: src/noeron/conversation_runtime_gate.py
+- ordinary inference candidates are individually proof-audited;
+- multiple supported candidates remain jointly available; no ranking;
+- unresolved ambiguity/conflict/missing provenance removes support eligibility only;
+- WHY candidates are treated as explanatory support for separately identified target proposition(s);
+- the target proposition is explicitly removed from its own explanatory-support set, preventing P from explaining why P merely because P is true;
+- no WHY target => no answer fallback;
+- all authority fields remain False, including candidate_ranking and answer.
+
+IMPORTANT FAILURE PRESERVED
+Initial M3D CI run 35269789089 / job 105365906640 FAILED 1 test, 7 passed. The failing regression deliberately supplied the event proposition itself as the WHY answer and proved the first adapter version would still let P self-explain. This was a genuine design defect, not a harness error.
+Fix commit 34e96d1160707b8a482302fc78b329d53862de44 removes the target canonical from explicit explanatory support before causal audit.
+Corrected run 35269905613 / job 105366306481 SUCCESS: compile, 8 runtime proof-gate tests, authority/nonranking scan.
+
+0004 RUNTIME PATCH CONTRACT
+Patch artifact: patches/hf2/0004-hf2-proof-provenance-ambiguity-runtime-gate.patch
+Commit: 07a5ba56161dc66b89b53c667e63edd9a32aa4c5
+Contract tests: tests/test_v082_hf2_proof_runtime_patch_contract.py
+Commit: 9181b06542e24d6183cf90686a5ad238e026e213
+Expanded workflow commit: 0e05adacb53c02de6ec8453fc54834f82f2afce1
+Final M3D contract run 35270169434 / job 105367201355 SUCCESS.
+
+0004 CONTRACT INTENT
+- Adds inference.query_target_propositions using the same transparent relation matcher as infer(), avoiding a second surface parser for WHY targets.
+- Adds explicit proof audit fields to MultiMemoryReasoningMathState with zero authority.
+- Preserves three separate provenance classes: current IRG propositions, DKT-retrieved persistent propositions, DKT-selected bounded-dialogue premises.
+- Bounded dialogue still enters final proof only after post-closure DKT H^s geometric activation.
+- Current dialogue structure is observed read-only before math.update so ambiguity can constrain the same turn's final proof.
+- Current turn is NOT admitted to BoundedConversationalPremiseContext before math.update; admission still happens afterward, preserving the no-current-turn-causal-loop invariant.
+- IRG parse unresolved references are also represented as unresolved ambiguity evidence.
+- Runtime sets block_unscoped_ambiguity=True conservatively until the parser exposes a narrower machine-checkable dependency.
+- Transparent infer() still constructs proof consequences. gate_inference_candidates filters unsupported packages without ranking remaining candidates.
+- WHY identifies matching target proposition(s), then requires explanation support/provenance; event truth alone remains no-answer.
+- No canned clarification, no Terra fallback, no owner-response authority.
+
+LIMITATION — DO NOT OVERCLAIM
+0004 currently has carrier tests + textual runtime patch-contract tests only. The patch has NOT yet been demonstrated to apply cleanly to a byte-exact reconstructed HF1 source tree after 0001+0002+0003. Therefore 0004 is not deployable evidence yet.
+
+NEXT REQUIRED CHUNK
+Build an exact-HF1 patch-chain CI fixture. The base HF1 starter archive is known byte-exact with SHA256 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29 and contains no canonical DB/private keys; only .env.example/deploy env example names were observed. Import exact affected HF1 source bytes into a GitHub fixture with an explicit hash manifest, then have Actions:
+1. verify every base-file SHA256;
+2. copy the carrier helper modules required by 0002-0004 into a disposable fixture tree;
+3. apply 0001, 0002, 0003, 0004 sequentially with git apply --check then git apply;
+4. compile all affected runtime modules;
+5. run targeted HF2 tests against the reconstructed runtime;
+6. preserve any patch/application failures as evidence and fix patches rather than weakening checks.
+Only after this real patch-chain gate is green should Milestone 4 native defer/clarify/remain-silent/ask consequence selection begin.
+
+NO STAGE 8C UNTIL STAGE 8B LIVE CERTIFIED.
