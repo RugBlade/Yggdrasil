@@ -1,0 +1,175 @@
+--- a/src/noeron/math/models.py
++++ b/src/noeron/math/models.py
+@@ -330,6 +330,13 @@ class MultiMemoryReasoningMathState(BaseModel):
+     premise_propositions: list[LogicalProposition] = Field(default_factory=list)
+     derived_propositions: list[LogicalProposition] = Field(default_factory=list)
+     inference_steps: list[InferenceStep] = Field(default_factory=list)
++    bounded_dialogue_premise_count: int = 0
++    bounded_dialogue_source_turns: list[int] = Field(default_factory=list)
++    bounded_dialogue_distances: dict[str,float] = Field(default_factory=dict)
++    bounded_dialogue_selection_status: str = 'no-bounded-dialogue-selection'
++    bounded_dialogue_missing_geometry_source_turns: list[int] = Field(default_factory=list)
++    bounded_dialogue_invalid_distance_source_turns: list[int] = Field(default_factory=list)
++    bounded_dialogue_conflict_count: int = 0
+     logical_query: LogicalQuery = Field(default_factory=LogicalQuery)
+     answer_candidates: list[LogicalProposition] = Field(default_factory=list)
+     answer_selection_status: str = 'no-logical-selection-requested'
+--- a/src/noeron/reasoning.py
++++ b/src/noeron/reasoning.py
+@@ -17,6 +17,8 @@ from noeron.cognition.models import KnotMemory
+ from noeron.inference import infer, learned_to_logic
+ from noeron.math import dkt
+ from noeron.math.linalg import numerically_tied
++from noeron.conversation_premises import ConversationalPremiseEnvelope
++from noeron.conversation_reasoning import select_bounded_premises_by_native_geometry
+ from noeron.math.models import (
+     KnotState, MultiMemoryReasoningMathState, LogicalProposition, LogicalQuery,
+ )
+@@ -176,6 +178,53 @@ def _learned_premises_for_retrieved(rows: Sequence[object], retrieved: list[tuple[float, KnotMemory]]) -> list[LogicalProposition]:
+     return out
+ 
+ 
++def _bounded_dialogue_premises_for_post_closure(
++    rows: Sequence[object],
++    post_closure_knot: KnotState | None,
++) -> tuple[list[LogicalProposition],dict[str,object]]:
++    """Activate bounded working premises through the actual post-closure DKT metric.
++
++    This runs only after IRG -> DKT -> regional EGR -> RL/Frenet -> DKT closure.
++    The bounded rows are not cognitive memory and their serialization has no truth
++    authority. Geometry only determines working-context activation; transparent
++    proof closure still determines whether any proposition supports the query.
++    """
++    if post_closure_knot is None:
++        return [],{
++            'selection_status':'unresolved-missing-current-dkt-geometry',
++            'selected_source_turns':[],'source_turn_distances':{},
++            'missing_geometry_source_turns':[],'invalid_distance_source_turns':[],
++        }
++    envelopes=[row for row in (rows or []) if isinstance(row,ConversationalPremiseEnvelope)]
++    current=post_closure_knot.model_dump(mode='python')
++    selection=select_bounded_premises_by_native_geometry(
++        envelopes,current_post_closure_knot=current,
++        distance_fn=lambda a,b: dkt.sobolev_distance(KnotState.model_validate(a),KnotState.model_validate(b)),
++        tied_fn=numerically_tied,limit=6,
++    )
++    out=[]
++    for row in selection.selected:
++        # Correction/conflict bookkeeping has already happened inside the bounded
++        # dialogue layer. Do not pass the generic 'correction' control modifier into
++        # global proof closure, because that would incorrectly supersede persistent
++        # or current-turn premises outside this bounded layer.
++        modifiers=['bounded-dialogue-provenance',f'bounded-status:{row.status}']
++        out.append(LogicalProposition(
++            subject=row.subject,relation=row.relation,object=row.object,
++            polarity=bool(row.polarity),source=f'bounded-dialogue-turn:{row.source_turn}',
++            confidence=float(row.confidence),source_record_id=f'dialogue-turn:{row.source_turn}',
++            modifiers=modifiers,derived=False,
++        ))
++    return out,dict(selection.audit)
++
++
+ def build_multi_memory_reasoning(
+     query_knot: KnotState,
+     retrieved: Iterable[tuple[float, KnotMemory]],
+@@ -184,6 +233,7 @@ def build_multi_memory_reasoning(
+     learned_language_propositions: Sequence[object] | None = None,
+     post_closure_knot: KnotState | None = None,
+     active_region_ids: Sequence[str] | None = None,
++    bounded_dialogue_premises: Sequence[object] | None = None,
+ ) -> MultiMemoryReasoningMathState:
+     """Construct the geometric workspace and runtime proof closure.
+ 
+@@ -265,8 +315,15 @@ def build_multi_memory_reasoning(
+ 
+     current_premises = [p.model_copy(deep=True) for p in (logical_propositions or [])]
+     learned_premises = _learned_premises_for_retrieved(learned_language_propositions or [], items)
+-    premise_map = {p.canonical(): p for p in (current_premises + learned_premises)}
++    bounded_premises,bounded_audit=_bounded_dialogue_premises_for_post_closure(
++        bounded_dialogue_premises or [],post_closure_knot,
++    )
++    # Identical canonical propositions are de-duplicated without creating new
++    # semantic content. Current-turn input remains the final representative when an
++    # identical proposition also exists in bounded or persistent provenance.
++    premise_map = {p.canonical(): p for p in (bounded_premises + learned_premises + current_premises)}
+     premises = list(premise_map.values())
+     query = (logical_query or LogicalQuery()).model_copy(deep=True)
+     derived, inference_steps, answers, selection_status = infer(premises, query)
+@@ -296,6 +353,13 @@ def build_multi_memory_reasoning(
+         premise_propositions=premises, derived_propositions=derived,
+         inference_steps=inference_steps, logical_query=query, answer_candidates=answers,
+         answer_selection_status=selection_status,
++        bounded_dialogue_premise_count=len(bounded_premises),
++        bounded_dialogue_source_turns=[int(x) for x in bounded_audit.get('selected_source_turns',[])],
++        bounded_dialogue_distances={str(k):float(v) for k,v in bounded_audit.get('source_turn_distances',{}).items()},
++        bounded_dialogue_selection_status=str(bounded_audit.get('selection_status','no-bounded-dialogue-selection')),
++        bounded_dialogue_missing_geometry_source_turns=[int(x) for x in bounded_audit.get('missing_geometry_source_turns',[])],
++        bounded_dialogue_invalid_distance_source_turns=[int(x) for x in bounded_audit.get('invalid_distance_source_turns',[])],
++        bounded_dialogue_conflict_count=sum(1 for row in (bounded_dialogue_premises or []) if getattr(row,'status','')=='conflict'),
+         native_question_candidates=open_questions,native_question_distances=question_distances,
+         native_question_selection_status=question_status,
+         native_inference_active=bool(inference_steps or answers),
+--- a/src/noeron/math/kernel.py
++++ b/src/noeron/math/kernel.py
+@@ -32,7 +32,7 @@ class MathematicalCognitiveKernel:
+     the renderer is reachable.
+     """
+ 
+-    def update(self,event:CognitiveEvent,previous:MathKernelState,memories:list[KnotMemory],semantic_prototypes:Mapping[str,SemanticKnotPrototype]|None=None,language_propositions:Sequence[object]|None=None)->CausalMathResult:
++    def update(self,event:CognitiveEvent,previous:MathKernelState,memories:list[KnotMemory],semantic_prototypes:Mapping[str,SemanticKnotPrototype]|None=None,language_propositions:Sequence[object]|None=None,bounded_dialogue_premises:Sequence[object]|None=None)->CausalMathResult:
+         # 1) Environment -> IRG via an explicit measured environment and interaction kernel.
+         irg_state=interaction_geometry(event,semantic_prototypes=semantic_prototypes)
+ 
+@@ -105,9 +105,11 @@ class MathematicalCognitiveKernel:
+         # 7) Native proposition inference occurs only after the regional EGR ->
+         # RL/Frenet -> DKT closure. Premises come from current IRG logical form plus
+         # persistent propositions whose source memories were selected by DKT H^s
+-        # retrieval. The calculus constructs proof consequences; it does not select
+-        # from authored answer sentences.
++        # retrieval, plus bounded dialogue premises selected only now by distance to
++        # the post-closure DKT state. The bounded layer is working context, not
++        # cognitive memory or truth. The calculus constructs proof consequences; it
++        # does not select from authored answer sentences.
+         reasoning=build_multi_memory_reasoning(
+             experience,retrieved,
+             logical_propositions=irg_state.logical_propositions,
+@@ -115,6 +117,7 @@ class MathematicalCognitiveKernel:
+             learned_language_propositions=language_propositions or [],
+             post_closure_knot=core2,
+             active_region_ids=egr_state.simultaneous_active_regions,
++            bounded_dialogue_premises=bounded_dialogue_premises or [],
+         )
+ 
+         trace=[
+@@ -127,7 +130,7 @@ class MathematicalCognitiveKernel:
+             'Affect diagnostic: recurring unnamed multi-region activation geometry is derived from EGR/IRG/DKT/RL/Frenet; it has no independent causal DKT coupling or preference authority',
+             'DKT: RL/EGR/Frenet result -> persistent knot deformation; external-event persistence is an explicit provenance substrate',
+-            'Native reasoning: current IRG logical form + DKT-gated persistent propositions -> generic proof closure -> auditable candidate propositions',
++            'Native reasoning: current IRG logical form + DKT-gated persistent propositions + post-closure DKT-selected bounded dialogue working premises -> generic proof closure -> auditable candidate propositions',
+         ]
+         state=MathKernelState(
+@@ -140,7 +143,7 @@ class MathematicalCognitiveKernel:
+                 'egr_live_role':'causal entropy-current arrow + simultaneous regional activation and finite stratified activation path; unbounded entropy state mapped into RL before inference',
+                 'rl_live_role':'causal Riemannian inference trajectory driven by DKT support geometry (including distributed exact ties); EGR entropy coordinate distinguished from RL curvature entropy',
+-                'multi_memory_reasoning':'pre-EGR DKT H^s support geometry drives regional activation/RL; only after RL/Frenet/DKT closure do current logical premises + DKT-gated persistent propositions enter generic proof inference',
++                'multi_memory_reasoning':'pre-EGR DKT H^s persistent-memory support drives regional activation/RL; only after RL/Frenet/DKT closure do current logical premises + DKT-gated persistent propositions + post-closure DKT-selected bounded dialogue working premises enter generic proof inference',
+                 'frenet_live_role':'trajectory-dependent metric feedback',
+                 'proto_affect':'unnamed recurrent multi-region activation geometry; computational state only, no subjective-emotion claim',
+                 'dkt_strata':'finite sampled transverse-self-intersection estimator can propose geometry-backed Sigma_j transitions',
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@ -1404,7 +1404,13 @@ class Noeron:
+             self.store.append_event(event)
+             memories=self.store.cognitive_memories()
+             math_memories=self._contextual_math_memories(event,memories)
+-            result=self.math.update(event,self.state.math_kernel,math_memories,self._prototype_map(),self.state.cognition.language.propositions)
++            bounded_dialogue_for_reasoning=()
++            if event.content.strip() and not event.metadata.get('endogenous') and not event.metadata.get('nonconversational_observation'):
++                bounded_dialogue_for_reasoning=self._hf2_conversation_premises.eligible(include_conflicts=True)
++            result=self.math.update(
++                event,self.state.math_kernel,math_memories,self._prototype_map(),self.state.cognition.language.propositions,
++                bounded_dialogue_premises=bounded_dialogue_for_reasoning,
++            )
+             if event.metadata.get('implementation_outcome') and event.metadata.get('owner_authenticated'): result.state.metadata['implementation_outcome']=event.metadata['implementation_outcome']; result.state.metadata['implementation_origin']=event.metadata.get('implementation_origin','native-engineering'); result.state.metadata['task_origin']=event.metadata.get('task_origin','owner-directed')
+             self._resolve_pending_cognitive_retention(event,result,memories)
+             self._resolve_pending_realization_outcome(result,event)
