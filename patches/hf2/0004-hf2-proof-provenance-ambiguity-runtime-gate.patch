@@ -1,0 +1,232 @@
+--- a/src/noeron/inference.py
++++ b/src/noeron/inference.py
+@@
+ def _relation_matches(stored: str, requested: str) -> bool:
+@@
+     return False
++
++
++def query_target_propositions(
++    rows: Sequence[LogicalProposition],
++    query: LogicalQuery,
++) -> list[LogicalProposition]:
++    """Return proposition target(s) explicitly requested by a proof query.
++
++    This helper exposes the same transparent relation matching used by ``infer`` so
++    downstream proof auditing never reconstructs a WHY target from surface text or
++    a second hidden parser. It supplies no ranking and no truth authority.
++    """
++    if query.kind not in {'exact-proposition', 'why-proposition'}:
++        return []
++    return [
++        p for p in rows
++        if p.subject == query.subject
++        and p.object == query.object
++        and _relation_matches(p.relation, query.relation)
++    ]
+--- a/src/noeron/math/models.py
++++ b/src/noeron/math/models.py
+@@
+ class MultiMemoryReasoningMathState(BaseModel):
+@@
+     answer_candidates: list[LogicalProposition] = Field(default_factory=list)
+     answer_selection_status: str = 'no-logical-selection-requested'
++    proof_support_audits: list[dict[str, Any]] = Field(default_factory=list)
++    proof_gate_status: str = 'proof-gate-not-requested'
++    proof_gate_blocked_candidate_count: int = 0
++    proof_gate_unscoped_ambiguity_count: int = 0
++    proof_gate_authority: dict[str, bool] = Field(default_factory=lambda: {
++        'semantic_truth': False,
++        'answer': False,
++        'speech_act': False,
++        'candidate_ranking': False,
++        'cognitive_memory': False,
++        'relationship': False,
++        'source_write': False,
++        'deployment': False,
++    })
+     native_question_candidates: list[LogicalQuery] = Field(default_factory=list)
+--- a/src/noeron/reasoning.py
++++ b/src/noeron/reasoning.py
+@@
+-from noeron.inference import infer, learned_to_logic
++from noeron.inference import infer, learned_to_logic, query_target_propositions
+ from noeron.math import dkt
+ from noeron.math.linalg import numerically_tied
+-from noeron.conversation_premises import ConversationalPremiseEnvelope
++from noeron.conversation_premises import ConversationalPremiseEnvelope, NativeGeometryTrace
+ from noeron.conversation_reasoning import select_bounded_premises_by_native_geometry
++from noeron.conversation_proof import AmbiguityConstraint, ambiguity_constraints_from_structure
++from noeron.conversation_runtime_gate import gate_inference_candidates
+@@
+ def _bounded_dialogue_premises_for_post_closure(
+     rows: Sequence[object],
+     post_closure_knot: KnotState | None,
+-) -> tuple[list[LogicalProposition],dict[str,object]]:
++) -> tuple[list[LogicalProposition],dict[str,object],tuple[ConversationalPremiseEnvelope,...]]:
+@@
+-        return [],{
++        return [],{
+             'selection_status':'unresolved-missing-current-dkt-geometry',
+             'selected_source_turns':[],'source_turn_distances':{},
+             'missing_geometry_source_turns':[],'invalid_distance_source_turns':[],
+-        }
++        },()
+@@
+-    return out,dict(selection.audit)
++    return out,dict(selection.audit),tuple(selection.selected)
++
++
++def _logical_provenance_envelopes(
++    rows: Sequence[LogicalProposition],
++    *,
++    origin: str,
++    source_turn: int,
++    post_closure_knot: KnotState | None = None,
++    active_region_ids: Sequence[str] | None = None,
++) -> list[ConversationalPremiseEnvelope]:
++    """Adapt already-created native proof premises into zero-authority provenance.
++
++    This is an audit adapter only. It does not admit rows into cognitive memory or
++    alter their semantic status. Current IRG and DKT-retrieved persistent premises
++    remain distinct provenance classes from bounded dialogue.
++    """
++    out=[]
++    for p in rows:
++        dkt_ids=tuple(str(x) for x in (getattr(p,'source_memory_ids',[]) or []) if x)
++        if not dkt_ids and getattr(p,'source_memory_id',''):
++            dkt_ids=(str(p.source_memory_id),)
++        trace=NativeGeometryTrace(
++            dkt_activation_ids=dkt_ids,
++            egr_region_ids=tuple(str(x) for x in (active_region_ids or []) if x),
++            dkt_support_knot=(post_closure_knot.model_dump(mode='python') if post_closure_knot is not None else None),
++        )
++        out.append(ConversationalPremiseEnvelope(
++            canonical=p.canonical(),subject=p.subject,relation=p.relation,object=p.object,
++            polarity=bool(p.polarity),source_turn=max(0,int(source_turn)),origin=origin,
++            confidence=float(p.confidence),native_trace=trace,
++        ))
++    return out
++
++
++def _current_ambiguity_constraints(
++    structure: Mapping[str,object] | None,
++    irg_parse_audit: Mapping[str,object] | None,
++) -> tuple[AmbiguityConstraint,...]:
++    rows=list(ambiguity_constraints_from_structure(structure))
++    for i,ref in enumerate(list((irg_parse_audit or {}).get('unresolved_references') or [])):
++        rows.append(AmbiguityConstraint(
++            ambiguity_id=f'irg-unresolved-reference-{i}',kind='irg-unresolved-reference',
++            alternatives=tuple(str(x) for x in ((ref.get('candidates') or []) if isinstance(ref,dict) else []) if x),
++            resolved=False,
++        ))
++    return tuple(rows)
+@@
+ def build_multi_memory_reasoning(
+@@
+     active_region_ids: Sequence[str] | None = None,
+     bounded_dialogue_premises: Sequence[object] | None = None,
++    current_language_structure: Mapping[str,object] | None = None,
++    current_language_parse_audit: Mapping[str,object] | None = None,
++    current_turn_index: int = 0,
+ ) -> MultiMemoryReasoningMathState:
+@@
+-    bounded_premises,bounded_audit=_bounded_dialogue_premises_for_post_closure(
++    bounded_premises,bounded_audit,bounded_selected=_bounded_dialogue_premises_for_post_closure(
+         bounded_dialogue_premises or [],post_closure_knot,
+     )
+@@
+     premises = list(premise_map.values())
+     query = (logical_query or LogicalQuery()).model_copy(deep=True)
+-    derived, inference_steps, answers, selection_status = infer(premises, query)
++    derived, inference_steps, raw_answers, selection_status = infer(premises, query)
++
++    # Preserve all three proof-premise provenance classes before canonical
++    # de-duplication. The proof gate filters unsupported packages only; it never
++    # ranks surviving answers or manufactures semantic truth.
++    current_provenance=_logical_provenance_envelopes(
++        current_premises,origin='current-turn',source_turn=current_turn_index,
++        post_closure_knot=post_closure_knot,active_region_ids=active_region_ids,
++    )
++    persistent_provenance=_logical_provenance_envelopes(
++        learned_premises,origin='dkt-retrieved-persistent',source_turn=0,
++        post_closure_knot=post_closure_knot,active_region_ids=active_region_ids,
++    )
++    proof_provenance=tuple(bounded_selected)+tuple(persistent_provenance)+tuple(current_provenance)
++    ambiguity_constraints=_current_ambiguity_constraints(current_language_structure,current_language_parse_audit)
++    why_targets=query_target_propositions(premises+derived,query) if query.kind=='why-proposition' else []
++    proof_gate=gate_inference_candidates(
++        query_kind=query.kind,candidates=raw_answers,provenance_premises=proof_provenance,
++        inference_steps=inference_steps,ambiguities=ambiguity_constraints,why_targets=why_targets,
++        block_unscoped_ambiguity=True,
++    )
++    answers=list(proof_gate.eligible_candidates)
++    if raw_answers and not answers:
++        selection_status=proof_gate.status
++    elif proof_gate.blocked_candidate_count:
++        selection_status=f'{selection_status}|{proof_gate.status}'
+@@
+-        inference_steps=inference_steps, logical_query=query, answer_candidates=answers,
++        inference_steps=inference_steps, logical_query=query, answer_candidates=answers,
+         answer_selection_status=selection_status,
++        proof_support_audits=list(proof_gate.audits),proof_gate_status=proof_gate.status,
++        proof_gate_blocked_candidate_count=int(proof_gate.blocked_candidate_count),
++        proof_gate_unscoped_ambiguity_count=sum(
++            len(list(row.get('unscoped_ambiguity_ids') or [])) for row in proof_gate.audits
++        ),
++        proof_gate_authority=dict(proof_gate.authority),
+--- a/src/noeron/math/kernel.py
++++ b/src/noeron/math/kernel.py
+@@
+-    def update(self,event:CognitiveEvent,previous:MathKernelState,memories:list[KnotMemory],semantic_prototypes:Mapping[str,SemanticKnotPrototype]|None=None,language_propositions:Sequence[object]|None=None,bounded_dialogue_premises:Sequence[object]|None=None)->CausalMathResult:
++    def update(self,event:CognitiveEvent,previous:MathKernelState,memories:list[KnotMemory],semantic_prototypes:Mapping[str,SemanticKnotPrototype]|None=None,language_propositions:Sequence[object]|None=None,bounded_dialogue_premises:Sequence[object]|None=None,current_language_structure:Mapping[str,object]|None=None,current_turn_index:int=0)->CausalMathResult:
+@@
+             post_closure_knot=core2,
+             active_region_ids=egr_state.simultaneous_active_regions,
+             bounded_dialogue_premises=bounded_dialogue_premises or [],
++            current_language_structure=current_language_structure or {},
++            current_language_parse_audit=irg_state.language_parse_audit,
++            current_turn_index=int(current_turn_index),
+         )
+@@
+             'Reasoning: current IRG propositions + DKT-authorized persistent propositions + post-closure DKT-gated bounded dialogue -> transparent finite proof closure',
++            'Proof gate: explicit inference ancestry + provenance/conflict + current ambiguity constrain support eligibility; gate has zero truth/answer/speech-act authority',
+         ]
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@
+-            bounded_dialogue_for_reasoning=()
++            bounded_dialogue_for_reasoning=()
++            current_structure={}
++            nonconversational_observation=bool(event.metadata.get('nonconversational_observation'))
++            next_conversational_turn=int(self.state.conversational_turn)+1
+             if event.content.strip() and not event.metadata.get('endogenous') and not event.metadata.get('nonconversational_observation'):
+                 bounded_dialogue_for_reasoning=self._hf2_conversation_premises.eligible(include_conflicts=True)
++                # Read-only structural observation happens before the math update so
++                # unresolved ambiguity can condition this same turn's final proof.
++                # It does NOT admit the current turn into bounded history early and
++                # therefore does not create a current-turn causal loop.
++                speaker=self._owner_referent() if owner_authenticated else 'external:unknown'
++                current_structure=self.language.dialogue_structure(
++                    event.content,self.state.cognition.language,speaker=speaker,addressee=self._self_referent()
++                )
+             result=self.math.update(
+                 event,self.state.math_kernel,math_memories,self._prototype_map(),self.state.cognition.language.propositions,
+                 bounded_dialogue_premises=bounded_dialogue_for_reasoning,
++                current_language_structure=current_structure,
++                current_turn_index=next_conversational_turn,
+             )
+@@
+-            nonconversational_observation=bool(event.metadata.get('nonconversational_observation'))
+             if event.content.strip() and not event.metadata.get('endogenous') and not nonconversational_observation:
+-                speaker=self._owner_referent() if owner_authenticated else 'external:unknown'
+-                current_structure=self.language.dialogue_structure(
+-                    event.content,self.state.cognition.language,speaker=speaker,addressee=self._self_referent()
+-                )
+                 current_bridge=admit_live_current_turn(
+                     self._hf2_conversation_premises,
+                     turn=int(self.state.conversational_turn),
+@@
+                     structure=current_structure,
+@@
+                 current_language_interpretation=dict(current_bridge.language_interpretation)
