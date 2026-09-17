@@ -13,6 +13,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from hashlib import sha256
+import json
 from typing import Any, Iterable, Mapping, Sequence
 
 from noeron.conversation_premises import (
@@ -56,6 +57,77 @@ def _modifiers(row: object) -> tuple[str, ...]:
     if isinstance(raw, str):
         return (raw,)
     return tuple(str(x) for x in raw)
+
+
+def _seq(row: object, name: str) -> tuple[object, ...]:
+    raw = _field(row, name, ()) or ()
+    if isinstance(raw, (str, bytes)):
+        return (raw,)
+    try:
+        return tuple(raw)
+    except TypeError:
+        return ()
+
+
+def _proof_ref(step: object) -> str:
+    payload = {
+        "rule": str(_field(step, "rule", "") or ""),
+        "premises": [str(x) for x in _seq(step, "premises")],
+        "conclusion": str(_field(step, "conclusion", "") or ""),
+        "confidence": float(_field(step, "confidence", 0.0) or 0.0),
+    }
+    digest = sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+    return f"rl-proof:{digest}"
+
+
+def native_trace_from_math_state(math_state: object, *, event_id: str = "") -> NativeGeometryTrace:
+    """Create evidence references from an already-computed native math state.
+
+    This helper never re-runs or replaces IRG/DKT/EGR/RL/Frenet. It records stable
+    references to outputs that already exist after that machinery has run. Presence
+    of a reference is *not* semantic truth or answer authority.
+    """
+    dkt = _field(math_state, "dkt", None)
+    egr = _field(math_state, "egr", None)
+    reasoning = _field(math_state, "reasoning", None)
+    frenet = _field(math_state, "frenet", None)
+
+    irg_ids = (f"event:{event_id}",) if str(event_id).strip() else ()
+
+    dkt_ids = tuple(str(x) for x in _seq(dkt, "retrieved_memory_ids") if str(x).strip())
+    if not dkt_ids:
+        signature = str(_field(dkt, "invariant_signature", "") or "").strip()
+        if signature and signature != "uninitialized":
+            dkt_ids = (f"dkt-knot:{signature}",)
+
+    egr_ids = tuple(str(x) for x in _seq(egr, "simultaneous_active_regions") if str(x).strip())
+    if not egr_ids:
+        dominant = str(_field(egr, "dominant_activation_region", "") or "").strip()
+        if dominant:
+            egr_ids = (dominant,)
+
+    rl_ids = tuple(_proof_ref(step) for step in _seq(reasoning, "inference_steps"))
+
+    frenet_ids: tuple[str, ...] = ()
+    samples = int(_field(frenet, "samples", 0) or 0)
+    if samples > 0:
+        payload = {
+            "samples": samples,
+            "speed": float(_field(frenet, "speed", 0.0) or 0.0),
+            "first_curvature": float(_field(frenet, "first_curvature", 0.0) or 0.0),
+            "metric_feedback_strength": float(_field(frenet, "metric_feedback_strength", 0.0) or 0.0),
+            "tangent": [float(x) for x in _seq(frenet, "tangent")],
+        }
+        digest = sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+        frenet_ids = (f"frenet:{digest}",)
+
+    return NativeGeometryTrace(
+        irg_event_ids=irg_ids,
+        dkt_activation_ids=dkt_ids,
+        egr_region_ids=egr_ids,
+        rl_proof_ids=rl_ids,
+        frenet_trace_ids=frenet_ids,
+    )
 
 
 def proposition_envelopes(
