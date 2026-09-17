@@ -6,7 +6,9 @@ on:
       - stage8B/v0.8.2-conversation-completion-hf2
     paths:
       - 'src/noeron/conversation_premises.py'
+      - 'src/noeron/conversation_bridge.py'
       - 'tests/test_v082_hf2_conversation_premises.py'
+      - 'tests/test_v082_hf2_conversation_bridge.py'
       - '.github/workflows/hf2-milestone2.yml'
   workflow_dispatch:
 
@@ -30,12 +32,18 @@ jobs:
         run: python -m pip install --disable-pip-version-check pytest
 
       - name: Compile milestone source
-        run: python -m compileall -q src/noeron/conversation_premises.py
+        run: |
+          python -m compileall -q \
+            src/noeron/conversation_premises.py \
+            src/noeron/conversation_bridge.py
 
-      - name: Run bounded premise tests
+      - name: Run bounded premise and current-turn bridge tests
         env:
           PYTHONPATH: src
-        run: python -m pytest -q tests/test_v082_hf2_conversation_premises.py
+        run: |
+          python -m pytest -q \
+            tests/test_v082_hf2_conversation_premises.py \
+            tests/test_v082_hf2_conversation_bridge.py
 
       - name: Authority-boundary source scan
         shell: bash
@@ -44,4 +52,6 @@ jobs:
           grep -q 'bounded_dialogue_is_cognitive_memory.*False' src/noeron/conversation_premises.py
           grep -q 'serialization_grants_truth.*False' src/noeron/conversation_premises.py
           grep -q 'IRG->DKT->regional-EGR->RL/Frenet->DKT->native-cognition/action' src/noeron/conversation_premises.py
+          grep -q 'historical_replay_api_present' src/noeron/conversation_bridge.py
+          grep -q 'native_geometry_is_evidence_not_truth' src/noeron/conversation_bridge.py
           echo 'authority_boundary_scan=PASS'
