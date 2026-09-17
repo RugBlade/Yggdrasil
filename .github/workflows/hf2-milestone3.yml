@@ -8,8 +8,10 @@ on:
       - 'src/noeron/conversation_premises.py'
       - 'src/noeron/conversation_bridge.py'
       - 'src/noeron/conversation_reasoning.py'
+      - 'patches/hf2/0003-hf2-native-bounded-dialogue-reasoning.patch'
       - 'tests/test_v082_hf2_native_geometry_trace.py'
       - 'tests/test_v082_hf2_conversation_reasoning.py'
+      - 'tests/test_v082_hf2_native_runtime_patch_contract.py'
       - '.github/workflows/hf2-milestone3.yml'
   workflow_dispatch:
 
@@ -39,13 +41,14 @@ jobs:
             src/noeron/conversation_bridge.py \
             src/noeron/conversation_reasoning.py
 
-      - name: Run native geometry trace and bounded selection tests
+      - name: Run native geometry, bounded selection, and runtime patch contract tests
         env:
           PYTHONPATH: src
         run: |
           python -m pytest -q \
             tests/test_v082_hf2_native_geometry_trace.py \
-            tests/test_v082_hf2_conversation_reasoning.py
+            tests/test_v082_hf2_conversation_reasoning.py \
+            tests/test_v082_hf2_native_runtime_patch_contract.py
 
       - name: Native machinery and authority source scan
         shell: bash
@@ -57,4 +60,6 @@ jobs:
           grep -q 'exact_tie_at_cutoff' src/noeron/conversation_reasoning.py
           grep -q 'semantic_truth_authority.*False' src/noeron/conversation_reasoning.py
           grep -q 'answer_authority.*False' src/noeron/conversation_reasoning.py
+          grep -q 'dkt.sobolev_distance' patches/hf2/0003-hf2-native-bounded-dialogue-reasoning.patch
+          grep -q 'tied_fn=numerically_tied' patches/hf2/0003-hf2-native-bounded-dialogue-reasoning.patch
           echo 'native_geometry_reasoning_scan=PASS'
