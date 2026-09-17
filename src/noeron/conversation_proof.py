@@ -194,10 +194,16 @@ def audit_proof_support(
     rl: set[str] = set()
     frenet: set[str] = set()
     for canonical in sorted(leaves):
-        for row in premise_by_canonical.get(canonical, ()):  # preserve parallel alternatives
+        rows = list(premise_by_canonical.get(canonical, ()))
+        # Parallel provenance may contain a bounded conflicting copy and an
+        # independent uncontested current/persistent copy of the *same* canonical.
+        # A conflict blocks this canonical only when every available provenance path
+        # for it is conflicted. This prevents stale bounded conflict metadata from
+        # poisoning an independently supported current-turn proposition.
+        if rows and all(row.status == "conflict" or bool(row.conflict_with) for row in rows):
+            conflicting.add(canonical)
+        for row in rows:  # preserve parallel provenance in the audit
             row.authority.assert_bounded_safe()
-            if row.status == "conflict" or row.conflict_with:
-                conflicting.add(canonical)
             trace = row.native_trace
             irg.update(trace.irg_event_ids)
             dkt.update(trace.dkt_activation_ids)
