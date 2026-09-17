@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from types import SimpleNamespace
 
 import pytest
 
@@ -7,6 +8,7 @@ from noeron.conversation_bridge import (
     NATIVE_REASONING_PATH,
     admit_live_current_turn,
     current_turn_interpretation,
+    native_trace_from_math_state,
     proposition_envelopes,
 )
 from noeron.conversation_premises import (
@@ -161,6 +163,41 @@ def test_native_geometry_trace_is_carried_but_not_promoted_to_truth():
     assert e.authority.semantic_truth is False
     assert r.authority_audit["native_geometry_is_evidence_not_truth"] is True
     assert r.language_interpretation["native_reasoning_path"] == NATIVE_REASONING_PATH
+
+
+def test_native_trace_is_extracted_from_existing_math_outputs_without_rerunning_math():
+    math_state = SimpleNamespace(
+        dkt=SimpleNamespace(retrieved_memory_ids=["mem-a", "mem-b"], invariant_signature="sig"),
+        egr=SimpleNamespace(simultaneous_active_regions=["region:alpha", "region:beta"], dominant_activation_region="region:alpha"),
+        reasoning=SimpleNamespace(
+            inference_steps=[
+                SimpleNamespace(rule="modus-ponens", premises=["a", "a->b"], conclusion="b", confidence=0.9)
+            ]
+        ),
+        frenet=SimpleNamespace(samples=3, speed=1.25, first_curvature=0.5, metric_feedback_strength=0.2, tangent=[1, 0, 0]),
+    )
+    trace = native_trace_from_math_state(math_state, event_id="evt-7")
+    assert trace.irg_event_ids == ("event:evt-7",)
+    assert trace.dkt_activation_ids == ("mem-a", "mem-b")
+    assert trace.egr_region_ids == ("region:alpha", "region:beta")
+    assert len(trace.rl_proof_ids) == 1
+    assert trace.rl_proof_ids[0].startswith("rl-proof:")
+    assert len(trace.frenet_trace_ids) == 1
+    assert trace.frenet_trace_ids[0].startswith("frenet:")
+
+
+def test_native_trace_falls_back_to_actual_dkt_signature_only_when_no_memory_ids():
+    math_state = {
+        "dkt": {"retrieved_memory_ids": [], "invariant_signature": "knot-sig-9"},
+        "egr": {"simultaneous_active_regions": [], "dominant_activation_region": ""},
+        "reasoning": {"inference_steps": []},
+        "frenet": {"samples": 0},
+    }
+    trace = native_trace_from_math_state(math_state)
+    assert trace.dkt_activation_ids == ("dkt-knot:knot-sig-9",)
+    assert trace.egr_region_ids == ()
+    assert trace.rl_proof_ids == ()
+    assert trace.frenet_trace_ids == ()
 
 
 def test_empty_nonproposition_rows_are_not_promoted():
