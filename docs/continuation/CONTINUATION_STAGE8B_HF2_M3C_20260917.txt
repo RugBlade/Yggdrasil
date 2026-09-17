@@ -1,0 +1,91 @@
+YGGDRASIL STAGE 8B HF2 — MILESTONE 3C CONTINUATION CHECKPOINT
+Date: 2026-09-17
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Status: Stage 8B IN PROGRESS; NOT LOCAL/LIVE CERTIFIED by this checkpoint.
+
+READ FIRST
+GitHub is the authoritative engineering workspace. Google Drive is the evidence/package backup. Work in small coherent commits and use GitHub Actions for tests. Never deploy from a carrier-only green check. Canonical live SQLite DB/state, credentials, tokens, private keys and private modality data must never enter GitHub/source packages.
+
+CANONICAL COGNITION BOUNDARY
+Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+Terra is optional/downstream and has no automatic answer authority. Geometry can activate/support working premises but cannot manufacture semantic truth. Exact ties/insufficient support remain unresolved. Owner authentication grants task/access authority only and zero relationship meaning.
+
+FROZEN ANCHORS
+Stage7 LIVE commit 23f622469278aaa10ca868e890ac8cc729be640d.
+Stage8A LIVE commit a2d2ca4d60ddb815276b5f1636559830fb265452.
+Stage8B v0.8.1 LOCAL CERTIFIED source TAR SHA256 21e5d4a6883ce687cfe04e75c10b76a3d642d15567900f567c366399d36a5338.
+Old v0.8.1 H5 owner-curriculum POST was NEVER EXECUTED and must never be resumed.
+HF1 live package SHA256 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29.
+Authenticated H9 rerun ZIP SHA256 a7e45844d69057d64b22c031b78fce3b47e2b54e67495bd3b70211539a175155.
+
+HF2 BEFORE M3C
+0001 inference core: general copular/spatial/property/comparative normalization, structured conditionals/modus ponens, correction provenance, exact negative support, WHY requires derivation/causal support rather than event echo.
+0002 current-turn bridge: exact-input SHA256 reply-local interpretation, prospective bounded non-memory context, no historical replay, current turn admitted only after its own math update.
+0003 native bounded-dialogue reasoning: prior bounded source turns activated only after full IRG->DKT->regional-EGR->RL/Frenet->DKT closure using runtime DKT H^s distance; exact ties preserved; geometry grants activation only, never truth.
+M2B CI run 35266203107 / job 105353903179 SUCCESS.
+M3B CI run 35267081206 / job 105356801579 SUCCESS.
+
+MILESTONE 3C COMPLETED — CARRIER MECHANISM
+New module: src/noeron/conversation_proof.py
+Purpose: audit proof provenance, causal/explanatory support, conflicts and ambiguity BEFORE a proof package can continue to downstream native consequence reasoning. support_gate_passed is explicitly not a truth/answer/speech-act decision.
+
+Implemented mechanisms:
+1. ProofStepView normalizes transparent inference-step records.
+2. Recursive proof closure follows explicit premise->conclusion chains; missing leaves are detected.
+3. Every leaf used by an auditable proof must have provenance. Merely naming a canonical as an explanation cannot create support.
+4. Direct event truth is allowed as ordinary event support but does NOT satisfy WHY. WHY requires an actual derivation or separately provenance-backed explanatory support.
+5. AmbiguityConstraint carries unresolved/resolved alternatives and optional affected canonicals.
+6. Scoped ambiguity blocks only proof support depending on the affected canonical(s).
+7. Unscoped ambiguity is always audited. The live runtime may set block_unscoped_ambiguity=True when it cannot prove irrelevance; this conservatively leaves the proof unresolved instead of guessing.
+8. Bounded conflict blocks a canonical only when every available provenance path for that same canonical is conflicted. An independent uncontested current/persistent duplicate is not poisoned by stale bounded conflict metadata.
+9. Native evidence references from IRG/DKT/EGR/RL/Frenet traces are aggregated as evidence only; they never acquire semantic-truth or answer authority.
+10. Authority map remains false for semantic_truth, answer, speech_act, cognitive_memory, relationship, source_write and deployment.
+
+M3C COMMITS
+- d31d0f80e4b2e1e808ec24d3dbb5ca2614886faa — add proof provenance/ambiguity module.
+- 9aca511b3ab2963ea11e038dc5b5aac56baecc02 — initial proof/causal/ambiguity tests.
+- 6067b87d93a9741c4652f7d9006ef3aeab335e04 — initial M3C GitHub Actions gate.
+- 308222c285cb6876cae4b134f27ea7d0e370c60b — preserve independent uncontested duplicate provenance path.
+- 39b23fa350d1cd34190397e53a89f412ff4df23a — regression for duplicate provenance/conflict behavior.
+- fbaeb33ae327974a0484f9599fc46f7571cd1165 — require provenance for explicit explanations.
+- d3a597b3f61e388f293133d125f21bbc4d91f2fb — regression rejecting provenance-free explicit explanation.
+- c4fb18af200c95fc64d9b777ba0c224a950fe14d — conservative unscoped ambiguity gate option.
+- a9be294acbc7c7377eecfcb10f3ae87ba6679b94 — ambiguity-policy tests.
+- f1a10396280b6c348f41ee1e9841ea381f08e4f9 — CI expanded to ambiguity-policy gate.
+
+M3C CI EVIDENCE
+- run 35268235432 SUCCESS (initial causal provenance/ambiguity gate).
+- run 35268731208 SUCCESS (duplicate provenance hardening).
+- run 35268776136 SUCCESS (duplicate provenance regression).
+- run 35268877354 SUCCESS (explicit explanation provenance requirement).
+- run 35269050157 SUCCESS (provenance-free explanation regression).
+- run 35269232033 SUCCESS (conservative unscoped ambiguity module change).
+- run 35269294053 / job 105364264154 SUCCESS: compile, causal provenance tests, ambiguity-policy tests, authority source scan.
+
+IMPORTANT LIMITATION
+M3C currently exists as a validated carrier mechanism. It is not yet wired into the exact HF1 runtime. Therefore it does not yet alter Yggdrasil live behavior. No certification claim follows from these green CI runs.
+
+NEXT COHERENT ENGINEERING CHUNK — 0004 RUNTIME PROOF GATE
+Build patches/hf2/0004-hf2-proof-provenance-ambiguity-runtime-gate.patch against the post-0001/0002/0003 runtime contract. Requirements:
+- Current dialogue structure must be computed read-only before math.update so ambiguity can condition the same turn's final proof; this must NOT admit the current turn into bounded history early.
+- The current turn must still enter BoundedConversationalPremiseContext only after its own native math update, preserving the no-current-turn-causal-loop invariant.
+- Pass current dialogue structure/current turn identity into the final proof-reasoning stage.
+- Preserve separate provenance classes for current IRG propositions, DKT-retrieved persistent propositions and DKT-selected bounded-dialogue propositions.
+- After transparent infer(), audit candidate proof ancestry with conversation_proof.audit_proof_support.
+- For ordinary candidates, only proof packages passing provenance/conflict/ambiguity support gate remain eligible. This is logical support filtering, not preference ranking or final native answer choice.
+- For WHY, identify the target proposition using the same transparent relation matching as inference, require explanation=True, and require every explanatory support canonical to carry provenance. Event truth alone must remain no-answer.
+- Live runtime should conservatively block unscoped unresolved ambiguity until the parser can prove it irrelevant.
+- Record proof audit/status in MultiMemoryReasoningMathState with explicit zero truth/answer/speech-act authority.
+- Do not add lexical answer tables, canned clarify strings, Terra fallback or owner override.
+
+AFTER 0004
+1. Contract-test 0004 in GitHub Actions.
+2. Build exact-HF1 patch-chain fixture so CI reconstructs byte-verified HF1 source and applies 0001+0002+0003+0004, then compiles/tests actual affected runtime files.
+3. Only after patch-chain application is real/green: Milestone 4 native consequence bridge for defer/clarify/remain-silent/ask. Speech-act affordances are substrate; selected act may be called native only when consequence machinery selects it.
+4. Expand successor/full regression, security/static, package parity, manifests, OpenAPI/API command reference, Drive evidence, new live verification sheet.
+5. New live verification must use SAME canonical persistent Yggdrasil DB/state. No Stage 8C before Stage 8B LIVE CERTIFIED.
+
+ROADMAP
+Stage8 continues broadly through 8A-8M. Endpoint: own-source observe -> understand -> native reasoning -> converse/explain -> propose/accept authorized task -> Patch IR -> sandbox -> test -> diagnose/revise -> evidence -> owner promotion -> live upgrade -> same persistent Yggdrasil survives -> inspect/explain change.
+Stage9: 9A knot/DNA-like memory compression/migration; 9B reversible defensive representation morphing only authorized owner infrastructure; 9C privacy transport; 9D authenticated owner-device/domain mount; 9E secure operator console. Rejected: unauthorized/covert access, bypass, spoofing, compromise, anti-forensics, third-party persistence, retaliation/hackback.
