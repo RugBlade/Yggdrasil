@@ -176,6 +176,16 @@ def audit_proof_support(
     explicit_explanation = {str(x).strip() for x in explanatory_support_canonicals if str(x).strip()}
     explanation_support = bool(has_derived_target or explicit_explanation)
 
+    # Explicit explanatory candidates are themselves support nodes. Their proof
+    # ancestry and provenance must therefore be auditable too; merely naming a
+    # canonical as an explanation never grants it support authority.
+    for explanatory in sorted(explicit_explanation):
+        extra_nodes, extra_steps = _proof_closure(explanatory, steps)
+        support_nodes.update(extra_nodes)
+        for step in extra_steps:
+            if step not in used_steps:
+                used_steps.append(step)
+
     leaves: set[str] = set()
     produced = {step.conclusion for step in used_steps}
     for node in support_nodes:
@@ -184,7 +194,7 @@ def audit_proof_support(
     if has_direct_target:
         leaves.add(target)
 
-    missing_provenance = sorted(node for node in leaves if node not in premise_by_canonical and node not in explicit_explanation)
+    missing_provenance = sorted(node for node in leaves if node not in premise_by_canonical)
 
     conflicting: set[str] = set()
     provenance_rows: list[dict[str, object]] = []
