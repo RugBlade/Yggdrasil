@@ -1,0 +1,338 @@
+--- a/src/noeron/inference.py
++++ b/src/noeron/inference.py
+@@ -25,7 +25,7 @@
+ _PERSON_PRONOUNS = {'he','she','they','him','her','them'}
+ _OBJECT_PRONOUNS = {'it','this','that','these','those'}
+ _MODAL = {'may','might','must','should','could','would','will','can'}
+-_SPATIAL = {'inside','beside','near','under','above','behind','before','after','on'}
++_SPATIAL = {'inside','beside','near','under','above','behind','before','after','on','in','at','from','to'}
+ 
+ 
+ def _clean(text: str) -> str:
+@@ -53,6 +53,59 @@
+     return (p.subject, p.relation, p.object, bool(p.polarity), bool(p.universal), p.modality)
+ 
+ 
++def _from_canonical(text: str, *, source: str = 'native-inference', confidence: float = 1.0) -> LogicalProposition | None:
++    """Decode this module's own canonical proposition form.
++
++    This is intentionally not a general language parser. It is used only for
++    structured implication edges whose endpoints were first produced by this
++    transparent proposition substrate.
++    """
++    raw = str(text or '').strip()
++    if not raw:
++        return None
++    polarity = True
++    if raw.startswith('not '):
++        polarity = False
++        raw = raw[4:]
++    parts = raw.split('::', 2)
++    if len(parts) != 3:
++        return None
++    subject, relation, obj = parts
++    modality = ''
++    for modal in sorted(_MODAL, key=len, reverse=True):
++        prefix = modal + ' '
++        if subject.startswith(prefix):
++            modality = modal
++            subject = subject[len(prefix):]
++            break
++    if not subject or not relation:
++        return None
++    return LogicalProposition(
++        subject=subject, relation=relation, object=obj, polarity=polarity,
++        modality=modality, source=source, confidence=confidence, derived=True,
++    )
++
++
++def _split_copular_query(rest: str) -> tuple[str, str]:
++    """Split a finite copular yes/no surface into subject and predicate.
++
++    The old lazy regex parsed ``the lamp on`` as subject ``the`` and predicate
++    ``lamp on``. This mechanical splitter preserves a leading determiner as part of
++    the noun phrase and treats an article immediately before the final token as the
++    predicate article (``Mira a scholar``). No semantic class table participates.
++    """
++    tokens = _clean(rest).split()
++    if len(tokens) < 2:
++        return '', ''
++    if len(tokens) >= 3 and tokens[-2] in {'a','an','the'}:
++        subject_tokens = tokens[:-2]
++        predicate_tokens = tokens[-1:]
++    else:
++        subject_tokens = tokens[:-1]
++        predicate_tokens = tokens[-1:]
++    return _entity(' '.join(subject_tokens)), _entity(' '.join(predicate_tokens))
++
++
+ def _initial_discourse(context: Mapping[str, object] | None) -> dict[str, str]:
+     c = context or {}
+     return {
+@@ -130,6 +183,20 @@
+         s = _clean(raw)
+         low = s.lower()
+ 
++        # Explicit conversational correction is a provenance marker, not a
++        # permission to rewrite history. The finite inference closure later
++        # decides which same-relation bounded premise is superseded.
++        correction_prefix = re.match(r'^correction\s*:\s*(.+)$', s, re.I)
++        if correction_prefix:
++            corrected, _q, nested_audit = parse_surface_logic_detailed(correction_prefix.group(1), ctx)
++            for cp in corrected:
++                cp.modifiers = list(dict.fromkeys(list(cp.modifiers) + ['correction']))
++                propositions.append(cp)
++            audit['resolutions'].extend(nested_audit.get('resolutions', []))
++            audit['unresolved_references'].extend(nested_audit.get('unresolved_references', []))
++            audit['mentions'].extend(nested_audit.get('mentions', []))
++            continue
++
+         # ----------------------------- queries -----------------------------
+         if '?' in raw or low.startswith(('what ', 'where ', 'who ', 'which ', 'why ', 'how ', 'when ', 'does ', 'do ', 'did ', 'is ', 'are ', 'was ', 'were ', 'can ', 'could ', 'may ', 'might ', 'will ', 'would ', 'should ', 'must ')):
+             if re.search(r'\bwhat\s+(?:necessarily\s+)?follows\b', low) or low in {'what follows', 'what can you infer', 'what can be inferred'}:
+@@ -152,6 +219,31 @@
+                 a = _resolve_surface(m.group(1), ctx, audit, role='query-subject')
+                 query = LogicalQuery(kind=('relation-from-subject' if a else 'unresolved-reference'), subject=a, relation='', raw=raw)
+                 continue
++            m = re.match(r'^what\s+([a-z][a-z-]*)\s+(?:is|are|was|were)\s+(.+)$', low)
++            if m:
++                dimension, target = m.groups()
++                a = _resolved_or_literal(target, ctx, audit, role='query-subject')
++                query = LogicalQuery(
++                    kind=('copular-value-from-subject' if a else 'unresolved-reference'),
++                    subject=a, relation='is', object=_relation(dimension), raw=raw,
++                )
++                audit['query_property_dimension'] = _relation(dimension)
++                continue
++            m = re.match(r'^what\s+is\s+(' + '|'.join(sorted(_SPATIAL, key=len, reverse=True)) + r')\s+(.+)$', low)
++            if m:
++                spatial, target = m.groups()
++                b = _resolved_or_literal(target, ctx, audit, role='query-object')
++                query = LogicalQuery(
++                    kind=('relation-to-object' if b else 'unresolved-reference'),
++                    relation=_relation(spatial), object=b, raw=raw,
++                )
++                continue
++            m = re.match(r'^which\s+(.+?)\s+(?:is|are)\s+([a-z][a-z-]*)$', low)
++            if m:
++                _kind_surface, predicate = m.groups()
++                query = LogicalQuery(kind='relation-subjects', relation=f'{_relation(predicate)}-than', raw=raw)
++                audit['query_subject_class_surface'] = _entity(_kind_surface)
++                continue
+             m = re.match(r'^what\s+is\s+(.+)$', low)
+             if m:
+                 a = _resolve_surface(m.group(1), ctx, audit, role='query-subject')
+@@ -169,10 +261,11 @@
+                 continue
+             # Productive Stage-8B proof queries. These rows request native
+             # proof-field matching only; parser recognition never supplies truth.
+-            m = re.match(r'^why\s+(?:is|are)\s+(.+?)\s+(?:a\s+|an\s+|the\s+)?(.+)$', low)
++            m = re.match(r'^why\s+(?:is|are)\s+(.+)$', low)
+             if m:
+-                a=_resolved_or_literal(m.group(1),ctx,audit,role='query-subject')
+-                b=_resolved_or_literal(m.group(2),ctx,audit,role='query-object') or _entity(m.group(2))
++                subj_surface, pred_surface = _split_copular_query(m.group(1))
++                a=_resolved_or_literal(subj_surface,ctx,audit,role='query-subject') if subj_surface else ''
++                b=_resolved_or_literal(pred_surface,ctx,audit,role='query-object') if pred_surface else ''
+                 query=LogicalQuery(kind=('why-proposition' if a and b else 'unresolved-reference'),subject=a,relation='is',object=b,raw=raw)
+                 continue
+             m = re.match(r'^why\s+(?:did|does|do)\s+(.+?)\s+([a-z][a-z-]*)\s+(.+)$', low)
+@@ -198,10 +291,11 @@
+                 continue
+             # Exact yes/no proposition requests. A supported proposition is the
+             # answer; absent proof remains absent rather than becoming a canned yes/no.
+-            m = re.match(r'^(?:is|are|was|were)\s+(.+?)\s+(?:a\s+|an\s+|the\s+)?(.+)$', low)
++            m = re.match(r'^(?:is|are|was|were)\s+(.+)$', low)
+             if m:
+-                a=_resolved_or_literal(m.group(1),ctx,audit,role='query-subject')
+-                b=_resolved_or_literal(m.group(2),ctx,audit,role='query-object') or _entity(m.group(2))
++                subj_surface, pred_surface = _split_copular_query(m.group(1))
++                a = _resolved_or_literal(subj_surface, ctx, audit, role='query-subject') if subj_surface else ''
++                b = _resolved_or_literal(pred_surface, ctx, audit, role='query-object') if pred_surface else ''
+                 query=LogicalQuery(kind=('exact-proposition' if a and b else 'unresolved-reference'),subject=a,relation='is',object=b,raw=raw)
+                 continue
+             m = re.match(r'^(?:does|do|did)\s+(.+?)\s+([a-z][a-z-]*)\s+(.+)$', low)
+@@ -225,9 +319,26 @@
+             continue
+ 
+         # -------------------------- formal relations -----------------------
+-        m = re.match(r'^if\s+(.+?)\s+then\s+(.+)$', low)
++        m = re.match(r'^if\s+(.+?)(?:,\s*|\s+then\s+)(.+)$', s, re.I)
+         if m:
+-            propositions.append(LogicalProposition(subject=_entity(m.group(1)), relation='implies', object=_entity(m.group(2)), source='current-irg', confidence=1.0))
++            antecedent_text, consequent_text = m.groups()
++            antecedents, aq, aa = parse_surface_logic_detailed(antecedent_text + '.', ctx)
++            consequents, cq, ca = parse_surface_logic_detailed(consequent_text + '.', ctx)
++            if len(antecedents) == 1 and len(consequents) == 1 and aq.kind == 'none' and cq.kind == 'none':
++                propositions.append(LogicalProposition(
++                    subject=antecedents[0].canonical(), relation='implies-proposition',
++                    object=consequents[0].canonical(), source='current-irg', confidence=1.0,
++                    modifiers=['structured-conditional'],
++                ))
++                audit.setdefault('structured_conditionals', []).append({
++                    'antecedent': antecedents[0].canonical(),
++                    'consequent': consequents[0].canonical(),
++                    'authority': 'grammar-only',
++                })
++            else:
++                audit.setdefault('unresolved_conditionals', []).append({
++                    'surface': s, 'authority': 'grammar-only',
++                })
+             continue
+         m = re.match(r'^(.+?)\s+implies\s+(.+)$', low)
+         if m:
+@@ -255,6 +366,41 @@
+             propositions.append(LogicalProposition(subject=_entity(m.group(1)), relation='true', object='true', source='current-irg', confidence=1.0))
+             continue
+ 
++        # Generic comparative relation: X is larger/smaller/... than Y. The
++        # comparative token itself becomes part of the relation; no domain ranking
++        # or adjective-answer table is programmed here.
++        m = re.match(r'^(.+?)\s+(?:is|are|was|were)\s+(not\s+)?([a-z][a-z-]*)\s+than\s+(.+)$', low)
++        if m:
++            subj0, neg, comparative, obj0 = m.groups()
++            subj = _resolved_or_literal(subj0, ctx, audit, role='subject')
++            obj = _resolved_or_literal(obj0, ctx, audit, role='direct-object')
++            if subj and obj:
++                propositions.append(LogicalProposition(
++                    subject=subj, relation=f'{_relation(comparative)}-than', object=obj,
++                    polarity=(not bool(neg)), source='current-irg', confidence=1.0,
++                    modifiers=['comparative-surface'],
++                ))
++            _mention(ctx, audit, subject=subj, direct=obj)
++            continue
++
++        # Generic copular spatial relation: X is on/beside/... Y. This must run
++        # before the generic copula so the visible preposition becomes the typed
++        # relation rather than being swallowed into an attribute string.
++        spatial_pattern = '|'.join(sorted(_SPATIAL, key=len, reverse=True))
++        m = re.match(r'^(.+?)\s+(?:is|are|was|were)\s+(not\s+)?(' + spatial_pattern + r')\s+(.+)$', low)
++        if m:
++            subj0, neg, spatial, obj0 = m.groups()
++            subj = _resolved_or_literal(subj0, ctx, audit, role='subject')
++            obj = _resolved_or_literal(obj0, ctx, audit, role='oblique-object')
++            if subj and obj:
++                propositions.append(LogicalProposition(
++                    subject=subj, relation=_relation(spatial), object=obj,
++                    polarity=(not bool(neg)), source='current-irg', confidence=1.0,
++                    modifiers=['copular-spatial'],
++                ))
++            _mention(ctx, audit, subject=subj, oblique=obj)
++            continue
++
+         # Explicit atomic negation.
+         m = re.match(r'^(.+?)\s+(?:is|are)\s+not\s+(?:a\s+|an\s+|the\s+)?(.+)$', low)
+         if m:
+@@ -449,14 +595,29 @@
+     """Compute finite deductive closure with no domain answer table or forced tie break."""
+     known: dict[tuple[str, str, str, bool, bool, str], LogicalProposition] = {}
+     premise_keys: set[tuple[str, str, str, bool, bool, str]] = set()
++    steps: list[InferenceStep] = []
+     for p in premises:
+-        k = proposition_key(p)
++        cp = p.model_copy(deep=True)
++        if 'correction' in cp.modifiers:
++            superseded = [
++                k for k, oldp in known.items()
++                if oldp.subject == cp.subject and oldp.relation == cp.relation
++                and oldp.modality == cp.modality and oldp.universal == cp.universal
++                and proposition_key(oldp) != proposition_key(cp)
++            ]
++            for sk in superseded:
++                oldp = known.pop(sk)
++                steps.append(InferenceStep(
++                    rule='bounded-correction-supersession',
++                    premises=[oldp.canonical(), cp.canonical()],
++                    conclusion=cp.canonical(), confidence=min(oldp.confidence, cp.confidence),
++                ))
++        k = proposition_key(cp)
+         old = known.get(k)
+-        if old is None or p.confidence > old.confidence:
+-            known[k] = p.model_copy(deep=True)
++        if old is None or cp.confidence > old.confidence:
++            known[k] = cp
+         premise_keys.add(k)
+ 
+-    steps: list[InferenceStep] = []
+     changed = True
+     rounds = 0
+     while changed and len(steps) < max_steps:
+@@ -521,7 +682,32 @@
+             if len(steps)>=max_steps: break
+         if len(steps) >= max_steps: break
+ 
+-        # Modus ponens.
++        # Structured proposition modus ponens. Endpoints are canonical forms
++        # produced by this parser, not free-form text interpreted by a hidden model.
++        rows = list(known.values())
++        structured_implications = [p for p in rows if p.polarity and p.relation == 'implies-proposition']
++        canonical_known = {p.canonical(): p for p in rows}
++        for imp in structured_implications:
++            antecedent = canonical_known.get(imp.subject)
++            consequent = _from_canonical(imp.object, confidence=imp.confidence)
++            if antecedent is None or consequent is None:
++                continue
++            consequent.confidence = min(imp.confidence, antecedent.confidence)
++            ck = proposition_key(consequent)
++            if ck in known:
++                continue
++            known[ck] = consequent; changed = True
++            steps.append(InferenceStep(
++                rule='structured-modus-ponens',
++                premises=[imp.canonical(), antecedent.canonical()],
++                conclusion=consequent.canonical(), confidence=consequent.confidence,
++            ))
++            if len(steps) >= max_steps:
++                break
++        if len(steps) >= max_steps:
++            break
++
++        # Historical atomic-truth modus ponens.
+         rows = list(known.values())
+         implications = [p for p in rows if p.polarity and p.relation == 'implies']
+         truths = {p.subject: p for p in rows if p.polarity and p.relation == 'true' and p.object == 'true'}
+@@ -546,8 +732,31 @@
+         candidates = [p for p in known.values() if p.subject == query.subject and _relation_matches(p.relation,query.relation)]
+     elif query.kind == 'relation-to-object':
+         candidates = [p for p in known.values() if p.object == query.object and _relation_matches(p.relation,query.relation)]
+-    elif query.kind in {'exact-proposition','why-proposition'}:
++    elif query.kind == 'exact-proposition':
+         candidates = [p for p in known.values() if p.subject==query.subject and p.object==query.object and _relation_matches(p.relation,query.relation)]
++        if not any(p.polarity for p in candidates):
++            negative = [p for p in known.values() if (not p.polarity) and p.subject==query.subject and p.object==query.object and _relation_matches(p.relation,query.relation)]
++            if negative:
++                candidates = negative
++    elif query.kind == 'why-proposition':
++        # Event truth is not an explanation of itself. A why answer must be backed
++        # either by an explicit causal/explanatory proposition whose object is the
++        # target canonical proposition, or by an inference step that actually
++        # derived the target from premises.
++        targets = [p for p in known.values() if p.subject==query.subject and p.object==query.object and _relation_matches(p.relation,query.relation)]
++        target_canon = {p.canonical() for p in targets}
++        support_canon: set[str] = set()
++        for step in steps:
++            if step.conclusion in target_canon:
++                support_canon.update(step.premises)
++        candidates = [p for p in known.values() if p.canonical() in support_canon]
++        for p in known.values():
++            if p.polarity and p.relation in {'causes','explains'} and p.object in target_canon:
++                candidates.append(p)
++    elif query.kind == 'copular-value-from-subject':
++        candidates = [p for p in known.values() if p.polarity and p.subject==query.subject and p.relation=='is']
++    elif query.kind == 'relation-subjects':
++        candidates = [p for p in known.values() if p.polarity and _relation_matches(p.relation, query.relation)]
+     elif query.kind == 'where-from-subject':
+         candidates = [p for p in known.values() if p.subject==query.subject and _spatial_relation(p.relation) and _relation_matches(p.relation,query.relation)]
+     elif query.kind in {'when-from-subject','how-from-subject'}:
+@@ -561,7 +770,10 @@
+     dedup = {proposition_key(p): p for p in candidates}
+     candidates = sorted(dedup.values(), key=lambda p: p.canonical())
+     if len(candidates) == 1:
+-        status = 'unique-proof-supported-answer'
++        if query.kind == 'exact-proposition' and not candidates[0].polarity:
++            status = 'unique-proof-supported-negative-answer'
++        else:
++            status = 'unique-proof-supported-answer'
+     elif len(candidates) > 1:
+         status = 'multiple-proof-supported-answers-no-forced-choice'
+     elif query.kind in {'none', 'unresolved-surface-question', 'unresolved-reference'}:
