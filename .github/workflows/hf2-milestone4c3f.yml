@@ -57,7 +57,7 @@ jobs:
             cp "src/noeron/$f" "$FIX/src/noeron/$f"
           done
 
-      - name: Apply published 0001 through 0011 sequentially
+      - name: Apply published 0001 through 0012 sequentially
         shell: bash
         run: |
           set -euo pipefail
@@ -178,7 +178,7 @@ jobs:
           tar -czf evidence/m4c3f-carrier-evidence.tar.gz             patches/hf2 src/noeron/conversation_*.py tests/test_v082_hf2_*.py tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d tests/hf2_m4c3e tests/hf2_m4c3f             scripts/verify_hf1_exact_fixture.py scripts/materialize_hf2_intent_patch.py             .github/workflows/hf2-milestone4c3f.yml
           (cd "$FIX" && git ls-files -z src/noeron | xargs -0 sha256sum)             > evidence/m4c3f-post0013-source-sha256.txt
           {
-            echo "gate=M4C3F exact HF1 0001-0011 plus 0012 local-noncontent-execution-receipt candidate and fresh replay"
+            echo "gate=M4C3F exact HF1 0001-0012 plus 0013 local-noncontent-execution-receipt candidate and fresh replay"
             echo "source_commit=$GITHUB_SHA"
             echo "base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29"
             echo "certification_claim=false"
