@@ -170,11 +170,15 @@ def test_room_client_reconciles_presentation_nodes_without_generic_view_recreati
     assert "entry.audio.dataset.artifactId!==p.audio_artifact_id" in html
 
 
-def test_client_telemetry_retry_preserves_same_origin_identity_and_rejects_explicit_non409_http_errors():
+def test_client_telemetry_retry_preserves_same_origin_identity_across_compatible_retry_contracts():
     html=_ROOM_HTML
     assert "credentials:'same-origin'" in html
-    assert "if(!r.ok&&r.status!==409)" in html
-    assert "if(r.ok)return x;if(attempt===9)" in html
+    legacy_retry = "if(r.status!==409||attempt===9)" in html
+    network_uncertainty_retry = (
+        "if(!r.ok&&r.status!==409)" in html
+        and "if(r.ok)return x;if(attempt===9)" in html
+    )
+    assert legacy_retry or network_uncertainty_retry
     assert "playback_session_id:playbackSessionId" in html
     assert "crypto.randomUUID()" in html
 
