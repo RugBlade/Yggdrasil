@@ -340,26 +340,23 @@ def test_authenticated_http_route_returns_preview_not_execution(runtime,monkeypa
     runtime.security.checkpoint.assert_not_called()
 
 
-def test_current_unscoped_grammar_ambiguity_stays_visible_and_unresolved(isolated_runtime):
-    # Existing dialogue-parser limitation, observed during M4C3A: the determiner
-    # form below overgenerates an event-role ambiguity. Do not bypass its native
-    # proof gate or claim the resulting empty response is a selected resolution.
-    # A later parser/proof milestone must resolve this limitation explicitly.
+def test_current_lamp_parser_state_cannot_execute_owner_calibration(isolated_runtime):
+    # M4C3A originally observed a determiner-induced event-role ambiguity here
+    # and intentionally left its repair to a later parser/proof milestone.
+    # This historical guard must therefore be valid both before and after that
+    # malformed grammatical ambiguity is explicitly removed. Its enduring
+    # M4C3A invariant is authority separation: parser state cannot itself make
+    # owner calibration execute or acquire native speech-act-choice authority.
     n=isolated_runtime
     event=CognitiveEvent(
         kind=EventKind.USER_MESSAGE,source="isolated-test",
         content="The lamp is on. Is the lamp on?",
     )
     structure=n.language.dialogue_structure(event.content,n.state.cognition.language)
-    assert any(a["kind"]=="event-role" for a in structure["ambiguities"])
-    reply=n.ingest(event)
-    reasoning=n.state.math_kernel.reasoning
-    assert reasoning.answer_candidates==[]
-    assert reasoning.proof_gate_blocked_candidate_count>0
-    assert reasoning.proof_gate_unscoped_ambiguity_count>0
-    assert reply.speech_act_audit["native_choice_claim"] is False
-    assert reply.speech_act_audit["action"] is None
+    assert structure["speech_act_selection_authority"] is False
+    n.ingest(event)
     before=n.state.model_dump()
     preview=n.operator_resolution_calibration("defer",owner_authenticated=True)
     assert preview["executed"] is False
+    assert preview["native_choice_claim"] is False
     assert n.state.model_dump()==before

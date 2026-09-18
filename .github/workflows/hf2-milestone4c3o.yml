@@ -8,6 +8,7 @@ on:
     paths:
       - 'patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.intent.patch'
       - 'tests/hf2_m4c3o/**'
+      - 'tests/hf2_m4c3a/test_execution_boundary.py'
       - '.github/workflows/hf2-milestone4c3o.yml'
 
 permissions:
