@@ -283,3 +283,59 @@ M4A mechanism:
 
 NEXT SMALL MILESTONE — 4B
 Add persistent-but-nonsemantic speech-act consequence-development state and exact-HF1 runtime integration. Preserve existing express/continue-private communication policy separately. Resolution-act machinery should run only when the proof/ambiguity state actually requires a resolution act; ordinary proof-supported answer flow must not be silently reclassified. Do not fabricate initial consequence observations. Add only operator/calibration provenance if needed; calibration must never be called native choice or owner preference. Then gate against exact HF1 and checkpoint again before adding natural clarification/deference utterance generation.
+
+
+HF2 MILESTONE 4B CHECKPOINT — 2026-09-18
+
+Status: GREEN engineering checkpoint. Stage 8B remains IN PROGRESS. No local/live certification claim.
+
+Authoritative GitHub state:
+- branch: stage8B/v0.8.2-conversation-completion-hf2
+- verified deployable 0005 publication commit: 26a75cd2da517a311f0640c50d3c4da14503f6ae
+- exact-chain-through-0005 workflow commit: 89d02f5a5c00364490bec844b0a35a3410407be7
+- M4B publication run: 35308643501 / job 105485896370 — SUCCESS
+- M4B targeted tests: 19 passed in 0.53s
+- M4B evidence artifact id: 10531779464
+- M4B artifact digest: sha256:37d8fdc7d2e3f705c62ec69ac3918197b508b0973e6908d7dad82522280d748b
+- exact HF1 full chain run: 35308957347 / job 105486817068 — SUCCESS
+- exact-chain HF2 tests: 107 passed in 0.75s
+- exact-chain evidence artifact id: 10531964842
+- exact-chain artifact digest: sha256:1ecd23e6e552eeceb92a952bd19151c2d5e056f8f00254d47430e0e58df6daba
+- exact HF1 base ZIP sha256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+- patch chain: 0001 -> 0002 -> 0003 -> 0004 -> 0005
+- live_runtime_touched=false
+- canonical_db_touched=false
+- certification_claim=false
+
+0005 mechanism now verified on the byte-exact HF1 runtime:
+1. Adds a separate persistent-but-nonsemantic SpeechActDevelopmentState; it is not cognitive memory, semantic truth, relationship state, owner preference, source-write authority, or deployment authority.
+2. Fresh/default state contains zero fabricated speech-act consequence observations.
+3. The unresolved-response selector is invoked only as an observational layer after native cognition.response and before existing conversation transport.
+4. Ordinary proof-supported answer flow is not automatically reclassified as a resolution act.
+5. It uses the already-computed post-closure native DKT core knot whose causal path includes Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT.
+6. It injects the existing InitiativePolicy._transport_transition, equal_affordance_post_manifold, dkt.sobolev_distance, and numerically_tied functions rather than an imitation metric.
+7. Programmed affordance eligibility has zero native-choice authority. Missing consequence observations, incomplete equal-affordance reference geometry, one infrastructure-forced affordance, or exact ties remain unresolved.
+8. M4B does not yet change outward transport and does not yet generate clarification/deference/question text.
+9. Existing express/continue-private communication policy remains a separate layer.
+10. Terra remains optional/downstream and has no new reasoning, answer, speech-act, memory, relationship, source-write, or deployment authority.
+
+Post-0005 exact-runtime SHA256 identities from run 35308957347:
+- src/noeron/inference.py = 9c55bb6753d12649aa8706e6e4d73d4dfab96606b3c6ed4eaddacc582df976a7
+- src/noeron/models.py = 23cdd70e86cf4114910048fb410ef58ad99de940e5b9cb52dd17256a626ffd06
+- src/noeron/orchestrator.py = 35f1fa63d2128ace2c0701d7a372c09000ca82d86d9b51b79549c3b286ec8a30
+- src/noeron/api.py = 7a01024bd5df7a96a3b92a144f6d60bbc1a2b90d0c08e744ec7f6bc5cbd09a85
+- src/noeron/math/models.py = eef4d3e87ee61da7797e69d773accf4aaa598d2c00139ee851e1e6bb7b6da455
+- src/noeron/reasoning.py = f8b32e87be66e1c53402fbf701c81fd69553907f76187f2cc5856e290cd0d9dc
+- src/noeron/math/kernel.py = 68602443e01b5a855e9d6d09593d5f7466fdbf2db4cf77f22e55a02f04174287
+- src/noeron/cognition/models.py = 2eddf455d57114495901c08884cc6ea00aa22b4cd6006727ec72d567191c6763
+- src/noeron/conversation_actions.py = 8bf890b90e95c1682b722453eac58ca2b257099147964aa4d645999d4f3e538d
+
+NEXT SMALL MILESTONE — 4C
+Build native resolution-content formation without canned fallback strings:
+- clarification/ask content must be composed from unresolved native alternatives/QUD/reference candidates already present in the current-turn native reasoning state;
+- defer/remain-silent must not invent semantic content;
+- expression of a selected act remains downstream of a native consequence decision;
+- exact ambiguity/ties remain visible and unresolved;
+- English remains observational egress only;
+- no owner/auth/transport state may be reinterpreted as preference or relationship;
+- gate against exact HF1 with 0001->0005 first, materialize a separate 0006 only after exact source tests are green.
