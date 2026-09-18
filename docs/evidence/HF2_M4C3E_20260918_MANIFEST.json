@@ -158,7 +158,21 @@
       "github_byte_equal": true
     },
     "candidate_continuation_id": "1-j8gAdzp_FF3LH634Ycq3RK-HhYLr0N9",
-    "root_continuation_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1"
+    "root_continuation_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+    "final_continuation": {
+      "id": "1yN_QJJlgyQ_vJQH-REoDkm-Wr8khmZhi",
+      "name": "CONTINUATION_STAGE8B_HF2_M4C3E_20260918.txt",
+      "raw_byte_equal": false,
+      "normalized_content_equal": true,
+      "normalization": "remove UTF-8 BOM; CRLF/CR -> LF; collapse exporter-added third newline at section boundaries"
+    },
+    "final_manifest": {
+      "id": "1qDuoF1EwWVVNqAMi6m2nc7iGnvTtAbuT",
+      "name": "HF2_M4C3E_20260918_MANIFEST.json",
+      "raw_byte_equal": false,
+      "normalized_content_equal": true,
+      "normalization": "remove UTF-8 BOM; CRLF/CR -> LF; restore final newline"
+    }
   },
   "scope": "Act-neutral unresolved QUD/proposition/proof content compatibility with ask and clarify while preserving independent learned native speech-act selection and ordinary-answer behavior until genuine native choice.",
   "limits": [
@@ -171,6 +185,7 @@
   "next": "M4C3F: define non-content local execution semantics/receipt for genuinely native-selected defer and remain-silent without empty-message fabrication, peer-delivery claims, or changes to ordinary answer and clarify/ask transport.",
   "continuation": {
     "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3E_20260918.txt",
-    "sha256": "73750f4ee2100df87209d36145966e3210d9daad50f7ce3659cdc9c5e4d2b47b"
+    "sha256": "8cbbeafbb38064d7f077bc31acf99c68c9f5ecae5b4758b398f8f6a681e99ae0",
+    "git_blob": "872add8493467e16dbfc3a679168ca58741765bf"
   }
 }
