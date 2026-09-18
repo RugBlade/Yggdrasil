@@ -25,8 +25,9 @@ jobs:
           mkdir -p "$FIX"
           unzip -q fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip -d "$FIX"
           python - <<'PY'
+          import os
           from pathlib import Path
-          root=Path("$RUNNER_TEMP/hf1-inspect")
+          root=Path(os.environ["RUNNER_TEMP"])/"hf1-inspect"
           needles=("class NativeProposition","class NativeThought","class NativeUtterance","def response(","def _native_realize(")
           for p in sorted((root/"src/noeron").rglob("*.py")):
               text=p.read_text(encoding="utf-8")
