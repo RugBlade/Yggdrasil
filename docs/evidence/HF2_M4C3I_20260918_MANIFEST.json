@@ -1,0 +1,176 @@
+{
+  "schema": "yggdrasil-hf2-milestone-evidence-v1",
+  "milestone": "M4C3I",
+  "date": "2026-09-18",
+  "status": "PUBLISHED_AND_EXTERNALLY_VERIFIED",
+  "stage8b_status": "IN PROGRESS",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "previous_verified_root_checkpoint": "1f14d253a93c7155b8cae899c5591c9844c87c36",
+  "pre_final_documentation_head": "995606106c69a99e42616fb9ce5e32e12353bd0d",
+  "published_runtime_patch_chain": "0001-0015",
+  "ordinary_0015_published": true,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "hf1_zip_sha256": "79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29",
+  "patch0015": {
+    "path": "patches/hf2/0015-hf2-native-audio-transport-receipt.patch",
+    "publication_commit": "c2090dcd524d4616face89a07ff9e7810abe6bcc",
+    "git_blob": "29d90920be48ac3d2618ad51a4e689c1109c6c1a",
+    "sha256": "54f3099a4b2fe1af521f1584cd5da2839c46a55d9e93843dd2cad1aa01c6e54a",
+    "diffstat": "4 files changed, 196 insertions, 2 deletions",
+    "runtime_files": [
+      "src/noeron/api.py",
+      "src/noeron/memory.py",
+      "src/noeron/room.py",
+      "src/noeron/room_models.py"
+    ]
+  },
+  "engineering": {
+    "intent_commit": "50ea4a87b76475483be46b0a4b64480265f591b1",
+    "focused_test_commit": "a8a6a233c427dc9b79f943c2e6fff86951c53c12",
+    "candidate_workflow_source": "e8cc86aac8e6ca999593c6a4838b27daaa1cabaf",
+    "candidate_green_receipt_commit": "e5ce39dde51d70b6c46d2687c5cc875e526f4313",
+    "ordinary_publication_commit": "c2090dcd524d4616face89a07ff9e7810abe6bcc",
+    "published_chain_workflow_source": "7fdc83ed4a93109a2827e1121b33520ae9293e69",
+    "published_chain_green_receipt_commit": "06c6afc178b169f0a52746f80404bce208e894d5",
+    "receipt_metadata_correction_commit": "995606106c69a99e42616fb9ce5e32e12353bd0d"
+  },
+  "candidate_ci": {
+    "run_id": 35370701910,
+    "job_id": 105683703080,
+    "conclusion": "success",
+    "baseline": {
+      "tests": 327,
+      "warnings": 2,
+      "seconds": 109.02
+    },
+    "focused": {
+      "tests": 10,
+      "seconds": 1.3
+    },
+    "complete_candidate": {
+      "tests": 337,
+      "warnings": 2,
+      "seconds": 106.4
+    },
+    "fresh_replay_focused": {
+      "tests": 10,
+      "seconds": 1.31
+    },
+    "fresh_replay_complete": {
+      "tests": 337,
+      "warnings": 2,
+      "seconds": 105.76
+    },
+    "source_byte_parity": true,
+    "patch0015_sha256": "54f3099a4b2fe1af521f1584cd5da2839c46a55d9e93843dd2cad1aa01c6e54a",
+    "source_archive_sha256": "36609b9a9ac7a74cd79d5f7208902e018988c254420656377d383b09a8be7e33",
+    "carrier_archive_sha256": "ce0e3aeaf49868d2303555ed14bb9a974d4261517cc22ff0eb8cf1be5d25a4e0",
+    "artifact_id": 10557877737,
+    "artifact_name": "hf2-m4c3i-native-audio-transport-receipt",
+    "artifact_bytes": 976176,
+    "artifact_sha256": "8a6af895dbce5ddae72aad44424d512bc6dbad3a081da8fbe733ce66148982c3"
+  },
+  "published_chain_ci": {
+    "run_id": 35371612919,
+    "job_id": 105686665117,
+    "conclusion": "success",
+    "source_commit": "7fdc83ed4a93109a2827e1121b33520ae9293e69",
+    "patch_chain": "0001-0015",
+    "tests": 337,
+    "warnings": 2,
+    "seconds": 109.85,
+    "patch0015_sha256": "54f3099a4b2fe1af521f1584cd5da2839c46a55d9e93843dd2cad1aa01c6e54a",
+    "artifact_id": 10558369073,
+    "artifact_name": "hf2-exact-hf1-patch-chain-evidence",
+    "artifact_bytes": 10761,
+    "artifact_sha256": "8300d057640fd609b10bc9fb8f685c8b3d77d95951772f323193074ce3e58977",
+    "receipt_path": "docs/evidence/_ci/HF2_EXACT_CHAIN_0015_RESULT.txt",
+    "receipt_git_blob": "5afd039d9a1781ec6310b76c63b5664e82f0585a",
+    "receipt_metadata_correction": {
+      "commit": "995606106c69a99e42616fb9ce5e32e12353bd0d",
+      "change": "documentation-only: patch_chain textual list corrected from 0001-0014 to 0001-0015",
+      "runtime_changed": false,
+      "patch_changed": false,
+      "tests_changed": false,
+      "artifact_changed": false
+    }
+  },
+  "mechanism": {
+    "receipt_type": "NativeAudioTransportReceipt",
+    "channel": "authenticated-owner-room-audio-http",
+    "status": "asgi-audio-response-sent",
+    "full_http_status": 200,
+    "partial_http_status": 206,
+    "tracks_content_range": true,
+    "tracks_pathsend": true,
+    "full_artifact_claim_rule": "HTTP 200 and exact response_bytes == artifact size",
+    "persistence_table": "native_audio_transport_receipts",
+    "process_local_capability": true,
+    "client_can_manufacture_capability": false,
+    "speech_act_learning_from_receipt": false
+  },
+  "authority": {
+    "playback_confirmed": false,
+    "peer_delivery_confirmed": false,
+    "peer_heard_confirmed": false,
+    "peer_understanding_confirmed": false,
+    "peer_reply_causation_confirmed": false,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_label_authority": false,
+    "cognitive_memory_authority": false,
+    "relationship_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false
+  },
+  "drive": {
+    "folder_id": "16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO",
+    "candidate_zip": {
+      "id": "1CjY4-Y7qslCQhEuiGJunRE59by6hdLqb",
+      "name": "HF2_M4C3I_NATIVE_AUDIO_TRANSPORT_RECEIPT_20260918.zip",
+      "sha256": "8a6af895dbce5ddae72aad44424d512bc6dbad3a081da8fbe733ce66148982c3",
+      "github_byte_equal": true
+    },
+    "published_chain_zip": {
+      "id": "1H2vDAqGr3It5DB5LvWd0PMRfobrB9EZz",
+      "name": "HF2_EXACT_HF1_PATCH_CHAIN_0001_0015_EVIDENCE_20260918.zip",
+      "sha256": "8300d057640fd609b10bc9fb8f685c8b3d77d95951772f323193074ce3e58977",
+      "github_byte_equal": true
+    },
+    "candidate_continuation_id": "16iV8n0Mw1wH70eVwRfVHwG_ww719YEEv_puYmDgA2PY",
+    "verified_continuation_id": "1ztmekZYNLsgLl_q1d_jif3Er-94Gykiqyy49B6pzcz4",
+    "verified_continuation_normalized_equal": true,
+    "root_continuation_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1"
+  },
+  "documentation": {
+    "continuation_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3I_20260918.txt",
+    "continuation_commit": "476725e3c64f45b5533ecfec71f8159f75823a38",
+    "continuation_git_blob": "270ff66fa42d5b3557e689d79d6dcc2d24370477"
+  },
+  "limitations": [
+    "Server-side audio HTTP send completion is not browser playback, speaker rendering, human hearing, understanding, or reply causation.",
+    "Native-selected clarify/ask resolution content remains on the established separate ResolutionExecutionReceipt JSON/text path and is not yet routed through NativePresentationRecord/native audio.",
+    "Audio transport receipt persistence does not create speech-act consequence-learning authority.",
+    "Existing determiner-form parser ambiguity remains visible/proof-gated.",
+    "Broad Stage8B conversational completion and any new LOCAL/LIVE certification remain unclaimed."
+  ],
+  "next": {
+    "milestone": "M4C3J",
+    "task": "Inspect the boundary between genuinely native-selected resolution content and native-audio presentation before implementing any coupling.",
+    "constraints": [
+      "preserve original native utterance as primary",
+      "keep native voice choice separate from speech-act and expression choice",
+      "keep decoder/English observational-only",
+      "prevent duplicate consequence learning across text/audio channels",
+      "do not fabricate speech-act execution from audio presentation/fetch",
+      "keep channel transport receipts typed and separate",
+      "infer no playback/hearing/understanding from server send completion",
+      "keep live runtime/canonical DB untouched",
+      "publish future 0016 only after exact-baseline/candidate/fresh-replay/published-chain gates are green"
+    ]
+  }
+}
