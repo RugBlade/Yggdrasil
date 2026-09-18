@@ -1,0 +1,246 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3O DESIGN CHECKPOINT
+Date: 2026-09-19 Asia/Qatar / 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3N is fully sealed as verification-only green.
+M4C3O begins design / verification-first.
+Published runtime remains exact HF1 + ordinary patches 0001 -> 0018.
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+Stage8B and Stage8 remain IN PROGRESS.
+
+PREVIOUS VERIFIED ROOT
+M4C3N root:
+abab8d3943b071c0d1bea024ef0dafa8e5888c9c
+
+M4C3N final artifact:
+Drive ID 1GC8Pz6sovnicke85yYqAZgC9DnX6VN5r
+SHA256 8b0541b868b2e49010f21663bb2405b5bc58790b4c0a81a64757d3c26a934b02
+
+M4C3O PURPOSE
+Return from completed browser/transport verification to the unresolved Stage8B language/reasoning surface.
+
+Bounded target:
+transparent clause-shape hygiene for language_dialogue event-candidate inventory, especially determiner-bearing noun phrases and copular surfaces.
+
+This milestone is NOT a semantic parser rewrite.
+It must only prevent demonstrably malformed grammatical event candidates from entering ambiguity/resolution inventory.
+
+NO 0019 IS AUTHORIZED AT START.
+Start verification-first.
+Publish a future 0019 only if the exact-post0018 candidate demonstrates a concrete runtime correction and all established external gates pass.
+
+EXACT SOURCE INSPECTED
+Source:
+the immutable M4C3N exact-post0018 source archive
+
+SHA256:
+d8a3622b80fcd478cb20923c5483d282edef9ba8c5798d7004228fdb0a6a5642
+
+Primary file:
+src/noeron/language_dialogue.py
+
+Relevant helper:
+_event_candidates(sentence)
+
+Related downstream inventory:
+- event_candidates
+- event_role_alternatives
+- ambiguities
+- resolution candidate formation in conversation_resolution.py
+
+Existing authority contract remains:
+event candidates are candidate-only grammatical structure.
+They never assert semantic truth.
+
+CONCRETE STRUCTURAL DEFECTS REPRODUCED
+The following were reproduced by a short disposable read-only probe against the exact post0018 source.
+
+1. Determiner-led copular declarative
+Input:
+The lamp is on.
+
+Current event inventory includes:
+- false ditransitive active candidate:
+  agent = the
+  predicate_surface = lamp
+  recipient_or_theme = is
+  theme_or_patient = on
+  ambiguity = ditransitive-role-order-candidate
+- correct copular candidate:
+  theme = the lamp
+  attribute_or_identity = on
+- false generic SVO candidate:
+  agent = the
+  predicate_surface = lamp
+  patient_or_theme = is on
+
+Therefore the known combined turn:
+The lamp is on. Is the lamp on?
+receives a fabricated event-role ambiguity even though the exact proposition query parser can otherwise represent the copular question.
+
+2. Determiner-led active declarative
+Input:
+The teacher opened the door.
+
+Current event inventory misreads:
+agent = the
+predicate_surface = teacher
+and creates both a false ditransitive ambiguity and a false generic SVO candidate.
+
+3. Direct object beginning with a determiner
+Input:
+Teacher opened the door.
+
+Current generic SVO candidate is usable, but the ditransitive regex also creates a false ditransitive ambiguity because the middle surface becomes:
+the
+
+A determiner must not itself become a recipient/theme candidate.
+
+4. Copular yes/no inversion
+Input:
+Is lamp on?
+
+Current event inventory can create an active-SVO-like candidate:
+agent = is
+predicate_surface = lamp
+patient_or_theme = on
+
+This is a clause-shape artifact, not a truth claim.
+The question already has explicit question-family/QUD representation.
+
+5. Passive control
+Input:
+The book was placed by Mira.
+
+Current passive candidate is clean and must remain unchanged.
+
+6. Genuine double-object control
+Input:
+Teacher gave Omar the book.
+
+Current grammar preserves ditransitive role alternatives.
+M4C3O must not collapse genuine structural ambiguity by semantic guessing or verb tables.
+
+ROOT CAUSE CLASSIFICATION
+The current candidate regexes treat whitespace tokens too directly as constituent boundaries.
+
+In particular:
+- a leading determiner can be captured as the whole subject while the noun is captured as the apparent verb;
+- a direct-object determiner can be captured as a standalone middle argument;
+- auxiliary-initial copular questions can be interpreted as ordinary active declaratives.
+
+This creates false grammatical ambiguity that later proof/resolution layers correctly refuse to hide.
+
+The downstream proof gate is therefore doing the safe thing.
+M4C3O should repair the upstream candidate inventory rather than weaken proof/ambiguity gating.
+
+DESIGN CONSTRAINTS
+A safe correction must remain transparent and structural.
+
+It may use:
+- existing determiner/function-word sets;
+- finite surface clause shape;
+- already-existing copular auxiliary recognition;
+- noun-phrase boundary grouping sufficient to prevent determiners from occupying verb/role slots.
+
+It must NOT use:
+- semantic verb-class tables to decide truth;
+- candidate ranking by lexical meaning;
+- LLM inference;
+- hidden answer selection;
+- authored preference weights;
+- parser labels as native speech-act choice;
+- canned clarification fallback.
+
+PROPOSED BOUNDED BEHAVIOR
+1. Recognize a transparent copular declarative surface before active ditransitive/SVO fallback can misconsume a determiner-led subject.
+2. Do not emit a generic active candidate that is merely a second incompatible parse of the same transparently copular clause.
+3. Prevent a determiner from being emitted as an independent recipient/theme/patient role candidate.
+4. Preserve a determiner-bearing noun phrase as a grammatical constituent for active SVO candidate formation.
+5. Prevent auxiliary-initial copular yes/no questions from generating a fake active-declarative event candidate solely from token order.
+6. Preserve real passive handling.
+7. Preserve genuine double-object ambiguity as alternatives when the surface actually supplies distinct non-function constituents.
+8. Keep all surviving candidates zero-authority grammatical inventory only.
+
+FOCUSED VERIFICATION TARGETS
+At minimum, exact post0018 tests should prove:
+
+A. "The lamp is on."
+- no fabricated ditransitive ambiguity;
+- no false predicate_surface=lamp active candidate;
+- one transparent copular candidate remains.
+
+B. "The lamp is on. Is the lamp on?"
+- event_role_alternatives contains no fabricated determiner-induced rows;
+- ambiguities contains no fabricated ditransitive-role-order row from the declarative;
+- existing exact proposition query/proof path is not weakened.
+
+C. "Lamp is on. Is lamp on?"
+- historical ambiguity-free control remains valid.
+
+D. "The teacher opened the door."
+- subject NP is not reduced to "the";
+- teacher is not reinterpreted as the verb;
+- no false ditransitive ambiguity.
+
+E. "Teacher opened the door."
+- "the" is never an independent recipient/theme alternative;
+- ordinary active candidate remains.
+
+F. "Teacher gave Omar the book."
+- genuine double-object structural alternatives remain preserved;
+- no semantic ranking resolves recipient/theme or theme/patient.
+
+G. "The book was placed by Mira."
+- passive candidate remains unchanged.
+
+H. auxiliary-initial copular question
+- no fake active declarative event candidate derived from "Is lamp on?".
+
+I. authority scan
+All event candidates and ambiguity rows retain zero:
+- semantic truth authority;
+- answer authority;
+- speech-act choice authority;
+- preference authority;
+- relationship authority;
+- cognitive-memory authority;
+- source-write authority;
+- deployment authority.
+
+EXTERNAL GATE PLAN
+If a correction is necessary:
+1. reconstruct byte-exact HF1;
+2. copy ORIGINAL HF2 carrier helper modules;
+3. apply published 0001 -> 0018 sequentially;
+4. prove unchanged published baseline first;
+5. apply the smallest candidate correction;
+6. run focused M4C3O tests;
+7. run complete HF2 candidate suite;
+8. reconstruct a separate fresh exact-HF1 replay;
+9. reapply 0001 -> 0018 + exact candidate;
+10. prove source-byte parity;
+11. rerun focused + complete replay;
+12. package hashes/source/evidence;
+13. publish ordinary 0019 only from exact green candidate bytes;
+14. run a separate published exact-HF1 0001 -> 0019 chain;
+15. mirror artifacts/continuation/manifest to Drive;
+16. leave live runtime and canonical DB untouched.
+
+NON-NEGOTIABLE ARCHITECTURE
+- Canonical cognition remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Parser/event candidate structure has zero truth/answer/native-choice authority.
+- Ambiguity must be removed only when the grammatical candidate itself is demonstrably malformed, never by semantic preference.
+- Genuine alternatives remain alternatives.
+- Native content, speech-act choice, expression/private continuation, execution evidence and later consequence learning remain separate.
+- SQLite remains persistence/provenance/audit, not cognition.
+- Terra remains optional/downstream.
+- Original native utterance remains primary; English/decoder remains observational/downstream.
+- No autoplay/browser-hearing expansion.
+- No microphone/camera work.
+- No Stage9/self-upgrade.
