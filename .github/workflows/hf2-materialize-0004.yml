@@ -18,7 +18,7 @@ on:
       - '.github/workflows/hf2-materialize-0004.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   materialize-and-verify:
@@ -95,6 +95,23 @@ jobs:
             tests/test_v082_hf2_runtime_proof_gate.py \
             tests/test_v082_hf2_reasoning.py \
             | tee 0004-runtime-tests.txt
+
+      - name: Commit verified generated 0004 patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET="patches/hf2/0004-hf2-proof-provenance-ambiguity-runtime-gate.patch"
+          cp 0004-generated.patch "$TARGET"
+          git diff --check -- "$TARGET"
+          if git diff --quiet -- "$TARGET"; then
+            echo "generated_0004_already_current=true"
+            exit 0
+          fi
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add "$TARGET"
+          git commit -m "Materialize deployable HF2 patch 0004 from verified intent"
+          git push origin HEAD:stage8B/v0.8.2-conversation-completion-hf2
 
       - name: Upload generated patch and evidence
         uses: actions/upload-artifact@v4
