@@ -1,0 +1,60 @@
+HF2 MILESTONE 4C2B CHECKPOINT — 2026-09-18
+
+Status: GREEN engineering checkpoint. Stage 8B remains IN PROGRESS. No local/live certification claim.
+
+Authoritative GitHub state:
+- branch: stage8B/v0.8.2-conversation-completion-hf2
+- corrected HF1 inspection run: 35309326996 / job 105487890794 — SUCCESS
+- owner/auth surface inspection commit: 933db950b8ce98bc7fde67341aaaadc54598fb31
+- owner/auth surface inspection run: 35311314745 / job 105493767007 — SUCCESS
+- grounded calibration carrier commit: e479dc4156b04ef6cbe687fd69606ea553600311
+- carrier calibration tests commit: 403fb9e4758f3a1a485a7e59664ea554cf5c0ebf
+- runtime 0007 intent commit: 074889f305e3f451e58ddc7f7f12678a9cc0ce55
+- exact-runtime M4C2B tests commit: 166b2c5db967476d1c9d40579851062a49f57b2f
+- M4C2B workflow commit: 455038d9c7ea3fd478d4ace91f10569805e4a5ab
+- verified deployable 0007 publication commit: 05a8705
+- M4C2B run: 35311542930 / job 105494442239 — SUCCESS
+- targeted M4C2B tests: 46 passed, 2 warnings, in 0.89s
+- M4C2B evidence artifact id: 10532899948
+- M4C2B artifact digest: sha256:3ce48fbcd3f5975f89a24ae7506cc0179fb485ee5acf31056d99b027014a58ca
+- exact-chain-through-0007 workflow commit: 227f7e442d67880552237131aff3b23b7991252e
+- exact HF1 full-chain run: 35311610712 / job 105494642069 — SUCCESS
+- exact HF1 complete HF2 tests: 144 passed, 2 warnings, in 1.56s
+- exact-chain evidence artifact id: 10534040094
+- exact-chain artifact digest: sha256:a9e0de754e677db8f70dd84353ec6491f643e7a3c6be4c30ce70cbef5ca05726
+- exact HF1 base ZIP sha256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+- patch chain: 0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007
+- post-0007 orchestrator SHA256: d692597d222afcd32bac978cf568ad0ce2bd9dc702e36b66fe3600080c9b15a6
+- post-0007 API SHA256: 8fc078c5d166d259167ac631fc928c0e62a535dcef9123edabd27d4293c04e37
+- live_runtime_touched=false
+- canonical_db_touched=false
+- certification_claim=false
+
+M4C2B mechanism:
+1. Added a dedicated authenticated owner-only /owner/resolution/calibrate exposure path.
+2. The operator supplies only the requested actuator name; clarification and ask content is read from the already-existing current structured ambiguity field and NativeThought.question_candidates.
+3. No fallback clarification/question sentence is authored. Clarify/ask do not execute when grounded content is absent.
+4. Defer and remain-silent are explicitly nonsemantic and author no content.
+5. Calibration is labeled operator-directed-calibration-not-native-choice and carries native_choice_claim=false, relationship_authority=false, preference_label_authority=false, content_authority=false, and transport_authority=false.
+6. Authentication grants operator execution authority only. It does not create preference, relationship meaning, answer authority, or native choice.
+7. A prior unresolved pending outcome blocks a new calibration; pending state is never silently overwritten.
+8. _mark_speech_act_pending runs only after the grounded/nonsemantic calibration exposure has actually executed.
+9. operator_calibration_observations is audit provenance only and is not consulted by the native consequence selector.
+10. The ordinary M4B selector remains observational and unchanged. Existing express/continue-private transport remains separate.
+11. Later post-state learning still passes through native consistency, DKT security-admissibility, and nonworsening gates from M4C2A.
+12. Terra remains optional/downstream and receives no new truth, answer, choice, memory, relationship, source-write, or deployment authority.
+
+Google Drive evidence folder: 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+- HF2_M4C2B_OWNER_RESOLUTION_CALIBRATION_20260918.zip: 1SQCuwWE-xdQbqWDxe-ceRDrilevanWRE
+- HF2_EXACT_HF1_PATCH_CHAIN_0001_0007_EVIDENCE_20260918.zip: 1H34yxKsFT3qKlAMuv8JyyDeIuZdJGP3A
+
+NEXT SMALL MILESTONE — 4C3
+Connect genuinely native-selected resolution acts to structured M4C1 content and the existing NativeLanguageFaculty/native realization path, without canned fallback strings. Preserve these boundaries:
+- only a unique learned consequence-geometry selection with native_choice_claim=true may enter native resolution realization;
+- exact ties/missing consequence geometry remain unresolved and execute nothing;
+- clarify/ask require already-grounded structured/native content;
+- defer/remain-silent author no semantic content;
+- ordinary proof-supported answers remain on their existing response path;
+- English remains deterministic observational egress only;
+- do not merge resolution selection with express/continue-private transport;
+- do not deploy live or claim certification.
