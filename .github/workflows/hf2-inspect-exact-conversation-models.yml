@@ -1,0 +1,40 @@
+name: HF2 Inspect Exact HF1 Conversation Models
+
+on:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - '.github/workflows/hf2-inspect-exact-conversation-models.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract exact HF1 source and print narrow symbols
+        shell: bash
+        run: |
+          set -euo pipefail
+          FIX="$RUNNER_TEMP/hf1-inspect"
+          mkdir -p "$FIX"
+          unzip -q fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip -d "$FIX"
+          python - <<'PY'
+          from pathlib import Path
+          root=Path("$RUNNER_TEMP/hf1-inspect")
+          needles=("class NativeProposition","class NativeThought","class NativeUtterance","def response(","def _native_realize(")
+          for p in sorted((root/"src/noeron").rglob("*.py")):
+              text=p.read_text(encoding="utf-8")
+              lines=text.splitlines()
+              for i,line in enumerate(lines):
+                  if any(n in line for n in needles):
+                      lo=max(0,i-8); hi=min(len(lines),i+70)
+                      print(f"===== {p.relative_to(root)}:{i+1} =====")
+                      for n in range(lo,hi):
+                          print(f"{n+1:05d}: {lines[n]}")
+          PY
