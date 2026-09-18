@@ -215,3 +215,64 @@ def choose_resolution_act(
         "candidate_distances": distances,
         "predicted_post_states": predicted,
     }
+
+
+def observe_resolution_transition(
+    state: object,
+    action: str,
+    pre_geometry: object,
+    post_geometry: object,
+    *,
+    admissible: bool,
+    mean_fn: Callable[[object | None, object, int], object],
+    source: str = "",
+) -> dict:
+    """Learn one actually observed speech-act consequence transition.
+
+    The caller supplies the native DKT averaging operation. This carrier does not
+    implement a substitute geometry, reward, preference label, or semantic score.
+    A transition can be learned only after the action was actually executed and a
+    later post-state was observed and admitted by the runtime's native consistency
+    and security gates.
+    """
+    action = str(action or "").strip()
+    if action not in RESOLUTION_AFFORDANCES:
+        raise ValueError(f"action must be one of {RESOLUTION_AFFORDANCES}")
+
+    base = {
+        "action": action,
+        "source": str(source or ""),
+        "semantic_truth_authority": False,
+        "answer_authority": False,
+        "speech_act_selection_authority": False,
+        "preference_label_authority": False,
+        "cognitive_memory_authority": False,
+        "relationship_authority": False,
+        "owner_preference_authority": False,
+        "source_write_authority": False,
+        "deployment_authority": False,
+        "learning_rule": "observed-admitted-native-DKT-pre-to-post-transition",
+    }
+    if not admissible:
+        return {
+            **base,
+            "learned": False,
+            "reason": "observed post-state was not admitted by native runtime gates",
+        }
+
+    n = int(state.action_observations.get(action, 0))
+    state.action_pre_knots[action] = mean_fn(
+        state.action_pre_knots.get(action), pre_geometry, n
+    )
+    state.action_post_knots[action] = mean_fn(
+        state.action_post_knots.get(action), post_geometry, n
+    )
+    state.action_observations[action] = n + 1
+    state.transition_observations = int(state.transition_observations) + 1
+    return {
+        **base,
+        "learned": True,
+        "observations": n + 1,
+        "transition_observations": int(state.transition_observations),
+        "authority": "empirical consequence geometry only; not owner-labeled or selection-trained preference",
+    }
