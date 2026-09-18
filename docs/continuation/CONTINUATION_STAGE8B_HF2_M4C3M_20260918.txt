@@ -1,0 +1,348 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3M VERIFIED CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3M: PUBLISHED AND EXTERNALLY VERIFIED.
+Published runtime is exact HF1 + ordinary patches 0001 -> 0018.
+Stage8B and Stage8 remain IN PROGRESS.
+ordinary_0018_published=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED ROOT
+M4C3L root checkpoint:
+55d7ff29460c05c33a2e56ba89148ea90d2a4914
+M4C3L published exact HF1 + 0001 -> 0017.
+
+M4C3M PURPOSE
+Verification-first inspection of authenticated private-Room client playback telemetry under network uncertainty, duplicate submission, server restart and Room-session rotation.
+
+A concrete defect was found in exact post0017:
+postClientMediaEvent() retried the HTTP 409 provenance race but a thrown fetch/network error exited immediately.
+If the server had already durably persisted playing but the HTTP response was lost, the browser could clear its playback_session_id and lose continuity to the matching ended event.
+
+The server-side telemetry substrate was already persistently idempotent, so the bounded repair is to retry the exact same payload and playback_session_id when response outcome is ambiguous.
+
+WHAT 0018 CHANGES
+Runtime file:
+src/noeron/api.py only
+
+Patch:
+patches/hf2/0018-hf2-client-media-network-retry.patch
+Intent:
+patches/hf2/0018-hf2-client-media-network-retry.intent.patch
+Intent/published Git blob:
+b58497f3a1c3fe9f5798322f5bfa88d84a412c4a
+SHA256:
+fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a
+Diffstat:
+1 file changed, 6 insertions, 2 deletions
+Publication commit:
+344d9c1bbc0483dba3fe54e8f474907a917b97d3
+Intent and published bytes:
+IDENTICAL
+
+Behavior:
+- payload and playback_session_id are formed before the retry loop and remain stable;
+- thrown fetch/network errors are retried, bounded by the existing 10-attempt loop;
+- response-body JSON-read failure is retried because server commit state can be uncertain;
+- HTTP 409 provenance races remain retryable;
+- explicit non-409 HTTP errors fail fast and are NOT retried as provenance races;
+- no autoplay;
+- no programmatic native-audio play();
+- no new client media event;
+- no model/store schema change;
+- no new cognitive/consequence-learning authority;
+- no hearing/listening inference.
+
+DESIGN CHECKPOINT
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3M_DESIGN_20260918.txt
+Commit:
+6eb9c68c78a8c8fb058961a5c491598f8dad10de
+Drive:
+1mYJpJJW8kQD_gT1nN_JOszwkMhrS8L8vKaW_u5JyAWg
+Normalized equality:
+VERIFIED
+
+CANDIDATE CHECKPOINT
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3M_CANDIDATE_20260918.txt
+Commit:
+e97193591df7efbaf07baa6773cab59bf9b3c86e
+Drive:
+1VlkVDAlWS5k4CsEQ_fHTHzFB73hrTP8q_TIlDVp9ZbA
+Normalized equality:
+VERIFIED
+
+FOCUSED TESTS
+Path:
+tests/hf2_m4c3m/test_client_media_retry_restart.py
+Initial commit:
+051f16dc3fbc71baad2e5076fd9f8d51137adaca
+
+Coverage includes:
+- network uncertainty retry reuses the same payload/playback identity;
+- uncertain response-body read retry;
+- explicit non-409 HTTP failure is not retried as provenance uncertainty;
+- no autoplay/programmatic play;
+- persistent playing/ended idempotency;
+- rotated Room session cannot end an earlier session-bound playback;
+- another owner device cannot end prior device-bound playback;
+- repeated transport receipts do not manufacture playback sessions;
+- retry/duplicate telemetry does not alter speech-act development state;
+- true new-process/same-SQLite restart preserves playing dedupe and ended sequencing;
+- all client telemetry authority flags remain false.
+
+HISTORICAL COMPATIBILITY-TEST CORRECTION
+M4C3L originally source-contract-tested the literal JavaScript substring:
+if(r.status!==409||attempt===9)
+
+M4C3M intentionally changes that implementation while preserving its semantic guarantee and adding network/body-read uncertainty retry.
+
+A first update over-tightened the old M4C3L test so exact post0017 baseline required M4C3M syntax before 0018 was applied.
+That was corrected.
+
+Final compatibility test commit:
+f0f641ff9af5a15783f18a40bd86a1670dbbc5c4
+
+Final historical test contract accepts either:
+- sealed M4C3L 409-only implementation; OR
+- M4C3M-compatible explicit-non409 + bounded retry implementation.
+
+Dedicated M4C3M tests alone require the new network/body-read retry semantics.
+
+FAILED / NON-AUTHORIZING ATTEMPTS
+These are retained as diagnostics and must never be cited as green publication evidence.
+
+Attempt 1:
+Run 35389596831
+Source 48416c7ea19466e0f69b48f743951833bd49c91e
+Baseline 373 PASS.
+Exact intent SHA/application PASS.
+Focused M4C3M 9 PASS.
+Complete candidate: 381 passed + 1 failure.
+Only failure: stale M4C3L literal-source assertion.
+Replay/publication correctly skipped.
+
+Diagnostic artifact:
+GitHub ID 10565386263
+ZIP SHA256:
+01f5c4e889ab2dd36768b28ab1749a7932922f7a7f1e2b9cd41aa59d14361996
+Drive:
+11cOWkyxndef6OhM5xDHJgaB1BYHbVkJa
+GitHub/Drive raw equality:
+VERIFIED
+This artifact is NON-GREEN evidence only.
+
+Attempt 2:
+Run 35390539804
+Source e3bbc2bea762de12b3c569aaee45e08e1c88bf2f
+Stopped at post0017 baseline with 372 passed + 1 failure because the historical M4C3L test had temporarily been changed to require new M4C3M syntax before the candidate patch was applied.
+No candidate application/publication authorization.
+Artifact ID 10565631847, SHA256 3e27fe84d6938a6354e018220724172cf02cf79b6460e4d76f2a88ca250ae0da.
+
+The same transient compatibility state also caused redundant historical workflow runs 35390513810 and 35390513848 to fail. They published no valid M4C3M runtime or receipt and do not change the verified baseline.
+
+AUTHORITATIVE M4C3M CANDIDATE
+Workflow:
+.github/workflows/hf2-milestone4c3m.yml
+Source commit:
+bddedac92573ef773bffe1b6bafd6daac7ecabd0
+Run:
+35390901864
+Job:
+105748769899
+Conclusion:
+SUCCESS
+
+Exact published post0017 baseline:
+373 passed, 2 warnings in 164.52s
+
+Focused M4C3M:
+9 passed in 2.49s
+
+Complete candidate:
+382 passed, 2 warnings in 167.41s
+
+Fresh exact-HF1 replay focused:
+9 passed in 2.56s
+
+Fresh exact-HF1 replay complete:
+382 passed, 2 warnings in 166.74s
+
+Candidate/replay source-byte parity:
+true
+
+Candidate receipt:
+docs/evidence/_ci/HF2_M4C3M_CANDIDATE_RESULT.txt
+Receipt commit:
+106af63cda7a0da400194a0a6e9d3bbd166904c9
+Git blob:
+af503e0681bd178e174e2cc20850536340fb777b
+
+Candidate post0018 source archive SHA256:
+9853ea2cbf882dbd7bc70a0b8fce1f024c3eb050d564b5cfea3e032265dfc7bc
+
+Candidate carrier archive SHA256:
+c2c792feb1326a926cea8565055f2d79bfca711f555e3bda80d8c4ecf8be2e18
+
+CANDIDATE ARTIFACT
+GitHub artifact:
+ID 10566332848
+Name hf2-m4c3m-client-media-network-retry
+Bytes 1071723
+ZIP SHA256:
+0ace192f99e76a09009c9bd24dc25a25464e8379340e8108a3d7f3dcfe7f750e
+
+Drive:
+HF2_M4C3M_CLIENT_MEDIA_NETWORK_RETRY_20260918.zip
+ID:
+14OaUqRaLb6E3qdAoI24dsScj-xdKVZiQ
+SHA256:
+0ace192f99e76a09009c9bd24dc25a25464e8379340e8108a3d7f3dcfe7f750e
+GitHub/Drive raw equality:
+VERIFIED
+
+ORDINARY 0018 PUBLICATION
+Commit:
+344d9c1bbc0483dba3fe54e8f474907a917b97d3
+
+Published path:
+patches/hf2/0018-hf2-client-media-network-retry.patch
+
+Published Git blob:
+b58497f3a1c3fe9f5798322f5bfa88d84a412c4a
+
+Intent Git blob:
+b58497f3a1c3fe9f5798322f5bfa88d84a412c4a
+
+Exact candidate-byte equality:
+VERIFIED
+
+PUBLICATION RECEIPT
+Path:
+docs/evidence/_ci/HF2_M4C3M_PUBLICATION_RESULT.txt
+Commit:
+273aafae4ec59d1d1b9950f86f7ff17af2a87d0b
+
+PUBLISHED EXACT-HF1 CHAIN THROUGH 0018
+Workflow:
+.github/workflows/hf2-exact-hf1-patch-chain.yml
+Workflow/source commit:
+44cbe818e293becd5ffc2fb0602595f3662e3ea9
+Run:
+35392043131
+Job:
+105752376375
+Conclusion:
+SUCCESS
+
+Verified:
+- byte-exact HF1 reconstruction PASS;
+- ORIGINAL carrier helpers copied before patches PASS;
+- 0001 through 0018 each git apply --check + apply PASS;
+- patched runtime compilation PASS;
+- exact runtime dependencies PASS;
+- complete HF2 suite including M4C3M: 382 passed, 2 warnings in 128.11s;
+- patch_chain evidence exactly 0001,...,0017,0018;
+- patch0018 SHA exactly fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a;
+- authority-boundary evidence PASS;
+- receipt publication PASS.
+
+Published exact-chain receipt:
+docs/evidence/_ci/HF2_EXACT_CHAIN_0018_RESULT.txt
+Receipt commit / post-run HEAD:
+11c451eb87e3103df2a9a180820f742baed7b146
+Receipt Git blob:
+bc9b42283a85a0279fb2cc1b7cac791349d36850
+
+PUBLISHED-CHAIN ARTIFACT
+GitHub artifact:
+ID 10565744727
+Name hf2-exact-hf1-patch-chain-evidence
+Bytes 12217
+ZIP SHA256:
+04f4c28ea1f2029143e34b86e11c4a192e114f58e7f65b409b839924bbbc6f6c
+
+Drive:
+HF2_EXACT_HF1_PATCH_CHAIN_0001_0018_EVIDENCE_20260918.zip
+ID:
+1y3VeNphwwxaTJglrt3-56Iekj4ZrAii9
+SHA256:
+04f4c28ea1f2029143e34b86e11c4a192e114f58e7f65b409b839924bbbc6f6c
+GitHub/Drive raw equality:
+VERIFIED
+
+SERVER-SIDE PROPERTIES VERIFIED / PRESERVED
+- telemetry dedupe remains durable in SQLite;
+- logical identity includes presentation, artifact, owner device, exact Room-session SHA256, playback_session_id and event;
+- ended requires prior playing from the same identity;
+- renewed session cannot close old session-bound playback;
+- another device cannot close prior device-bound playback;
+- same-database new-process restart can recover playing/dedupe provenance without cognitive authority;
+- transport receipts alone do not create client playback sessions;
+- duplicate/retried client events do not train speech-act consequence geometry.
+
+AUTHORITY BOUNDARY
+client_media_telemetry_only=true
+client_network_uncertainty_retry=true
+same_playback_identity_reused=true
+explicit_non409_http_retry=false
+autoplay_added=false
+client_media_event_trains_speech_act=false
+audible_output_confirmed=false
+peer_delivery_confirmed=false
+peer_heard_confirmed=false
+peer_understanding_confirmed=false
+peer_reply_causation_confirmed=false
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_label_authority=false
+cognitive_memory_authority=false
+relationship_authority=false
+source_write_authority=false
+deployment_authority=false
+
+NON-NEGOTIABLE ARCHITECTURE
+- Canonical cognition remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Browser media telemetry remains downstream provenance only.
+- Client media events never become speaker-output or human-hearing proof.
+- Native content, speech-act choice, expression/private-continuation, native voice, presentation, transport, client telemetry and later outcome learning remain distinct.
+- Authentication grants objective owner/device authority only and zero preference/familiarity/relationship meaning.
+- Original native utterance remains primary; decoder/English remains observational/downstream.
+- SQLite remains persistence/provenance/audit/integrity substrate, not cognitive retrieval.
+- Terra remains optional/downstream.
+- Live runtime and canonical DB remain untouched.
+- No Stage9/self-upgrade.
+
+KNOWN LIMITATIONS
+- Source-contract tests verify the keyed audio DOM logic, but a real browser-engine lifecycle has not yet been exercised.
+- playing/ended still prove only media-element state, not speaker output or human hearing.
+- Arbitrary browser crash/power-loss behavior is not certified.
+- Existing determiner-form parser ambiguity remains visible/proof-gated.
+- Broad conversational completion and new LOCAL/LIVE certification remain unclaimed.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3N
+Verification-first real browser-engine integration of the private Room's stable keyed native-audio DOM + authenticated playback telemetry.
+
+Start verification-only. Do NOT create ordinary 0019 unless a concrete runtime defect is demonstrated.
+
+Bounded targets:
+1. use an isolated browser test harness against a disposable exact-post0018 Room runtime;
+2. prove the same HTMLAudioElement survives unrelated WebSocket snapshot/journal/transport/telemetry updates;
+3. exercise play -> pause/resume -> ended without manufacturing duplicate playback sessions;
+4. exercise reload/session rotation and verify old playback identity cannot be closed by a new session;
+5. verify network uncertainty retries use the same playback_session_id in the actual browser;
+6. verify 401/403/422/500 explicit responses do not enter the provenance-retry loop;
+7. verify no autoplay/programmatic play appears;
+8. keep all hearing/listening/understanding/reply-causation/native-choice/preference/relationship/cognitive-memory authority false.
+
+If browser integration exposes only safe existing behavior, seal M4C3N verification-only with no 0019.
+If a real defect appears, patch only that defect through exact baseline + focused candidate + complete candidate + fresh replay + separate published-chain CI.
+
+Do not broaden M4C3N into microphone/camera surveillance, speaker-output inference, human-hearing inference, generic multimodal conversation, Stage9 or self-upgrade.
