@@ -1,0 +1,16 @@
+milestone=M4C3E-published-chain
+status=GREEN
+run_id=35339074903
+run_attempt=1
+workflow_ref=RugBlade/Yggdrasil/.github/workflows/hf2-exact-hf1-patch-chain.yml@refs/heads/stage8B/v0.8.2-conversation-completion-hf2
+source_commit=28eb871dbe75b4e80ea15ede9ccbef6338247e9b
+source_branch=stage8B/v0.8.2-conversation-completion-hf2
+job_name=exact-hf1-patch-chain
+base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012
+patch0012_sha256=d8feb362a4eb652fe7451f27553dc2bab2c15ecc1f1ca7ce27170ef79170fe38
+test_summary=291 passed, 2 warnings in 19.32s
+certification_claim=false
+live_runtime_touched=false
+canonical_db_touched=false
+ordinary_0012_published=true
