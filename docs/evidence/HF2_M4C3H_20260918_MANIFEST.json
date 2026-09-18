@@ -1,0 +1,142 @@
+{
+  "schema": "yggdrasil-hf2-milestone-evidence-v1",
+  "milestone": "M4C3H",
+  "date": "2026-09-18",
+  "status": "VERIFICATION_ONLY_GREEN_EXTERNALLY_VERIFIED",
+  "stage8b_status": "IN PROGRESS",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "previous_root_checkpoint": "72c14bbe13dc6a26fcf39c30d433f642cc7f33d0",
+  "pre_documentation_head": "7619f9a0438ccf752ae2d32a7eccb0ca9f484e7b",
+  "dedicated_continuation_commit": "6811c8ec572e44b20ed08c56ce7e3ea0eb818d7f",
+  "verification_source_commit": "f1956d61d8e5cff29cdcad74056ae48f93437d7d",
+  "green_receipt_commit": "7619f9a0438ccf752ae2d32a7eccb0ca9f484e7b",
+  "published_runtime_patch_chain": "0001-0014",
+  "ordinary_0015_published": false,
+  "runtime_source_changed": false,
+  "authority": {
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_label_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_runtime_authority": false,
+    "deployment_authority": false,
+    "peer_delivery_confirmed": false,
+    "peer_read_confirmed": false,
+    "peer_understanding_confirmed": false,
+    "peer_reply_causation_confirmed": false
+  },
+  "hf1_zip_sha256": "79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29",
+  "patch0014": {
+    "path": "patches/hf2/0014-hf2-same-db-restart-recovery.patch",
+    "sha256": "28088fc61ee9fe59a6b2bd8dcfcf1a9185d8bcf1481ea2a7f922e68dc5669819",
+    "git_blob": "fb9d8fee1890d2e15a4fe1c34c5a88f0af78a0a0"
+  },
+  "tests": {
+    "path": "tests/hf2_m4c3h/test_crash_window_atomicity.py",
+    "commit": "f658c026adbc68e35dfde75b4b39f6753b798cc1",
+    "sha256": "f01355c3c4135648efb79c433468cf7f861efa2029a3d3a6284c7925282064ca",
+    "focused_case_count": 7,
+    "mechanism": "isolated SQLite databases + brand-new subprocesses + os._exit hard-exit boundaries"
+  },
+  "workflow": {
+    "path": ".github/workflows/hf2-milestone4c3h.yml",
+    "initial_commit": "556e8249824d5bb293a61d8acb1a182108349f2f",
+    "corrected_manifest_commit": "bc60d33d5d386e819236f973a6bbe5c3adcc9348",
+    "authoritative_source_commit": "f1956d61d8e5cff29cdcad74056ae48f93437d7d"
+  },
+  "ci": {
+    "run_id": 35367927674,
+    "job_id": 105674765518,
+    "conclusion": "success",
+    "baseline": {
+      "tests": 320,
+      "warnings": 2,
+      "seconds": 66.89
+    },
+    "focused": {
+      "tests": 7,
+      "seconds": 38.29
+    },
+    "complete": {
+      "tests": 327,
+      "warnings": 2,
+      "seconds": 114.66
+    },
+    "replay_focused": {
+      "tests": 7,
+      "seconds": 37.39
+    },
+    "replay_complete": {
+      "tests": 327,
+      "warnings": 2,
+      "seconds": 98.03
+    },
+    "source_byte_parity": true,
+    "verification_only": true,
+    "ordinary_0015_published": false,
+    "artifact_id": 10556809105,
+    "artifact_bytes": 948474,
+    "artifact_sha256": "17ffc4544f2e0701a404708d15faac7b29d804b2d1c642627a85b00093dce24e",
+    "source_archive_sha256": "b6d4230b1d5d98c50634639f9c4f00e333e319ee1fec24e0fbc52aa739ab99dd",
+    "carrier_archive_sha256": "f26d68fe15948b5e5b0becdf3e8b5468bc4cf06f1c970db0e9990c585ec01537"
+  },
+  "hard_exit_cases": [
+    "content termination inside terminal ASGI body send before send completion",
+    "content send completion followed by termination before durable receipt append",
+    "content termination immediately after durable receipt append",
+    "defer termination before durable receipt append",
+    "remain-silent termination before durable receipt append",
+    "defer termination immediately after durable receipt append",
+    "remain-silent termination immediately after durable receipt append"
+  ],
+  "verified_semantics": [
+    "no durable receipt means no consequence-learning authority",
+    "absence of durable receipt after a content-send uncertainty window is not evidence of no send",
+    "process-local dispatch capability does not survive restart",
+    "restart does not automatically resend pre-crash content",
+    "durable content receipt restores linked pending provenance and can be consumed at most once",
+    "durable non-content receipt restores no-content pending provenance, blocks duplicate local execution, and can be consumed at most once",
+    "restart/receipt machinery grants no semantic truth, native choice, preference, relationship, cognitive-memory, source-write or deployment authority"
+  ],
+  "runtime_source_sha256": {
+    "src/noeron/memory.py": "6fad8ec2ee486fc7ad86033f2e7f5c7ce93d50150a94bf468c445b10046f4935",
+    "src/noeron/orchestrator.py": "e98c930b513275224ecbb4b68c55d1be7f8758024be539e763d9a64d7747969b",
+    "src/noeron/inference.py": "9c55bb6753d12649aa8706e6e4d73d4dfab96606b3c6ed4eaddacc582df976a7",
+    "src/noeron/models.py": "a91dfaeb3e11a3a5109044183c931ca50409931844d3b467f07b92632d3780b7",
+    "src/noeron/api.py": "115584fb3f1908b931040063a4d607f2cb6bf9a1ddeaf3500f5a9c34cc76681d"
+  },
+  "drive": {
+    "folder_id": "16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO",
+    "candidate_continuation_id": "1Jw664cnC7m8pUm9_vbzNhnBl-OGcQtaQ6-RO4rKprOg",
+    "evidence_zip": {
+      "id": "1_BaNnz4Ln9yFl7FY_JFznDbj7jr0ZDtU",
+      "name": "HF2_M4C3H_CRASH_WINDOW_ATOMICITY_VERIFICATION_20260918.zip",
+      "sha256": "17ffc4544f2e0701a404708d15faac7b29d804b2d1c642627a85b00093dce24e",
+      "github_byte_equal": true
+    },
+    "verified_continuation_id": "1r-qtESAfNCKqbGsuDkfMbYJBWYlxDF9s_4IwBdU74ak",
+    "verified_continuation_normalized_content_equal": true,
+    "root_continuation_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1"
+  },
+  "documentation": {
+    "continuation_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3H_20260918.txt",
+    "continuation_git_blob": "b57eff3a9c4895754235f6e003d78c7ba73473f5",
+    "continuation_commit": "6811c8ec572e44b20ed08c56ce7e3ea0eb818d7f",
+    "green_receipt_path": "docs/evidence/_ci/HF2_M4C3H_VERIFICATION_RESULT.txt",
+    "green_receipt_git_blob": "fcdab01c7cb4b94353ae2167e3580de5ac793907"
+  },
+  "limits": [
+    "M4C3H verifies seven explicit hard-exit windows and does not prove arbitrary OS/kernel/filesystem/power-loss failure modes.",
+    "SQLite history-scan performance for very long-lived histories remains uncharacterized.",
+    "Native audio and other non-HTTP content execution receipt adapters remain unimplemented.",
+    "Existing determiner-form parser ambiguity remains visible/proof-gated.",
+    "Stage8B remains IN PROGRESS with no new LOCAL/LIVE certification."
+  ],
+  "next": "M4C3I: inspect and, only if necessary, implement the first non-HTTP content execution adapter (preferably native-audio presentation/receipt semantics) while preserving original native utterance, observational-only decoder/English egress, independent native expression choice, zero peer-uptake inference, and all existing authority boundaries."
+}
