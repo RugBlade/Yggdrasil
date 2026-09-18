@@ -1,0 +1,45 @@
+name: HF2 Exact HF1 Fixture Identity
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'fixtures/hf1_exact/**'
+      - 'scripts/verify_hf1_exact_fixture.py'
+      - '.github/workflows/hf2-exact-hf1-fixture.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-exact-hf1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify byte-exact HF1 package and affected runtime files
+        run: |
+          python scripts/verify_hf1_exact_fixture.py \
+            --extract-dir /tmp/ygg-hf1-exact \
+            --evidence hf1-exact-identity-evidence.json
+
+      - name: Compile verified affected runtime files
+        run: |
+          python -m compileall -q \
+            /tmp/ygg-hf1-exact/src/noeron/inference.py \
+            /tmp/ygg-hf1-exact/src/noeron/models.py \
+            /tmp/ygg-hf1-exact/src/noeron/orchestrator.py \
+            /tmp/ygg-hf1-exact/src/noeron/api.py \
+            /tmp/ygg-hf1-exact/src/noeron/math/models.py \
+            /tmp/ygg-hf1-exact/src/noeron/reasoning.py \
+            /tmp/ygg-hf1-exact/src/noeron/math/kernel.py
+
+      - name: Upload identity evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-exact-hf1-identity-evidence
+          path: hf1-exact-identity-evidence.json
+          if-no-files-found: error
