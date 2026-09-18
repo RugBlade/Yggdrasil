@@ -1,3 +1,53 @@
+CURRENT ENGINEERING CANDIDATE — M4C3E / 0012 INTENT — CI PENDING — 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+THIS BLOCK IS NOT A VERIFIED/PUBLISHED MILESTONE.
+Latest verified durable milestone remains M4C3D below.
+Stage8B remains IN PROGRESS.
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+Candidate intent:
+patches/hf2/0012-hf2-act-neutral-alternative-resolution.intent.patch
+Intent SHA256:
+69536a8b5f98664959e2db92efbc5d8ac9d800a07d059dd7002530bbb2e2d13e
+Corrected GitHub Actions candidate source commit:
+a59b85abd8e6afa5a8204a9d1bee43ef89e7c942
+Candidate workflow:
+.github/workflows/hf2-milestone4c3e.yml
+New tests:
+tests/hf2_m4c3e/test_act_neutral_alternative_routing.py
+
+Dedicated candidate continuation:
+GitHub: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3E_CANDIDATE_20260918.txt
+Drive ID: 1-j8gAdzp_FF3LH634Ycq3RK-HhYLr0N9
+GitHub commit creating candidate continuation:
+4dcea7284805db58c1c0a7e1b09083e12d9f8695
+
+No ordinary 0012 has been published.
+Do not extend the published patch chain beyond 0011 unless the M4C3E candidate AND separate fresh replay are green.
+
+Candidate design in one sentence:
+QUD/proposition/proof alternatives become act-neutral carriers compatible with BOTH ask and clarify; their existence can make both actuators feasible, but only learned native consequence geometry may select an act, and an ordinary multiple-answer response is superseded only after such a genuine native choice.
+
+Short local smoke checks only:
+- candidate compileall: PASS
+- new focused tests: 5 passed
+- adjacent existing action + M4C3D tests: 17 passed
+These are not CI, certification, or publication evidence.
+
+An intermediate workflow draft commit b294cb7739327df1f9953dbf943ebf01e21357e3 was found to contain stale/malformed evidence paths and is SUPERSEDED. It must not be used as validation evidence.
+
+NEXT:
+Inspect the actual GitHub Actions result for a59b85abd8e6afa5a8204a9d1bee43ef89e7c942.
+If it fails, repair and rerun without publishing 0012.
+If candidate + fresh replay are green, publish only the CI-generated 0012, extend the exact chain, preserve evidence in Drive, and replace this candidate block with a verified M4C3E checkpoint.
+
+The verified M4C3D checkpoint follows immediately below.
+
+
 LATEST VERIFIED CHECKPOINT — M4C3D / PUBLISHED 0011 — 2026-09-18 UTC
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
