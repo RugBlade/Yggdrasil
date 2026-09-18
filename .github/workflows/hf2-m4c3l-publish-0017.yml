@@ -1,0 +1,78 @@
+name: HF2 M4C3L - publish green 0017
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - '.github/workflows/hf2-m4c3l-publish-0017.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish-exact-green-patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Reconstruct exact post0016 runtime and regenerate tested bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          FIX="$RUNNER_TEMP/ygg-hf1-m4c3l-publish"
+          python scripts/verify_hf1_exact_fixture.py --extract-dir "$FIX" --extract-all             --evidence "$RUNNER_TEMP/hf1-exact-identity-evidence.json"
+          for f in             conversation_premises.py conversation_bridge.py conversation_reasoning.py             conversation_proof.py conversation_runtime_gate.py conversation_actions.py             conversation_resolution.py
+          do
+            cp "src/noeron/$f" "$FIX/src/noeron/$f"
+          done
+          cd "$FIX"
+          git init -q
+          for p in             0001-hf2-inference-core.patch             0002-hf2-current-turn-runtime-bridge.patch             0003-hf2-native-bounded-dialogue-reasoning.patch             0004-hf2-proof-provenance-ambiguity-runtime-gate.patch             0005-hf2-native-resolution-state-audit.patch             0006-hf2-speech-act-consequence-learning.patch             0007-hf2-owner-resolution-calibration.patch             0008-hf2-calibration-execution-boundary.patch             0009-hf2-native-resolution-content.patch             0010-hf2-native-resolution-transport-receipt.patch             0011-hf2-typed-current-turn-alternative-content.patch             0012-hf2-act-neutral-alternative-resolution.patch             0013-hf2-local-noncontent-execution-receipt.patch             0014-hf2-same-db-restart-recovery.patch             0015-hf2-native-audio-transport-receipt.patch             0016-hf2-resolution-native-audio-presentation.patch
+          do
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+          done
+          cd "$GITHUB_WORKSPACE"
+          GENERATED="$RUNNER_TEMP/0017-hf2-authenticated-client-playback-telemetry.patch"
+          python scripts/materialize_hf2_m4c3l_0017_intent.py             --tree "$FIX" --output "$GENERATED"
+          GOT="$(sha256sum "$GENERATED" | awk '{print $1}')"
+          test "$GOT" = "8aa84fe086d090fabb84b7289aa9c8d7080eeabe5cd3a446b73f3c330b0bd40a"
+          test ! -e patches/hf2/0017-hf2-authenticated-client-playback-telemetry.patch
+          cp "$GENERATED" patches/hf2/0017-hf2-authenticated-client-playback-telemetry.patch
+          test "$(sha256sum patches/hf2/0017-hf2-authenticated-client-playback-telemetry.patch | awk '{print $1}')" = "$GOT"
+
+      - name: Commit exact candidate bytes as ordinary 0017
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/evidence/_ci
+          cat > docs/evidence/_ci/HF2_M4C3L_PUBLICATION_RESULT.txt <<EOF
+          milestone=M4C3L
+          status=PUBLISHED_FROM_GREEN_CANDIDATE
+          source_commit=$GITHUB_SHA
+          source_branch=$GITHUB_REF_NAME
+          candidate_run_id=35383948748
+          candidate_job_id=105726332606
+          candidate_receipt_commit=f64734102f66a669fc31da603601fb3316b2d6d2
+          patch0017_sha256=8aa84fe086d090fabb84b7289aa9c8d7080eeabe5cd3a446b73f3c330b0bd40a
+          ordinary_0017_published=true
+          exact_candidate_bytes=true
+          live_runtime_touched=false
+          canonical_db_touched=false
+          certification_claim=false
+          EOF
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add patches/hf2/0017-hf2-authenticated-client-playback-telemetry.patch             docs/evidence/_ci/HF2_M4C3L_PUBLICATION_RESULT.txt
+          git commit -m "hf2: publish green 0017 authenticated client playback telemetry [skip ci]"
+          git fetch origin "$GITHUB_REF_NAME"
+          git rebase "origin/$GITHUB_REF_NAME"
+          test "$(sha256sum patches/hf2/0017-hf2-authenticated-client-playback-telemetry.patch | awk '{print $1}')" =             "8aa84fe086d090fabb84b7289aa9c8d7080eeabe5cd3a446b73f3c330b0bd40a"
+          git push origin "HEAD:$GITHUB_REF_NAME"
