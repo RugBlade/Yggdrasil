@@ -1,97 +1,174 @@
-YGGDRASIL / NOERON STAGE8B HF2 M4C3C — CANDIDATE VERIFIED; PUBLICATION GATE PENDING
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3C VERIFIED CHECKPOINT
 Date: 2026-09-18 UTC
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
-Stage8B and Stage8 IN PROGRESS.
+Stage8B and Stage8 overall: IN PROGRESS.
 live_runtime_touched=false
 canonical_db_touched=false
 certification_claim=false
 
-The exact-HF1 candidate is green. This commit publishes only the ordinary patch emitted by that green GitHub Actions run and extends the published-chain gate. Do not infer that the publication gate has passed until its actual run is inspected and the continuation is updated.
+READ THIS FIRST
+Continue from the published exact-HF1 patch chain 0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010.
+0010: patches/hf2/0010-hf2-native-resolution-transport-receipt.patch
+This is a bounded engineering milestone. It does not establish broad conversational completeness, peer delivery, live behavior, or certification.
+The repository is a carrier, not a complete deployable runtime. Reconstruct the byte-exact HF1 fixture plus the ORIGINAL carrier helpers and the ordered patches. Do not replace the carrier helpers with post-patch runtime copies before replay.
+Preserve all prior patches, continuation files, evidence, and authority boundaries. Do not touch the live server or canonical database.
+This work is owner-directed engineering, not Yggdrasil choosing to engineer or deploy.
 
-Candidate commit: a5f8f3118bc9dbc4360513f555b490d3e6dbfbbe
-Candidate run: 35328426092
-Candidate job: 105546873717
+VERIFIED STATE AND COMMITS
+Previous verified documentation HEAD: 2595a67248f24547d6d4f49cd4de8b79e27357b8.
+Previous 0009 runtime publication: 7cbf7169350e082fc0ba0b4a61772bd291cded8f.
+M4C3C candidate commit: a5f8f3118bc9dbc4360513f555b490d3e6dbfbbe.
+0010 publication and exact-chain workflow commit: 597e7879a4a49601f2dcc754daba8010a98f5a20.
+Deployable patch Git blob: 5df7c46187009902020c9f9e50d1040e18d0231f.
+The final documentation-only checkpoint commit follows this runtime publication; obtain its identity from the branch history. CI assertions below belong to the explicitly named candidate/publication commits, not an untested later source change.
+
+EXACT BASE AND PATCH
+HF1 ZIP: fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip
+HF1 SHA256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+0010 SHA256: 6b21a00c98efea737dec9cfc907dd2f3f0203566f8ec36f2458b9450d2d3b017
+0010 changes four runtime files: src/noeron/api.py, src/noeron/cognition/models.py, src/noeron/models.py, src/noeron/orchestrator.py.
+Diffstat: 225 insertions, 15 deletions.
+No changes to IRG/DKT/EGR/RL/Frenet algorithms, original carrier helpers, native proof machinery, language formation, or deterministic English egress in this patch.
+Full patch-chain SHA256 and all 58 runtime source hashes are in docs/evidence/HF2_M4C3C_20260918_MANIFEST.json.
+
+EXTERNAL VALIDATION — ACTUAL LOGS AND ARTIFACTS INSPECTED
+Candidate workflow: .github/workflows/hf2-milestone4c3c.yml
+Run: 35328426092
+Job: 105546873717
+URL: https://github.com/RugBlade/Yggdrasil/actions/runs/35328426092
 Conclusion: SUCCESS.
-Baseline through 0009: 228 passed, 2 warnings.
-Candidate 0010: 278 passed, 2 warnings.
-Separate fresh HF1 full replay 0001-0010: 278 passed, 2 warnings.
-Candidate/replay changed source bytes match.
-Artifact: 10539484032
+Exact-HF1 0001-0009 baseline: 228 passed, 2 warnings, 9.47s.
+Candidate: 278 passed, 2 warnings, 17.47s.
+Only after candidate green did Actions materialize the ordinary deployable 0010 patch.
+A separate fresh exact-HF1 extraction then applied 0001-0010, confirmed candidate/replay source byte parity, and passed 278 tests, 2 warnings, 17.63s.
+JUnit: zero failures, errors, or skips in all three runs.
+Candidate artifact: 10539484032
+Artifact name: hf2-m4c3c-native-resolution-transport-receipt
+Artifact bytes: 842433
 Artifact ZIP SHA256: b8b2d680e3d57598980a58f3b6053168d8b9966f44f9ced24c4274ecc48394c3
-Artifact ZIP bytes: 842433
-Generated patch: patches/hf2/0010-hf2-native-resolution-transport-receipt.patch
-Patch SHA256: 6b21a00c98efea737dec9cfc907dd2f3f0203566f8ec36f2458b9450d2d3b017
+Downloaded artifact SHA, generated patch SHA, source/carrier archive SHAs, all 58 source file hashes, and the four changed candidate source bytes were verified.
 Source archive: m4c3c-exact-post0010-source.tar.gz
 Source archive SHA256: 058ee5536285fdfdcdd99163ea58d908e5db29ff2b17dc7eeec302959af31799
+Carrier archive: m4c3c-carrier-evidence.tar.gz
 Carrier archive SHA256: 13cd3d6c6aeda11fd5efb5943fdefd17bc92550126a75a8a6c212a90522d40fe
 
-Downloaded artifact ZIP and all three above SHA256 values verified. JUnit inspected: baseline 228, candidate 278, replay 278; failures/errors/skips all zero. Four changed runtime files from source archive match prepared candidate byte for byte.
-Ordinary 0010 was generated externally only after candidate green. No local test run, no live runtime or canonical DB access.
+Published-chain workflow: .github/workflows/hf2-exact-hf1-patch-chain.yml
+Run: 35329125908
+Job: 105549112061
+URL: https://github.com/RugBlade/Yggdrasil/actions/runs/35329125908
+Publication commit: 597e7879a4a49601f2dcc754daba8010a98f5a20
+Conclusion: SUCCESS. Actual CHECK/APPLIED output for each 0001 through 0010 inspected.
+Compilation and dependency installation passed.
+Published exact-chain tests: 278 passed, 2 warnings, 81.11s.
+JUnit: zero failures, errors, or skips.
+The warnings are deprecations in Starlette TestClient/httpx and the AnyIO BlockingPortal alias; they are not test failures.
+Published-chain artifact: 10540720449
+Artifact name: hf2-exact-hf1-patch-chain-evidence
+Artifact bytes: 8879
+Artifact ZIP SHA256: 5ec416c46cb5bc37835a103b3c7aa5815573111584f918face4dd6e9a85af8dd
+Downloaded ZIP digest verified. Its 12 reported runtime hashes match the candidate source manifest exactly. The published 0010 GitHub blob content also matches the generated candidate artifact patch byte for byte.
 
-Scope: authenticated-owner Room HTTP clarification/ask transport after independently native act and native express selection. Receipt records only completed ASGI response-body send; peer delivery/read/understanding remains unproven. A process-local one-use capability is never serialized. Receipt alone never trains. Only a later admissible conversational native outcome may update existing consequence machinery. Preview/private observation/default state/owner controls confer no execution or preference authority.
-Known limits: no native audio receipt adapter, no defer/silence actuator receipt, no broad/fluent semantic generation, calibration remains preview-only; fresh state still has zero fabricated observations.
+Test paths:
+tests/test_v082_hf2_*.py
+tests/hf2_m4c3a
+tests/hf2_m4c3b
+tests/hf2_m4c3c
+All runtime tests ran on GitHub Actions in isolated test databases using the exact reconstructed runtime. Local work was short source inspection/editing and artifact packaging/hash inspection only. No local runtime test marathon occurred.
 
-Next: inspect publication-chain CI, download/hash evidence, store candidate and chain ZIPs in Drive folder 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO, finalize detailed continuation plus manifest in GitHub and Drive. Update existing root Drive TXT 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1.
+WHAT M4C3C IMPLEMENTS
+1. A narrow authenticated-owner Room HTTP actuator for genuinely native-selected clarify/ask content.
+2. Independent existing native express/continue-private selection remains required after act/content formation. A chosen clarification does not itself authorize expression.
+3. A process-local, identity-checked, single-use dispatch object carries the prepared payload from ingest to the trusted ASGI response adapter. It never enters JSON, cookies, headers, audit state, saved model state, or a client receipt API.
+4. Preparation/queueing/private observation creates no execution receipt, pending outcome, or consequence observation.
+5. Only after await send(http.response.body) successfully returns for the terminal response body at POST /room/message, status 200, does the trusted adapter submit the actual emitted text digest to the runtime.
+6. Completion rechecks the current event, turn, pre-knot digest, pre-residual, native act choice, native express choice, channel, emitted text digest, and absence of pending conflicts under the runtime lock.
+7. A valid completion persists a typed nonsemantic ResolutionExecutionReceipt plus linked speech-act and expression pre-state. Receipt alone does not train either consequence model.
+8. A later, distinct, nonempty conversational USER_MESSAGE created after completion is required before learning. Endogenous/nonconversational/same/pre-send-created/missing or mismatched receipt evidence remains unresolved. Existing native DKT security admissibility and nonworsening native residual checks still decide whether an observed transition is admitted.
+9. Learning uses existing InitiativePolicy._mean and observe_resolution_transition; no new preference metric or canned policy was added. Once consumed, the pending outcome is cleared. The last receipt/audit remains provenance only.
+10. A protected expression pending receipt cannot be overwritten by a later transport preparation. Persistence failure restores in-memory speech/expression state and the security checkpoint; consumed dispatch capability cannot be replayed.
+11. Existing ordinary proof-supported answers retain their original response/transport path. Room owner commands and response-channel overrides cannot force this resolution actuator to claim native choice.
+12. Existing Room authentication still requires the authenticated Ed25519 device session and permitted local/tunnel transport. Legacy bootstrap authentication is insufficient.
 
-Original candidate design note follows:
-HF2 M4C3C CANDIDATE — 2026-09-18
+RECEIPT MEANING AND LIMITS
+Receipt status: asgi-response-body-sent.
+Channel: authenticated-owner-room-http.
+Actions admitted: clarify, ask.
+peer_delivery_confirmed=false.
+This proves completion at the ASGI send boundary; it is not evidence that the peer received, displayed, read, understood, or answered the content. The existing ASGI send contract only requires flushing data into the send buffer before returning.
+Primary source consulted: https://asgi.readthedocs.io/en/latest/specs/www.html#response-body-send-event
+The adapter is a nonstreaming JSONResponse. Status/body are recorded only after the corresponding send returns. Failed send, wrong route/status/output, stale state, forged/replayed token, or conflict cannot establish a learnable receipt.
+An event entering before send completion invalidates the prepared capability; a later completion may therefore drop learning evidence even if bytes were sent. It does not invent a no-send claim.
+There is no client-submitted acknowledgement endpoint and no native-choice authority derived from authentication.
+No native audio presentation is created for this narrow resolution HTTP actuator. Existing ordinary-answer presentation behavior is preserved.
 
-Repository RugBlade/Yggdrasil
-Branch stage8B/v0.8.2-conversation-completion-hf2
-Parent verified checkpoint 2595a67248f24547d6d4f49cd4de8b79e27357b8 (M4C3B).
-Published runtime remains 0001-0009 until the candidate and fresh replay pass.
-Stage8B IN PROGRESS. live_runtime_touched=false; canonical_db_touched=false;
-certification_claim=false. No deployment or owner calibration execution.
+NATIVE AND AUTHORITY BOUNDARIES
+Canonical path remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+RL means Riemannian Logic. Noeron is not an LLM.
+Resolution choice still requires independently eligible observed native affordance geometry and a unique native minimum. Missing observations, incomplete reference, forced single affordance, and exact native ties remain unresolved.
+English remains downstream deterministic egress of existing current-turn native content. There is no canned clarification fallback, invented semantic assertion, answer authority, or parser-label speech-act selection.
+Defer/remain-silent do not fabricate text or receive this HTTP content-send receipt.
+SQLite stores persistence/provenance/audit; it is not cognitive retrieval authority. Receipt/audit state is not cognitive memory, belief, truth, relationship, preference, content, source-write, or deployment authority.
+Owner authentication grants owner authority only. Owner tasks retain origin=owner-directed and authority=authenticated-owner-command.
+Internal observation and transport controls remain separate from native choice and default-off owner controls remain unchanged.
+Terra remains optional downstream and gains no reasoning/content/answer/memory/relationship/source/deploy authority.
+Fresh runtime state still has ZERO fabricated speech-act observations. The calibrated selection fixtures used by isolated tests are synthetic test setup only and never seed product defaults.
+Owner resolution calibration remains preview-only and executed=false.
 
-Candidate intent:
-patches/hf2/0010-hf2-native-resolution-transport-receipt.intent.patch
-Workflow .github/workflows/hf2-milestone4c3c.yml
-Tests tests/hf2_m4c3c/test_transport_receipt.py
+50 NEW TEST CASES
+The 278-test full set includes 50 new parameterized cases covering:
+- clarify/ask send completion, no pending state while send is outstanding, no learning on receipt;
+- start/body send errors, wrong route/status/body, stale event/turn/native geometry/residual/choice;
+- forged/replayed capability, wrong channel/digest, no JSON/state serialization of dispatch;
+- owner command/override/authentication/channel guards, independent native expression ties/missing geometry/private continuation;
+- defer/silence no fabricated text execution;
+- same-event, pre-send-created, endogenous, nonconversational, missing-receipt, tampered-pre-knot outcomes;
+- later admissible/security-rejected outcomes, at-most-once native consequence update, zero authority;
+- protected pending expression, receipt persistence failure rollback;
+- real ingest and rejection invalidation, real Ed25519 authenticated Room HTTP route;
+- missing/legacy/revoked/nonlocal Room authentication rejection;
+- fresh-state no-bootstrapping and ordinary proof-supported-answer preservation.
+Serialization/fresh-instance capability checks were tested. This milestone does not claim process-crash recovery during a database commit, peer delivery, or full live-restart certification.
 
-SCOPE
-A narrow first resolution actuator: authenticated Ed25519-device Room HTTP text.
-The existing native reference/question formation still selects the act through
-post-closure native DKT consequence geometry. The existing independent
-InitiativePolicy express/continue-private selector still selects expression.
-Both genuine native choices are required. Availability/authentication/owner
-controls cannot manufacture either choice. No fallback strings or Terra call.
-Ordinary proof-supported answers use their existing path.
-Native clarify/ask content can prepare a private dispatch capability, not a
-learning observation. It is excluded from JSON/state serialization and invalidated
-on new ingress. No new raw private text enters public audit metadata.
-Only the Room Response adapter can complete its in-process capability, after a
-successful ASGI 200 response body send on POST /room/message. The exact emitted
-text digest, current event/turn/pre-geometry/residual and both selections must match.
-An ASGI receipt proves send-buffer completion, NOT peer delivery/read/understanding.
-Reference: https://asgi.readthedocs.io/en/latest/specs/www.html#response-body-send-event
+KNOWN REMAINING WORK
+- Native audio and other channel receipt adapters are not implemented.
+- Defer/remain-silent require a concrete distinct execution definition before any observation can be recorded. Absence of a sent string is not evidence of a chosen/executed silence.
+- Generic QUD/proof/event-role content composition and fluent clarification remain incomplete. Existing schematic current native reference content can be rendered, e.g. she: Sara / Mira?, only after actual native choice.
+- The existing determiner-form parser ambiguity for "The lamp is on. Is the lamp on?" remains visible/proof-gated. "Lamp is on. Is lamp on?" is the tested ordinary proof-supported case. Do not disguise that parser limitation with a canned response.
+- Calibration is still preview-only. Do not bootstrap fresh runtime by fabricating geometry.
+- This checkpoint does not prove conversational completion, deployment readiness, self-upgrade, or new certification.
 
-Only then mark resolution and associated expression pending together, checkpoint
-and persist a NONSEMANTIC receipt. No training at selection/preparation/send time.
-Failed/stale/replayed/wrong-payload/unverified completions cannot become pending.
-Receipt persistence failure restores in-memory state and the security checkpoint.
-Learning requires a later-created, different, admitted conversational input and
-the existing native DKT security/nonworsening gates. Legacy unreceipted outcomes
-stay unresolved and preserved. A receipt without later native evidence does not
-fabricate observations. Default state remains empty.
-A coupled expression pending receipt cannot be silently overwritten.
+DURABLE EVIDENCE
+Drive folder: 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+Candidate ZIP: HF2_M4C3C_NATIVE_RESOLUTION_TRANSPORT_RECEIPT_20260918.zip
+Drive ID: 1wzX49iJKjT8vCjRVe-C-JmuyTJSP3Ixa
+Candidate Drive raw readback SHA256 equals the verified GitHub artifact ZIP.
+Published-chain ZIP: HF2_EXACT_HF1_PATCH_CHAIN_0001_0010_EVIDENCE_20260918.zip
+Drive ID: 1zv4QsiN3He6x-s4SnfgbPxZSnnbFH70k
+Published-chain Drive raw readback SHA256 equals the verified GitHub artifact ZIP.
+Dedicated continuation: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3C_20260918.txt
+Root continuation: CONTINUATION_STAGE8B_HF2.txt
+Manifest: docs/evidence/HF2_M4C3C_20260918_MANIFEST.json
+The root continuation and manifest carry the final dedicated continuation/manifest Drive IDs to avoid a self-referential hash.
+Existing root Drive TXT ID to update in place: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Prior M4C3B dedicated Drive TXT: 15nWqwaRVhtfaJLZfgFz3rrP-hG4T1N1w.
+Prior M4C3B candidate ZIP: 1Er7q04R2XLBN0VH1Aaru4SqQviviCn9N.
+Prior M4C3B chain ZIP: 18QkYgAbM1PzifLYVyrlR7Bu2_rsgiOoI.
+Prior checkpoints are historical and retained; their earlier "no actuator" statements describe post0009, not this bounded post0010 HTTP actuator.
 
-LIMITS
-Only Room HTTP clarify/ask is wired. Other adapters, native audio, defer/silent
-actuator receipts and actual owner-directed calibration remain later work.
-Calibration remains preview-only; no owner task is relabeled as native choice.
-No fresh-state bootstrapping: native speech-act observations are still empty by
-default. Synthetic test geometry never enters production defaults.
-M4C3B schematic content and parser/QUD/proof-language limitations remain unchanged.
+RECONSTRUCTION AND NEXT SESSION
+1. Inspect the actual branch HEAD and root/dedicated continuation before editing. Read the matching Drive copies/manifest and verify the pinned commits/runs/hashes. Do not overwrite surviving later work.
+2. Exact HF1 reconstruct using scripts/verify_hf1_exact_fixture.py --extract-all.
+3. Copy ORIGINAL repository carrier helpers into the extraction BEFORE applying any patches: conversation_premises.py, conversation_bridge.py, conversation_reasoning.py, conversation_proof.py, conversation_runtime_gate.py, conversation_actions.py, conversation_resolution.py.
+4. Apply/check all published patches 0001-0010 in order. 0009 patches conversation_actions.py and conversation_resolution.py; never overwrite those after replay and never copy post0009/post0010 helpers in before replay.
+5. Use the existing full-chain GitHub workflow and all four listed test paths. The carrier source tree alone is not the tested exact runtime.
+6. Next bounded work should inspect unresolved current-turn QUD/proposition/proof alternatives and define native content units that can express them without adding semantic claims. Preserve the current separation of native content, native act selection, native expression selection, and verified execution evidence. Broader adapters or empirical bootstrapping need separate concrete design and tests.
+7. If persistence/retraction behavior is extended, add focused true same-database restart and post-receipt rejected-ingress tests for that specific change. Do not call the present serialization checks a live restart test.
+8. Continue GitHub-first: small candidate intent -> external exact-runtime green -> materialize next ordinary patch only after green -> fresh replay -> publish -> inspect actual CI -> evidence and detailed continuation in GitHub AND Drive.
+9. Do not begin self-upgrade or Stage9 ahead of genuine Stage8B language/reasoning/conversation completion. Live promotion requires separately authorized owner promotion and has not occurred.
 
-CI METHOD
-Reconstruct byte-exact HF1:
-79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29.
-Copy ORIGINAL carrier helpers before all patches, apply 0001-0009 in order.
-Baseline test paths: tests/test_v082_hf2_*.py, tests/hf2_m4c3a, tests/hf2_m4c3b.
-Then apply exact-anchor intent, compile and add tests/hf2_m4c3c.
-ONLY after candidate green generate deployable 0010; fresh-extract HF1, replay
-0001-0010, compare every source byte and rerun all four test paths.
-Review actual logs, JUnit and artifacts before publishing patch/gate.
-Then inspect the published full-chain result; checkpoint GitHub and Drive folder
-16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO, including exact sources/hashes/continuations.
+HISTORICAL STATUS
+Stages 1-6 CERTIFIED; Stage7 LIVE CERTIFIED; Stage8A LOCAL + LIVE CERTIFIED.
+Stage8B v0.8.1 narrow language substrate LOCAL CERTIFIED; old live H5 curriculum POST never executed.
+Revised Stage8B v0.8.2 and Stage8 overall remain IN PROGRESS. No new local/live certification.
+Later Stage9 remains memory migration/compression, reversible defensive representation, privacy transport, authenticated mounts/identity conflict policy, and secure operator console. Unauthorized/covert access, bypass/spoofing, wireless compromise, anti-forensics, third-party persistence, retaliation/hackback remain rejected.
