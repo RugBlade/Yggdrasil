@@ -1,0 +1,139 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3P CANDIDATE CHECKPOINT
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+BASE
+Latest sealed milestone remains M4C3O at root 35fe0533c4a602684fdcf475ab83e597cfeb6be8.
+Published runtime remains exact HF1 + ordinary 0001 -> 0019.
+ordinary_0020_published=false
+m4c3p_candidate_external_green=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+DESIGN / INVENTORY
+Path:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3P_DESIGN_20260919.txt
+Commit:
+56c2c06e63c3dbc002106c855f9ff29374e0822b
+Git blob:
+1eb6df682ede30b51bbe686912acd8b42f3381a4
+Drive ID:
+1ipy8Iy6YohCMOMMWJGQaqPfLUNK0LKMgM95Vh55x6us
+GitHub/Drive normalized equality:
+VERIFIED
+
+CONCRETE DEFECT
+Exact published post0019 was inspected from M4C3O published-chain artifact 10570859646, ZIP SHA256:
+a2fec75ae391a8b8b5ceb7540240480218d4ce06f90cdf62e4c4e03f94950cf4
+Exact source archive SHA256:
+76112e7baba6e6368b600e384585a4cef38a64ea498040394dc8643fa8f3f73e
+
+The finite transparent proposition parser records generic copular predicate complements as grammatical direct objects in bounded discourse context.
+Consequences reproduced before candidate:
+- "The lamp is on. Is it on?" -> exact-proposition(on,is,on)
+- "The lamp is on. Why is it on?" -> why-proposition(on,is,on)
+- "The lamp is red. What color is it?" -> query subject red
+- after "Mira opened the door. The book is on the table.", "Where is it?" may bind it -> stale door.
+
+WHY THIS IS A DEFECT
+A copular predicate complement is not a grammatical direct object. The current last_direct_object slot is being populated/preserved by a role that the parser itself can distinguish syntactically.
+The failure occurs before proof auditing and before native speech-act selection.
+
+0020 INTENT CANDIDATE
+Path:
+patches/hf2/0020-hf2-copular-discourse-focus-hygiene.intent.patch
+Commit:
+805cf302b00868267b9c760fd7cccaad1486491a
+Git blob:
+0de9145e8a8bc4f8e8c6c506b9f4ebd4e3765950
+Exact candidate bytes:
+5090
+SHA256:
+ffa2cfae51d8258e17661605f2b5bc496eadd78169a342dbb7f283dcfa4c6b60
+Candidate runtime scope:
+src/noeron/inference.py only
+Diffstat:
+1 file changed, 29 insertions, 7 deletions.
+
+CANDIDATE SEMANTICS
+- Adds explicit predicate-complement audit role.
+- Allows a copular/no-direct-object clause to reset stale last_direct_object.
+- Generic copular, explicit copular negation, relative-copular and copular-conjunction predicate complements no longer occupy direct-object context.
+- Typed spatial copular clauses clear stale direct-object context while retaining oblique-object context.
+- Ordinary transitive direct-object tracking remains unchanged.
+- No parser truth, answer, speech-act, preference, relationship, memory, source-write, deployment or initiative authority is added.
+
+FOCUSED TESTS
+Path:
+tests/hf2_m4c3p/test_copular_discourse_focus_hygiene.py
+Commit:
+614deb86c1bbb66051b99b04729002ebb8cc2d15
+Git blob:
+fa39fdc8b329a07aa9c31ea0cc5efdcd6a36c1c8
+Focused cases:
+1. copular complement is not direct-object focus;
+2. WHY pronoun target becomes lamp rather than on;
+3. property question target becomes lamp rather than red;
+4. transitive direct-object focus remains door;
+5. newer spatial copular clause clears stale transitive direct object;
+6. relative copular predicate remains predicate complement;
+7. runtime corrected target still remains blocked by independent unresolved dialogue ambiguity;
+8. genuine derived WHY remains proof-auditable;
+9. prior-turn transitive WH remains answerable.
+
+DISPOSABLE LOCAL RESULT
+Exact post0019 source + candidate 0020 intent:
+9 passed in 3.41s
+
+IMPORTANT DISCOVERY DURING CANDIDATE VALIDATION
+Correcting the proposition/QUD target does NOT remove the independent language_dialogue reference ambiguity.
+For "The lamp is on. Is it on?", after candidate:
+- logical target becomes lamp::is::on;
+- language_dialogue still reports unresolved/ambiguous reference structure;
+- runtime proof status is proof-gated-unresolved-ambiguity;
+- no answer is emitted.
+This is intentional for M4C3P candidate safety. The candidate does not bypass or weaken the proof/ambiguity gate.
+
+BOUNDARIES
+canonical_cognition_path=Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+live_runtime_touched=false
+canonical_db_touched=false
+stage8b_only=true
+
+NEXT
+Create one authoritative M4C3P candidate CI.
+It must:
+- reconstruct exact HF1;
+- copy ORIGINAL carrier helpers;
+- apply ordinary 0001 -> 0019 sequentially;
+- run unchanged post0019 baseline;
+- verify candidate 0020 exact SHA/bytes;
+- apply/check/compile candidate;
+- run focused M4C3P;
+- run complete candidate suite through M4C3P;
+- fresh exact-HF1 replay 0001 -> 0019 + same 0020 candidate;
+- focused replay + complete replay;
+- prove source-byte parity;
+- package evidence/artifact;
+- publish green candidate receipt only on total success.
+
+Do not publish ordinary 0020 until that candidate gate is green and independently inspected.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M or Stage 9.
