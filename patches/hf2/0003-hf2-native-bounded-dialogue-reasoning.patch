@@ -25,7 +25,7 @@
  from noeron.math.models import (
      KnotState, MultiMemoryReasoningMathState, LogicalProposition, LogicalQuery,
  )
-@@ -176,6 +178,53 @@ def _learned_premises_for_retrieved(rows: Sequence[object], retrieved: list[tuple[float, KnotMemory]]) -> list[LogicalProposition]:
+@@ -176,6 +178,46 @@ def _learned_premises_for_retrieved(rows: Sequence[object], retrieved: list[tuple[float, KnotMemory]]) -> list[LogicalProposition]:
      return out
  
  
@@ -80,7 +80,7 @@
  ) -> MultiMemoryReasoningMathState:
      """Construct the geometric workspace and runtime proof closure.
  
-@@ -265,8 +315,15 @@ def build_multi_memory_reasoning(
+@@ -265,7 +315,13 @@ def build_multi_memory_reasoning(
  
      current_premises = [p.model_copy(deep=True) for p in (logical_propositions or [])]
      learned_premises = _learned_premises_for_retrieved(learned_language_propositions or [], items)
@@ -120,7 +120,7 @@
          # 1) Environment -> IRG via an explicit measured environment and interaction kernel.
          irg_state=interaction_geometry(event,semantic_prototypes=semantic_prototypes)
  
-@@ -105,9 +105,11 @@ class MathematicalCognitiveKernel:
+@@ -105,8 +105,10 @@ class MathematicalCognitiveKernel:
          # 7) Native proposition inference occurs only after the regional EGR ->
          # RL/Frenet -> DKT closure. Premises come from current IRG logical form plus
          # persistent propositions whose source memories were selected by DKT H^s
@@ -141,14 +141,14 @@
          )
  
          trace=[
-@@ -127,7 +130,7 @@ class MathematicalCognitiveKernel:
+@@ -127,5 +130,5 @@ class MathematicalCognitiveKernel:
              'Affect diagnostic: recurring unnamed multi-region activation geometry is derived from EGR/IRG/DKT/RL/Frenet; it has no independent causal DKT coupling or preference authority',
              'DKT: RL/EGR/Frenet result -> persistent knot deformation; external-event persistence is an explicit provenance substrate',
 -            'Native reasoning: current IRG logical form + DKT-gated persistent propositions -> generic proof closure -> auditable candidate propositions',
 +            'Native reasoning: current IRG logical form + DKT-gated persistent propositions + post-closure DKT-selected bounded dialogue working premises -> generic proof closure -> auditable candidate propositions',
          ]
          state=MathKernelState(
-@@ -140,7 +143,7 @@ class MathematicalCognitiveKernel:
+@@ -140,6 +143,6 @@ class MathematicalCognitiveKernel:
                  'egr_live_role':'causal entropy-current arrow + simultaneous regional activation and finite stratified activation path; unbounded entropy state mapped into RL before inference',
                  'rl_live_role':'causal Riemannian inference trajectory driven by DKT support geometry (including distributed exact ties); EGR entropy coordinate distinguished from RL curvature entropy',
 -                'multi_memory_reasoning':'pre-EGR DKT H^s support geometry drives regional activation/RL; only after RL/Frenet/DKT closure do current logical premises + DKT-gated persistent propositions enter generic proof inference',
