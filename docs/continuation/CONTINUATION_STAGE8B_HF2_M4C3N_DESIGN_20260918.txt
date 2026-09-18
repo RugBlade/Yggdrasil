@@ -1,0 +1,186 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3N DESIGN CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3M is fully sealed and published through ordinary 0018.
+M4C3N begins verification-only.
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED ROOT
+M4C3M:
+dfb437ad3f256c3f5728592d76f5e4ffc8a7b89b
+Published runtime:
+exact HF1 + ordinary patches 0001 -> 0018
+
+M4C3M VERIFIED SOURCE/EVIDENCE
+Candidate exact-post0018 source archive SHA256:
+9853ea2cbf882dbd7bc70a0b8fce1f024c3eb050d564b5cfea3e032265dfc7bc
+Candidate artifact SHA256:
+0ace192f99e76a09009c9bd24dc25a25464e8379340e8108a3d7f3dcfe7f750e
+Published 0018 SHA256:
+fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a
+Published exact-chain run:
+35392043131
+Published exact-chain result:
+382 passed, 2 warnings in 128.11s
+
+M4C3N PURPOSE
+Verification-first browser-engine integration of the private Room's stable keyed native-audio DOM and authenticated client playback telemetry.
+
+This milestone is specifically meant to test behavior that source-string and server-only tests cannot prove:
+- whether the same real HTMLAudioElement survives Room snapshot churn;
+- how actual Chromium dispatches media events around pause/resume/end;
+- whether the browser executes M4C3M retry semantics with the same playback_session_id;
+- whether session rotation/reload remains fail-closed in a real browser context.
+
+NO RUNTIME PATCH IS AUTHORIZED AT START.
+Do not create ordinary or intent 0019 unless the browser harness demonstrates a concrete runtime defect.
+
+EXACT SOURCE INSPECTION
+Inspected exact post0018:
+- src/noeron/api.py
+- src/noeron/auth.py
+- src/noeron/room.py
+- src/noeron/room_models.py
+- src/noeron/memory.py
+
+Relevant exact behavior:
+1. Room transport is loopback/tunnel-only.
+2. Room requires current Ed25519 owner-device session; legacy bootstrap is rejected.
+3. /room uses HttpOnly SameSite=Strict cookie scoped to /room.
+4. /room/ws revalidates the same session continuously.
+5. native presentation reconciliation uses a Map keyed by NativePresentationRecord.id.
+6. same presentation + same artifact reuses the existing audio node.
+7. app code does not autoplay and does not call audio.play().
+8. first Chromium playing event creates one crypto.randomUUID playback_session_id.
+9. pause/resume does not create another playing submission while playingReported remains set.
+10. ended waits for the original playing promise and uses the same playback_session_id.
+11. M4C3M retries fetch/network uncertainty and response-body-read uncertainty with the same payload.
+12. explicit non-409 HTTP failures remain fail-fast.
+13. all server receipts remain zero-authority telemetry only.
+
+TEST-ONLY BROWSER HARNESS DESIGN
+Use Python Playwright + Chromium only inside GitHub Actions.
+
+The focused browser test must:
+- reconstruct exact HF1 + published 0001 -> 0018;
+- set a disposable NOERON_DB_PATH;
+- import the exact runtime;
+- generate an ephemeral Ed25519 private/public key pair;
+- enroll an isolated owner test device directly through OwnerAuthenticator;
+- create a signed challenge/session;
+- create one valid short WAV native-audio artifact and NativePresentationRecord using existing runtime APIs;
+- launch the exact FastAPI app on 127.0.0.1 on an isolated test port;
+- add the real Room session cookie to a fresh Chromium context;
+- navigate to /room and allow the actual Room JavaScript/WebSocket to run.
+
+PLAYBACK / DOM TARGETS
+A. STABLE NODE
+- save the actual document.querySelector('audio') object as a browser-side sentinel;
+- create unrelated journal/snapshot churn;
+- create a second authenticated audio transport fetch;
+- allow client telemetry snapshot updates;
+- after each update assert document.querySelector('audio') === sentinel.
+
+B. REAL MEDIA LIFECYCLE
+- test harness, not product code, initiates playback;
+- exercise play -> pause -> resume -> natural ended;
+- assert server durable client telemetry contains exactly one playing + one ended for one playback_session_id;
+- assert pause/resume does not create a second playback session;
+- assert all authority fields remain false.
+
+C. NETWORK UNCERTAINTY
+- intercept the first client-playback request with Playwright;
+- forward it to the real server so durable persistence occurs;
+- withhold/fail that first browser response;
+- observe the retry;
+- assert both browser requests carry the identical playback_session_id and payload identity;
+- assert server stores only one logical playing receipt.
+
+D. EXPLICIT HTTP FAILURES
+For isolated fresh browser contexts, intercept client-playback and return:
+401, 403, 422, 500.
+For each status:
+- assert exactly one request is emitted;
+- assert no provenance retry loop occurs;
+- assert no server telemetry receipt is manufactured by the intercepted response.
+
+E. SESSION ROTATION / RELOAD
+- establish playing under session A;
+- create independent session B;
+- reload/new context with session B;
+- attempt an ended submission carrying session A's playback_session_id;
+- actual server must reject because prior playing is bound to session A hash;
+- new session must not close old playback identity.
+
+F. NO AUTOPLAY / NO APP PROGRAMMATIC PLAY
+- inspect exact runtime source/DOM behavior;
+- page load must not begin native audio playback by itself;
+- no product-side .play() invocation may exist.
+
+AUTHORITY BOUNDARY
+M4C3N browser evidence may establish only:
+authenticated_browser_media_element_state=true/false as observed by Chromium.
+
+It must NEVER imply:
+speaker_output_confirmed
+audible_output_confirmed
+peer_delivery_confirmed
+peer_heard_confirmed
+peer_understanding_confirmed
+peer_reply_causation_confirmed
+semantic_truth_authority
+answer_authority
+speech_act_choice_authority
+preference_label_authority
+cognitive_memory_authority
+relationship_authority
+source_write_authority
+deployment_authority
+
+All remain false.
+
+CI METHOD
+Create:
+tests/hf2_m4c3n/test_room_browser_integration.py
+.github/workflows/hf2-milestone4c3n.yml
+
+Authoritative verification workflow:
+1. reconstruct byte-exact HF1;
+2. copy ORIGINAL carrier helpers;
+3. apply ordinary 0001 -> 0018 sequentially;
+4. install exact runtime dependencies;
+5. run full published baseline = 382 tests before browser verification;
+6. install Playwright test dependency + Chromium only in CI;
+7. run focused M4C3N browser integration;
+8. run existing complete HF2 + focused browser verification;
+9. separately reconstruct fresh exact-HF1 + 0001 -> 0018;
+10. source-byte parity check;
+11. rerun focused browser integration on fresh replay;
+12. preserve browser traces/logs/screenshots only if they contain no secrets/private modality payloads;
+13. package exact source hashes, browser version, Playwright version, test summaries and authority boundary;
+14. upload artifact;
+15. if all green and no runtime defect, publish verification-only M4C3N receipt with ordinary_0019_published=false.
+
+If browser testing finds a real runtime defect:
+- stop verification sealing;
+- preserve failing evidence;
+- design the smallest 0019 intent separately;
+- use exact baseline + focused candidate + complete candidate + fresh replay + separate published-chain CI before publication.
+
+NON-NEGOTIABLE
+No autoplay.
+No microphone/camera work.
+No speaker-output inference.
+No human-hearing inference.
+No generic client authority endpoint.
+No direct consequence learning.
+No authentication-derived preference or relationship meaning.
+SQLite remains provenance/audit/integrity, not cognition.
+Live runtime and canonical DB stay untouched.
+No Stage9/self-upgrade.
