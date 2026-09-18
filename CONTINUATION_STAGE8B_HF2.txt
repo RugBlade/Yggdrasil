@@ -1,3 +1,56 @@
+M4C3O CANDIDATE CHECKPOINT — 2026-09-19 Asia/Qatar
+M4C3N remains the latest fully verified milestone.
+Published runtime remains exact HF1 + ordinary patches 0001 -> 0018.
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+M4C3O candidate continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3O_CANDIDATE_20260919.txt
+Commit:
+0226e84a0e6b3b4bf42d0b8579e6b87c0dd52f25
+Git blob:
+a6d2d578224bc089dc3bdedbfe39a9d80726d119
+Drive ID:
+1oqHfz4Zul8Nl1QuwDJX0dp8OD1M8oZfBfJqt8kKbOsc
+GitHub/Drive normalized equality:
+VERIFIED
+
+0019 intent:
+patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.intent.patch
+Commit:
+0bcce1b0ede7a651460f02d6ebb720e864b0c869
+Git blob:
+15b189a47701ffe1870dcb5ca147ed0d205d7621
+SHA256:
+da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401
+Bytes:
+3597
+ordinary_0019_published=false
+
+Focused M4C3O tests:
+tests/hf2_m4c3o/test_clause_shape_event_candidate_hygiene.py
+Commit:
+e80c35817704c527f2cf3d8f2d5e33164c4b7139
+Git blob:
+689765c69ab9319dc7f1a68c039d0a9236f9f954
+Local exact-post0018 focused result:
+9 passed in 0.53s
+
+Candidate scope:
+src/noeron/language_dialogue.py only.
+The correction removes demonstrably malformed determiner/copular/inversion event candidates while preserving genuine passive, double-object and oblique alternatives.
+Parser/event candidate inventory remains zero truth/answer/native-choice/preference/relationship/cognitive-memory/source-write/deployment authority.
+
+NEXT:
+run one authoritative exact-post0018 candidate CI.
+Do not publish ordinary 0019 unless baseline + focused + complete candidate + fresh exact-HF1 replay + source parity + artifact inspection are all green.
+
+The detailed M4C3O design and candidate continuation govern this work. Earlier history follows below.
+
+
+
 CURRENT ENGINEERING STATE — M4C3O DESIGN / M4C3N LATEST VERIFIED — 2026-09-19 Asia/Qatar
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
