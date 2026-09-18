@@ -4,8 +4,8 @@ Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
 
 STATUS
-M4C3G: CANDIDATE — CI PENDING.
-Ordinary 0014: NOT PUBLISHED.
+M4C3G: CANDIDATE GREEN / 0014 PUBLISHED / PUBLISHED EXACT-CHAIN CI PENDING.
+Ordinary 0014: PUBLISHED ONLY AFTER GREEN CANDIDATE + FRESH REPLAY.
 Published durable baseline remains M4C3F / exact chain 0001 -> 0013.
 Stage8B and Stage8: IN PROGRESS.
 live_runtime_touched=false
@@ -143,3 +143,53 @@ Inspect the actual M4C3G Actions result/receipt for
 If any gate fails, repair the candidate and keep ordinary 0014 unpublished.
 If baseline + focused + candidate + separate fresh replay are all green, inspect the actual
 artifact and publish only the generated 0014 bytes, then extend the exact published chain.
+
+
+GREEN CANDIDATE EVIDENCE — VERIFIED
+Candidate workflow/source commit:
+90558197a644f04ff747c3cca7a356b979af0337
+Green receipt commit:
+e6e4d1d09b227ad05bec265b2011894bdfc89ac0
+Run:
+35364110888
+Job:
+105662254470
+Conclusion:
+SUCCESS
+Baseline:
+306 passed, 2 warnings in 18.83s
+Focused true-restart:
+14 passed in 25.06s
+Complete candidate:
+320 passed, 2 warnings in 37.37s
+Separate fresh exact-HF1 replay:
+320 passed, 2 warnings in 37.50s
+Candidate/replay source parity:
+PASS
+
+Generated ordinary 0014 SHA256:
+28088fc61ee9fe59a6b2bd8dcfcf1a9185d8bcf1481ea2a7f922e68dc5669819
+Candidate artifact:
+10555900717
+Candidate artifact ZIP SHA256:
+76ee07f08bd2a88e8e2ae7601eef3f23c857037d93ae2ba4df7f0385de45572b
+Exact post0014 source archive SHA256:
+518a0f70be47f9bf973c17fe9a35ff647c9e1426b67df51da8dae52c17796856
+Carrier archive SHA256:
+8a6f696e369cdc83fc174e6cc6bb97ba22ac04b0d87ebacbf9ea95dc919c0298
+
+ORDINARY 0014 PUBLICATION
+Path:
+patches/hf2/0014-hf2-same-db-restart-recovery.patch
+Publication commit:
+f0a09fa50e27de161868ba10c6a56c2e0d2ff91c
+Published patch bytes exactly equal the candidate-generated patch.
+No live runtime or canonical database was touched.
+
+PUBLISHED EXACT-CHAIN THROUGH 0014
+Workflow commit:
+9ce99e588d754adcb7ebeecd6166f68c839c2811
+Status at this checkpoint:
+CI PENDING.
+Do not call M4C3G sealed until docs/evidence/_ci/HF2_EXACT_CHAIN_0014_RESULT.txt exists
+and the actual job/log/artifact are inspected green.
