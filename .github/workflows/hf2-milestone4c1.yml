@@ -35,6 +35,7 @@ jobs:
           grep -q '"speech_act_selection": False' src/noeron/conversation_resolution.py
           grep -q '"semantic_truth": False' src/noeron/conversation_resolution.py
           grep -q '"ambiguity_resolution": False' src/noeron/conversation_resolution.py
+          grep -q '"surface_authorship": False' src/noeron/conversation_resolution.py
           grep -q 'inactive-without-native-speech-act-choice' src/noeron/conversation_resolution.py
           ! grep -Eiq "i don't know|i do not know|sorry|please clarify|cannot answer|as an ai" src/noeron/conversation_resolution.py
           echo "m4c1_content_authority_scan=PASS"

@@ -4,8 +4,9 @@ from noeron.conversation_resolution import build_resolution_content
 def _authority_zero(plan):
     for key in (
         "semantic_truth","answer","speech_act_selection","candidate_ranking",
-        "ambiguity_resolution","reference_resolution","cognitive_memory",
-        "relationship","owner_preference","terra","source_write","deployment",
+        "ambiguity_resolution","reference_resolution","surface_authorship",
+        "cognitive_memory","relationship","owner_preference","terra",
+        "source_write","deployment",
     ):
         assert plan.authority[key] is False
 
@@ -20,26 +21,29 @@ def test_no_native_choice_means_no_resolution_content_even_with_ambiguity():
     _authority_zero(plan)
 
 
-def test_reference_clarification_preserves_all_candidates_without_resolving_one():
+def test_reference_clarification_preserves_focus_and_all_candidates_without_resolving_one():
     plan=build_resolution_content(
         selected_action="clarify",native_choice_claim=True,
         current_structure={"ambiguities":[{"id":"ref-1","kind":"reference","surface":"she","candidates":["Mira","Sara"]}]},
     )
     assert len(plan.candidates)==1
     c=plan.candidates[0]
+    assert c.focus_surface == "she"
     assert c.alternatives == ("Mira","Sara")
-    assert c.native_surface == "Does she refer to Mira or Sara?"
+    assert c.existing_question == ""
     assert c.source_id == "ref-1"
     _authority_zero(plan)
 
 
-def test_three_way_reference_ambiguity_preserves_every_alternative():
+def test_three_way_reference_ambiguity_preserves_every_alternative_without_surface_sentence():
     plan=build_resolution_content(
         selected_action="clarify",native_choice_claim=True,
         current_structure={"ambiguities":[{"kind":"reference","surface":"they","alternatives":["A","B","C"]}]},
     )
-    assert plan.candidates[0].alternatives == ("A","B","C")
-    assert plan.candidates[0].native_surface == "Does they refer to A, B, or C?"
+    c=plan.candidates[0]
+    assert c.alternatives == ("A","B","C")
+    assert c.focus_surface == "they"
+    assert c.existing_question == ""
 
 
 def test_multiple_ambiguities_become_unranked_parallel_candidates():
@@ -55,7 +59,7 @@ def test_multiple_ambiguities_become_unranked_parallel_candidates():
     assert plan.authority["ambiguity_resolution"] is False
 
 
-def test_event_role_clarification_keeps_interpretations_as_given():
+def test_event_role_clarification_keeps_interpretations_as_structured_units():
     plan=build_resolution_content(
         selected_action="clarify",native_choice_claim=True,
         current_structure={"ambiguities":[{"id":"role-1","kind":"event-role","alternatives":["agent=Mira","agent=Sara"]}]},
@@ -63,10 +67,11 @@ def test_event_role_clarification_keeps_interpretations_as_given():
     c=plan.candidates[0]
     assert c.kind == "event-role-clarification"
     assert c.alternatives == ("agent=Mira","agent=Sara")
-    assert c.native_surface == "Which interpretation applies: agent=Mira or agent=Sara?"
+    assert c.focus_surface == ""
+    assert c.existing_question == ""
 
 
-def test_resolved_or_empty_ambiguity_does_not_create_question_content():
+def test_resolved_or_empty_ambiguity_does_not_create_content():
     plan=build_resolution_content(
         selected_action="clarify",native_choice_claim=True,
         current_structure={"ambiguities":[
@@ -84,7 +89,7 @@ def test_ask_reuses_existing_native_questions_verbatim_only():
         selected_action="ask",native_choice_claim=True,
         existing_question_candidates=questions,
     )
-    assert [c.native_surface for c in plan.candidates] == questions
+    assert [c.existing_question for c in plan.candidates] == questions
     assert all(c.kind=="existing-native-question" for c in plan.candidates)
     _authority_zero(plan)
 
@@ -114,13 +119,14 @@ def test_duplicate_existing_native_questions_are_not_amplified():
         selected_action="ask",native_choice_claim=True,
         existing_question_candidates=["Q?","Q?","R?"],
     )
-    assert [c.native_surface for c in plan.candidates] == ["Q?","R?"]
+    assert [c.existing_question for c in plan.candidates] == ["Q?","R?"]
 
 
-def test_grammar_is_labeled_realization_not_choice_authority():
+def test_resolution_content_layer_never_claims_surface_authorship():
     plan=build_resolution_content(
         selected_action="clarify",native_choice_claim=True,
         current_structure={"ambiguities":[{"kind":"reference","surface":"it","candidates":["book","box"]}]},
     )
-    assert plan.grammar_role == "deterministic-structural-realization-only"
+    assert plan.realization_role == "structured-content-only-no-surface-authorship"
+    assert plan.authority["surface_authorship"] is False
     assert plan.authority["speech_act_selection"] is False

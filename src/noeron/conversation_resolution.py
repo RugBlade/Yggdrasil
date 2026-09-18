@@ -3,14 +3,14 @@ from __future__ import annotations
 """HF2 Milestone 4C1: structured resolution-content candidates.
 
 This layer runs only after an unresolved-response speech act has a genuine
-native-choice claim from consequence geometry. It does not select the act and it
-does not assert truth. It forms bounded content candidates from information that
-already exists in the current-turn native dialogue structure or from already
-existing native question candidates.
+native-choice claim from consequence geometry. It does not select the act, assert
+truth, or author a human-language fallback sentence.
 
-Clarification surface grammar is deterministic realization only. The grammar does
-not choose an ambiguity, referent, interpretation, answer, relationship meaning,
-or whether Yggdrasil speaks. All unresolved alternatives are preserved.
+For clarification it preserves the current-turn unresolved focus and *all*
+alternatives as structured content units. A later native-language stage may decide
+how to realize those units using Yggdrasil's learned language machinery. For ask,
+only already-existing native question content may pass through. Defer and
+remain-silent author no semantic content.
 """
 
 from dataclasses import dataclass
@@ -21,9 +21,10 @@ from typing import Iterable, Mapping, Sequence
 class ResolutionContentCandidate:
     act: str
     kind: str
-    native_surface: str
     source_id: str
+    focus_surface: str
     alternatives: tuple[str, ...]
+    existing_question: str
     source_units: tuple[str, ...]
 
 
@@ -34,7 +35,7 @@ class ResolutionContentPlan:
     candidates: tuple[ResolutionContentCandidate, ...]
     status: str
     authority: Mapping[str, bool]
-    grammar_role: str
+    realization_role: str
 
 
 def _authority() -> dict[str, bool]:
@@ -45,6 +46,7 @@ def _authority() -> dict[str, bool]:
         "candidate_ranking": False,
         "ambiguity_resolution": False,
         "reference_resolution": False,
+        "surface_authorship": False,
         "cognitive_memory": False,
         "relationship": False,
         "owner_preference": False,
@@ -64,17 +66,6 @@ def _clean_alternatives(raw: object) -> tuple[str, ...]:
     return tuple(dict.fromkeys(x for x in values if x))
 
 
-def _or_surface(alternatives: Sequence[str]) -> str:
-    parts = [str(x).strip() for x in alternatives if str(x).strip()]
-    if not parts:
-        return ""
-    if len(parts) == 1:
-        return parts[0]
-    if len(parts) == 2:
-        return f"{parts[0]} or {parts[1]}"
-    return ", ".join(parts[:-1]) + f", or {parts[-1]}"
-
-
 def _clarification_candidates(structure: Mapping[str, object]) -> tuple[ResolutionContentCandidate, ...]:
     out: list[ResolutionContentCandidate] = []
     for index, raw in enumerate(list(structure.get("ambiguities") or [])):
@@ -85,32 +76,20 @@ def _clarification_candidates(structure: Mapping[str, object]) -> tuple[Resoluti
         alternatives = _clean_alternatives(raw.get("alternatives") or raw.get("candidates") or ())
         if not alternatives:
             continue
-
-        surface = str(raw.get("surface") or "").strip()
-        rendered_alternatives = _or_surface(alternatives)
-        if kind == "reference" and surface:
-            question = f"Does {surface} refer to {rendered_alternatives}?"
-            source_units = (
-                f"ambiguity:{ambiguity_id}",
-                f"surface:{surface}",
-                *(f"alternative:{x}" for x in alternatives),
-            )
-            content_kind = "reference-clarification"
-        else:
-            question = f"Which interpretation applies: {rendered_alternatives}?"
-            source_units = (
-                f"ambiguity:{ambiguity_id}",
-                *(f"alternative:{x}" for x in alternatives),
-            )
-            content_kind = f"{kind}-clarification"
-
+        focus = str(raw.get("surface") or "").strip()
+        source_units = (
+            f"ambiguity:{ambiguity_id}",
+            *((f"focus:{focus}",) if focus else ()),
+            *(f"alternative:{x}" for x in alternatives),
+        )
         out.append(
             ResolutionContentCandidate(
                 act="clarify",
-                kind=content_kind,
-                native_surface=question,
+                kind=("reference-clarification" if kind == "reference" else f"{kind}-clarification"),
                 source_id=ambiguity_id,
+                focus_surface=focus,
                 alternatives=alternatives,
+                existing_question="",
                 source_units=tuple(source_units),
             )
         )
@@ -129,9 +108,10 @@ def _ask_candidates(existing_question_candidates: Sequence[str]) -> tuple[Resolu
             ResolutionContentCandidate(
                 act="ask",
                 kind="existing-native-question",
-                native_surface=q,
                 source_id=f"native-question-{index}",
+                focus_surface="",
                 alternatives=(),
+                existing_question=q,
                 source_units=(f"existing-native-question:{index}",),
             )
         )
@@ -147,9 +127,9 @@ def build_resolution_content(
 ) -> ResolutionContentPlan:
     """Form bounded content only for an already-native-selected act.
 
-    No parser label or programmed affordance may call this output Yggdrasil's
-    chosen content. native_choice_claim here refers only to the upstream action
-    selection. Candidate content remains an unranked bounded field.
+    native_choice_claim refers only to the upstream action selection. The candidate
+    content field remains unranked and non-authoritative. This function never writes
+    a new natural-language clarification/deference sentence.
     """
     action = str(selected_action or "").strip() or None
     authority = _authority()
@@ -161,12 +141,12 @@ def build_resolution_content(
             candidates=(),
             status="inactive-without-native-speech-act-choice",
             authority=authority,
-            grammar_role="deterministic-structural-realization-only",
+            realization_role="structured-content-only-no-surface-authorship",
         )
 
     if action == "clarify":
         candidates = _clarification_candidates(dict(current_structure or {}))
-        status = "clarification-candidates-preserve-all-unresolved-alternatives" if candidates else "clarify-selected-but-no-grounded-ambiguity-content"
+        status = "clarification-structure-preserves-all-unresolved-alternatives" if candidates else "clarify-selected-but-no-grounded-ambiguity-content"
     elif action == "ask":
         candidates = _ask_candidates(existing_question_candidates)
         status = "existing-native-question-candidates-preserved" if candidates else "ask-selected-but-no-existing-native-question-content"
@@ -182,5 +162,5 @@ def build_resolution_content(
         candidates=candidates,
         status=status,
         authority=authority,
-        grammar_role="deterministic-structural-realization-only",
+        realization_role="structured-content-only-no-surface-authorship",
     )
