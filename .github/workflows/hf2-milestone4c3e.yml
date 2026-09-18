@@ -11,7 +11,7 @@ on:
       - '.github/workflows/hf2-milestone4c3e.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   exact-baseline-candidate-replay:
@@ -200,3 +200,42 @@ jobs:
           name: hf2-m4c3e-act-neutral-alternative-resolution
           path: evidence/
           if-no-files-found: error
+
+      - name: Publish green CI receipt
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/evidence/_ci
+          PATCH_SHA="$(sha256sum evidence/0012-hf2-act-neutral-alternative-resolution.patch | awk '{print $1}')"
+          SOURCE_SHA="$(sha256sum evidence/m4c3e-exact-post0012-source.tar.gz | awk '{print $1}')"
+          CARRIER_SHA="$(sha256sum evidence/m4c3e-carrier-evidence.tar.gz | awk '{print $1}')"
+          BASELINE_SUMMARY="$(tail -n 1 evidence/m4c3e-baseline.txt)"
+          CANDIDATE_SUMMARY="$(tail -n 1 evidence/m4c3e-candidate-green.txt)"
+          REPLAY_SUMMARY="$(tail -n 1 evidence/m4c3e-replay-green.txt)"
+          cat > docs/evidence/_ci/HF2_M4C3E_CANDIDATE_RESULT.txt <<EOF
+          milestone=M4C3E
+          status=GREEN
+          run_id=$GITHUB_RUN_ID
+          run_attempt=$GITHUB_RUN_ATTEMPT
+          workflow_ref=$GITHUB_WORKFLOW_REF
+          source_commit=$GITHUB_SHA
+          source_branch=$GITHUB_REF_NAME
+          job_name=exact-baseline-candidate-replay
+          base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+          patch0012_sha256=$PATCH_SHA
+          source_archive_sha256=$SOURCE_SHA
+          carrier_archive_sha256=$CARRIER_SHA
+          baseline_summary=$BASELINE_SUMMARY
+          candidate_summary=$CANDIDATE_SUMMARY
+          replay_summary=$REPLAY_SUMMARY
+          certification_claim=false
+          live_runtime_touched=false
+          canonical_db_touched=false
+          ordinary_0012_published=false
+          EOF
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add docs/evidence/_ci/HF2_M4C3E_CANDIDATE_RESULT.txt
+          git commit -m "ci: record green M4C3E candidate receipt [skip ci]"
+          git push origin "HEAD:$GITHUB_REF_NAME"
