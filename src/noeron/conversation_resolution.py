@@ -164,3 +164,83 @@ def build_resolution_content(
         authority=authority,
         realization_role="structured-content-only-no-surface-authorship",
     )
+
+
+@dataclass(frozen=True)
+class OperatorResolutionCalibrationExposure:
+    action: str
+    authenticated_owner: bool
+    executable: bool
+    candidates: tuple[ResolutionContentCandidate, ...]
+    status: str
+    origin: str
+    authority: Mapping[str, bool]
+
+
+def build_operator_resolution_calibration(
+    *,
+    action: str,
+    authenticated_owner: bool,
+    current_structure: Mapping[str, object] | None = None,
+    existing_question_candidates: Sequence[str] = (),
+) -> OperatorResolutionCalibrationExposure:
+    """Expose one explicit owner calibration act from grounded current state only.
+
+    Authentication grants operator authority to execute the requested actuator; it
+    does not turn the request into Yggdrasil's choice, preference, or relationship
+    state. Clarify and ask are executable only when their content already exists in
+    the current structured/native field. Defer and remain-silent are nonsemantic
+    acts and therefore carry no authored content.
+    """
+    action = str(action or "").strip()
+    if action not in {"clarify", "ask", "defer", "remain-silent"}:
+        raise ValueError("unsupported resolution calibration action")
+
+    authority = {
+        **_authority(),
+        "operator_execution": bool(authenticated_owner),
+        "authentication": bool(authenticated_owner),
+        "native_choice": False,
+        "preference_label": False,
+    }
+    if not authenticated_owner:
+        return OperatorResolutionCalibrationExposure(
+            action=action,
+            authenticated_owner=False,
+            executable=False,
+            candidates=(),
+            status="rejected-authenticated-owner-required",
+            origin="unauthenticated-request-no-calibration-authority",
+            authority=authority,
+        )
+
+    if action == "clarify":
+        candidates = _clarification_candidates(dict(current_structure or {}))
+        executable = bool(candidates)
+        status = (
+            "operator-directed-calibration-grounded-clarification-exposure"
+            if executable else
+            "calibration-not-executed-no-grounded-clarification-content"
+        )
+    elif action == "ask":
+        candidates = _ask_candidates(existing_question_candidates)
+        executable = bool(candidates)
+        status = (
+            "operator-directed-calibration-existing-native-question-exposure"
+            if executable else
+            "calibration-not-executed-no-existing-native-question-content"
+        )
+    else:
+        candidates = ()
+        executable = True
+        status = f"operator-directed-calibration-{action}-nonsemantic-act"
+
+    return OperatorResolutionCalibrationExposure(
+        action=action,
+        authenticated_owner=True,
+        executable=executable,
+        candidates=candidates,
+        status=status,
+        origin="operator-directed-calibration-not-native-choice",
+        authority=authority,
+    )
