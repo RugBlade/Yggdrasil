@@ -158,11 +158,12 @@
                  'dkt_strata':'finite sampled transverse-self-intersection estimator can propose geometry-backed Sigma_j transitions',
 --- a/src/noeron/orchestrator.py
 +++ b/src/noeron/orchestrator.py
-@@ -1404,7 +1404,13 @@ class Noeron:
-             self.store.append_event(event)
-             memories=self.store.cognitive_memories()
-             math_memories=self._contextual_math_memories(event,memories)
--            result=self.math.update(event,self.state.math_kernel,math_memories,self._prototype_map(),self.state.cognition.language.propositions)
+@@ -1413,5 +1413,13 @@ class Noeron:
+             if event.content and not event.metadata.get('endogenous'):
+                 event.metadata['discourse_context']=self.language.discourse_context(self.state.cognition.language)
+-            memories=self.store.cognitive_memories(); math_memories=self._contextual_math_memories(event,memories); result=self.math.update(event,self.state.math_kernel,math_memories,self._prototype_map(),self.state.cognition.language.propositions)
++            memories=self.store.cognitive_memories()
++            math_memories=self._contextual_math_memories(event,memories)
 +            bounded_dialogue_for_reasoning=()
 +            if event.content.strip() and not event.metadata.get('endogenous') and not event.metadata.get('nonconversational_observation'):
 +                bounded_dialogue_for_reasoning=self._hf2_conversation_premises.eligible(include_conflicts=True)
@@ -170,6 +171,5 @@
 +                event,self.state.math_kernel,math_memories,self._prototype_map(),self.state.cognition.language.propositions,
 +                bounded_dialogue_premises=bounded_dialogue_for_reasoning,
 +            )
-             if event.metadata.get('implementation_outcome') and event.metadata.get('owner_authenticated'): result.state.metadata['implementation_outcome']=event.metadata['implementation_outcome']; result.state.metadata['implementation_origin']=event.metadata.get('implementation_origin','native-engineering'); result.state.metadata['task_origin']=event.metadata.get('task_origin','owner-directed')
-             self._resolve_pending_cognitive_retention(event,result,memories)
-             self._resolve_pending_realization_outcome(result,event)
+             ingress_knot=result.experience_knot
+             decision=self.security.evaluate(self.state,target,proposed_invariant_changes,source_fingerprint=source_fp,deformation_knot=ingress_knot,owner_authenticated=owner_authenticated)
