@@ -1,3 +1,186 @@
+LATEST VERIFIED CHECKPOINT — M4C3K / VERIFICATION-ONLY GREEN — 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+Stage8B and Stage8: IN PROGRESS.
+M4C3K: EXTERNALLY VERIFIED / VERIFICATION-ONLY.
+Published runtime remains exact HF1 + ordinary patches 0001 -> 0016.
+ordinary_0017_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+READ THIS FIRST
+M4C3K is sealed as a true-process crash/restart/idempotency verification of the post-receipt native-presentation path introduced by published 0016.
+No runtime defect was exposed.
+No 0017 patch or intent exists.
+Continue from exact HF1 plus:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011 -> 0012 -> 0013 -> 0014 -> 0015 -> 0016.
+
+Read first:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3K_20260918.txt
+docs/evidence/HF2_M4C3K_20260918_MANIFEST.json
+docs/evidence/_ci/HF2_M4C3K_VERIFICATION_RESULT.txt
+
+M4C3K VERIFIED IDENTITIES
+Previous M4C3J root checkpoint:
+ad07f49288d0e2b523f03b8bb595ac807ddc9dd6
+Hard-exit verification tests:
+1e74d4e3471df7076391498ba42bd71e1ed62d73
+Verification workflow/source:
+ca605f283c4a8f7396b719904f43d9b66a02e597
+Green verification receipt / pre-documentation HEAD:
+f70e1bae2426a4427d5d472c35ea42adc84fd7c1
+Verified dedicated continuation:
+875a79efeca25bcd77e4448f52e5f3ed977cbd13
+Verified manifest:
+cdeea649b14c0fcf5f0f4e80ab60f062c5d5e572
+
+The final M4C3K root checkpoint is the commit that writes this block.
+
+AUTHORITATIVE M4C3K CI
+Run:
+35379927914
+Job:
+105713421712
+Source:
+ca605f283c4a8f7396b719904f43d9b66a02e597
+Conclusion:
+SUCCESS
+
+Exact post0016 baseline:
+347 passed, 2 warnings in 109.31s
+Focused true-process hard-exit M4C3K:
+9 passed in 53.30s
+Complete primary HF2 + M4C3K:
+356 passed, 2 warnings in 160.28s
+Fresh exact-HF1 replay focused:
+9 passed in 52.44s
+Fresh exact-HF1 replay complete:
+356 passed, 2 warnings in 159.43s
+Primary/replay source parity:
+PASS
+
+HF1 SHA256:
+79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+Source archive SHA256:
+1b430d6b7a5489a0a9b73100935e807d6dae37f4f0131a35341b523267eded20
+Carrier archive SHA256:
+805770c45eccd4f142c3a1d06e2b4d243d62fcdc3c5aa4c3b4ab24dc9f924a8f
+
+EVIDENCE ARTIFACT
+GitHub artifact ID:
+10561969151
+Name:
+hf2-m4c3k-post-receipt-presentation-crash-verification
+Bytes:
+1013797
+ZIP SHA256:
+bdbe8f6d14eb27542250678e62650c44ceaa428bb166a63b1eb2f57bdffb66da
+
+Drive verification ZIP:
+HF2_M4C3K_POST_RECEIPT_PRESENTATION_CRASH_VERIFICATION_20260918.zip
+Drive ID:
+1LSr-aNM3YieZz-ak0ZMB-JJPMgPZyUkM
+SHA256:
+bdbe8f6d14eb27542250678e62650c44ceaa428bb166a63b1eb2f57bdffb66da
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+Dedicated continuation Drive ID:
+1jsfSQpUxQC9KWNoxxwKb4CtfXmKCpbWUD_NOrnYFmhs
+GitHub/Drive normalized-content equality:
+VERIFIED
+
+Manifest Drive ID:
+1kFwSXwQniWQu7kwAA7O_6pnoudFRa8uzsUCG3JDWqYs
+GitHub/Drive normalized-content equality:
+VERIFIED
+
+Root continuation Drive ID, update in place:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+
+WHAT M4C3K PROVES
+- A real child process can exit after durable ResolutionExecutionReceipt but before presentation attempt; restart preserves text execution and does not replay presentation.
+- A process can exit after native voice choice but before artifact publication; restart fabricates neither audio artifact nor NativePresentationRecord.
+- A process can exit after audio artifact persistence but before NativePresentationRecord persistence; restart leaves the artifact inert and does not promote it into presentation/transport/execution evidence.
+- A process can exit after NativePresentationRecord durability but before any audio fetch; restart restores exactly one linked presentation and does not duplicate it.
+- After all four crash windows, later admissible conversational outcome consumption updates speech-act consequence geometry at most once.
+- A later audio fetch after restart may create NativeAudioTransportReceipt without training speech-act consequence geometry.
+- playback_confirmed remains false.
+- peer delivery/hearing/understanding/reply causation remain false.
+- restart/persistence grant zero native-choice, preference or relationship authority.
+
+M4C3K DOES NOT PROVE
+- arbitrary kernel/filesystem/power-loss fault behavior;
+- browser media-element playback;
+- speaker/audio-device output;
+- human hearing/listening;
+- understanding or reply causation;
+- authenticated client playback acknowledgement;
+- automatic presentation replay;
+- broad conversational completion or new LOCAL/LIVE certification.
+
+The orphan audio artifact possible in the artifact-before-presentation crash window is currently acceptable as inert storage/provenance residue:
+it is not presentation evidence, transport evidence, execution evidence, cognitive authority or preference.
+Any future cleanup policy must remain storage maintenance only.
+
+AUTHORITY BOUNDARIES
+resolution_execution_receipt_remains_primary=true
+native_audio_presentation_is_second_execution=false
+native_audio_presentation_trains_speech_act=false
+audio_transport_receipt_trains_speech_act=false
+playback_confirmed=false
+peer_delivery_confirmed=false
+peer_heard_confirmed=false
+peer_understanding_confirmed=false
+peer_reply_causation_confirmed=false
+restart_choice_authority=false
+restart_preference_authority=false
+restart_relationship_authority=false
+semantic_truth_authority=false
+answer_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+
+BOUNDARIES THAT MUST REMAIN TRUE
+- Canonical path remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Native speech-act, expression/private-continuation and native voice decisions remain separate.
+- Original native utterance remains primary; English/decoder stays observational/downstream.
+- Authentication grants objective owner authority only and zero preference/familiarity/relationship meaning.
+- Channel/device/audio availability grants no native-choice authority.
+- SQLite remains persistence/provenance/audit/integrity substrate, not cognitive retrieval.
+- Terra remains optional/downstream.
+- Live runtime and canonical DB remain untouched.
+- No Stage9/self-upgrade.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3L
+Design/verification-only inspection of explicit authenticated private-Room client playback acknowledgement semantics.
+
+Distinguish:
+1. NativePresentationRecord: downstream presentation provenance.
+2. NativeAudioTransportReceipt: server-side ASGI HTTP audio response completion.
+3. Any future browser/client playback acknowledgement: authenticated client telemetry only.
+4. Actual speaker output: not established by browser telemetry alone.
+5. Human hearing/listening: not established.
+6. Understanding/reply causation: not established.
+7. Later conversational outcome: remains the only candidate input to consequence learning under existing gates.
+
+M4C3L should first inspect the current Room HTML/JS, authentication/session/capability machinery and transport endpoints.
+Do not add autoplay.
+Do not add a generic client-submitted authority endpoint.
+Do not let a client event train speech-act consequence geometry directly.
+Do not let client telemetry create native choice, preference, relationship, semantic truth or peer-uptake authority.
+Use private owner/device session binding and anti-replay if any bounded telemetry design is later justified.
+Live runtime/canonical DB stay untouched.
+
+Publish future 0017 only if a concrete runtime change is necessary and exact-baseline + focused candidate + complete candidate + fresh exact-HF1 replay + source parity + separate published-chain CI are green.
+
+Historical M4C3J and earlier sections follow. Their older next-task statements are superseded by M4C3L.
+
+
+
 LATEST VERIFIED CHECKPOINT — M4C3J / PUBLISHED 0016 — 2026-09-18 UTC
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
