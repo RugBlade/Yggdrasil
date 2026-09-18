@@ -117,6 +117,9 @@ Raw byte equality is not claimed because the text export normalizes BOM/line end
 
 Root continuation Drive ID, update in place:
 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Root Drive normalized-content equality: VERIFIED.
+Root export normalization: remove UTF-8 BOM; CRLF/CR -> LF; invert Google Docs newline-run expansion m=2n-1 back to n; restore final newline.
+Raw byte equality is not claimed for the root text mirror because it passes through the Google Docs text-export bridge.
 
 WHAT M4C3E ADDS
 - QUD/proposition/proof unresolved alternatives are act-neutral carriers compatible with ask and clarify.
