@@ -191,7 +191,7 @@
 +            current_turn_index=int(current_turn_index),
          )
 @@
-             'Reasoning: current IRG propositions + DKT-authorized persistent propositions + post-closure DKT-gated bounded dialogue -> transparent finite proof closure',
+             'Native reasoning: current IRG logical form + DKT-gated persistent propositions + post-closure DKT-selected bounded dialogue working premises -> generic proof closure -> auditable candidate propositions',
 +            'Proof gate: explicit inference ancestry + provenance/conflict + current ambiguity constrain support eligibility; gate has zero truth/answer/speech-act authority',
          ]
 --- a/src/noeron/orchestrator.py
