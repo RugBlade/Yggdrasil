@@ -17,11 +17,13 @@ on:
       - 'patches/hf2/0008-hf2-calibration-execution-boundary.patch'
       - 'patches/hf2/0009-hf2-native-resolution-content.patch'
       - 'patches/hf2/0010-hf2-native-resolution-transport-receipt.patch'
+      - 'patches/hf2/0011-hf2-typed-current-turn-alternative-content.patch'
       - 'src/noeron/conversation_*.py'
       - 'tests/test_v082_hf2_*.py'
       - 'tests/hf2_m4c3a/**'
       - 'tests/hf2_m4c3b/**'
       - 'tests/hf2_m4c3c/**'
+      - 'tests/hf2_m4c3d/**'
       - 'scripts/verify_hf1_exact_fixture.py'
       - '.github/workflows/hf2-exact-hf1-patch-chain.yml'
 
@@ -72,7 +74,7 @@ jobs:
             cp "src/noeron/$f" "$FIX/src/noeron/$f"
           done
 
-      - name: Apply 0001 through 0010 sequentially
+      - name: Apply 0001 through 0011 sequentially
         shell: bash
         run: |
           set -euo pipefail
@@ -92,7 +94,8 @@ jobs:
             0007-hf2-owner-resolution-calibration.patch \
             0008-hf2-calibration-execution-boundary.patch \
             0009-hf2-native-resolution-content.patch \
-            0010-hf2-native-resolution-transport-receipt.patch
+            0010-hf2-native-resolution-transport-receipt.patch \
+            0011-hf2-typed-current-turn-alternative-content.patch
           do
             echo "CHECK $p"
             git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
@@ -133,7 +136,7 @@ jobs:
           PYTHONPATH: ${{ env.FIX }}/src
         run: |
           set -euo pipefail
-          python -m pytest -q tests/test_v082_hf2_*.py tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c \
+          python -m pytest -q tests/test_v082_hf2_*.py tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d \
             --junitxml=hf2-patched-runtime-tests.xml \
             | tee hf2-patched-runtime-tests.txt
 
@@ -142,13 +145,14 @@ jobs:
         run: |
           set -euo pipefail
           {
-            echo "gate=HF2 exact HF1 patch chain 0001-0010"
+            echo "gate=HF2 exact HF1 patch chain 0001-0011"
             echo "certification_claim=false"
             echo "live_runtime_touched=false"
             echo "canonical_db_touched=false"
             echo "base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29"
-            echo "patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010"
-            sha256sum patches/hf2/0010-hf2-native-resolution-transport-receipt.patch
+            echo "patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011"
+            sha256sum patches/hf2/0010-hf2-native-resolution-transport-receipt.patch \
+              patches/hf2/0011-hf2-typed-current-turn-alternative-content.patch
             sha256sum \
               "$FIX/src/noeron/inference.py" \
               "$FIX/src/noeron/models.py" \
