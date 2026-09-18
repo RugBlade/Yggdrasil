@@ -1,3 +1,339 @@
+LATEST VERIFIED CHECKPOINT — M4C3J / PUBLISHED 0016 — 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+Stage8B and Stage8: IN PROGRESS.
+M4C3J: PUBLISHED AND EXTERNALLY VERIFIED.
+Published runtime: exact HF1 + ordinary patches 0001 -> 0016.
+ordinary_0016_published=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+READ THIS FIRST
+M4C3J is sealed at the source/evidence level once this root block is mirrored to Drive.
+It connects a genuinely native-selected clarify/ask act to native voice/audio presentation only AFTER the trusted durable ResolutionExecutionReceipt exists.
+ResolutionExecutionReceipt remains the sole clarify/ask execution boundary.
+NativePresentationRecord is downstream presentation provenance only.
+NativeAudioTransportReceipt remains later server-side audio HTTP transport provenance only.
+No presentation/audio event is a second speech-act execution, a second consequence-learning event, browser playback evidence, peer hearing evidence, understanding evidence, or reply-causation evidence.
+
+Continue from exact HF1 plus:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011 -> 0012 -> 0013 -> 0014 -> 0015 -> 0016.
+
+Read first:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3J_20260918.txt
+docs/evidence/HF2_M4C3J_20260918_MANIFEST.json
+docs/evidence/_ci/HF2_M4C3J_CANDIDATE_RESULT.txt
+docs/evidence/_ci/HF2_EXACT_CHAIN_0016_RESULT.txt
+
+M4C3J VERIFIED IDENTITIES
+Previous M4C3I root checkpoint:
+06b7987bc80ad27dc0acfc8246d88092b44701b9
+
+Design checkpoint:
+6c61dcf77a5853268c7000d83f1dc8edf596e14f
+Hardened intent:
+ee6a33ced54a5bc1d9a957c214a02c071f99a718
+Hardened focused tests:
+832b0a0f4c6fafd002a36ef709bfc0a5b443d936
+Candidate workflow/source:
+5de63fe9684500c11b771303dbdcfb07eb7507f8
+Canonical hardened candidate receipt repair:
+b6d2ae3bdeaec1df56679a4a2c1811f59039084f
+Ordinary 0016 publication:
+34a35dec3d0fece055a39c209340fe8b568219ce
+Published exact-chain-through-0016 workflow/source:
+2be2e50c575bdd9fdf3b1f8bb61a1c6f2ae1fcde
+Published exact-chain green receipt:
+13d7985b306de13b8be152972892261be2df5681
+Exact-chain reusable receipt-template fix:
+220128c82639875e63ee5ee449321292a26195ee
+Exact-chain receipt metadata correction:
+f4fe32841420ebca6f11ceaf91ca8ae51f1ebd03
+Verified dedicated continuation:
+616dd92ef954a4921402a4943b76c1bcc3395745
+Verified manifest:
+6c464187ab0a4d2ba1c21ad404b9058b0b9d2f85
+
+The final M4C3J root checkpoint is the commit that writes this block.
+
+PATCH 0016
+Intent:
+patches/hf2/0016-hf2-resolution-native-audio-presentation.intent.patch
+Published:
+patches/hf2/0016-hf2-resolution-native-audio-presentation.patch
+Git blob:
+3d04a8644c4d941d7737675fbe5b7d0a576ecade
+SHA256:
+bc0096d5a63993bad891ac58116efc73567322b6ae9c4da92317d638d05c8a15
+Diffstat:
+4 files changed, 57 insertions, 8 deletions.
+Runtime files:
+src/noeron/api.py
+src/noeron/orchestrator.py
+src/noeron/room.py
+src/noeron/room_models.py
+
+Intent and published Git blobs:
+IDENTICAL.
+Generated candidate patch SHA and published patch SHA:
+IDENTICAL.
+
+WHAT 0016 ADDS
+- Resolution native presentation is attempted only after a durable trusted ResolutionExecutionReceipt.
+- The exact private native utterance SHA must equal the receipt native-text SHA.
+- Resolution-derived NativePresentationRecord carries explicit receipt/event/action provenance.
+- The resolution provenance must match BOTH current in-memory pending receipt and latest persisted SQLite NoeronState receipt.
+- Matching requires receipt_id, event_id, action, authenticated-owner-room-http channel, asgi-response-body-sent status and native_text_sha256.
+- SQLite is used here only for integrity/provenance validation, not semantic recall or cognitive retrieval.
+- Existing native voice vs text-only consequence selection remains independent.
+- No voice/unresolved/text-only selection leaves the already-valid text execution intact and creates no audio presentation.
+- Downstream presentation failure cannot erase the already-durable text execution receipt.
+- Immediate JSON remains truthful: presentation_id=null / native_presentation_created=false / native_presentation_deferred_until_execution_receipt=true for a resolution dispatch.
+- Later audio artifact transport remains M4C3I transport-only provenance and does not train speech-act consequence geometry.
+
+AUTHORITATIVE HARDENED CANDIDATE CI
+Run:
+35374349689
+Job:
+105695397933
+Source:
+832b0a0f4c6fafd002a36ef709bfc0a5b443d936
+
+Substantive gates:
+exact post0015 baseline:
+337 passed, 2 warnings in 182.39s
+focused M4C3J:
+10 passed in 6.71s
+complete candidate:
+347 passed, 2 warnings in 189.06s
+fresh exact-HF1 replay focused:
+10 passed in 11.59s
+fresh exact-HF1 replay complete:
+347 passed, 2 warnings in 192.53s
+candidate/replay source-byte parity:
+PASS
+
+Candidate run-level conclusion:
+FAILURE ONLY because the final CI receipt publication commit hit an add/add rebase conflict against a superseded parallel run.
+No runtime/test/parity/artifact gate failed.
+
+CANDIDATE RECEIPT RACE
+Superseded first run:
+35374056066
+Superseded patch SHA:
+5956c1aabdd510dfdbfdafaafe0dcf990def9c8e589f0c9de4251a87387bea5d
+
+Historical receipt retained:
+docs/evidence/_ci/HF2_M4C3J_CANDIDATE_RESULT_SUPERSEDED_35374056066.txt
+
+Canonical hardened receipt:
+docs/evidence/_ci/HF2_M4C3J_CANDIDATE_RESULT.txt
+Git blob:
+6ef69defb1149498a2e617907306daa01689b9d0
+Repair commit:
+b6d2ae3bdeaec1df56679a4a2c1811f59039084f
+
+The canonical receipt explicitly records the add/add publication conflict and that its hardened values were repaired from inspected logs/artifact.
+This is not presented as the CI receipt-push step itself having succeeded.
+
+HARDENED CANDIDATE ARTIFACT
+GitHub Actions artifact:
+ID 10560520101
+Name:
+hf2-m4c3j-resolution-native-audio-presentation
+Bytes:
+1003346
+ZIP SHA256:
+4f72d1309d9a1c213d26137526eca563fda3a2a9bcaaf7801e8ed77fbf0ba666
+Generated 0016 SHA256:
+bc0096d5a63993bad891ac58116efc73567322b6ae9c4da92317d638d05c8a15
+Post-0016 source archive SHA256:
+1a8ca0623403fb5ea2cc19e502a891899dd547dc74f8bd1c50e2ac5aeb2ebaee
+Carrier archive SHA256:
+9f37bcefa0ae80b2883d22426baf4a4512b55623c053d919b0f6778265ff1403
+
+Drive candidate ZIP:
+HF2_M4C3J_RESOLUTION_NATIVE_AUDIO_PRESENTATION_20260918.zip
+Drive ID:
+1H_rcUaDtCeYr92zrS8GV-Aybvp52EjJ5
+SHA256:
+4f72d1309d9a1c213d26137526eca563fda3a2a9bcaaf7801e8ed77fbf0ba666
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+PUBLISHED EXACT-HF1 CHAIN
+Run:
+35378622815
+Job:
+105709222245
+Source:
+2be2e50c575bdd9fdf3b1f8bb61a1c6f2ae1fcde
+Conclusion:
+SUCCESS
+
+Actual logs inspected:
+- byte-exact HF1 reconstructed;
+- ORIGINAL carrier helpers copied before patching;
+- 0001 through 0016 each passed git apply --check and applied sequentially;
+- CHECK/APPLIED 0016 explicitly present;
+- patched runtime compiled;
+- complete test invocation included tests/hf2_m4c3j;
+- 347 passed, 2 warnings in 87.39s;
+- evidence gate printed HF2 exact HF1 patch chain 0001-0016;
+- evidence patch_chain printed 0001,...,0015,0016;
+- 0016 SHA256 printed bc0096d5a63993bad891ac58116efc73567322b6ae9c4da92317d638d05c8a15;
+- certification_claim=false;
+- live_runtime_touched=false;
+- canonical_db_touched=false.
+
+Published-chain artifact:
+ID 10560792557
+Name:
+hf2-exact-hf1-patch-chain-evidence
+Bytes:
+11052
+ZIP SHA256:
+d789b1b2b93aa647fab6d0c636fcbd7e6ee395e27b2b5a5dff838d06eee21a29
+
+Drive published-chain ZIP:
+HF2_EXACT_HF1_PATCH_CHAIN_0001_0016_EVIDENCE_20260918.zip
+Drive ID:
+1LnsPBLEkeTvi5qpFnKpWF5_6BOCPwCn6
+SHA256:
+d789b1b2b93aa647fab6d0c636fcbd7e6ee395e27b2b5a5dff838d06eee21a29
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+PUBLISHED-CHAIN RECEIPT METADATA CORRECTION
+The successful exact-chain run's artifact/logs were correct, but its first generated text receipt inherited two stale labels from M4C3I:
+- textual patch_chain ended at 0014;
+- field name was patch0015_sha256 even though its value was the 0016 SHA.
+
+Reusable workflow receipt template corrected:
+220128c82639875e63ee5ee449321292a26195ee
+No duplicate CI run triggered.
+
+Canonical exact-chain receipt corrected documentation-only:
+f4fe32841420ebca6f11ceaf91ca8ae51f1ebd03
+Path:
+docs/evidence/_ci/HF2_EXACT_CHAIN_0016_RESULT.txt
+Git blob:
+57a1f888ef9686a5dbe2507ab621362002ae1607
+
+Corrected receipt records:
+patch_chain=0001,...,0015,0016
+patch0016_sha256=bc0096d5a63993bad891ac58116efc73567322b6ae9c4da92317d638d05c8a15
+ordinary_0016_published=true
+
+No runtime source, patch byte, test result, run result or artifact changed in either receipt repair.
+
+DURABLE DRIVE DOCUMENTATION
+HF2 folder:
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+
+M4C3J design continuation Drive ID:
+1BNEQ9dTaL_JPiEkXqP8TKAheSs86_jxYt1c_S1yspsc
+
+M4C3J candidate continuation Drive ID:
+1qvxrcdxVLGlm1BjlvzTqf5_gEgCvbTiVDaPBQmsbj5w
+
+Verified final M4C3J continuation:
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3J_20260918.txt
+Commit:
+616dd92ef954a4921402a4943b76c1bcc3395745
+Git blob:
+e1e31c4ea3626c5c2e63fb68d38f566d22a2705c
+Drive ID:
+1Y1iCbL6GKH5KHnxPlKX4rLFuviy4nSsRo0vmsbf7QpM
+GitHub/Drive normalized-content equality:
+VERIFIED
+
+Final M4C3J manifest:
+GitHub:
+docs/evidence/HF2_M4C3J_20260918_MANIFEST.json
+Commit:
+6c464187ab0a4d2ba1c21ad404b9058b0b9d2f85
+Git blob:
+8b040f1da758bdec9d1171f20506bbf84a0dd3b2
+Drive ID:
+1XwXfY-0ykV1smC3OEp9ryPmve8YMA36gVsps31mRH40
+GitHub/Drive normalized-content equality:
+VERIFIED
+
+Root continuation Drive ID, update in place:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+
+AUTHORITY BOUNDARIES
+resolution_execution_receipt_remains_primary=true
+native_audio_presentation_is_second_execution=false
+native_audio_presentation_trains_speech_act=false
+audio_transport_receipt_trains_speech_act=false
+playback_confirmed=false
+peer_delivery_confirmed=false
+peer_heard_confirmed=false
+peer_understanding_confirmed=false
+peer_reply_causation_confirmed=false
+semantic_truth_authority=false
+answer_authority=false
+preference_label_authority=false
+cognitive_memory_authority=false
+relationship_authority=false
+source_write_authority=false
+deployment_authority=false
+
+BOUNDARIES THAT MUST REMAIN TRUE
+- Canonical path remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Native speech-act choice, expression/private-continuation choice and native voice choice remain distinct.
+- Original native utterance remains primary.
+- English/decoder remains observational/downstream.
+- Authentication grants objective owner authority only and zero preference/familiarity/relationship meaning.
+- Channel/device/audio availability grants no native-choice authority.
+- SQLite remains persistence/provenance/audit substrate, not cognitive retrieval.
+- Terra remains optional/downstream.
+- Live runtime and canonical DB remain untouched.
+- Stage8B remains IN PROGRESS with no new LOCAL/LIVE certification.
+- No Stage9/self-upgrade.
+
+KNOWN LIMITATIONS
+- M4C3J does not prove browser playback, speaker rendering, human hearing/listening, understanding or response.
+- Browser metadata/range fetches may occur without play(), so NativeAudioTransportReceipt remains transport-only.
+- Crash timing between durable ResolutionExecutionReceipt and downstream NativePresentationRecord durability is not yet fault-injection verified.
+- No automatic restart replay of a missed downstream presentation is designed or claimed.
+- Presentation idempotency across crash/restart boundaries is not yet explicitly verified.
+- Existing determiner-form parser ambiguity remains visible/proof-gated.
+- Broad conversational completion and new LOCAL/LIVE certification remain unclaimed.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3K
+Verification-first crash/restart/idempotency semantics for post-receipt native presentation.
+
+Fault-injection boundaries:
+- durable ResolutionExecutionReceipt exists, process exits before presentation attempt;
+- native voice decision occurs, process exits before audio artifact publication;
+- audio artifact publication occurs, process exits before NativePresentationRecord durability;
+- NativePresentationRecord is durable, process exits before any audio fetch;
+- same isolated SQLite database restart after each boundary.
+
+Required conclusions:
+- never duplicate speech-act execution or consequence learning;
+- never reinterpret missing audio presentation as no text execution;
+- never auto-replay presentation unless a separately designed, explicitly idempotent provenance rule exists;
+- never manufacture playback/hearing/delivery/understanding claims;
+- native voice choice remains independent;
+- persistence remains audit/provenance, not cognitive memory;
+- live runtime/canonical DB remain untouched.
+
+M4C3K begins verification-only.
+Publish a future 0017 only if verification exposes a real runtime defect and the full exact-baseline/candidate/fresh-replay/published-chain pipeline is green.
+
+Do not broaden M4C3K into generic multimodal conversation, browser-hearing acknowledgement, Stage9 or self-upgrade.
+
+Historical M4C3I and earlier sections follow. Their older next-task statements are superseded by M4C3K.
+
+
+
 LATEST VERIFIED CHECKPOINT — M4C3I / PUBLISHED 0015 — 2026-09-18 UTC
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
