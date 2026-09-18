@@ -1,0 +1,208 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3D VERIFIED CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Stage8B and Stage8 overall: IN PROGRESS.
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+READ THIS FIRST
+Continue from the published exact-HF1 patch chain:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011.
+Latest ordinary patch:
+patches/hf2/0011-hf2-typed-current-turn-alternative-content.patch
+0011 SHA256:
+3e9c7f2421e77f3c197560e968363dd992f176c5de029e443f932e56514190fb
+
+This checkpoint closes the durable M4C3D documentation/evidence loop only. It does not certify Stage8B, does not promote a live runtime, and does not touch the canonical database. The repository remains the engineering carrier; exact-runtime claims belong only to the exact HF1 reconstruction plus the ordered patch chain and the named GitHub Actions runs.
+
+VERIFIED COMMITS
+Previous durable M4C3C checkpoint:
+d6f8c5f16b8d2cded605e276d9e76a46cc7cec25
+M4C3D candidate/workflow commit:
+7b525e7e118df20771fc5fc69d43ddc3fa958b26
+message: ci: validate M4C3D exact 0011 candidate and replay
+Ordinary 0011 publication commit:
+dee133749704429fa4a58138547d5d479680ba89
+message: hf2: publish green 0011 typed current-turn alternative content
+Exact-chain 0001-0011 publication/workflow commit:
+ef076b97e18b8c780416a95f0eb32eacca9abba7
+message: ci: extend exact HF1 chain through green 0011
+At the time this checkpoint was prepared, branch HEAD was exactly ef076b97e18b8c780416a95f0eb32eacca9abba7 before the documentation-only checkpoint commit.
+0011 Git blob:
+f4b97b42c43629df9eee39c8f1f87e64b068df4c
+
+EXACT BASE
+HF1 ZIP:
+fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip
+HF1 SHA256:
+79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+
+M4C3D CANDIDATE VALIDATION
+Workflow:
+.github/workflows/hf2-milestone4c3d.yml
+Run: 35335029326
+Job: 105567777161
+Conclusion: SUCCESS
+Source commit: 7b525e7e118df20771fc5fc69d43ddc3fa958b26
+
+Exact post-0010 baseline:
+278 passed, 2 warnings, 19.53s.
+Candidate after exact-anchor 0011 intent:
+286 passed, 2 warnings, 18.93s.
+Fresh exact-HF1 replay applying 0001-0011:
+286 passed, 2 warnings, 18.79s.
+No test failures were observed.
+Candidate/replay source-byte parity passed before artifact publication.
+The ordinary 0011 patch was materialized only after candidate tests were green.
+
+Candidate artifact:
+GitHub artifact ID: 10542510985
+Artifact name: hf2-m4c3d-typed-current-turn-alternative-content
+Artifact bytes: 867696
+Artifact ZIP SHA256:
+357ff8d7bcbff145b884b4f22731e2faa1c5bbffb90a5bfcce8393a5d9017855
+
+Candidate source archive:
+m4c3d-exact-post0011-source.tar.gz
+SHA256:
+172109f779057466927632daf1781de5d8877d84c1287260793327ef61008f04
+Candidate carrier archive:
+m4c3d-carrier-evidence.tar.gz
+SHA256:
+b7dfb602a85d0885b47f566cb511a1a6890f3c3ef8fdad21c792a8f066f5bcb8
+
+PUBLISHED EXACT CHAIN VALIDATION
+Workflow:
+.github/workflows/hf2-exact-hf1-patch-chain.yml
+Run: 35335333981
+Job: 105568746884
+Conclusion: SUCCESS
+Publication/workflow commit:
+ef076b97e18b8c780416a95f0eb32eacca9abba7
+Actual workflow output inspected:
+- 0001 through 0011 each applied in order;
+- compilation/dependency installation passed;
+- runtime suite including tests/hf2_m4c3d passed;
+- 286 passed, 2 warnings, 15.86s;
+- authority boundary remained certification_claim=false, live_runtime_touched=false, canonical_db_touched=false.
+Published-chain artifact:
+GitHub artifact ID: 10543505935
+Artifact name: hf2-exact-hf1-patch-chain-evidence
+Artifact bytes: 9135
+Artifact ZIP SHA256:
+3ea22c6b095f937292ef8c509286e50cd8795d2737917828c234d5ef922eb5ef
+
+DRIVE EVIDENCE
+HF2 Drive folder:
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+Candidate evidence ZIP:
+HF2_M4C3D_TYPED_CURRENT_TURN_ALTERNATIVE_CONTENT_20260918.zip
+Drive ID:
+1hb4dRGUaCq-jof5K-nyTuTj3zrIEkoby
+Raw readback SHA256 verified equal to the GitHub artifact:
+357ff8d7bcbff145b884b4f22731e2faa1c5bbffb90a5bfcce8393a5d9017855
+Published-chain evidence ZIP:
+HF2_EXACT_HF1_PATCH_CHAIN_0001_0011_EVIDENCE_20260918.zip
+Drive ID:
+1DqgGElitsLK3Vj3IxB4eYerjJ5y6f4Rz
+Raw readback SHA256 verified equal to the GitHub artifact:
+3ea22c6b095f937292ef8c509286e50cd8795d2737917828c234d5ef922eb5ef
+Existing root continuation Drive ID, update in place:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+
+WHAT M4C3D ADDS
+M4C3D introduces typed current-turn alternative content while retaining zero truth, answer, ranking, reference-resolution, speech-act, relationship, source-write, and deployment authority.
+
+NativeResolutionContent now records a typed kind:
+- reference-alternatives
+- event-role-alternatives
+- qud-alternatives
+- proposition-alternatives
+- proof-alternatives
+- existing-native-question
+
+Each serialized unit explicitly carries false authority flags for semantic truth, answer authority, candidate ranking, speech-act selection, and reference resolution.
+
+Reference alternatives remain grounded only in explicit current-turn parser reference-candidate sets with matching token/source provenance.
+Event-role clarification content is admitted only from explicit parser-side event_role_alternatives with matching event source rows and grammatical-event-role-candidate-only authority. Existing diagnostic ambiguity labels alone remain insufficient.
+
+M4C3D additionally inventories, without granting speech-act eligibility:
+- QUD alternative sets only when an explicit current-turn question surface is scoped by an already-explicit unresolved candidate set;
+- proposition alternatives only when existing reasoning reports multiple proof-supported answers with no forced choice;
+- proof alternatives only when multiple existing direct derivation steps support the same exact conclusion, preserved as canonical JSON rather than summarized or invented.
+
+native_current_turn_alternative_sources collects these typed unselected alternatives. It never resolves a reference or role, ranks candidates, creates a proposition, or chooses a speech act.
+
+native_resolution_sources remains the execution-eligible content boundary. In M4C3D it admits explicit reference and explicit parser-side event-role candidate sets only. QUD/proposition/proof inventory remains separate and therefore cannot silently manufacture clarify eligibility.
+
+resolution_content_units maps only allowed typed content into NativeResolutionContent. Existing native-language realization exposes unresolved option strings using already-admitted source content and punctuation; it still does not assert or select an option.
+
+The M4C3D exact-anchor intent audit explicitly reports false authority for:
+semantic_truth, answer, candidate_ranking, cognitive_memory, relationship, source_write_runtime, deployment, and speech_act.
+
+RUNTIME FILES CHANGED BY 0011
+src/noeron/cognition/models.py
+src/noeron/conversation_resolution.py
+src/noeron/development.py
+src/noeron/language_dialogue.py
+src/noeron/orchestrator.py
+
+Diffstat from candidate artifact:
+5 files changed, 275 insertions, 36 deletions.
+
+BOUNDARIES THAT REMAIN TRUE
+- No canned clarification fallback.
+- No parser-label speech-act selection presented as native choice.
+- No authentication-derived native choice.
+- No relationship authority from authentication.
+- No owner command presented as Yggdrasil's own preference.
+- No fabricated fresh-state speech-act observations.
+- No bootstrap preference insertion.
+- Terra remains optional/downstream and gains no reasoning/content/answer/memory/relationship/source-write/deploy authority.
+- SQLite remains persistence/provenance/audit substrate, not cognitive retrieval authority.
+- Native content formation remains distinct from native speech-act selection.
+- Native speech-act selection remains distinct from expression/private-continuation selection.
+- Expression remains distinct from transport/execution evidence.
+- ASGI send-completion receipt remains nonsemantic and is not peer delivery/read/understanding/reply causation.
+- Receipt alone does not train.
+- Later consequence learning still requires a distinct later conversational USER_MESSAGE plus the existing native admissibility/security/nonworsening checks.
+- Live runtime and canonical database remain untouched.
+- Stage8B remains IN PROGRESS and not newly certified.
+- No Stage9/self-upgrade work has started.
+
+KNOWN REMAINING LIMITATIONS
+- Typed QUD/proposition/proof units are inventory/content units, not yet independently execution-eligible clarify sources.
+- Generic/fluent native clarification remains incomplete; do not solve this with canned English fallback.
+- Existing determiner-form parser ambiguity such as "The lamp is on. Is the lamp on?" remains visible/proof-gated and must not be hidden.
+- Native audio and other channel receipt adapters are not implemented.
+- Defer/remain-silent still needs a concrete execution definition before observations can be recorded.
+- Owner resolution calibration remains preview-only.
+- Serialization/fresh-instance checks are not live-restart/process-crash certification.
+
+RECONSTRUCTION RULE
+If exact-runtime testing is needed:
+1. Reconstruct from fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip and verify SHA256.
+2. Copy ORIGINAL repository carrier helpers before applying any HF2 patches:
+   conversation_premises.py
+   conversation_bridge.py
+   conversation_reasoning.py
+   conversation_proof.py
+   conversation_runtime_gate.py
+   conversation_actions.py
+   conversation_resolution.py
+3. Apply 0001 through 0011 strictly in order.
+4. Never overwrite post-0009/post-0011 patched conversation helpers afterward.
+5. Use tests/test_v082_hf2_*.py plus tests/hf2_m4c3a, tests/hf2_m4c3b, tests/hf2_m4c3c, and tests/hf2_m4c3d.
+6. Publish a later ordinary patch only after candidate CI and a separate fresh replay are green.
+
+NEXT BOUNDED ENGINEERING DIRECTION
+Inspect the post0011 boundary between typed alternative inventory and independently native speech-act eligibility. The next milestone should determine how QUD/proposition/proof alternative content may become usable by a genuinely native-selected clarify/ask act without making parser/reasoner labels themselves choose the act, without forcing candidate ranking, and without adding canned clarification text. Preserve independent expression selection, the existing verified Room HTTP execution receipt, and later consequence learning.
+
+Do not broaden into Stage9, live promotion, native audio receipt work, or silence/defer execution until this bounded content/act separation is resolved and tested.
+
+HISTORICAL STATUS
+Stages 1-6 CERTIFIED; Stage7 LIVE CERTIFIED; Stage8A LOCAL + LIVE CERTIFIED.
+Stage8B v0.8.1 narrow language substrate LOCAL CERTIFIED; old live H5 curriculum POST never executed.
+Revised Stage8B v0.8.2 and Stage8 overall remain IN PROGRESS. No new local/live certification.
