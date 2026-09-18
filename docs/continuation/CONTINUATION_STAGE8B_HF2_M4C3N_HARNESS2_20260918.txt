@@ -1,0 +1,139 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3N HARNESS-2 CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3N remains verification-only and NOT sealed.
+No runtime defect has been demonstrated.
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED ROOT
+M4C3M:
+dfb437ad3f256c3f5728592d76f5e4ffc8a7b89b
+Published runtime remains exact HF1 + ordinary 0001 -> 0018.
+
+FIRST HARNESS ATTEMPT
+Run:
+35393517368
+Result:
+5 passed, 3 failed.
+Failure cause:
+Playwright page.wait_for_function string predicates require eval, while the private Room CSP correctly forbids unsafe-eval.
+Runtime defect:
+NONE demonstrated.
+
+First diagnostic Drive ID:
+1WqXpUaHUhd7_Rv7aLhM-fGDsjJ5eGT5G
+SHA256:
+fa51b4f5f71bae0fa9849f6f58a46436b959d47ed27e018fcd039f4023f42a10
+
+CSP-COMPATIBLE HARNESS CORRECTION
+Commit:
+ff97ff6f25e370b2eb9723e92d626cbd033e8914
+Change:
+replace only page.wait_for_function string waits with Python-side bounded polling through page.eval_on_selector.
+No application/runtime source changed.
+No CSP weakening.
+No 0019.
+
+SECOND BROWSER ATTEMPT
+Run:
+35394109156
+Job:
+105758881833
+
+Exact HF1 + 0001 -> 0018 reconstruction:
+PASS
+
+Published post0018 baseline before browser tooling:
+PASS
+
+Playwright:
+1.55.0
+Chromium:
+140.0.7339.16
+Playwright build:
+1187
+
+Focused browser result:
+7 passed, 1 failed in 67.11s
+
+SOLE FAILURE IS AGAIN HARNESS STRUCTURE, NOT RUNTIME
+The renewed-session test:
+1. kept Playwright Sync manager/browser/context A active;
+2. then called sync_playwright().start() again through _browser() for session B.
+
+Playwright rejects a nested second Sync API manager while its loop is already active:
+"It looks like you are using Playwright Sync API inside the asyncio loop."
+
+The failure occurred before session-B browser assertions.
+No Room runtime assertion failed.
+
+Seven genuine Chromium cases passed before this sole harness failure, including:
+- stable keyed audio element through snapshot/transport/telemetry churn;
+- actual play -> pause/resume -> ended lifecycle without duplicate playback session;
+- forwarded-then-dropped first telemetry response followed by retry using the same playback_session_id;
+- explicit 401/403/422/500 no-retry behavior;
+- no autoplay/product programmatic native-audio play.
+
+SECOND DIAGNOSTIC ARTIFACT
+GitHub artifact:
+ID 10567303039
+Name:
+hf2-m4c3n-real-browser-room-verification
+Bytes:
+12520
+SHA256:
+4d22bdc39d44e98260b0f0f4b70e6ef7a987088874a8dc59f6bc559347aff391
+
+Drive mirror:
+HF2_M4C3N_FAILED_HARNESS2_35394109156_20260918.zip
+Drive ID:
+1ePfvakRqs9vKsZukBVGvJRJHZeTSZXYp
+SHA256:
+4d22bdc39d44e98260b0f0f4b70e6ef7a987088874a8dc59f6bc559347aff391
+GitHub/Drive raw equality:
+VERIFIED
+
+NEXT HARNESS CORRECTION
+Do NOT start a second Playwright manager.
+Reuse the already-running browser from parts_a and create only:
+- a second BrowserContext;
+- the renewed same-device Room session cookie;
+- a second Page.
+
+Then exercise the actual session-B ended POST with session-A playback_session_id.
+
+This change must remain test-only:
+- no runtime source;
+- no Room JavaScript;
+- no auth/session code;
+- no telemetry model/store;
+- no CSP;
+- no 0019.
+
+NEXT REQUIRED RUN
+1. exact post0018 baseline 382 green;
+2. all 8 focused Chromium tests green;
+3. complete HF2 + M4C3N green;
+4. separate fresh exact-HF1 + 0001 -> 0018 replay;
+5. source-byte parity;
+6. all 8 browser tests green on replay;
+7. replay complete green;
+8. if no runtime defect, seal M4C3N verification-only with ordinary_0019_published=false.
+
+AUTHORITY BOUNDARIES
+Browser telemetry is browser media-element state only.
+No speaker-output inference.
+No audible-output inference.
+No human hearing/listening inference.
+No understanding/reply-causation inference.
+No native choice/preference/relationship/cognitive-memory authority.
+No direct speech-act consequence learning.
+SQLite remains provenance/audit/integrity, not cognition.
+Live runtime/canonical DB untouched.
+No Stage9/self-upgrade.
