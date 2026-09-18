@@ -1,8 +1,10 @@
 --- a/src/noeron/inference.py
 +++ b/src/noeron/inference.py
 @@
- def _relation_matches(stored: str, requested: str) -> bool:
+ def _relation_matches(observed: str, requested: str) -> bool:
 @@
+     if a.startswith('can-') and b.startswith('can-'):
+         return _morph_lemma(a[4:])==_morph_lemma(b[4:])
      return False
 +
 +
