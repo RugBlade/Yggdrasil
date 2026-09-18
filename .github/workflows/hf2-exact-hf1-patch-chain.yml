@@ -38,6 +38,7 @@ jobs:
           echo "FIX=$FIX" >> "$GITHUB_ENV"
           python scripts/verify_hf1_exact_fixture.py \
             --extract-dir "$FIX" \
+            --extract-all \
             --evidence hf1-exact-identity-evidence.json
 
       - name: Add HF2 carrier-only helper modules
