@@ -1,0 +1,155 @@
+--- a/src/noeron/cognition/models.py
++++ b/src/noeron/cognition/models.py
+@@
+-class RealizationDevelopmentState(BaseModel):
++class SpeechActDevelopmentState(BaseModel):
++    """Prospective consequence geometry for unresolved-response speech acts.
++
++    This state is not semantic memory, relationship state, truth authority, or a
++    programmed preference table. Fresh/default state contains no fabricated
++    observations. Any future action model must come from admitted observed
++    pre->post native geometry under an explicit provenance path.
++    """
++    version: str = '0.8.2-hf2-m4b'
++    mechanism_version: str = '0.8.2-hf2-native-resolution-consequence-v1'
++    action_pre_knots: dict[str,KnotState] = Field(default_factory=dict)
++    action_post_knots: dict[str,KnotState] = Field(default_factory=dict)
++    action_observations: dict[str,int] = Field(default_factory=dict)
++    transition_observations: int = 0
++    last_context_knot: KnotState | None = None
++    last_context_signature: str = ''
++    last_eligible_actions: list[str] = Field(default_factory=list)
++    last_eligibility_reasons: list[str] = Field(default_factory=list)
++    last_predicted_post_knots: dict[str,KnotState] = Field(default_factory=dict)
++    last_candidate_distances: dict[str,float] = Field(default_factory=dict)
++    last_selected_action: str = ''
++    last_selection_status: str = 'not-evaluated'
++    last_decision_layer: str = 'unresolved'
++    last_native_choice_claim: bool = False
++    last_audit: dict[str,object] = Field(default_factory=dict)
++    note: str = 'Separate unresolved-response speech-act consequence state. No fabricated observations, parser choice, owner preference, semantic truth, cognitive memory, relationship, source-write, or deployment authority.'
++
++
++class RealizationDevelopmentState(BaseModel):
+@@
+     language: LanguageFacultyState = Field(default_factory=LanguageFacultyState)
+     affective_development: AffectiveDevelopmentState = Field(default_factory=AffectiveDevelopmentState)
+     initiative_development: InitiativeDevelopmentState = Field(default_factory=InitiativeDevelopmentState)
++    speech_act_development: SpeechActDevelopmentState = Field(default_factory=SpeechActDevelopmentState)
+     realization_development: RealizationDevelopmentState = Field(default_factory=RealizationDevelopmentState)
+
+--- a/src/noeron/models.py
++++ b/src/noeron/models.py
+@@
+     # not cognitive memory, semantic truth, answer authority, or relationship state.
+     language_interpretation: dict[str,Any] = Field(default_factory=dict)
++    # Read-only report of the unresolved-response native speech-act consequence
++    # layer. It never grants semantic/content/relationship/source/deploy authority.
++    speech_act_audit: dict[str,Any] = Field(default_factory=dict)
+     state: NoeronState
+     security: SecurityDecision
+
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@
+-from noeron.consequence import native_state_consistency_residual, nonworsening
++from noeron.consequence import native_state_consistency_residual, nonworsening, equal_affordance_post_manifold
+@@
+ from noeron.conversation_premises import BoundedConversationalPremiseContext
+ from noeron.conversation_bridge import admit_live_current_turn, native_trace_from_math_state
++from noeron.conversation_actions import resolution_affordances, choose_resolution_act
+@@
+-    def _conversation_transport(self,thought,utterance,event,*,nonconversational_observation:bool=False):
++    def _resolution_speech_act_selection(self,thought,result):
++        """Observe/select unresolved-response act without changing answer content.
++
++        The current context geometry is the already-computed post-closure DKT state,
++        whose causal trace contains the preceding IRG, persistent-memory DKT,
++        regional EGR and RL/Frenet stages. Programmed eligibility has zero choice
++        authority. Native choice may be claimed only by learned consequence geometry.
++        """
++        reasoning=result.state.reasoning
++        eligibility=resolution_affordances(
++            query_kind=str(reasoning.logical_query.kind or ''),
++            proof_gate_status=str(reasoning.proof_gate_status or ''),
++            ambiguity_count=int(reasoning.proof_gate_unscoped_ambiguity_count or 0),
++            native_question_count=len(list(thought.question_candidates or [])),
++            answer_candidate_count=len(list(reasoning.answer_candidates or [])),
++        )
++        st=self.state.cognition.speech_act_development
++        st.last_context_knot=result.state.dkt.core_knot.model_copy(deep=True)
++        st.last_context_signature=result.state.dkt.core_knot.invariant_signature
++        st.last_eligible_actions=list(eligibility.eligible_actions)
++        st.last_eligibility_reasons=list(eligibility.reasons)
++        st.last_selected_action=''
++        st.last_native_choice_claim=False
++        st.last_candidate_distances={}
++        st.last_predicted_post_knots={}
++        if not eligibility.requires_resolution:
++            audit={
++                'requires_resolution':False,
++                'eligible_actions':[],
++                'eligibility_reasons':list(eligibility.reasons),
++                'action':None,
++                'selection_status':'resolution-layer-not-required',
++                'decision_layer':'not-invoked',
++                'native_choice_claim':False,
++                'native_context_source':'post-closure-DKT-after-IRG-DKT-regional-EGR-RL-Frenet-DKT',
++                'authority':dict(eligibility.authority),
++            }
++        else:
++            selection=choose_resolution_act(
++                eligible_actions=eligibility.eligible_actions,
++                context_geometry=result.state.dkt.core_knot,
++                action_pre_geometry=st.action_pre_knots,
++                action_post_geometry=st.action_post_knots,
++                action_observations=st.action_observations,
++                transport_fn=InitiativePolicy._transport_transition,
++                reference_fn=equal_affordance_post_manifold,
++                distance_fn=dkt.sobolev_distance,
++                tied_fn=numerically_tied,
++            )
++            st.last_selected_action=str(selection.get('action') or '')
++            st.last_selection_status=str(selection.get('selection_status') or '')
++            st.last_decision_layer=str(selection.get('decision_layer') or 'unresolved')
++            st.last_native_choice_claim=bool(selection.get('native_choice_claim'))
++            st.last_candidate_distances={str(k):float(v) for k,v in dict(selection.get('candidate_distances') or {}).items()}
++            st.last_predicted_post_knots={
++                str(k):v.model_copy(deep=True)
++                for k,v in dict(selection.get('predicted_post_states') or {}).items()
++            }
++            audit={
++                **selection,
++                'requires_resolution':True,
++                'eligibility_reasons':list(eligibility.reasons),
++                'native_context_source':'post-closure-DKT-after-IRG-DKT-regional-EGR-RL-Frenet-DKT',
++                'changes_outward_transport':False,
++                'changes_native_content':False,
++            }
++        st.last_selection_status=str(audit.get('selection_status') or '')
++        st.last_decision_layer=str(audit.get('decision_layer') or 'unresolved')
++        st.last_native_choice_claim=bool(audit.get('native_choice_claim'))
++        st.last_audit=dict(audit)
++        return audit
++
++
++    def _conversation_transport(self,thought,utterance,event,*,nonconversational_observation:bool=False):
+@@
+             thought=self.cognition.response(event,self.state,result,None)
++            speech_act_audit=(
++                self._resolution_speech_act_selection(thought,result)
++                if not nonconversational_observation
++                else {
++                    'requires_resolution':False,'action':None,
++                    'selection_status':'nonconversational-observation-not-evaluated',
++                    'decision_layer':'not-invoked','native_choice_claim':False,
++                    'changes_outward_transport':False,'changes_native_content':False,
++                }
++            )
+             native_text='';english_text='';text='';renderer_used=False;communication_audit={};egress_audit={}
+@@
+                 native_text_available_for_audit=bool(native_text),english_egress_audit=egress_audit,
+                 language_interpretation=current_language_interpretation,
++                speech_act_audit=speech_act_audit,
+                 state=deepcopy(self.state),security=decision,
+             )
