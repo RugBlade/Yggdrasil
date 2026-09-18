@@ -1,0 +1,120 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3M DESIGN / DEFECT CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3L is fully sealed and published through ordinary 0017.
+M4C3M began verification-first over the exact post0017 source.
+A concrete client-side retry defect has been identified.
+ordinary_0018_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED ROOT
+M4C3L:
+55d7ff29460c05c33a2e56ba89148ea90d2a4914
+
+EXACT SOURCE INSPECTED
+M4C3L candidate exact-post0017 source archive:
+SHA256 01be65af0634177dda9e3dabbec7d41c2fb2361de1e967352be6ae27d3442626
+Source files inspected:
+- src/noeron/api.py
+- src/noeron/memory.py
+- src/noeron/room.py
+- src/noeron/room_models.py
+
+VERIFIED EXISTING SAFE PROPERTIES
+1. Client telemetry dedupe is durable in SQLite, with a UNIQUE dedupe_key.
+2. playing/ended identity includes presentation, artifact, owner device, exact Room-session SHA256, playback_session_id and event.
+3. ended requires prior playing from the same authenticated device/session/playback identity.
+4. A renewed Room session has a different session hash and therefore cannot close the prior playback session.
+5. Server-process restart can query the durable prior playing row and durable dedupe row from SQLite; no in-memory playback authority is required.
+6. Client telemetry writes only the dedicated playback-receipt table and a zero-authority Room journal entry; it does not append or mutate Noeron cognitive state.
+7. Repeated transport receipts do not themselves create client playback-session rows.
+8. Typed receipt authority remains false for audible output, peer delivery/hearing/understanding/reply causation, semantic truth, answer, native speech-act choice, preference, cognitive memory, relationship, source-write and deployment.
+
+CONCRETE DEFECT FOUND
+Current exact post0017 Room JavaScript function postClientMediaEvent() retries HTTP 409 provenance races, but it does NOT retry a thrown fetch/network error.
+
+Current structure:
+- await fetch(...)
+- parse JSON
+- success returns
+- HTTP 409 retries up to 10 times
+- a thrown fetch/network error exits the function immediately.
+
+The playing handler then catches the rejected promise and clears:
+- dataset.playingReported
+- dataset.playbackSessionId
+
+The ended handler cannot submit the matching ended event once that playback_session_id has been cleared.
+
+WHY THIS IS A REAL PROVENANCE DEFECT
+A network failure is ambiguous about server commit state.
+The server may have:
+1. received and durably persisted the playing receipt; then
+2. the response may have been lost before the browser observed success.
+
+Because the server is already persistently idempotent, retrying the SAME request with the SAME playback_session_id is safe and is the correct way to resolve this uncertainty.
+Without such retry, the durable server may contain playing while the client forgets the identity and later cannot attempt the linked ended record.
+
+This does NOT create a false cognition/hearing claim, but it weakens the completeness and continuity of the telemetry provenance M4C3L introduced.
+
+M4C3M CANDIDATE SCOPE
+A future 0018 candidate is justified, but it must remain minimal.
+
+Runtime change:
+src/noeron/api.py only.
+
+Required client behavior:
+- preserve the same payload and playback_session_id across retries;
+- retry bounded fetch/network failures;
+- retry response-body JSON-read failure because server commit state may be uncertain;
+- continue retrying the existing HTTP 409 transport/provenance race;
+- do NOT retry explicit non-409 HTTP errors such as 401/403/422/500 as if they were provenance races;
+- bounded retry count remains finite;
+- no autoplay;
+- no new client event names;
+- no new server authority;
+- no model/store schema change;
+- no speech-act/expression consequence change.
+
+FOCUSED VERIFICATION TARGETS
+1. same playing submission after uncertain response is persistently idempotent;
+2. same ended submission after uncertain response is persistently idempotent;
+3. same-db new-process restart preserves duplicate playing identity;
+4. same-db new-process restart preserves prior-playing sequencing for ended;
+5. renewed Room session cannot end prior session-bound playback;
+6. another owner device cannot end prior device-bound playback;
+7. repeated transport receipts do not create extra client playback sessions;
+8. telemetry never changes speech-act action/transition observations or pending execution state;
+9. malformed/stale session replay fails closed;
+10. client source retries thrown fetch/network failure with the same payload/session id;
+11. client source retries uncertain response-body read failure with the same payload/session id;
+12. client source retries 409 but not explicit non-409 HTTP status;
+13. no autoplay/programmatic native-audio play;
+14. all audible/hearing/cognitive/native-choice/preference/relationship flags remain false.
+
+PUBLICATION METHOD
+- create focused M4C3M tests first;
+- construct exact post0017 minimal 0018 intent patch;
+- short disposable focused probe only;
+- external GitHub Actions must prove post0017 baseline, focused candidate, complete candidate, separate fresh exact-HF1 replay, source parity and authority boundary;
+- ordinary 0018 is published only from exact green candidate bytes;
+- separate published exact-HF1 0001->0018 chain required before sealing;
+- mirror artifacts and continuation/manifest to Drive;
+- live runtime and canonical DB stay untouched.
+
+NON-NEGOTIABLE BOUNDARIES
+Browser telemetry remains browser telemetry only.
+No audible-output inference.
+No human-hearing inference.
+No autoplay.
+No microphone/camera work.
+No generic client authority endpoint.
+No direct consequence learning.
+Authentication/session state grants no native preference/relationship meaning.
+SQLite remains provenance/audit, not cognition.
+No Stage9/self-upgrade.
