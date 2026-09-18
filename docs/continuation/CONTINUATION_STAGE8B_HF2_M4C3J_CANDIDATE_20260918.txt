@@ -42,12 +42,16 @@ NativeAudioTransportReceipt remains later audio HTTP transport provenance, not p
 0016 INTENT
 Path:
 patches/hf2/0016-hf2-resolution-native-audio-presentation.intent.patch
-Intent commit:
+Initial intent commit:
 2410c1714d86e368a7d3d4375180027af3869e2d
-SHA256:
+Hardened intent commit:
+ee6a33ced54a5bc1d9a957c214a02c071f99a718
+Current SHA256:
+bc0096d5a63993bad891ac58116efc73567322b6ae9c4da92317d638d05c8a15
+Superseded initial SHA256:
 5956c1aabdd510dfdbfdafaafe0dcf990def9c8e589f0c9de4251a87387bea5d
-Disposable exact-post0015 diffstat:
-4 files changed, 44 insertions, 8 deletions.
+Current exact-post0015 diffstat:
+4 files changed, 57 insertions, 8 deletions.
 Runtime files:
 - src/noeron/api.py
 - src/noeron/orchestrator.py
@@ -57,9 +61,13 @@ Runtime files:
 FOCUSED TESTS
 Path:
 tests/hf2_m4c3j/test_resolution_native_audio_presentation.py
-Test commit:
+Initial test commit:
 81688c7e3131c29d8f968c6fba6710ce3678cb9b
-SHA256:
+Hardened test commit:
+832b0a0f4c6fafd002a36ef709bfc0a5b443d936
+Current SHA256:
+6cde5e19db5900474ac3dd4d18b79d2bb58d33b754e7a1c3d6068be5d3c820ed
+Superseded initial SHA256:
 fc6eaf67dcf0fd7b3f8c16464a4ad33fd0f5f64ff506d0b35938e539bb30d1d0
 Focused cases:
 10
@@ -78,10 +86,13 @@ SHA256:
 
 Candidate compileall:
 PASS
-Focused M4C3J:
+Initial focused M4C3J:
 10 passed in 1.14s
-Sensitive historical M4C3C + M4C3I:
+Initial sensitive M4C3C + M4C3I:
 60 passed in 5.66s
+After durable-receipt provenance hardening:
+Focused M4C3J: 10 passed in 1.18s
+Sensitive M4C3C + M4C3I: 60 passed in 5.53s
 
 These local results are development evidence only.
 They are not publication or certification evidence.
@@ -224,3 +235,32 @@ repair the candidate and keep ordinary 0016 unpublished.
 
 If all gates are green:
 download/inspect the actual artifact, verify generated 0016 SHA/source parity, mirror candidate evidence to Drive, publish only the exact generated 0016 bytes, then extend the separate published exact-HF1 chain through 0016 before sealing M4C3J.
+
+
+PROVENANCE HARDENING — SUPERSEDES INITIAL CANDIDATE BYTES
+Before external candidate execution reached 0016, source review identified that structural receipt-id/event/action/native-hash validation alone did not prove that a claimed resolution receipt was actually the durable current receipt.
+
+The hardened intent therefore requires BOTH:
+- the current in-memory pending ResolutionExecutionReceipt; and
+- the latest persisted SQLite NoeronState pending ResolutionExecutionReceipt
+
+to match exactly:
+receipt_id
+event_id
+action
+channel=authenticated-owner-room-http
+status=asgi-response-body-sent
+native_text_sha256
+
+Only then may a resolution-derived NativePresentationRecord set:
+source_resolution_execution_confirmed=true.
+
+This SQLite read is integrity/provenance validation only.
+It is not semantic recall, truth selection, preference, native choice, relationship meaning or cognitive-memory retrieval.
+
+A new focused assertion proves that a fully populated but fabricated receipt tuple with the correct native-text hash still fails closed when no matching durable execution receipt exists.
+
+The first Actions run sourced from workflow commit 5de63fe9684500c11b771303dbdcfb07eb7507f8 but older intent/test bytes is superseded.
+Use the newest run whose head commit includes both:
+ee6a33ced54a5bc1d9a957c214a02c071f99a718
+832b0a0f4c6fafd002a36ef709bfc0a5b443d936
