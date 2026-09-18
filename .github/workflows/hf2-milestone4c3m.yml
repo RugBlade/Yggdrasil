@@ -1,4 +1,5 @@
 name: HF2 M4C3M - client media retry restart candidate
+# Historical M4C3L retry assertion accepts both sealed and M4C3M-compatible contracts.
 
 on:
   workflow_dispatch:
