@@ -1,0 +1,41 @@
+name: HF2 Milestone 4A - native resolution act selector
+
+on:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'src/noeron/conversation_actions.py'
+      - 'tests/test_v082_hf2_conversation_actions.py'
+      - '.github/workflows/hf2-milestone4a.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-resolution-act-selector:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check pytest
+      - name: Compile selector
+        run: python -m compileall -q src/noeron/conversation_actions.py
+      - name: Run selector tests
+        env:
+          PYTHONPATH: src
+        run: python -m pytest -q tests/test_v082_hf2_conversation_actions.py
+      - name: Authority and no-canned-content scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q '"programmed_eligibility_is_choice": False' src/noeron/conversation_actions.py
+          grep -q '"native_content_generation": False' src/noeron/conversation_actions.py
+          grep -q '"candidate_ranking": False' src/noeron/conversation_actions.py
+          grep -q 'unresolved-exact-speech-act-consequence-geometry-tie' src/noeron/conversation_actions.py
+          ! grep -Eiq "please clarify|i don't know|i do not know|sorry|cannot answer" src/noeron/conversation_actions.py
+          echo "m4a_authority_scan=PASS"
