@@ -1,0 +1,45 @@
+name: HF2 inspect exact owner calibration surfaces
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - '.github/workflows/hf2-inspect-exact-owner-calibration.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect exact HF1 owner authentication and command surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          FIX="$RUNNER_TEMP/hf1-owner-inspect"
+          mkdir -p "$FIX"
+          unzip -q fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip -d "$FIX"
+          python - <<'PY'
+          import re, os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"hf1-owner-inspect"
+          patterns=re.compile(r"owner|auth|command|calibrat|NativeLanguageFaculty|_native_realize",re.I)
+          for rel in ("src/noeron/api.py","src/noeron/orchestrator.py","src/noeron/cognition/kernel.py","src/noeron/cognition/models.py"):
+              p=root/rel
+              lines=p.read_text(encoding="utf-8").splitlines()
+              hits=[i for i,line in enumerate(lines) if patterns.search(line)]
+              keep=set()
+              for i in hits:
+                  keep.update(range(max(0,i-4),min(len(lines),i+8)))
+              print(f"===== {rel} =====")
+              last=-2
+              for i in sorted(keep):
+                  if i>last+1: print("...")
+                  print(f"{i+1:05d}: {lines[i]}")
+                  last=i
+          PY
