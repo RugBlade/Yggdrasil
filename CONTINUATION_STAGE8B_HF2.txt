@@ -22,6 +22,249 @@ canonical_db_touched=false
 m4c3o_candidate_runtime_bytes_touched=false
 certification_claim=false
 
+LATEST VERIFIED CHECKPOINT — M4C3O / PUBLISHED 0019 / EXTERNAL GREEN — 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+Stage8B and Stage8 remain IN PROGRESS.
+M4C3O is now the latest verified Stage-8B milestone.
+M4C3O: PUBLISHED AND EXTERNALLY VERIFIED AT THE ENGINEERING SOURCE / CI / ARTIFACT LEVEL.
+Published runtime reconstruction target:
+exact HF1 + ordinary patches 0001 -> 0019.
+ordinary_0019_published=true
+published_exact_chain_0019_green=true
+m4c3o_sealed=true
+broad_conversational_completion_claim=false
+local_certification_claim=false
+live_certification_claim=false
+certification_claim=false
+live_runtime_touched=false
+canonical_db_touched=false
+
+READ THIS FIRST
+The older M4C3O candidate/publication-pending blocks below are preserved historical provenance.
+Any older line below that says ordinary_0019_published=false, published_exact_chain_0019_green=false, m4c3o_sealed=false, or M4C3N is the latest verified milestone is SUPERSEDED operationally by this final M4C3O seal.
+Do not rewrite those historical sections merely to sanitize history.
+
+PATCH 0019
+Intent:
+patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.intent.patch
+Published:
+patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.patch
+Intent/published Git blob:
+15b189a47701ffe1870dcb5ca147ed0d205d7621
+Exact bytes:
+3597
+SHA256:
+da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401
+Intent/published byte equality:
+VERIFIED
+Publication commit:
+b722ed7f624db3cab3d76764703a192099549938
+Runtime scope:
+src/noeron/language_dialogue.py only.
+
+AUTHORITATIVE GREEN CANDIDATE
+Workflow:
+.github/workflows/hf2-milestone4c3o.yml
+Source:
+2980a89dad35cd32ef93dbca84972c0ab48b31c2
+Run:
+35402716936
+Job:
+105785889550
+Conclusion:
+SUCCESS
+Unchanged post0018 baseline:
+382 passed, 2 warnings in 168.93s
+Focused M4C3O:
+9 passed in 0.93s
+Complete primary candidate:
+391 passed, 2 warnings in 166.74s
+Fresh exact-HF1 replay focused:
+9 passed in 0.92s
+Fresh replay complete:
+391 passed, 2 warnings in 167.40s
+Primary/replay source-byte parity:
+VERIFIED
+Candidate source archive SHA256:
+0352e3a7ded5cb3fb149d2c8fe2c04e8fd65cd011e1c1357dd3a3f3fc9143e7c
+Candidate carrier archive SHA256:
+97a41f99d7fad2298a774affe015cd1402807ba94542d4ec932599c0020d515c
+
+Candidate receipt:
+docs/evidence/_ci/HF2_M4C3O_CANDIDATE_RESULT.txt
+Commit:
+be1938cf391df9589fb691e5b178d4a95561f284
+Git blob:
+872c3dd65e45cd863b75756b5f25b45e93424429
+
+Candidate artifact:
+GitHub ID:
+10571337892
+Name:
+hf2-m4c3o-clause-shape-event-candidate-hygiene
+Bytes:
+1084783
+SHA256:
+8c413987a3e6e8b8e12b31ef8707ee3023bddcfb25c37e5d0854415919bb2149
+Drive ID:
+1-1Su0OWAxZuYwDzQvmQ6zlGf-Oj1ADKW
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+PUBLISHED EXACT-HF1 CHAIN THROUGH 0019
+Workflow:
+.github/workflows/hf2-m4c3o-published-chain.yml
+Source:
+19baf8d9575183507ca3f8be755df85f1972edd0
+Run:
+35404408342
+Job:
+105791053674
+Conclusion:
+SUCCESS
+Verified:
+- byte-exact HF1 reconstruction;
+- ORIGINAL carrier helpers copied before patch replay;
+- ordinary 0019 intent/published byte equality;
+- ordinary 0019 exact SHA256 and 3597-byte length;
+- ordinary 0001 -> 0019 each passed git apply --check and applied sequentially;
+- post0019 runtime compile;
+- complete HF2 through M4C3O: 391 passed, 2 warnings in 166.30s;
+- source/hash/authority evidence;
+- artifact upload;
+- exact-chain green receipt publication.
+
+Published post0019 source archive SHA256:
+76112e7baba6e6368b600e384585a4cef38a64ea498040394dc8643fa8f3f73e
+
+Published-chain receipt:
+docs/evidence/_ci/HF2_EXACT_CHAIN_0019_RESULT.txt
+Commit:
+aae3090c459a19a418618e7cd391c422a95749f6
+Git blob:
+3fd32d600eee12e5b39930fe24214daed7fd7c57
+
+Published-chain artifact:
+GitHub ID:
+10570859646
+Name:
+hf2-m4c3o-exact-hf1-published-0019
+Bytes:
+676513
+SHA256:
+a2fec75ae391a8b8b5ceb7540240480218d4ce06f90cdf62e4c4e03f94950cf4
+Drive ID:
+1Q3uF2Nx9QksU7B3KHOKOxtk9_C0L-XqN
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+FAILED CANDIDATE PROVENANCE
+Run 35401987525 / job 105783671710 remains NON-AUTHORIZING historical evidence.
+It passed baseline 382 and focused 9, then failed exactly one stale M4C3A historical assertion at complete candidate:
+390 passed, 1 failed, 2 warnings.
+Failed artifact GitHub ID:
+10570403153
+Failed artifact SHA256:
+d976d299bfebed00a2068d51d4f05afc8d55ebea7d2ef62898e13f229bce00c3
+Drive ID:
+1dPg7rgMX2xrSWnmiyPtj0gEPL7hBG89q
+The demonstrated historical test contract was repaired by:
+2980a89dad35cd32ef93dbca84972c0ab48b31c2
+The M4C3O runtime candidate bytes did not change during that compatibility repair.
+
+FINAL DURABLE DOCUMENTATION
+Final M4C3O continuation:
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3O_20260919.txt
+Commit:
+094fdb6986c7b4abaec7f04a8159f26f40dc6a30
+Git blob:
+6bd78957204496fbf7c08f7f7a8d9e26739eb992
+Drive ID:
+1YPg4S-bKyISxFboUDKRfKlWk1yR9uEyKE6xjlwxIvsU
+GitHub/Drive normalized equality:
+VERIFIED
+
+Final M4C3O manifest:
+GitHub:
+docs/evidence/HF2_M4C3O_20260919_MANIFEST.json
+Commit:
+f8932554080a3a2ba54c284d0c0ab86a8fae9173
+Git blob:
+fb1406d816759294b477c6fa450a80c1ec5f8a6b
+Drive ID:
+1QZed5f6kiRnqbWM5qbajkzWaHZ38TrqAwRTcVlpaycw
+GitHub/Drive normalized equality:
+VERIFIED
+
+Standing root Drive ID, update in place:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+
+AUTHORITY BOUNDARY
+parser_event_candidate_inventory_only=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+sqlite_cognitive_retrieval_authority=false
+terra_optional_downstream=true
+original_native_utterance_primary=true
+english_decoder_observational_downstream=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+BOUNDARIES THAT MUST REMAIN TRUE
+- Canonical cognition remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Parser/event candidates remain grammatical inventory with zero semantic-truth, answer, native-choice, preference, relationship, cognitive-memory, source-write or deployment authority.
+- Remove ambiguity only when the grammatical candidate is demonstrably malformed; genuine alternatives remain alternatives.
+- Proof/ambiguity gating remains intact.
+- SQLite remains persistence/provenance/audit/integrity substrate, not cognitive retrieval authority.
+- Terra remains optional/downstream.
+- Original native utterance remains primary; English/decoder remains observational/downstream.
+- No autoplay expansion.
+- No microphone/camera expansion in this milestone.
+- No human-hearing inference.
+- Live runtime and canonical DB remain untouched.
+- Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9.
+
+WHAT M4C3O CLOSES
+The concrete determiner/copular/inversion event-candidate overgeneration identified after M4C3N is closed at the tested exact-post0019 engineering surface.
+Genuine double-object, passive and tested oblique alternatives remain represented.
+No semantic verb-class table, lexical ranking, LLM semantic inference or canned clarification was introduced to manufacture certainty.
+
+KNOWN REMAINING STAGE-8B LIMITATIONS
+- generic/fluent clarification remains incomplete;
+- broader unresolved QUD/proposition/proof composition remains incomplete;
+- broad conversational completion remains unclaimed;
+- no new LOCAL/LIVE certification is claimed.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3P
+Design/verification-first inspection of exact published post0019 for the remaining unresolved QUD/proposition/proof-composition and generic clarification surface.
+First construct a bounded reproducible inventory under the existing proof/ambiguity gates.
+Do not create ordinary 0020 merely to continue numbering.
+Only if a concrete runtime defect/change is demonstrated may a future 0020 enter the established exact-baseline + focused candidate + complete candidate + fresh exact-HF1 replay + source parity + separate published-chain pipeline.
+
+POST-SEAL RULE
+Do not rerun M4C3O merely because ChatGPT/UI state goes stale.
+Recover from the final continuation, manifest, receipts, artifacts and root identities above.
+Historical M4C3O sections follow and remain immutable provenance.
+
 M4C3O ORDINARY 0019 PUBLISHED — EXACT-CHAIN VERIFICATION PENDING — 2026-09-19 Asia/Qatar
 Publication commit:
 b722ed7f624db3cab3d76764703a192099549938
