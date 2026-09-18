@@ -1,0 +1,174 @@
+{
+  "schema": "yggdrasil-hf2-milestone-evidence-v1",
+  "milestone": "M4C3M",
+  "date": "2026-09-18",
+  "status": "PUBLISHED_AND_EXTERNALLY_VERIFIED",
+  "stage8b_status": "IN PROGRESS",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "previous_verified_root_checkpoint": "55d7ff29460c05c33a2e56ba89148ea90d2a4914",
+  "published_runtime_patch_chain": "0001-0018",
+  "ordinary_0018_published": true,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "hf1_zip_sha256": "79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29",
+  "defect": {
+    "description": "Client playback telemetry retried HTTP 409 provenance races but did not retry thrown fetch/network uncertainty; a persisted playing response could be lost while the browser discarded the playback_session_id required for linked ended telemetry.",
+    "scope": "private Room client telemetry only",
+    "server_persistent_idempotency_preexisted": true
+  },
+  "design": {
+    "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3M_DESIGN_20260918.txt",
+    "commit": "6eb9c68c78a8c8fb058961a5c491598f8dad10de",
+    "drive_id": "1mYJpJJW8kQD_gT1nN_JOszwkMhrS8L8vKaW_u5JyAWg"
+  },
+  "candidate_checkpoint": {
+    "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3M_CANDIDATE_20260918.txt",
+    "commit": "e97193591df7efbaf07baa6773cab59bf9b3c86e",
+    "drive_id": "1VlkVDAlWS5k4CsEQ_fHTHzFB73hrTP8q_TIlDVp9ZbA"
+  },
+  "patch0018": {
+    "intent_path": "patches/hf2/0018-hf2-client-media-network-retry.intent.patch",
+    "published_path": "patches/hf2/0018-hf2-client-media-network-retry.patch",
+    "intent_commit": "fe0957406aa4016fcaef58a56fa54d884ff1d7f1",
+    "publication_commit": "344d9c1bbc0483dba3fe54e8f474907a917b97d3",
+    "intent_blob": "b58497f3a1c3fe9f5798322f5bfa88d84a412c4a",
+    "published_blob": "b58497f3a1c3fe9f5798322f5bfa88d84a412c4a",
+    "sha256": "fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a",
+    "exact_candidate_bytes": true,
+    "diffstat": "1 file changed, 6 insertions, 2 deletions",
+    "runtime_files": [
+      "src/noeron/api.py"
+    ]
+  },
+  "focused_tests": {
+    "path": "tests/hf2_m4c3m/test_client_media_retry_restart.py",
+    "initial_commit": "051f16dc3fbc71baad2e5076fd9f8d51137adaca",
+    "m4c3l_forward_compatibility_commit": "f0f641ff9af5a15783f18a40bd86a1670dbbc5c4",
+    "authoritative_count": 9
+  },
+  "failed_attempts": [
+    {
+      "run_id": 35389596831,
+      "source_commit": "48416c7ea19466e0f69b48f743951833bd49c91e",
+      "status": "NON_GREEN_DIAGNOSTIC",
+      "baseline": "373 passed",
+      "focused": "9 passed",
+      "complete": "381 passed, 1 failed",
+      "reason": "stale M4C3L literal JavaScript retry assertion",
+      "artifact_id": 10565386263,
+      "artifact_sha256": "01f5c4e889ab2dd36768b28ab1749a7932922f7a7f1e2b9cd41aa59d14361996",
+      "drive_id": "11cOWkyxndef6OhM5xDHJgaB1BYHbVkJa",
+      "publication_authority": false
+    },
+    {
+      "run_id": 35390539804,
+      "source_commit": "e3bbc2bea762de12b3c569aaee45e08e1c88bf2f",
+      "status": "NON_GREEN_DIAGNOSTIC",
+      "baseline": "372 passed, 1 failed",
+      "reason": "temporary compatibility test required M4C3M syntax before 0018 candidate application",
+      "artifact_id": 10565631847,
+      "artifact_sha256": "3e27fe84d6938a6354e018220724172cf02cf79b6460e4d76f2a88ca250ae0da",
+      "publication_authority": false
+    }
+  ],
+  "candidate": {
+    "workflow_path": ".github/workflows/hf2-milestone4c3m.yml",
+    "source_commit": "bddedac92573ef773bffe1b6bafd6daac7ecabd0",
+    "run_id": 35390901864,
+    "job_id": 105748769899,
+    "conclusion": "success",
+    "baseline_summary": "373 passed, 2 warnings in 164.52s (0:02:44)",
+    "focused_summary": "9 passed in 2.49s",
+    "candidate_summary": "382 passed, 2 warnings in 167.41s (0:02:47)",
+    "replay_focused_summary": "9 passed in 2.56s",
+    "replay_summary": "382 passed, 2 warnings in 166.74s (0:02:46)",
+    "source_byte_parity": true,
+    "patch_sha256": "fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a",
+    "source_archive_sha256": "9853ea2cbf882dbd7bc70a0b8fce1f024c3eb050d564b5cfea3e032265dfc7bc",
+    "carrier_archive_sha256": "c2c792feb1326a926cea8565055f2d79bfca711f555e3bda80d8c4ecf8be2e18",
+    "receipt_path": "docs/evidence/_ci/HF2_M4C3M_CANDIDATE_RESULT.txt",
+    "receipt_commit": "106af63cda7a0da400194a0a6e9d3bbd166904c9",
+    "receipt_blob": "af503e0681bd178e174e2cc20850536340fb777b",
+    "artifact_id": 10566332848,
+    "artifact_name": "hf2-m4c3m-client-media-network-retry",
+    "artifact_bytes": 1071723,
+    "artifact_sha256": "0ace192f99e76a09009c9bd24dc25a25464e8379340e8108a3d7f3dcfe7f750e",
+    "drive_artifact_id": "14OaUqRaLb6E3qdAoI24dsScj-xdKVZiQ",
+    "drive_raw_byte_equal": true
+  },
+  "publication": {
+    "receipt_path": "docs/evidence/_ci/HF2_M4C3M_PUBLICATION_RESULT.txt",
+    "receipt_commit": "273aafae4ec59d1d1b9950f86f7ff17af2a87d0b"
+  },
+  "published_chain": {
+    "workflow_path": ".github/workflows/hf2-exact-hf1-patch-chain.yml",
+    "source_commit": "44cbe818e293becd5ffc2fb0602595f3662e3ea9",
+    "run_id": 35392043131,
+    "job_id": 105752376375,
+    "conclusion": "success",
+    "patch_application": "0001 through 0018 each apply-check/applied sequentially",
+    "compilation": "PASS",
+    "test_summary": "382 passed, 2 warnings in 128.11s (0:02:08)",
+    "patch0018_sha256": "fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a",
+    "receipt_path": "docs/evidence/_ci/HF2_EXACT_CHAIN_0018_RESULT.txt",
+    "receipt_commit": "11c451eb87e3103df2a9a180820f742baed7b146",
+    "receipt_blob": "bc9b42283a85a0279fb2cc1b7cac791349d36850",
+    "artifact_id": 10565744727,
+    "artifact_name": "hf2-exact-hf1-patch-chain-evidence",
+    "artifact_bytes": 12217,
+    "artifact_sha256": "04f4c28ea1f2029143e34b86e11c4a192e114f58e7f65b409b839924bbbc6f6c",
+    "drive_artifact_id": "1y3VeNphwwxaTJglrt3-56Iekj4ZrAii9",
+    "drive_raw_byte_equal": true
+  },
+  "mechanism": {
+    "client_network_uncertainty_retry": true,
+    "response_body_uncertainty_retry": true,
+    "same_playback_identity_reused": true,
+    "http_409_retry": true,
+    "explicit_non409_http_retry": false,
+    "autoplay_added": false,
+    "programmatic_native_audio_play_added": false,
+    "server_schema_changed": false,
+    "speech_act_learning_changed": false
+  },
+  "authority": {
+    "client_media_telemetry_only": true,
+    "audible_output_confirmed": false,
+    "peer_delivery_confirmed": false,
+    "peer_heard_confirmed": false,
+    "peer_understanding_confirmed": false,
+    "peer_reply_causation_confirmed": false,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_label_authority": false,
+    "cognitive_memory_authority": false,
+    "relationship_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false
+  },
+  "documentation": {
+    "final_continuation_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3M_20260918.txt",
+    "final_continuation_commit": "53cb88b193fab2448951235a150a22c2736f92e9",
+    "final_continuation_git_blob": "9f360d8d2809c6acf75558c51f8c1dc597d3976a",
+    "final_continuation_drive_id": "1Vcsp4KWe6KisXSms7GzdlNz4yhdO_1SZx9KzZt71vMY",
+    "final_continuation_normalized_equal": true,
+    "root_continuation_drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1"
+  },
+  "limitations": [
+    "Stable keyed audio DOM is still source-contract tested rather than full browser-engine integration tested.",
+    "playing/ended prove browser media-element state only, not speaker output or human hearing.",
+    "Arbitrary browser crash or power-loss behavior is not certified.",
+    "Determiner-form parser ambiguity remains visible/proof-gated.",
+    "Broad conversational completion and new LOCAL/LIVE certification remain unclaimed."
+  ],
+  "next": {
+    "milestone": "M4C3N",
+    "mode": "verification-first",
+    "task": "Real browser-engine integration of stable keyed native-audio DOM and authenticated playback telemetry on a disposable exact-post0018 runtime.",
+    "ordinary_0019_initially_allowed": false,
+    "publish_0019_only_if_concrete_runtime_defect": true
+  }
+}
