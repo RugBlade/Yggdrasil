@@ -1,0 +1,122 @@
+name: HF2 M4C3 Exact Runtime Inspection
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - '.github/workflows/hf2-inspect-m4c3.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Reconstruct byte-exact HF1 fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          FIX="$RUNNER_TEMP/ygg-hf1-exact"
+          echo "FIX=$FIX" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py \
+            --extract-dir "$FIX" \
+            --extract-all \
+            --evidence hf1-exact-identity-evidence.json
+
+      - name: Add HF2 carrier-only helper modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in \
+            conversation_premises.py \
+            conversation_bridge.py \
+            conversation_reasoning.py \
+            conversation_proof.py \
+            conversation_runtime_gate.py \
+            conversation_actions.py \
+            conversation_resolution.py
+          do
+            cp "src/noeron/$f" "$FIX/src/noeron/$f"
+          done
+
+      - name: Apply 0001 through 0007 sequentially
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FIX"
+          git init -q
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add .
+          git commit -qm "byte-exact HF1 fixture plus carrier helpers"
+          for p in \
+            0001-hf2-inference-core.patch \
+            0002-hf2-current-turn-runtime-bridge.patch \
+            0003-hf2-native-bounded-dialogue-reasoning.patch \
+            0004-hf2-proof-provenance-ambiguity-runtime-gate.patch \
+            0005-hf2-native-resolution-state-audit.patch \
+            0006-hf2-speech-act-consequence-learning.patch \
+            0007-hf2-owner-resolution-calibration.patch
+          do
+            echo "CHECK $p"
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git diff --check
+            echo "APPLIED $p"
+          done
+          git diff --stat | tee "$GITHUB_WORKSPACE/hf2-patch-chain-diffstat.txt"
+
+
+      - name: Inspect exact post-0007 native interfaces once
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import ast, os
+          from pathlib import Path
+          root=Path(os.environ["FIX"])
+          wanted={"NativeLanguageFaculty","NativeThought","NativeUtterance","NativeProposition",
+                  "SpeechActDevelopmentState","DialogueState","LogicalQuery",
+                  "_resolution_speech_act_selection","operator_resolution_calibration",
+                  "_mark_speech_act_pending","_resolve_pending_speech_act_outcome",
+                  "_native_realize","_conversation_transport","response"}
+          for path in sorted((root/"src/noeron").rglob("*.py")):
+              data=path.read_text()
+              tree=ast.parse(data)
+              spans=[]
+              for node in ast.walk(tree):
+                  if isinstance(node,(ast.ClassDef,ast.FunctionDef,ast.AsyncFunctionDef)) and node.name in wanted:
+                      spans.append((node.lineno,node.end_lineno))
+              selected=set()
+              for a,b in spans:
+                  selected.update(range(a,b+1))
+              if selected:
+                  print("SOURCE "+str(path.relative_to(root)))
+                  lines=data.splitlines()
+                  for n in sorted(selected):
+                      print(f"{n:05d}: {lines[n-1]}")
+          PY
+      - name: Archive exact source for bounded forensic inspection
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -czf hf2-m4c3-exact-post0007-source.tar.gz -C "$FIX" src/noeron
+          sha256sum hf2-m4c3-exact-post0007-source.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hf2-m4c3-exact-post0007-inspection
+          path: |
+            hf1-exact-identity-evidence.json
+            hf2-patch-chain-diffstat.txt
+            hf2-m4c3-exact-post0007-source.tar.gz
+          if-no-files-found: error
