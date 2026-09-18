@@ -1,3 +1,219 @@
+LATEST VERIFIED CHECKPOINT — M4C3I / PUBLISHED 0015 — 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+Stage8B and Stage8: IN PROGRESS.
+M4C3I: PUBLISHED AND EXTERNALLY VERIFIED.
+Published runtime: exact HF1 + ordinary patches 0001 -> 0015.
+ordinary_0015_published=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+READ THIS FIRST
+M4C3I is sealed. It adds a typed native-audio HTTP transport receipt for an authenticated private-Room audio response whose server-side ASGI send completed.
+It does NOT prove browser playback, speaker rendering, delivery to a human, hearing/listening, understanding, reply causation, speech-act execution, preference, relationship meaning, cognitive memory, semantic truth, source-write authority or deployment authority.
+
+Continue from exact HF1 plus:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011 -> 0012 -> 0013 -> 0014 -> 0015.
+
+Read first:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3I_20260918.txt
+docs/evidence/HF2_M4C3I_20260918_MANIFEST.json
+docs/evidence/_ci/HF2_M4C3I_CANDIDATE_RESULT.txt
+docs/evidence/_ci/HF2_EXACT_CHAIN_0015_RESULT.txt
+
+M4C3I VERIFIED IDENTITIES
+Previous M4C3H root checkpoint:
+1f14d253a93c7155b8cae899c5591c9844c87c36
+0015 intent:
+50ea4a87b76475483be46b0a4b64480265f591b1
+Focused tests:
+a8a6a233c427dc9b79f943c2e6fff86951c53c12
+Candidate workflow/source:
+e8cc86aac8e6ca999593c6a4838b27daaa1cabaf
+Candidate green receipt:
+e5ce39dde51d70b6c46d2687c5cc875e526f4313
+Ordinary 0015 publication:
+c2090dcd524d4616face89a07ff9e7810abe6bcc
+Published exact-chain-through-0015 workflow/source:
+7fdc83ed4a93109a2827e1121b33520ae9293e69
+Published-chain green receipt:
+06c6afc178b169f0a52746f80404bce208e894d5
+Receipt metadata correction:
+995606106c69a99e42616fb9ce5e32e12353bd0d
+Verified dedicated continuation:
+476725e3c64f45b5533ecfec71f8159f75823a38
+Verified manifest:
+b61c1ef2a210080980122ca9b7d646677cf0039a
+The final root checkpoint is the commit that writes this block; obtain its exact SHA from branch HEAD after this update.
+
+PATCH 0015
+Path:
+patches/hf2/0015-hf2-native-audio-transport-receipt.patch
+Git blob:
+29d90920be48ac3d2618ad51a4e689c1109c6c1a
+SHA256:
+54f3099a4b2fe1af521f1584cd5da2839c46a55d9e93843dd2cad1aa01c6e54a
+Diffstat:
+4 files changed, 196 insertions, 2 deletions.
+Runtime files:
+src/noeron/api.py
+src/noeron/memory.py
+src/noeron/room.py
+src/noeron/room_models.py
+
+CANDIDATE CI
+Run:
+35370701910
+Job:
+105683703080
+Source:
+e8cc86aac8e6ca999593c6a4838b27daaa1cabaf
+Conclusion:
+SUCCESS
+
+Exact post-0014/M4C3H baseline:
+327 passed, 2 warnings in 109.02s
+Focused M4C3I:
+10 passed in 1.30s
+Complete candidate:
+337 passed, 2 warnings in 106.40s
+Fresh exact-HF1 replay focused:
+10 passed in 1.31s
+Fresh exact-HF1 replay complete:
+337 passed, 2 warnings in 105.76s
+Candidate/replay source parity:
+PASS
+
+Candidate artifact:
+ID 10557877737
+SHA256:
+8a6af895dbce5ddae72aad44424d512bc6dbad3a081da8fbe733ce66148982c3
+Post-0015 source archive SHA256:
+36609b9a9ac7a74cd79d5f7208902e018988c254420656377d383b09a8be7e33
+Carrier archive SHA256:
+ce0e3aeaf49868d2303555ed14bb9a974d4261517cc22ff0eb8cf1be5d25a4e0
+
+PUBLISHED EXACT-HF1 CHAIN
+Run:
+35371612919
+Job:
+105686665117
+Source:
+7fdc83ed4a93109a2827e1121b33520ae9293e69
+Conclusion:
+SUCCESS
+
+0001 through 0015:
+each passed git apply --check and applied sequentially.
+Complete HF2 suite:
+337 passed, 2 warnings in 109.85s
+patch0015 SHA256:
+54f3099a4b2fe1af521f1584cd5da2839c46a55d9e93843dd2cad1aa01c6e54a
+
+Published-chain artifact:
+ID 10558369073
+SHA256:
+8300d057640fd609b10bc9fb8f685c8b3d77d95951772f323193074ce3e58977
+
+RECEIPT METADATA CORRECTION
+The green exact-chain CI receipt initially listed patch_chain=0001,...,0014 although the workflow and logs actually applied 0015, recorded its correct SHA and passed the complete post0015 suite.
+Commit 995606106c69a99e42616fb9ce5e32e12353bd0d corrected only that documentation line to include 0015.
+No runtime, patch, test, artifact or CI result changed.
+
+DURABLE DRIVE EVIDENCE
+HF2 folder:
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+
+Candidate ZIP:
+HF2_M4C3I_NATIVE_AUDIO_TRANSPORT_RECEIPT_20260918.zip
+Drive ID:
+1CjY4-Y7qslCQhEuiGJunRE59by6hdLqb
+SHA256:
+8a6af895dbce5ddae72aad44424d512bc6dbad3a081da8fbe733ce66148982c3
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+Published-chain ZIP:
+HF2_EXACT_HF1_PATCH_CHAIN_0001_0015_EVIDENCE_20260918.zip
+Drive ID:
+1H2vDAqGr3It5DB5LvWd0PMRfobrB9EZz
+SHA256:
+8300d057640fd609b10bc9fb8f685c8b3d77d95951772f323193074ce3e58977
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+Verified M4C3I continuation Drive ID:
+1ztmekZYNLsgLl_q1d_jif3Er-94Gykiqyy49B6pzcz4
+GitHub/Drive normalized-content equality:
+VERIFIED
+
+M4C3I manifest Drive ID:
+1YXsy2Xywf3Txug4n1NcEjGUedJ58PvrnOeS6nF7f2n0
+GitHub/Drive normalized-content equality:
+VERIFIED
+
+Historical candidate continuation Drive ID:
+16iV8n0Mw1wH70eVwRfVHwG_ww719YEEv_puYmDgA2PY
+
+Root continuation Drive ID, update in place:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+
+WHAT M4C3I ADDS
+- NativeAudioTransportReceipt is a distinct typed nonsemantic transport/provenance record.
+- Receipt preparation requires a NativePresentationRecord linked to the exact noeron-to-owner audio artifact and a genuine native voice-choice claim.
+- The transport capability is process-local and single-use.
+- Successful server-side ASGI response completion records byte count, HTTP status, Content-Range where applicable and pathsend usage.
+- HTTP 206 remains partial transport provenance.
+- Full-artifact-single-response is only true for HTTP 200 with exact artifact-size bytes.
+- Failed send, HEAD, mismatch or invalid capability creates no receipt.
+- Audio fetches do not modify native speech-act consequence observations and do not train.
+- Existing ResolutionExecutionReceipt / NonContentResolutionExecutionReceipt semantics remain separate.
+
+BOUNDARIES THAT MUST REMAIN TRUE
+- Canonical path remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Original native utterance remains primary; decoder/English stays observational/downstream.
+- Native voice selection remains separate from speech-act selection and expression/private-continuation choice.
+- Authentication and channel/device availability grant no native preference/relationship/choice authority.
+- Audio ASGI send completion is not browser playback, peer delivery, hearing, understanding or reply causation.
+- Audio transport receipts are not speech-act consequence-learning evidence.
+- SQLite remains persistence/provenance/audit, not cognitive retrieval authority.
+- Terra remains optional/downstream.
+- Live runtime and canonical DB remain untouched.
+- Stage8B remains IN PROGRESS and not newly certified.
+- No Stage9/self-upgrade.
+
+KNOWN LIMITATIONS
+- Native-selected clarify/ask resolution content is still on the established separate JSON/text ResolutionExecutionReceipt path.
+- It is not yet routed through NativePresentationRecord/native audio.
+- Server-side audio transport does not establish client playback/hearing.
+- Existing parser ambiguity remains visible/proof-gated.
+- Broad conversational completion and new LOCAL/LIVE certification are not claimed.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3J
+Inspect the boundary between genuinely native-selected resolution content and native-audio presentation before implementing any coupling.
+
+Any future bridge must preserve:
+- original native utterance as primary;
+- genuinely native and separate voice selection;
+- decoder/English as observational-only downstream rendering;
+- independent speech-act and expression/private-continuation choice;
+- no duplicate consequence learning if text and audio channels both exist;
+- no fabricated speech-act execution from audio presentation/fetch;
+- separate typed transport evidence per channel;
+- no playback/hearing/understanding inference from ASGI send completion;
+- exact ties/insufficient native evidence unresolved;
+- live runtime/canonical DB untouched.
+
+Only publish future 0016 if a genuine runtime change is necessary and exact-baseline + focused candidate + complete candidate + fresh exact-HF1 replay + source parity + separate published-chain CI are green.
+
+Do not broaden M4C3J into generic multimodal conversation, Stage9 or self-upgrade.
+
+Historical M4C3H and earlier sections follow. Their older next-task statements are superseded by M4C3J.
+
+
+
 LATEST VERIFIED CHECKPOINT — M4C3H / VERIFICATION-ONLY GREEN — 2026-09-18 UTC
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
