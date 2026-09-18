@@ -1,0 +1,141 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3F CANDIDATE CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3F candidate: GITHUB ACTIONS PENDING / ORDINARY 0013 NOT PUBLISHED.
+Stage8B and Stage8: IN PROGRESS.
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED CHECKPOINT
+M4C3E final root checkpoint HEAD:
+71f2ef43681c688210a4adc46f3208f1b30334dd
+Published exact-HF1 patch chain:
+0001 -> ... -> 0012
+M4C3E candidate run 35338817481 / job 105579788375: SUCCESS, 291 candidate / 291 fresh replay.
+Published exact-chain run 35339074903 / job 105580597314: SUCCESS, 291 passed.
+Read first:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3E_20260918.txt
+docs/evidence/HF2_M4C3E_20260918_MANIFEST.json
+
+M4C3F CANDIDATE CARRIER
+Intent:
+patches/hf2/0013-hf2-local-noncontent-execution-receipt.intent.patch
+Intent SHA256:
+60ed36ebae64529083985e5a811d1f66932208ee4695c365646d9c77668fca2d
+Intent commit:
+36dd5f774a875cb746e29bbe1a506cc3d5a8536f
+
+Focused tests:
+tests/hf2_m4c3f/test_noncontent_execution_receipt.py
+Test commit:
+83dbad40affdc1c26360626d99d050bbf6a581a3
+
+Candidate workflow:
+.github/workflows/hf2-milestone4c3f.yml
+Initial workflow commit:
+d01b1e176d66275085487e4f5e887047b7cfaf9c
+Corrected workflow/source commit:
+14eeb02ed1fd7a0edaecea2208d6b9d9c523b29c
+message:
+ci: fix M4C3F exact baseline and candidate provenance
+
+The initial workflow draft had two stale provenance strings only:
+- a step label said the published baseline ended at 0011 even though the apply loop included 0012;
+- the boundary label misnamed the candidate number.
+Those strings were corrected before relying on CI. Use 14eeb02e... as the candidate workflow source.
+
+NO ORDINARY 0013 EXISTS AT THIS CHECKPOINT.
+The locally reproduced ordinary diff SHA256 is:
+9f9429c4deb011c3366625739385422e63157fe0002f9c0fc41701fd59158e8f
+This is candidate reproduction evidence only. The ordinary repository patch must be published only from the generated artifact after candidate + fresh replay are green.
+
+LOCAL SHORT VALIDATION — NOT CERTIFICATION
+- exact post-0012 source compileall: PASS
+- exact-anchor intent audit: PASS
+- intent materialization matched the hand-edited candidate source byte-for-byte
+- focused M4C3F tests: 15 passed
+- full post-0012 HF2 suite plus M4C3F: 306 passed in 11.86s
+These checks are candidate sanity only; GitHub Actions remains authoritative for publication.
+
+M4C3F BOUNDED DESIGN
+Problem after M4C3E:
+- clarify/ask have a concrete content-send ASGI execution receipt;
+- defer/remain-silent can be genuinely native-selected but currently end as selected-nonsemantic-act-no-content-or-execution;
+- absence of a send is not itself proof that a local action was actually committed;
+- reusing the ASGI receipt would falsely imply transport semantics.
+
+Candidate solution:
+1. Add NonContentResolutionExecutionReceipt as a receipt type distinct from ResolutionExecutionReceipt.
+2. It is valid only for defer/remain-silent.
+3. Its channel is local-runtime-noncontent.
+4. Its status is local-noncontent-action-committed.
+5. It records the selected action, local effect, current event/turn, pre-knot digest, and pre-residual.
+6. It carries hard false fields for content_emitted, outward_transport_performed, peer_delivery_confirmed, peer_read_confirmed, peer_understanding_confirmed, and peer_reply_causation_confirmed.
+7. It is created only after an already-genuine native consequence selection for defer/remain-silent.
+8. It does not run the independent expression selector and does not mark expression pending because no content is expressed.
+9. Client/serialized receipt objects cannot mark execution; only the identical in-process receipt capability inside the trusted transaction can do so.
+10. owner_command, operator realization override, endogenous and nonconversational events cannot be converted into local non-content execution by this path.
+11. The receipt itself never trains consequence geometry.
+12. Later learning still requires a distinct later nonempty USER_MESSAGE, time ordering after receipt completion, unchanged pre-knot/pre-residual binding, security_admissible native post-state, and the existing nonworsening gate.
+13. A malformed/tampered non-content effect cannot authorize outcome learning.
+14. Persistence failure rolls back speech-act state and security checkpoint.
+15. Existing clarify/ask ASGI content-send receipt remains unchanged.
+
+NON-CONTENT EFFECTS
+defer:
+defer-current-turn-resolution
+Meaning: the local runtime commits the selected decision not to outwardly resolve this current turn now. It does not promise a future message or schedule work.
+
+remain-silent:
+close-current-turn-without-outward-realization
+Meaning: the local runtime commits the selected no-outward-realization action for this turn.
+
+These effects distinguish the local control actions without inventing semantic text. Neither effect asserts peer observation.
+
+RUNTIME CANDIDATE FILES
+src/noeron/cognition/models.py
+src/noeron/orchestrator.py
+
+BOUNDARIES THAT MUST REMAIN TRUE
+- Speech-act selection remains the existing learned consequence geometry.
+- Parser/reasoner labels and execution receipt machinery have zero choice authority.
+- Missing geometry and exact ties remain unresolved.
+- No empty message is sent merely to manufacture a receipt.
+- No outward transport is performed for defer/remain-silent.
+- No expression action is inferred from a non-content execution.
+- No peer delivery/read/understanding/reply causation is claimed.
+- No fabricated outcome observation is inserted.
+- No bootstrap preference is inserted.
+- Owner/authentication/task authority remains separate from native preference.
+- Existing operator calibration remains preview/non-native provenance and is not execution.
+- Clarify/ask Room HTTP transport and ASGI receipt are unchanged.
+- Terra remains optional/downstream with no reasoning/content/answer/memory/relationship/source-write/deploy authority.
+- SQLite remains persistence/provenance/audit substrate, not cognitive authority.
+- live runtime and canonical DB remain untouched.
+- Stage8B remains IN PROGRESS; no new certification.
+- No Stage9/self-upgrade.
+
+GITHUB ACTIONS GATE
+The corrected M4C3F workflow must:
+1. reconstruct byte-exact HF1;
+2. copy ORIGINAL carrier helpers before patching;
+3. apply published 0001 through 0012 in order;
+4. run the published post-0012 baseline including M4C3E;
+5. apply the exact-anchor 0013 intent;
+6. compile and run the full suite including M4C3F;
+7. materialize ordinary 0013 only after candidate green;
+8. reconstruct a separate fresh exact-HF1 tree;
+9. replay 0001-0012 plus generated 0013;
+10. prove candidate/replay source-byte parity;
+11. rerun the full suite;
+12. preserve source/carrier archives, source hashes, JUnit/text logs, intent audit, diffstat and authority boundary;
+13. publish a non-runtime self-identifying CI receipt only after success.
+
+NEXT ACTION
+Inspect docs/evidence/_ci/HF2_M4C3F_CANDIDATE_RESULT.txt if/when the corrected workflow creates it.
+If candidate or fresh replay fails, inspect the actual run/job/log artifact and repair the candidate; do not publish 0013.
+If both are green, verify the generated patch hash/artifact and publish only that exact ordinary 0013, then extend and verify the exact-HF1 chain through 0013 before final M4C3F checkpointing.
