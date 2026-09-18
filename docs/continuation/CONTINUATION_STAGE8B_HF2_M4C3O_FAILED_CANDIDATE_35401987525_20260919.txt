@@ -1,0 +1,124 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3O FAILED CANDIDATE RUN 35401987525 CHECKPOINT
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3N remains the latest fully verified milestone.
+M4C3O authoritative candidate run 1 is FAILED / NON-AUTHORIZING.
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+Stage8B and Stage8 remain IN PROGRESS.
+
+SOURCE / RUN IDENTITY
+Workflow:
+.github/workflows/hf2-milestone4c3o.yml
+Workflow/source commit:
+24f0f53d50f4b0ed46aa194d8483af48ca109908
+Run:
+35401987525
+Job:
+105783671710
+Run conclusion:
+FAILURE
+
+CANDIDATE IDENTITY
+Intent:
+patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.intent.patch
+SHA256:
+da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401
+Runtime scope:
+src/noeron/language_dialogue.py only.
+Ordinary 0019 does not exist and was not published by this run.
+
+PASSED GATES
+1. byte-exact HF1 fixture reconstruction — PASS.
+2. ORIGINAL carrier helper module copy — PASS.
+3. ordinary published 0001 -> 0018 each git apply --check + apply — PASS.
+4. exact runtime dependency installation — PASS.
+5. unchanged post0018 baseline — 382 passed, 2 warnings in 165.24s.
+6. exact candidate intent SHA256 verification — PASS.
+7. candidate git apply --check + apply + git diff --check + compile — PASS.
+8. focused M4C3O suite — 9 passed in 0.93s.
+
+FAILED GATE
+Complete HF2 + M4C3O primary candidate:
+390 passed, 1 failed, 2 warnings in 163.87s.
+
+Only failing test:
+tests/hf2_m4c3a/test_execution_boundary.py::test_current_unscoped_grammar_ambiguity_stays_visible_and_unresolved
+
+The stale assertion was:
+assert any(a["kind"]=="event-role" for a in structure["ambiguities"])
+
+The test's own historical comment says the determiner form overgenerates an event-role ambiguity and that a later parser/proof milestone must resolve the limitation explicitly.
+
+M4C3O is the bounded later parser-candidate milestone that removes this demonstrably malformed ambiguity.
+Therefore this failure is classified as:
+STALE HISTORICAL REGRESSION CONTRACT / FORWARD-COMPATIBILITY TEST DEFECT.
+
+This classification does not by itself certify the runtime candidate.
+The candidate remains non-authorizing until a corrected authoritative run passes every required primary/replay/parity/evidence gate.
+
+SKIPPED AFTER FAILURE
+- preserve exact green candidate patch bytes: SKIPPED;
+- separate fresh exact-HF1 replay: SKIPPED;
+- replay focused and complete tests: SKIPPED;
+- source-byte parity proof: SKIPPED;
+- green candidate receipt: SKIPPED.
+
+FAILED-RUN ARTIFACT
+GitHub artifact ID:
+10570403153
+Name:
+hf2-m4c3o-clause-shape-event-candidate-hygiene
+GitHub reported/downloaded bytes:
+21910
+ZIP SHA256:
+d976d299bfebed00a2068d51d4f05afc8d55ebea7d2ef62898e13f229bce00c3
+
+Drive mirror:
+HF2_M4C3O_FAILED_CANDIDATE_35401987525_20260919.zip
+Drive ID:
+1dPg7rgMX2xrSWnmiyPtj0gEPL7hBG89q
+
+Artifact contents:
+- m4c3o-baseline.xml
+- m4c3o-baseline.txt
+- m4c3o-candidate-diffstat.txt
+- m4c3o-complete.txt
+- m4c3o-complete.xml
+- m4c3o-focused.txt
+- m4c3o-focused.xml
+- m4c3o-hf1-identity.json
+- m4c3o-intent-sha256.txt
+
+Relevant artifact SHA256 details:
+m4c3o-baseline.txt = 462b9fb6083eca0ebb6fa64f2d4028020fd24d41fa71bec794b5519be8d3f341
+m4c3o-focused.txt = 681ebf33d8385205c50ffd6b05de15837b50177b85b37cfbcd0dabed8f31501c
+m4c3o-complete.txt = 140849397ac65193b2a5f4715af09989e6c40a14803c266dc06ace07ecc7c23b
+m4c3o-intent-sha256.txt = 7da29f68ac7d56ddfdc3706dc35ddc0442f8b240f48fe6eec9550b914b2fa738
+m4c3o-candidate-diffstat.txt = 99bbbc9f42c41a0dcb81aa2e2c707b4a79ed051b8291cf8322ea95b2ef772e2c
+
+NEXT BOUNDED REPAIR
+Repair only the demonstrated stale M4C3A test contract.
+
+The corrected historical test must be valid on BOTH:
+- unchanged exact post0018 baseline, where the historical determiner-induced ambiguity still exists; and
+- exact post0018 + M4C3O candidate, where that malformed ambiguity is intentionally absent.
+
+Therefore the historical test must no longer require either parser outcome.
+It should retain the actual M4C3A execution-boundary invariant:
+parser/grammar state cannot by itself cause owner resolution calibration to execute, cannot create a native-choice claim, and cannot mutate state through preview-only calibration.
+
+Do not alter M4C3O runtime candidate bytes unless a later run demonstrates a candidate defect.
+Do not publish ordinary 0019 until a new authoritative candidate run completes all required primary/replay/parity/artifact gates green.
+
+ARCHITECTURAL BOUNDARY
+Canonical cognition remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+Parser/event candidate inventory retains zero semantic-truth, answer, speech-act-choice, preference, relationship, cognitive-memory, source-write, or deployment authority.
+Proof/ambiguity gating remains intact.
+Live runtime and canonical DB remain untouched.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9.

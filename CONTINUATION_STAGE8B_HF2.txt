@@ -22,6 +22,65 @@ canonical_db_touched=false
 m4c3o_candidate_runtime_bytes_touched=false
 certification_claim=false
 
+M4C3O AUTHORITATIVE CANDIDATE RUN 1 — FAILED / NON-AUTHORIZING — 2026-09-19 Asia/Qatar
+Workflow source commit:
+24f0f53d50f4b0ed46aa194d8483af48ca109908
+Workflow:
+.github/workflows/hf2-milestone4c3o.yml
+Run:
+35401987525
+Job:
+105783671710
+Conclusion:
+FAILURE
+
+Passed before failure:
+- byte-exact HF1 reconstruction: PASS
+- ORIGINAL carrier helper copy: PASS
+- published 0001 -> 0018 sequential apply/check: PASS
+- unchanged post0018 baseline: 382 passed, 2 warnings in 165.24s
+- exact 0019 intent SHA256: da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401
+- candidate git apply --check/apply/compile: PASS
+- focused M4C3O: 9 passed in 0.93s
+
+Complete primary candidate:
+390 passed, 1 failed, 2 warnings in 163.87s
+
+Only failure:
+tests/hf2_m4c3a/test_execution_boundary.py::test_current_unscoped_grammar_ambiguity_stays_visible_and_unresolved
+
+Failure meaning:
+the historical M4C3A test explicitly froze the then-known determiner-induced event-role ambiguity and stated that a later parser/proof milestone must resolve it explicitly. M4C3O intentionally removes that demonstrably malformed grammatical ambiguity, so the historical assertion became stale under the candidate. This failed run does NOT authorize publication.
+
+Skipped because primary complete gate failed:
+- exact green candidate-byte preservation step
+- fresh exact-HF1 replay
+- replay focused/complete tests
+- source-byte parity proof
+- green candidate receipt
+
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+Failed candidate artifact:
+GitHub artifact ID: 10570403153
+Name: hf2-m4c3o-clause-shape-event-candidate-hygiene
+Bytes: 21910
+ZIP SHA256: d976d299bfebed00a2068d51d4f05afc8d55ebea7d2ef62898e13f229bce00c3
+Drive mirror ID: 1dPg7rgMX2xrSWnmiyPtj0gEPL7hBG89q
+GitHub/Drive artifact identity is anchored by the same downloaded ZIP bytes and SHA256 above.
+
+NEXT BOUNDED CORRECTION
+Do not change the M4C3O runtime candidate merely to satisfy the stale historical assertion.
+Update only the demonstrated stale M4C3A regression contract so it remains valid both:
+- on unchanged post0018, where the known parser ambiguity is still present; and
+- on the M4C3O candidate, where that malformed ambiguity is explicitly removed.
+The retained M4C3A invariant is that parser/grammar state must not itself grant owner calibration execution or native-choice authority.
+Then run a NEW authoritative M4C3O candidate CI from a new exact source commit.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9.
+
 M4C3O CANDIDATE CHECKPOINT — 2026-09-19 Asia/Qatar
 M4C3N remains the latest fully verified milestone.
 Published runtime remains exact HF1 + ordinary patches 0001 -> 0018.
