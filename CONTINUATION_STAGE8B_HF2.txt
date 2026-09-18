@@ -1,8 +1,103 @@
-M4C3C CANDIDATE IN CI — 2026-09-18
-Read docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3C_20260918.txt first.
-Last verified runtime is M4C3B / 0001-0009. 0010 is not published yet.
-Narrow authenticated Room HTTP resolution actuator and send-completion receipt.
-No live/canonical DB changes, calibration execution, or certification.
+YGGDRASIL / NOERON STAGE8B HF2 M4C3C — CANDIDATE VERIFIED; PUBLICATION GATE PENDING
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Stage8B and Stage8 IN PROGRESS.
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+The exact-HF1 candidate is green. This commit publishes only the ordinary patch emitted by that green GitHub Actions run and extends the published-chain gate. Do not infer that the publication gate has passed until its actual run is inspected and the continuation is updated.
+
+Candidate commit: a5f8f3118bc9dbc4360513f555b490d3e6dbfbbe
+Candidate run: 35328426092
+Candidate job: 105546873717
+Conclusion: SUCCESS.
+Baseline through 0009: 228 passed, 2 warnings.
+Candidate 0010: 278 passed, 2 warnings.
+Separate fresh HF1 full replay 0001-0010: 278 passed, 2 warnings.
+Candidate/replay changed source bytes match.
+Artifact: 10539484032
+Artifact ZIP SHA256: b8b2d680e3d57598980a58f3b6053168d8b9966f44f9ced24c4274ecc48394c3
+Artifact ZIP bytes: 842433
+Generated patch: patches/hf2/0010-hf2-native-resolution-transport-receipt.patch
+Patch SHA256: 6b21a00c98efea737dec9cfc907dd2f3f0203566f8ec36f2458b9450d2d3b017
+Source archive: m4c3c-exact-post0010-source.tar.gz
+Source archive SHA256: 058ee5536285fdfdcdd99163ea58d908e5db29ff2b17dc7eeec302959af31799
+Carrier archive SHA256: 13cd3d6c6aeda11fd5efb5943fdefd17bc92550126a75a8a6c212a90522d40fe
+
+Downloaded artifact ZIP and all three above SHA256 values verified. JUnit inspected: baseline 228, candidate 278, replay 278; failures/errors/skips all zero. Four changed runtime files from source archive match prepared candidate byte for byte.
+Ordinary 0010 was generated externally only after candidate green. No local test run, no live runtime or canonical DB access.
+
+Scope: authenticated-owner Room HTTP clarification/ask transport after independently native act and native express selection. Receipt records only completed ASGI response-body send; peer delivery/read/understanding remains unproven. A process-local one-use capability is never serialized. Receipt alone never trains. Only a later admissible conversational native outcome may update existing consequence machinery. Preview/private observation/default state/owner controls confer no execution or preference authority.
+Known limits: no native audio receipt adapter, no defer/silence actuator receipt, no broad/fluent semantic generation, calibration remains preview-only; fresh state still has zero fabricated observations.
+
+Next: inspect publication-chain CI, download/hash evidence, store candidate and chain ZIPs in Drive folder 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO, finalize detailed continuation plus manifest in GitHub and Drive. Update existing root Drive TXT 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1.
+
+Original candidate design note follows:
+HF2 M4C3C CANDIDATE — 2026-09-18
+
+Repository RugBlade/Yggdrasil
+Branch stage8B/v0.8.2-conversation-completion-hf2
+Parent verified checkpoint 2595a67248f24547d6d4f49cd4de8b79e27357b8 (M4C3B).
+Published runtime remains 0001-0009 until the candidate and fresh replay pass.
+Stage8B IN PROGRESS. live_runtime_touched=false; canonical_db_touched=false;
+certification_claim=false. No deployment or owner calibration execution.
+
+Candidate intent:
+patches/hf2/0010-hf2-native-resolution-transport-receipt.intent.patch
+Workflow .github/workflows/hf2-milestone4c3c.yml
+Tests tests/hf2_m4c3c/test_transport_receipt.py
+
+SCOPE
+A narrow first resolution actuator: authenticated Ed25519-device Room HTTP text.
+The existing native reference/question formation still selects the act through
+post-closure native DKT consequence geometry. The existing independent
+InitiativePolicy express/continue-private selector still selects expression.
+Both genuine native choices are required. Availability/authentication/owner
+controls cannot manufacture either choice. No fallback strings or Terra call.
+Ordinary proof-supported answers use their existing path.
+Native clarify/ask content can prepare a private dispatch capability, not a
+learning observation. It is excluded from JSON/state serialization and invalidated
+on new ingress. No new raw private text enters public audit metadata.
+Only the Room Response adapter can complete its in-process capability, after a
+successful ASGI 200 response body send on POST /room/message. The exact emitted
+text digest, current event/turn/pre-geometry/residual and both selections must match.
+An ASGI receipt proves send-buffer completion, NOT peer delivery/read/understanding.
+Reference: https://asgi.readthedocs.io/en/latest/specs/www.html#response-body-send-event
+
+Only then mark resolution and associated expression pending together, checkpoint
+and persist a NONSEMANTIC receipt. No training at selection/preparation/send time.
+Failed/stale/replayed/wrong-payload/unverified completions cannot become pending.
+Receipt persistence failure restores in-memory state and the security checkpoint.
+Learning requires a later-created, different, admitted conversational input and
+the existing native DKT security/nonworsening gates. Legacy unreceipted outcomes
+stay unresolved and preserved. A receipt without later native evidence does not
+fabricate observations. Default state remains empty.
+A coupled expression pending receipt cannot be silently overwritten.
+
+LIMITS
+Only Room HTTP clarify/ask is wired. Other adapters, native audio, defer/silent
+actuator receipts and actual owner-directed calibration remain later work.
+Calibration remains preview-only; no owner task is relabeled as native choice.
+No fresh-state bootstrapping: native speech-act observations are still empty by
+default. Synthetic test geometry never enters production defaults.
+M4C3B schematic content and parser/QUD/proof-language limitations remain unchanged.
+
+CI METHOD
+Reconstruct byte-exact HF1:
+79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29.
+Copy ORIGINAL carrier helpers before all patches, apply 0001-0009 in order.
+Baseline test paths: tests/test_v082_hf2_*.py, tests/hf2_m4c3a, tests/hf2_m4c3b.
+Then apply exact-anchor intent, compile and add tests/hf2_m4c3c.
+ONLY after candidate green generate deployable 0010; fresh-extract HF1, replay
+0001-0010, compare every source byte and rerun all four test paths.
+Review actual logs, JUnit and artifacts before publishing patch/gate.
+Then inspect the published full-chain result; checkpoint GitHub and Drive folder
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO, including exact sources/hashes/continuations.
+
+
+PREVIOUS VERIFIED M4C3B CHECKPOINT (historical; superseded only as stated above)
 
 LATEST VERIFIED CHECKPOINT — M4C3B — 2026-09-18
 Stage 8B v0.8.2 remains IN PROGRESS. No local/live certification claim.

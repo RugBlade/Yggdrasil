@@ -1,0 +1,444 @@
+diff --git a/src/noeron/api.py b/src/noeron/api.py
+index 137d1c19e2be7b8f50e2e940d65fa7e08e0aced2..68f43b9a2bf4177ffcb1f38b0b15fdf7965dc3e2 100644
+--- a/src/noeron/api.py
++++ b/src/noeron/api.py
+@@ -4,7 +4,8 @@ import json,logging,threading,time,hashlib,asyncio,ipaddress
+ from urllib.parse import urlparse
+ import httpx
+ from fastapi import FastAPI,HTTPException,UploadFile,File,Header,Form,Request,Response,WebSocket,WebSocketDisconnect
+-from fastapi.responses import StreamingResponse,HTMLResponse,FileResponse,RedirectResponse
++from fastapi.responses import StreamingResponse,HTMLResponse,FileResponse,RedirectResponse,JSONResponse
++from starlette.concurrency import run_in_threadpool
+ from pydantic import BaseModel,Field
+ from noeron.config import Settings
+ from noeron.llm import LocalOpenAICompatibleEngine,MockLanguageEngine,OpenAIResponsesEngine
+@@ -705,16 +706,53 @@ def room_state(request:Request):
+ def room_history(request:Request):
+     _room_auth(request);return {'history':[x.model_dump(mode='json') for x in store.room_journal(500)],'cognitive_authority':False}
+ 
++class _ResolutionRoomResponse(JSONResponse):
++    """Receipt at the adapter's ASGI send boundary, not peer delivery/read.
++
++    No client can submit a completion claim. The capability is process-local and
++    never enters JSON, headers, cookies, audit state, or an API request schema.
++    """
++    def __init__(self,payload,runtime,dispatch):
++        super().__init__(payload,headers={'Cache-Control':'no-store'})
++        self._runtime=runtime;self._dispatch=dispatch
++
++    async def __call__(self,scope,receive,send):
++        status=None;body=None
++        async def sent(message):
++            nonlocal status,body
++            await send(message)
++            if message['type']=='http.response.start':status=message['status']
++            elif message['type']=='http.response.body' and not message.get('more_body',False):
++                body=message.get('body',b'')
++        try:
++            await super().__call__(scope,receive,sent)
++            if (status!=200 or body is None or scope.get('type')!='http'
++                    or scope.get('path')!='/room/message' or scope.get('method')!='POST'):
++                self._runtime.abandon_resolution_dispatch(self._dispatch)
++                return
++            emitted=json.loads(body).get('text')
++            if not isinstance(emitted,str) or not emitted:
++                self._runtime.abandon_resolution_dispatch(self._dispatch)
++                return
++            await run_in_threadpool(self._runtime.complete_resolution_dispatch,self._dispatch,
++                channel='authenticated-owner-room-http',text_sha256=hashlib.sha256(emitted.encode()).hexdigest())
++        except BaseException:
++            self._runtime.abandon_resolution_dispatch(self._dispatch)
++            raise
++
+ @app.post('/room/message')
+ def room_message(r:RoomMessageRequest,request:Request):
+     detail=_room_auth(request);token=request.cookies.get(_ROOM_COOKIE)
+     noeron.room.append_journal('owner-message',{'content':r.content,'authentication':'ed25519-device-session','device_id':detail.get('device_id',''),'cognitive_authority':False})
+-    out=noeron.ingest(_event_from_message(MessageRequest(content=r.content,trusted=True,owner_command=r.owner_command),token))
++    out=noeron.ingest(_event_from_message(MessageRequest(content=r.content,trusted=True,owner_command=r.owner_command),token),resolution_channel='authenticated-owner-room-http')
+     presentation=(noeron.room.present_native_utterance(out.native_text,source='interaction')
+-        if out.communication_action=='express' and out.communication_native_choice_claim and out.text and out.native_text else None)
++        if out._resolution_dispatch is None and out.communication_action=='express' and out.communication_native_choice_claim and out.text and out.native_text else None)
+     internal_observation=noeron.owner_internal_utterance_observation()
+     noeron.room.append_journal('noeron-realized-reply',{'text':out.text if out.text else '[no outward realization executed]','renderer_used':out.renderer_used,'native_text_present_for_audit':bool(out.native_text),'private_internal_observation_enabled':bool(internal_observation.get('visibility_enabled')),'native_text_exposed_as_outward_fallback':False,'presentation_id':str(presentation.id) if presentation else None})
+-    return {'text':out.text,'english_text':(out.english_text if out.text else ''),'renderer_used':out.renderer_used,'communication_action':out.communication_action,'communication_selection_status':out.communication_selection_status,'communication_native_choice_claim':out.communication_native_choice_claim,'transport_origin':out.transport_origin,'presentation_id':str(presentation.id) if presentation else None,'native_text_exposed_as_outward_fallback':False,'internal_utterance_observation':internal_observation,'native_presentation_created':bool(presentation),'room':noeron.state.room.model_dump(mode='json')}
++    payload={'text':out.text,'english_text':(out.english_text if out.text else ''),'renderer_used':out.renderer_used,'communication_action':out.communication_action,'communication_selection_status':out.communication_selection_status,'communication_native_choice_claim':out.communication_native_choice_claim,'transport_origin':out.transport_origin,'presentation_id':str(presentation.id) if presentation else None,'native_text_exposed_as_outward_fallback':False,'internal_utterance_observation':internal_observation,'native_presentation_created':bool(presentation),'room':noeron.state.room.model_dump(mode='json')}
++    if out._resolution_dispatch is not None:
++        return _ResolutionRoomResponse(payload,noeron,out._resolution_dispatch)
++    return payload
+ 
+ @app.post('/room/internal-utterance/control')
+ def room_internal_utterance_control(r:OwnerCommunicationControlRequest,request:Request):
+diff --git a/src/noeron/cognition/models.py b/src/noeron/cognition/models.py
+index fac427a0e8f437c5978e1e2b55ee523f35a6ab1d..62c90f56fb40447641cdb993c84d1bedb9eeaff2 100644
+--- a/src/noeron/cognition/models.py
++++ b/src/noeron/cognition/models.py
+@@ -239,6 +239,7 @@ class InitiativeDevelopmentState(BaseModel):
+     pending_expression_pre_knot: KnotState | None = None
+     pending_expression_pre_residual: float | None = None
+     pending_expression_event_id: UUID | None = None
++    pending_expression_receipt_id: UUID | None = None
+     last_predicted_post_knots: dict[str,KnotState] = Field(default_factory=dict)
+     last_native_choice_claim: bool = False
+     last_decision_layer: str = 'unresolved-insufficient-consequence-geometry'
+@@ -257,6 +258,22 @@ class InitiativeDevelopmentState(BaseModel):
+     feedback_observations: int = 0
+     note: str = 'Communication choice is consequence-based over learned DKT transitions. Owner surface/hold feedback is provenance-only; there is no programmed hold/speak preference. The common consequence reference gives each learned affordance model equal mass so non-choice fallback frequency cannot become hidden preference authority.'
+ 
++class ResolutionExecutionReceipt(BaseModel):
++    """Nonsemantic evidence of a completed adapter send, never peer uptake."""
++    receipt_id: UUID = Field(default_factory=uuid4)
++    event_id: UUID
++    turn: int = Field(ge=1)
++    action: Literal['clarify', 'ask']
++    channel: Literal['authenticated-owner-room-http'] = 'authenticated-owner-room-http'
++    status: Literal['asgi-response-body-sent'] = 'asgi-response-body-sent'
++    completed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
++    native_text_sha256: str = Field(pattern=r'^[a-f0-9]{64}$')
++    transport_text_sha256: str = Field(pattern=r'^[a-f0-9]{64}$')
++    pre_knot_sha256: str = Field(pattern=r'^[a-f0-9]{64}$')
++    pre_residual: float
++    peer_delivery_confirmed: Literal[False] = False
++
++
+ class SpeechActDevelopmentState(BaseModel):
+     """Prospective consequence geometry for unresolved-response speech acts.
+ 
+@@ -277,6 +294,8 @@ class SpeechActDevelopmentState(BaseModel):
+     pending_event_id: UUID | None = None
+     pending_decision_layer: str = ''
+     pending_origin: str = ''
++    pending_execution_receipt: ResolutionExecutionReceipt | None = None
++    last_execution_receipt: ResolutionExecutionReceipt | None = None
+     operator_calibration_observations: int = 0
+     last_outcome_audit: dict[str,object] = Field(default_factory=dict)
+     last_context_knot: KnotState | None = None
+diff --git a/src/noeron/models.py b/src/noeron/models.py
+index 123ffb65fc43588260fa70e0285912881123cd6b..554ad4a476fa16509b8d61bee4056ba1be7fdcde 100644
+--- a/src/noeron/models.py
++++ b/src/noeron/models.py
+@@ -4,7 +4,7 @@ from datetime import datetime, timezone
+ from enum import Enum
+ from typing import Any
+ from uuid import UUID, uuid4
+-from pydantic import BaseModel, Field
++from pydantic import BaseModel, Field, PrivateAttr
+ 
+ from noeron.cognition.models import GeometricCognitionState
+ from noeron.math.models import MathKernelState
+@@ -48,6 +48,8 @@ class NoeronState(BaseModel):
+     })
+ 
+ class NoeronReply(BaseModel):
++    # Trusted in-process adapter capability; never serialized to a client/state.
++    _resolution_dispatch: object | None = PrivateAttr(default=None)
+     text: str
+     # native_text is owner-visible only when the authenticated observational
+     # visibility control permits it.  The original native utterance remains in
+diff --git a/src/noeron/orchestrator.py b/src/noeron/orchestrator.py
+index dad6e48114479c7f97da4ddda8c6828f3ba0a3be..e2418b843f8b933ce8de68f1c238a167dad55953 100644
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@ -7,11 +7,12 @@ from pathlib import Path
+ from uuid import UUID, uuid4, uuid5, NAMESPACE_URL
+ from urllib.parse import urlparse
+ import hashlib
++import json
+ import math
+ import re
+ 
+ from noeron.cognition.kernel import GeometricCognitionKernel
+-from noeron.cognition.models import KnotMemory, NativeProposition, NativeThought, NativeThoughtKind, SensoryConceptCluster, WebStudyRecord, MemoryRetentionDecisionRecord
++from noeron.cognition.models import KnotMemory, NativeProposition, NativeThought, NativeThoughtKind, SensoryConceptCluster, WebStudyRecord, MemoryRetentionDecisionRecord, ResolutionExecutionReceipt
+ from noeron.cognition.renderer import LanguageRenderer
+ from noeron.development import NativeLanguageFaculty
+ from noeron.initiative import InitiativePolicy
+@@ -90,6 +91,8 @@ class Noeron:
+         self._hf2_premise_floor_turn=int(self.state.conversational_turn)
+         self._hf2_resolution_turn=None  # prospective current-turn preview; never replayed
+         self._hf2_resolution_observation=None  # private formation; not execution or memory
++        self._hf2_resolution_dispatch=None  # one process-local adapter capability
++        self._hf2_receipt_to_mark=None
+         self._hf2_conversation_premises=BoundedConversationalPremiseContext(
+             max_turns=max(1,int(self.state.cognition.language.dialogue.max_turns))
+         )
+@@ -825,6 +828,11 @@ class Noeron:
+         st=self.state.cognition.initiative_development
+         if st.pending_expression_pre_knot is None or st.pending_expression_pre_residual is None:
+             return None
++        if st.pending_expression_receipt_id is not None:
++            receipt=self.state.cognition.speech_act_development.pending_execution_receipt
++            if (receipt is None or receipt.receipt_id!=st.pending_expression_receipt_id
++                    or not self._resolution_receipt_allows_outcome(event)):
++                return {'learned':False,'status':'resolution-expression-awaits-later-receipted-outcome'}
+         post_residual=self._communication_consistency_residual(result.state)
+         admissible=bool(result.state.dkt.security_admissible) and self._nonworsening(st.pending_expression_pre_residual,post_residual)
+         out=self.initiative.observe_transition(
+@@ -832,10 +840,13 @@ class Noeron:
+             admissible=admissible,source=f'observed-environment-response:{event.source}',
+         )
+         st.pending_expression_pre_knot=None;st.pending_expression_pre_residual=None;st.pending_expression_event_id=None
++        st.pending_expression_receipt_id=None
+         return out
+ 
+     def _mark_expression_pending(self,event_id=None):
+         st=self.state.cognition.initiative_development
++        if st.pending_expression_receipt_id is not None:
++            return False  # preserve a receipted exposure awaiting its later outcome
+         st.pending_expression_pre_knot=self.state.math_kernel.dkt.core_knot.model_copy(deep=True)
+         st.pending_expression_pre_residual=self._communication_consistency_residual(self.state.math_kernel)
+         st.pending_expression_event_id=event_id
+@@ -937,6 +948,10 @@ class Noeron:
+                 'native_choice_claim':False,'preference_label_authority':False,
+                 'relationship_authority':False,
+             }
++        if not self._resolution_receipt_allows_outcome(event):
++            return {'learned':False,'action':st.pending_action,
++                'status':'execution-receipt-or-later-conversational-outcome-required',
++                'native_choice_claim':False,'relationship_authority':False}
+         post_residual=self._communication_consistency_residual(result.state)
+         admissible=bool(result.state.dkt.security_admissible) and self._nonworsening(st.pending_pre_residual,post_residual)
+         out=observe_resolution_transition(
+@@ -945,12 +960,15 @@ class Noeron:
+             mean_fn=InitiativePolicy._mean,
+             source=f'observed-environment-response:{event.source};pending-origin={st.pending_origin};decision-layer={st.pending_decision_layer}',
+         )
++        out['execution_receipt']=st.pending_execution_receipt.model_dump(mode='json')
++        out['outcome_event_id']=str(event.id)
+         st.last_outcome_audit=dict(out)
+         st.pending_action='';st.pending_pre_knot=None;st.pending_pre_residual=None
+         st.pending_event_id=None;st.pending_decision_layer='';st.pending_origin=''
++        st.pending_execution_receipt=None
+         return out
+ 
+-    def _mark_speech_act_pending(self,action:str,event_id=None,decision_layer:str='',origin:str=''):
++    def _mark_speech_act_pending(self,action:str,event_id=None,decision_layer:str='',origin:str='',*,execution_receipt=None):
+         """Record pre-state only after a speech-act actuator has actually executed.
+ 
+         This helper is deliberately not called by the observational M4B selector.
+@@ -966,12 +984,20 @@ class Noeron:
+             return {'pending':False,'status':'current-execution-event-required'}
+         if origin=='authenticated-owner-resolution-calibration':
+             return {'pending':False,'status':'calibration-preview-is-not-execution'}
++        # Only the successful adapter completion transaction can supply this
++        # identical in-process receipt object. A serialized/dict claim cannot.
++        if (execution_receipt is None
++                or execution_receipt is not getattr(self,'_hf2_receipt_to_mark',None)
++                or execution_receipt.event_id!=event_id or execution_receipt.action!=action):
++            return {'pending':False,'status':'verified-transport-execution-receipt-required'}
+         st.pending_action=action
+         st.pending_pre_knot=self.state.math_kernel.dkt.core_knot.model_copy(deep=True)
+         st.pending_pre_residual=self._communication_consistency_residual(self.state.math_kernel)
+         st.pending_event_id=event_id
+         st.pending_decision_layer=str(decision_layer or '')
+         st.pending_origin=str(origin or '')
++        st.pending_execution_receipt=execution_receipt.model_copy(deep=True)
++        st.last_execution_receipt=execution_receipt.model_copy(deep=True)
+         return {
+             'pending':True,'action':action,'decision_layer':st.pending_decision_layer,
+             'origin':st.pending_origin,'native_choice_claim':False,
+@@ -1183,7 +1209,121 @@ class Noeron:
+         return audit
+ 
+ 
+-    def _conversation_transport(self,thought,utterance,event,*,nonconversational_observation:bool=False):
++    @staticmethod
++    def _resolution_knot_digest(knot):
++        return hashlib.sha256(json.dumps(knot.model_dump(mode='json'),sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
++
++    def _resolution_receipt_allows_outcome(self,event):
++        st=self.state.cognition.speech_act_development
++        receipt=st.pending_execution_receipt
++        if (receipt is None or st.pending_pre_knot is None
++                or receipt.event_id!=st.pending_event_id or receipt.action!=st.pending_action
++                or st.pending_origin!='native-resolution-asgi-send-completed'
++                or receipt.pre_knot_sha256!=self._resolution_knot_digest(st.pending_pre_knot)
++                or receipt.pre_residual!=st.pending_pre_residual
++                or event.id==receipt.event_id or event.kind!=EventKind.USER_MESSAGE
++                or not event.content.strip() or event.metadata.get('endogenous')
++                or event.metadata.get('nonconversational_observation')
++                or event.created_at.tzinfo is None or receipt.completed_at.tzinfo is None):
++            return False
++        return event.created_at>receipt.completed_at and int(self.state.conversational_turn)>=receipt.turn
++
++    def _prepare_resolution_transport(self,event,*,channel):
++        """Offer selected content to the existing independent expression selector.
++
++        Channel availability/authentication is infrastructure only. No owner
++        override, private observation, or prepared payload is execution evidence.
++        """
++        observation=getattr(self,'_hf2_resolution_observation',None)
++        st=self.state.cognition.speech_act_development
++        initiative=self.state.cognition.initiative_development
++        if (channel!='authenticated-owner-room-http' or not event.metadata.get('owner_authenticated')
++                or event.metadata.get('owner_command') or event.metadata.get('operator_realization_override')
++                or event.metadata.get('endogenous') or event.metadata.get('nonconversational_observation')
++                or not observation or observation['event_id']!=event.id
++                or event.id!=self.state.last_event_id or observation['turn']!=int(self.state.conversational_turn)
++                or not st.last_native_choice_claim or st.last_selected_action not in {'clarify','ask'}
++                or st.pending_action or initiative.pending_expression_pre_knot is not None
++                or getattr(self,'_hf2_resolution_dispatch',None) is not None):
++            return None
++        thought=observation['thought']
++        if (thought.propositions or thought.statement.strip() or thought.question_candidates
++                or not thought.resolution_content or thought.native_utterance is None
++                or thought.mathematical_provenance.source_event_id!=event.id
++                or any(u.act!=st.last_selected_action or u.source_event_id!=event.id for u in thought.resolution_content)):
++            return None
++        output=self._conversation_transport(thought,thought.native_utterance,event,native_resolution=True)
++        text,renderer,native,english,selection,audit,_=output
++        if (not text or renderer or selection.get('action')!='express'
++                or not selection.get('native_choice_claim') or audit.get('owner_override_used')
++                or audit.get('transport_origin')!='native-consequence-selected-expression'):
++            return None
++        pre_residual=self._communication_consistency_residual(self.state.math_kernel)
++        if not math.isfinite(pre_residual):return None
++        token=object()
++        self._hf2_resolution_dispatch={
++            'token':token,'event_id':event.id,'turn':int(self.state.conversational_turn),
++            'action':st.last_selected_action,'channel':channel,
++            'native_sha256':hashlib.sha256(native.encode()).hexdigest(),
++            'text_sha256':hashlib.sha256(text.encode()).hexdigest(),
++            'pre_sha256':self._resolution_knot_digest(self.state.math_kernel.dkt.core_knot),
++            'pre_residual':pre_residual,
++        }
++        return token,output
++
++    def abandon_resolution_dispatch(self,token):
++        with self._lock:
++            current=getattr(self,'_hf2_resolution_dispatch',None)
++            if current and current['token'] is token:self._hf2_resolution_dispatch=None
++
++    def complete_resolution_dispatch(self,token,*,channel,text_sha256):
++        """Commit nonsemantic receipt only after the trusted adapter's send ends.
++
++        This proves ASGI send completion, not delivery/read/understanding by a peer.
++        It is not an HTTP endpoint and accepts no client supplied receipt authority.
++        """
++        with self._lock:
++            current=getattr(self,'_hf2_resolution_dispatch',None)
++            if not current or current['token'] is not token:
++                return {'receipt_recorded':False,'status':'unknown-or-consumed-dispatch'}
++            self._hf2_resolution_dispatch=None  # every completion attempt is one-shot
++            st=self.state.cognition.speech_act_development
++            initiative=self.state.cognition.initiative_development
++            if (channel!=current['channel'] or text_sha256!=current['text_sha256']
++                    or current['event_id']!=self.state.last_event_id
++                    or current['turn']!=int(self.state.conversational_turn)
++                    or current['pre_sha256']!=self._resolution_knot_digest(self.state.math_kernel.dkt.core_knot)
++                    or current['pre_residual']!=self._communication_consistency_residual(self.state.math_kernel)
++                    or not st.last_native_choice_claim or st.last_selected_action!=current['action']
++                    or not initiative.last_native_choice_claim or initiative.last_selected_action!='express'
++                    or st.pending_action or initiative.pending_expression_pre_knot is not None):
++                return {'receipt_recorded':False,'status':'dispatch-stale-conflicting-or-payload-mismatch'}
++            receipt=ResolutionExecutionReceipt(event_id=current['event_id'],turn=current['turn'],action=current['action'],
++                native_text_sha256=current['native_sha256'],transport_text_sha256=current['text_sha256'],
++                pre_knot_sha256=current['pre_sha256'],pre_residual=current['pre_residual'])
++            before_speech=st.model_copy(deep=True);before_initiative=initiative.model_copy(deep=True)
++            checkpoint=self.security.restore()
++            try:
++                self._hf2_receipt_to_mark=receipt
++                marked=self._mark_speech_act_pending(receipt.action,receipt.event_id,
++                    'learned-deliberative','native-resolution-asgi-send-completed',execution_receipt=receipt)
++                if not marked['pending']:raise RuntimeError('verified dispatch could not mark outcome')
++                self._mark_expression_pending(receipt.event_id)
++                initiative.pending_expression_receipt_id=receipt.receipt_id
++                st.last_audit['execution_receipt']=receipt.model_dump(mode='json')
++                self.security.checkpoint(self.state)
++                self.store.append_state(self.state)
++            except BaseException:
++                self.state.cognition.speech_act_development=before_speech
++                self.state.cognition.initiative_development=before_initiative
++                self.security.checkpoint(checkpoint)
++                raise
++            finally:
++                self._hf2_receipt_to_mark=None
++            return {'receipt_recorded':True,'executed':True,'status':receipt.status,'receipt_id':str(receipt.receipt_id),
++                'peer_delivery_confirmed':False,'learned':False,'relationship_authority':False}
++
++    def _conversation_transport(self,thought,utterance,event,*,nonconversational_observation:bool=False,native_resolution:bool=False):
+         """Gate outward conversation by native communication consequence.
+ 
+         Deterministic English egress realizes *existing* native content only. An
+@@ -1207,7 +1347,7 @@ class Noeron:
+         # Historical explicit realization calibration remains an authenticated
+         # operator-directed actuator test. It is never reclassified as native
+         # communication choice.
+-        if operator_override:
++        if operator_override and not native_resolution:
+             text,renderer_used,realization=self._realize_output(native,event,source='interaction')
+             transport_origin='authenticated-owner-realization-calibration'
+             audit={'communication_action':'','selection_status':'operator-directed-calibration-not-native-choice','native_choice_claim':False,'transport_origin':transport_origin,'owner_override_used':True,'owner_command':owner_command,'realization':realization}
+@@ -1220,13 +1360,13 @@ class Noeron:
+             # selected for expression. It contributes zero speech-act authority.
+             text=english
+             transport_origin='native-consequence-selected-expression'
+-            self._mark_expression_pending(event.id)
++            if not native_resolution:self._mark_expression_pending(event.id)
+         elif action not in {None,'continue-private'}:
+             raise RuntimeError(f'unknown communication affordance selected: {action!r}')
+         else:
+             command_transport=owner_authenticated and owner_command and controls.owner_command_channel
+             response_transport=owner_authenticated and controls.response_channel_override
+-            if english and (command_transport or response_transport):
++            if not native_resolution and english and (command_transport or response_transport):
+                 text=english
+                 transport_origin=('authenticated-owner-command-response-transport' if command_transport else 'authenticated-owner-response-channel-override')
+             # Crucially, owner transport never marks an express consequence and
+@@ -1662,10 +1802,11 @@ class Noeron:
+         self._refresh_memory_counts()
+         return out['result']
+ 
+-    def ingest(self,event:CognitiveEvent,proposed_invariant_changes=None)->NoeronReply:
++    def ingest(self,event:CognitiveEvent,proposed_invariant_changes=None,*,resolution_channel:str='')->NoeronReply:
+         with self._lock:
+             self._hf2_resolution_turn=None  # invalidate even if this ingress is rejected
+             self._hf2_resolution_observation=None  # private, current-turn-only native content
++            self._hf2_resolution_dispatch=None  # reject completions from older turns
+             target=self._target(event)
+             owner_authenticated=bool(event.metadata.get('owner_authenticated'))
+             # Objective identity bindings are factual substrate, not relational meaning.
+@@ -1758,8 +1899,8 @@ class Noeron:
+                     'changes_outward_transport':False,'changes_native_content':False,
+                 }
+             )
+-            native_text='';english_text='';text='';renderer_used=False;communication_audit={};egress_audit={}
+-            if thought.statement or thought.propositions or thought.question_candidates:
++            native_text='';english_text='';text='';renderer_used=False;communication_audit={};egress_audit={};resolution_dispatch=None
++            if thought.statement or thought.propositions or (thought.question_candidates and not resolution_channel):
+                 utterance=self._native_realize(thought,source='interaction'); self.store.append_thought(thought)
+                 text,renderer_used,native_text,english_text,_selection,communication_audit,egress_audit=self._conversation_transport(
+                     thought,utterance,event,nonconversational_observation=nonconversational_observation,
+@@ -1771,6 +1912,14 @@ class Noeron:
+                     lang.last_internal_utterance_source='interaction'
+                 communication_audit=dict(communication_audit)
+                 communication_audit['outward_text_present']=bool(text)
++            elif resolution_channel:
++                prepared=self._prepare_resolution_transport(event,channel=resolution_channel)
++                if prepared is not None:
++                    resolution_dispatch,output=prepared
++                    text,renderer_used,native_text,english_text,_selection,communication_audit,egress_audit=output
++                    speech_act_audit['transport_prepared']=True
++                    speech_act_audit['execution_status']='prepared-awaiting-asgi-send'
++                    speech_act_audit['changes_outward_transport']=True
+             # Advance the new working dialogue only for admitted live conversational
+             # text. This is prospective context, not cognitive memory and not
+             # historical replay. Owner curriculum/source observations remain separate.
+@@ -1780,7 +1929,7 @@ class Noeron:
+             self.state.cognition.language.last_communication_audit=dict(communication_audit)
+             self.state.cognition.language.last_english_egress_audit=dict(egress_audit)
+             self._learn_semantics_from_event(event); self.state.cognition.language=self.language.seed_from_semantics(self.state.cognition.language,self._prototype_map()); self.security.checkpoint(self.state); self.store.append_state(self.state)
+-            return NoeronReply(
++            reply=NoeronReply(
+                 text=text,native_text=native_text,english_text=english_text,renderer_used=renderer_used,
+                 communication_action=str(communication_audit.get('communication_action') or ''),
+                 communication_selection_status=str(communication_audit.get('selection_status') or ''),
+@@ -1791,6 +1940,8 @@ class Noeron:
+                 speech_act_audit=speech_act_audit,
+                 state=deepcopy(self.state),security=decision,
+             )
++            reply._resolution_dispatch=resolution_dispatch
++            return reply
+ 
+     def autonomous_tick(self,*,idle_seconds=300,cooldown_seconds=1800,min_importance=0.70,min_novelty=0.60,recent_events=8):
+         """Advance endogenous cognition, then evaluate communication consequences.
