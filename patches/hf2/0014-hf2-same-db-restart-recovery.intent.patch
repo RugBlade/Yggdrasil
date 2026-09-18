@@ -1,0 +1,182 @@
+--- a/src/noeron/memory.py
++++ b/src/noeron/memory.py
+@@
+ from noeron.learning import decode_sparse_deformation
+ 
+ 
++class PersistedStateValidationError(RuntimeError):
++    """Latest persisted NoeronState is unreadable; never silently boot fresh."""
++
++
+ class LocalEventStore:
+@@
+     def latest_state(self):
+         with self._lock: row=self._connection.execute('SELECT payload FROM states ORDER BY sequence DESC LIMIT 1').fetchone()
+         if not row:return None
+-        try:return NoeronState.model_validate(json.loads(row[0]))
++        try:return NoeronState.model_validate_json(row[0])
++        except Exception as exc:
++            raise PersistedStateValidationError(
++                'latest persisted NoeronState failed validation; refusing fresh-state fallback'
++            ) from exc
++
++    def recovery_state_after_consumed_resolution_receipt(self,receipt_id:str):
++        """Return the newest prior valid state after this receipt was consumed.
++
++        State-history inspection here is restart-integrity provenance only.  It is not
++        cognitive retrieval and grants no semantic, preference, relationship, source,
++        or deployment authority.  The newest row is deliberately excluded because the
++        caller is validating that row as a possible replay.
++        """
++        rid=str(receipt_id or '')
++        if not rid:return None
++        with self._lock:
++            rows=self._connection.execute('SELECT payload FROM states ORDER BY sequence DESC').fetchall()
++        candidate=None
++        for row in rows[1:]:
++            try:state=NoeronState.model_validate_json(row[0])
+-        except Exception:return None
++            except Exception:continue
++            speech=state.cognition.speech_act_development
++            pending=speech.pending_execution_receipt
++            if candidate is None and (pending is None or str(pending.receipt_id)!=rid):
++                candidate=state
++            audit=dict(speech.last_outcome_audit or {})
++            used=audit.get('execution_receipt')
++            if (isinstance(used,dict) and str(used.get('receipt_id') or '')==rid
++                    and not speech.pending_action and speech.pending_execution_receipt is None):
++                return (candidate or state).model_copy(deep=True)
++        return None
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@
+         self.renderer=LanguageRenderer(engine); self.language=NativeLanguageFaculty(); self.security=DKTSecurityShell(self.state); self.initiative=InitiativePolicy(initiative_threshold); self.realization=RealizationPolicy(); self.memory_retention=MemoryRetentionPolicy(); self.species_name=species_name; self.individual_name=individual_name; self.terra_enabled=bool(terra_enabled); self.engineering=SourceWorkspace(engineering_source_root,max_source_bytes=engineering_max_source_bytes); self._lock=RLock()
++        self._hf2_restart_recovery_audit={'status':'no-persisted-resolution-pending-state','authority':self._restart_recovery_authority()}
++        self._recover_persisted_resolution_execution_state()
+         if not self.state.math_kernel.dkt.core_knot.cosine:self.state.math_kernel.dkt.core_knot=dkt.reference_knot()
+@@
++    @staticmethod
++    def _restart_recovery_authority():
++        return {
++            'semantic_truth':False,'answer':False,'speech_act_choice':False,
++            'preference_label':False,'cognitive_memory':False,'relationship':False,
++            'source_write_runtime':False,'deployment':False,
++        }
++
++    @staticmethod
++    def _clear_persisted_resolution_pending(speech,initiative):
++        speech.pending_action='';speech.pending_pre_knot=None;speech.pending_pre_residual=None
++        speech.pending_event_id=None;speech.pending_decision_layer='';speech.pending_origin=''
++        speech.pending_execution_receipt=None
++        initiative.pending_expression_pre_knot=None;initiative.pending_expression_pre_residual=None
++        initiative.pending_expression_event_id=None;initiative.pending_expression_receipt_id=None
++
++    def _persisted_resolution_pending_integrity(self):
++        speech=self.state.cognition.speech_act_development
++        initiative=self.state.cognition.initiative_development
++        receipt=speech.pending_execution_receipt
++        pending_fields=(speech.pending_action,speech.pending_pre_knot,speech.pending_pre_residual,
++            speech.pending_event_id,speech.pending_decision_layer,speech.pending_origin,receipt,
++            initiative.pending_expression_receipt_id)
++        if all(x in ('',None) for x in pending_fields):
++            return True,'no-pending-resolution-execution'
++        if (not speech.pending_action or speech.pending_pre_knot is None
++                or speech.pending_pre_residual is None or speech.pending_event_id is None
++                or not speech.pending_decision_layer or not speech.pending_origin or receipt is None):
++            return False,'incomplete-persisted-resolution-pending-state'
++        if (receipt.action!=speech.pending_action or receipt.event_id!=speech.pending_event_id
++                or not math.isfinite(float(speech.pending_pre_residual))
++                or float(receipt.pre_residual)!=float(speech.pending_pre_residual)
++                or receipt.pre_knot_sha256!=self._resolution_knot_digest(speech.pending_pre_knot)
++                or int(receipt.turn)!=int(self.state.conversational_turn)):
++            return False,'mismatched-persisted-resolution-receipt-provenance'
++        last=speech.last_execution_receipt
++        if last is None or last.receipt_id!=receipt.receipt_id or last.action!=receipt.action:
++            return False,'missing-or-mismatched-last-execution-receipt'
++        if isinstance(receipt,ResolutionExecutionReceipt):
++            if (receipt.action not in {'clarify','ask'}
++                    or speech.pending_origin!='native-resolution-asgi-send-completed'
++                    or initiative.pending_expression_receipt_id!=receipt.receipt_id
++                    or initiative.pending_expression_pre_knot is None
++                    or initiative.pending_expression_pre_residual is None
++                    or initiative.pending_expression_event_id!=receipt.event_id
++                    or not math.isfinite(float(initiative.pending_expression_pre_residual))
++                    or self._resolution_knot_digest(initiative.pending_expression_pre_knot)!=receipt.pre_knot_sha256
++                    or float(initiative.pending_expression_pre_residual)!=float(receipt.pre_residual)):
++                return False,'mismatched-persisted-content-receipt-linkage'
++        elif isinstance(receipt,NonContentResolutionExecutionReceipt):
++            if (receipt.action not in {'defer','remain-silent'}
++                    or speech.pending_origin!='native-resolution-local-noncontent-completed'
++                    or receipt.effect!=self._noncontent_resolution_effect(receipt.action)
++                    or receipt.content_emitted or receipt.outward_transport_performed
++                    or receipt.peer_delivery_confirmed or receipt.peer_read_confirmed
++                    or receipt.peer_understanding_confirmed or receipt.peer_reply_causation_confirmed
++                    or initiative.pending_expression_pre_knot is not None
++                    or initiative.pending_expression_pre_residual is not None
++                    or initiative.pending_expression_event_id is not None
++                    or initiative.pending_expression_receipt_id is not None):
++                return False,'mismatched-persisted-noncontent-receipt-linkage'
++        else:
++            return False,'unsupported-persisted-resolution-receipt-type'
++        return True,'valid-persisted-resolution-pending-state'
++
++    def _recover_persisted_resolution_execution_state(self):
++        """Fail closed on invalid/replayed pending receipt state at process start.
++
++        This is restart-integrity handling over SQLite provenance only.  It never
++        creates a speech-act choice, preference, semantic claim, cognitive memory,
++        relationship meaning, content, source write, or deployment authority.
++        """
++        speech=self.state.cognition.speech_act_development
++        receipt=speech.pending_execution_receipt
++        initiative=self.state.cognition.initiative_development
++        any_pending=bool(speech.pending_action or speech.pending_pre_knot is not None
++            or speech.pending_pre_residual is not None or speech.pending_event_id is not None
++            or speech.pending_decision_layer or speech.pending_origin or receipt is not None
++            or initiative.pending_expression_receipt_id is not None)
++        if not any_pending:return
++        if receipt is not None:
++            recovered=self.store.recovery_state_after_consumed_resolution_receipt(str(receipt.receipt_id))
++            if recovered is not None:
++                self.state=recovered
++                self.security.checkpoint(self.state)
++                self.store.append_state(self.state)
++                self._hf2_restart_recovery_audit={
++                    'status':'replayed-consumed-resolution-receipt-recovered-to-latest-prior-valid-state',
++                    'receipt_id':str(receipt.receipt_id),'learned':False,
++                    'authority':self._restart_recovery_authority(),
++                }
++                return
++        valid,reason=self._persisted_resolution_pending_integrity()
++        if valid:
++            self._hf2_restart_recovery_audit={
++                'status':'valid-persisted-resolution-pending-state-restored',
++                'receipt_id':str(receipt.receipt_id) if receipt is not None else None,
++                'learned':False,'authority':self._restart_recovery_authority(),
++            }
++            return
++        speech=self.state.cognition.speech_act_development
++        initiative=self.state.cognition.initiative_development
++        payload=receipt.model_dump(mode='json') if receipt is not None else None
++        self._clear_persisted_resolution_pending(speech,initiative)
++        speech.last_outcome_audit={
++            'learned':False,'status':'restart-rejected-nonlearnable-persisted-resolution-state',
++            'reason':reason,'execution_receipt':payload,
++            'semantic_truth_authority':False,'answer_authority':False,
++            'speech_act_selection_authority':False,'preference_label_authority':False,
++            'cognitive_memory_authority':False,'relationship_authority':False,
++            'owner_preference_authority':False,'source_write_authority':False,
++            'deployment_authority':False,
++        }
++        self.security.checkpoint(self.state)
++        self.store.append_state(self.state)
++        self._hf2_restart_recovery_audit={
++            'status':'invalid-persisted-resolution-pending-state-cleared-nonlearnable',
++            'reason':reason,'receipt_id':str(receipt.receipt_id) if receipt is not None else None,
++            'learned':False,'authority':self._restart_recovery_authority(),
++        }
++
+     def _prototype_map(self): return self.store.semantic_prototype_map()
+ 
+     # ------------------------------------------------------------------
+     # Migrations
