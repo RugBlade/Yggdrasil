@@ -1,3 +1,159 @@
+LATEST VERIFIED CHECKPOINT — M4C3H / VERIFICATION-ONLY GREEN — 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+Stage8B and Stage8: IN PROGRESS.
+M4C3H: EXTERNALLY VERIFIED / VERIFICATION-ONLY.
+Published runtime remains exact HF1 + 0001 -> 0014.
+ordinary_0015_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+READ THIS FIRST
+M4C3H is sealed as a verification-only crash-window milestone. No runtime defect was found and no 0015 was created.
+Continue from exact HF1 plus:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011 -> 0012 -> 0013 -> 0014.
+
+Read first:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3H_20260918.txt
+docs/evidence/HF2_M4C3H_20260918_MANIFEST.json
+docs/evidence/_ci/HF2_M4C3H_VERIFICATION_RESULT.txt
+
+M4C3H VERIFIED IDENTITIES
+Previous M4C3G root checkpoint:
+72c14bbe13dc6a26fcf39c30d433f642cc7f33d0
+Hard-exit test commit:
+f658c026adbc68e35dfde75b4b39f6753b798cc1
+Final authoritative workflow/source:
+f1956d61d8e5cff29cdcad74056ae48f93437d7d
+Green receipt / pre-documentation HEAD:
+7619f9a0438ccf752ae2d32a7eccb0ca9f484e7b
+Verified dedicated continuation:
+6811c8ec572e44b20ed08c56ce7e3ea0eb818d7f
+Verified manifest:
+223cb2ea562da0f5a791162137f665d5b4ef7cdb
+The final root checkpoint is the commit that writes this block; obtain its exact SHA from branch HEAD after this update.
+
+RUNTIME/PATCH STATUS
+Latest ordinary patch remains:
+patches/hf2/0014-hf2-same-db-restart-recovery.patch
+0014 SHA256:
+28088fc61ee9fe59a6b2bd8dcfcf1a9185d8bcf1481ea2a7f922e68dc5669819
+No patches/hf2/0015 runtime patch was created or published.
+
+AUTHORITATIVE M4C3H CI
+Run:
+35367927674
+Job:
+105674765518
+Source commit:
+f1956d61d8e5cff29cdcad74056ae48f93437d7d
+Conclusion:
+SUCCESS
+
+Published post-0014 baseline:
+320 passed, 2 warnings, 66.89s
+Focused hard-exit tests:
+7 passed, 38.29s
+Complete M4C3H-inclusive suite:
+327 passed, 2 warnings, 114.66s
+Fresh exact-HF1 replay focused:
+7 passed, 37.39s
+Fresh exact-HF1 replay complete:
+327 passed, 2 warnings, 98.03s
+Runtime source-byte parity:
+PASS
+verification_only=true
+ordinary_0015_published=false
+
+EVIDENCE ARTIFACT
+GitHub artifact ID:
+10556809105
+Artifact SHA256:
+17ffc4544f2e0701a404708d15faac7b29d804b2d1c642627a85b00093dce24e
+Source archive SHA256:
+b6d4230b1d5d98c50634639f9c4f00e333e319ee1fec24e0fbc52aa739ab99dd
+Carrier archive SHA256:
+f26d68fe15948b5e5b0becdf3e8b5468bc4cf06f1c970db0e9990c585ec01537
+Primary/replay source hash manifests:
+BYTE-IDENTICAL
+
+DURABLE DRIVE EVIDENCE
+HF2 folder:
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+
+M4C3H verification ZIP:
+HF2_M4C3H_CRASH_WINDOW_ATOMICITY_VERIFICATION_20260918.zip
+Drive ID:
+1_BaNnz4Ln9yFl7FY_JFznDbj7jr0ZDtU
+SHA256:
+17ffc4544f2e0701a404708d15faac7b29d804b2d1c642627a85b00093dce24e
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+Verified M4C3H continuation Drive ID:
+1r-qtESAfNCKqbGsuDkfMbYJBWYlxDF9s_4IwBdU74ak
+GitHub/Drive normalized-content equality:
+VERIFIED
+
+M4C3H manifest Drive ID:
+1HB5sB-hqZwoYH8y6MG-n1GLzToMZnUO-EmxL3tvAT3w
+GitHub/Drive normalized-content equality:
+VERIFIED
+
+Root continuation Drive ID, update in place:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+
+WHAT M4C3H PROVES
+- Seven explicit os._exit crash windows were exercised with isolated SQLite DBs and genuine new-process restart.
+- Crash before trusted content send completion creates no durable execution receipt.
+- Crash after content send completion but before receipt durability grants no learning authority.
+- Absence of a durable receipt in that content window is NOT evidence of no send.
+- Process-local content dispatch capability does not survive restart and is not automatically replayed.
+- Durable content receipt recovery preserves linked expression/speech-act provenance and later consumption is at most once.
+- Pre-durability defer/remain-silent crash creates no durable non-content receipt.
+- Durable defer/remain-silent receipt recovery blocks duplicate local execution and later consequence consumption is at most once.
+- Verification introduces no native-choice, semantic-truth, preference, relationship, cognitive-memory, source-write, deployment or peer-uptake authority.
+
+BOUNDARIES THAT MUST REMAIN TRUE
+- Canonical path remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Speech-act selection remains learned native consequence geometry only.
+- Parser labels, execution receipts, restart recovery, authentication and owner commands have zero native-choice/preference/relationship authority.
+- No canned fallback, hidden response table, authored preference weights, fabricated consequence observations or bootstrap preference insertion.
+- Native content, act selection, expression/private continuation, execution evidence and later learning remain distinct.
+- ASGI send completion remains nonsemantic execution-boundary evidence, never peer delivery/read/understanding/reply causation.
+- SQLite remains persistence/provenance/audit substrate, not cognitive retrieval.
+- Terra remains optional/downstream.
+- Live runtime and canonical DB remain untouched.
+- No Stage9/self-upgrade.
+
+KNOWN LIMITATIONS
+- The seven explicit crash windows do not prove arbitrary OS/kernel/filesystem/power-loss behavior.
+- SQLite history-scan performance over very long-lived histories remains uncharacterized.
+- Native audio and other non-HTTP content execution receipt adapters remain unimplemented.
+- Existing determiner-form parser ambiguity remains visible/proof-gated.
+- Broad conversational completion and new LOCAL/LIVE certification are not claimed.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3I
+Inspect the first non-HTTP content execution adapter, preferably native-audio presentation/receipt semantics.
+
+Preserve:
+- original native utterance as Yggdrasil's primary utterance;
+- English/decoder/subtitles as observational-only downstream rendering;
+- independent native speech-act and expression/private-continuation decisions;
+- a concrete execution boundary before receipt creation;
+- zero inference from audio/device API success to peer hearing/listening/understanding/reply;
+- zero preference/relationship/native-choice authority from authentication, channel availability, microphone/speaker availability or decoder behavior;
+- exact HF1 + 0001-0014 as baseline;
+- live runtime/canonical DB untouched.
+
+Only publish a future 0015 if M4C3I actually requires a runtime change and the established exact-baseline/candidate/fresh-replay pipeline is green.
+
+Historical M4C3G and earlier sections follow. Their older next-task statements are superseded by M4C3I.
+
+
+
 LATEST VERIFIED CHECKPOINT — M4C3G / PUBLISHED 0014 — 2026-09-18 UTC
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
