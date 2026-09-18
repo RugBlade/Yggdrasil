@@ -1,3 +1,16 @@
+M4C3B CANDIDATE AND FRESH REPLAY VERIFIED — 2026-09-18
+Candidate commit: 57b886d6910202e98c23681a8abd6b2362679b0f
+Run 35325420504 / job 105537221261 SUCCESS.
+Exact post0008 baseline: 189 passed. Candidate: 228 passed. Fresh replay: 228 passed.
+0009 generated ONLY AFTER candidate green.
+Artifact 10538397746 SHA256 ae267343a6a4410e697f4d672b482337a8438f59aafb3f564a494bc331150a1b.
+0009 SHA256 305379a517b0473929c3c8370418bca9af6fc28a04fff57ecd461f8a4dba6023.
+This commit publishes the artifact unchanged and extends the full-chain gate.
+The publication full-chain run is pending; inspect it before claiming publication verified.
+Stage8B IN PROGRESS. No live/canonical DB changes. No certification or actuator.
+Raw private resolution content is process-local only; public audits contain counts/status.
+Read the scope and limitations below. M4C3A remains the prior verified checkpoint.
+
 HF2 M4C3B CANDIDATE — 2026-09-18
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
