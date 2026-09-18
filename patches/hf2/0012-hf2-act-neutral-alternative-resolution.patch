@@ -1,0 +1,270 @@
+diff --git a/src/noeron/conversation_actions.py b/src/noeron/conversation_actions.py
+index 92ee3ca0d4493a4a6fe2fc334d86ef80746c4099..4324a4fa8e83a6cc271aa9c6d85ca31e1bae550c 100644
+--- a/src/noeron/conversation_actions.py
++++ b/src/noeron/conversation_actions.py
+@@ -44,6 +44,7 @@ def resolution_affordances(
+     native_question_count: int,
+     answer_candidate_count: int,
+     native_clarification_count: int | None = None,
++    act_neutral_alternative_count: int = 0,
+ ) -> SpeechActEligibility:
+     """Return non-authoritative actuator eligibility for an unresolved response.
+ 
+@@ -57,6 +58,7 @@ def resolution_affordances(
+     ambiguity = max(0, int(ambiguity_count))
+     questions = max(0, int(native_question_count))
+     answers = max(0, int(answer_candidate_count))
++    neutral_alternatives = max(0, int(act_neutral_alternative_count))
+ 
+     expects_answer = q not in {"", "none", "unresolved-surface-question"}
+     proof_blocked = (
+@@ -65,7 +67,7 @@ def resolution_affordances(
+         or "missing" in gate
+         or "ambigu" in gate
+     )
+-    requires = bool(ambiguity or (expects_answer and answers == 0) or proof_blocked)
++    requires = bool(ambiguity or neutral_alternatives or (expects_answer and answers == 0) or proof_blocked)
+     if not requires:
+         return SpeechActEligibility(
+             requires_resolution=False,
+@@ -84,6 +86,12 @@ def resolution_affordances(
+     if questions > 0:
+         actions.append("ask")
+         reasons.append("native-question-content-already-exists")
++    if neutral_alternatives > 0:
++        # The same unresolved source set can be carried by either question-like
++        # resolution actuator.  Adding both affordances preserves act neutrality:
++        # parser/reasoner multiplicity cannot decide between ask and clarify.
++        actions.extend(("ask", "clarify"))
++        reasons.append("act-neutral-unresolved-alternative-content-exists")
+     # Legacy callers may supply only a question count. The native runtime supplies
+     # an explicit count of validated current reference sets, independently of ask.
+     clarifications = questions if native_clarification_count is None else max(0, int(native_clarification_count))
+diff --git a/src/noeron/conversation_resolution.py b/src/noeron/conversation_resolution.py
+index 9a2161e83adfb5de4e49deb57cf09b43f169df09..55df2737c38974ae8a0b70b4e62dd79d7bafd6a4 100644
+--- a/src/noeron/conversation_resolution.py
++++ b/src/noeron/conversation_resolution.py
+@@ -27,6 +27,11 @@ class ResolutionContentCandidate:
+     alternatives: tuple[str, ...]
+     existing_question: str
+     source_units: tuple[str, ...]
++    # Empty for act-specific legacy/current-turn content.  Act-neutral typed
++    # alternatives name every resolution actuator that can carry the same
++    # unresolved source set *after* native consequence selection.  This is
++    # content compatibility only; it is never speech-act choice authority.
++    compatible_actions: tuple[str, ...] = ()
+ 
+ 
+ @dataclass(frozen=True)
+@@ -234,10 +239,11 @@ def native_current_turn_alternative_sources(
+                 if not sid:
+                     continue
+                 out.append(ResolutionContentCandidate(
+-                    act="clarify", kind="qud-alternatives", source_id=f"{qid}:{sid}",
++                    act="", kind="qud-alternatives", source_id=f"{qid}:{sid}",
+                     focus_surface=surface.strip(), alternatives=alternatives, existing_question="",
+                     source_units=(f"qud:{qid}", f"unresolved-source:{sid}",
+                                   *(f"candidate:{x}" for x in alternatives)),
++                    compatible_actions=("clarify", "ask"),
+                 ))
+ 
+     if reasoning is not None:
+@@ -252,10 +258,11 @@ def native_current_turn_alternative_sources(
+             query = _field(reasoning, "logical_query", None)
+             focus = str(_field(query, "raw", "") or "").strip()
+             out.append(ResolutionContentCandidate(
+-                act="clarify", kind="proposition-alternatives", source_id="reasoning-answer-candidates",
++                act="", kind="proposition-alternatives", source_id="reasoning-answer-candidates",
+                 focus_surface=focus, alternatives=tuple(canonicals), existing_question="",
+                 source_units=(f"answer-selection-status:{selection}",
+                               *(f"answer-canonical:{x}" for x in canonicals)),
++                compatible_actions=("clarify", "ask"),
+             ))
+ 
+         # Multiple direct derivation steps for the same exact conclusion are proof
+@@ -275,9 +282,10 @@ def native_current_turn_alternative_sources(
+             if len(alternatives) < 2:
+                 continue
+             out.append(ResolutionContentCandidate(
+-                act="clarify", kind="proof-alternatives", source_id=f"proof:{conclusion}",
++                act="", kind="proof-alternatives", source_id=f"proof:{conclusion}",
+                 focus_surface=conclusion, alternatives=alternatives, existing_question="",
+                 source_units=tuple(f"proof-step:{x}" for x in alternatives),
++                compatible_actions=("clarify", "ask"),
+             ))
+     return tuple(out)
+ 
+@@ -315,7 +323,7 @@ def resolution_content_units(candidates, *, action, source_event_id):
+     }
+     out=[]
+     for c in candidates:
+-        if c.act != action:
++        if c.act != action and action not in tuple(c.compatible_actions or ()):
+             continue
+         kind=kind_map.get(c.kind,c.kind)
+         if kind not in allowed:
+diff --git a/src/noeron/development.py b/src/noeron/development.py
+index 1a0e89bb714f01402f8eec5968aa64676abc8f54..9f2bd91ccbeb4ef4249cd2679b033a96895b6eae 100644
+--- a/src/noeron/development.py
++++ b/src/noeron/development.py
+@@ -501,15 +501,17 @@ class NativeLanguageFaculty:
+             for unit in thought.resolution_content:
+                 if unit.source_event_id != thought.mathematical_provenance.source_event_id:
+                     continue
+-                if unit.act == 'clarify' and len(unit.alternatives) >= 2:
++                if unit.act in {'clarify','ask'} and len(unit.alternatives) >= 2:
+                     if any(not x.strip() for x in unit.alternatives) or len(set(unit.alternatives)) != len(unit.alternatives):
+                         continue
+                     # Punctuation only: option strings were already admitted from
+                     # typed current-turn parser/query/proposition/proof fields. This
+                     # exposes an unresolved set; it neither asserts nor selects one.
++                    # The selected act changes provenance/frame only; no canned
++                    # ask-versus-clarify wording is injected here.
+                     prefix=(unit.focus_surface.strip()+': ') if unit.focus_surface.strip() else ''
+                     clauses.append(prefix+' / '.join(unit.alternatives)+'?')
+-                    frames.append('native-resolution-'+unit.kind)
++                    frames.append(('native-resolution-' if unit.act=='clarify' else 'native-resolution-ask-')+unit.kind)
+                 elif unit.act == 'ask' and unit.existing_question.strip():
+                     text=unit.existing_question.strip()
+                     clauses.append(text if text.endswith('?') else text+'?')
+diff --git a/src/noeron/orchestrator.py b/src/noeron/orchestrator.py
+index b70c34e4bdd525f240c661372458610ebd02f23b..a52d40243b39af54fe3e6bab76bc8045363326f3 100644
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@ -1098,19 +1098,27 @@ class Noeron:
+             and thought.kind==NativeThoughtKind.RESPONSE
+             and isinstance(current_structure,dict)
+             and current_structure.get('text_sha256')==hashlib.sha256(event.content.encode('utf-8')).hexdigest())
+-        has_answer=bool(reasoning.answer_candidates or thought.propositions or thought.statement.strip())
++        ordinary_answer_present=bool(reasoning.answer_candidates or thought.propositions or thought.statement.strip())
++        answer_selection_status=str(reasoning.answer_selection_status or '')
++        multiple_unforced_answers=answer_selection_status.startswith('multiple-proof-supported-answers-no-forced-choice')
++        # A proof-supported multi-answer set is preserved as ordinary output unless
++        # learned native consequence geometry actually selects a resolution act.
++        # Multiplicity itself only opens act-neutral affordances; it never chooses.
++        resolution_context=bool(bound and (not ordinary_answer_present or multiple_unforced_answers))
+         alternative_inventory=native_current_turn_alternative_sources(current_structure,reasoning) if bound else ()
+-        clarifications,questions=native_resolution_sources(current_structure,thought.question_candidates) if bound and not has_answer else ((),())
++        neutral_inventory=tuple(c for c in alternative_inventory if tuple(c.compatible_actions or ()))
++        clarifications,questions=native_resolution_sources(current_structure,thought.question_candidates) if resolution_context else ((),())
+         eligibility=resolution_affordances(
+-            query_kind=str(reasoning.logical_query.kind or '') if bound and not has_answer else '',
+-            proof_gate_status=str(reasoning.proof_gate_status or '') if bound and not has_answer else '',
++            query_kind=str(reasoning.logical_query.kind or '') if resolution_context else '',
++            proof_gate_status=str(reasoning.proof_gate_status or '') if resolution_context else '',
+             # A no-answer-candidate proof audit can contain no ambiguity rows.
+             # Explicit validated reference alternatives still make clarification
+             # eligible; they never select it or resolve a referent.
+-            ambiguity_count=max(int(reasoning.proof_gate_unscoped_ambiguity_count or 0),len(clarifications)) if bound and not has_answer else 0,
++            ambiguity_count=max(int(reasoning.proof_gate_unscoped_ambiguity_count or 0),len(clarifications)) if resolution_context else 0,
+             native_question_count=len(questions),
+             answer_candidate_count=len(list(reasoning.answer_candidates or [])),
+             native_clarification_count=len(clarifications),
++            act_neutral_alternative_count=len(neutral_inventory) if resolution_context else 0,
+         )
+         st=self.state.cognition.speech_act_development
+         st.last_context_knot=result.state.dkt.core_knot.model_copy(deep=True)
+@@ -1162,31 +1170,36 @@ class Noeron:
+                 'changes_outward_transport':False,
+                 'changes_native_content':False,
+             }
++        native_resolution_supersedes_ordinary=bool(
++            multiple_unforced_answers and audit.get('native_choice_claim')
++            and audit.get('action') in {'clarify','ask','defer','remain-silent'}
++        )
+         formation={
+             'status':'no-native-resolution-content','content_count':0,
+             'source_event_id':str(event.id) if bound else None,
+-            'current_turn_bound':bound,'ordinary_answer_preserved':has_answer,
++            'current_turn_bound':bound,
++            'ordinary_answer_present':ordinary_answer_present,
++            'ordinary_answer_preserved':bool(ordinary_answer_present and not native_resolution_supersedes_ordinary),
++            'multiple_unforced_answer_set':multiple_unforced_answers,
+             'native_text_present':False,
+             'executed':False,'transport_authority':False,'execution_authority':False,
+             'semantic_truth_authority':False,'answer_authority':False,
+             'relationship_authority':False,'cognitive_memory_authority':False,
+             'alternative_inventory_count':len(alternative_inventory),
+             'alternative_inventory_kinds':[c.kind for c in alternative_inventory],
+-            'alternative_inventory_changes_eligibility':False,
++            'act_neutral_alternative_count':len(neutral_inventory),
++            'alternative_inventory_changes_eligibility':bool(resolution_context and neutral_inventory),
++            'alternative_inventory_choice_authority':False,
+         }
+-        if bound and not has_answer and audit.get('native_choice_claim'):
++        if resolution_context and audit.get('native_choice_claim'):
+             action=audit.get('action')
++            neutral_for_action=tuple(c for c in neutral_inventory if action in tuple(c.compatible_actions or ()))
+             if action=='clarify':
+-                eligible_ids={c.source_id for c in clarifications}
+-                # Inventory enriches an already-native-selected clarification only
+-                # after independently execution-eligible ambiguity content exists.
+-                # It never grants eligibility or speech-act choice.
+-                candidates=tuple(c for c in alternative_inventory
+-                    if c.source_id in eligible_ids or c.kind == 'qud-alternatives')
+-                if not candidates:
+-                    candidates=clarifications
++                candidates=tuple(c for c in alternative_inventory if c.act=='clarify')+neutral_for_action
++            elif action=='ask':
++                candidates=tuple(questions)+neutral_for_action
+             else:
+-                candidates=questions if action=='ask' else ()
++                candidates=()
+             units=resolution_content_units(candidates,action=action,source_event_id=event.id)
+             if units:
+                 resolution=NativeThought(
+@@ -1214,7 +1227,7 @@ class Noeron:
+                 formation['status']='selected-act-has-no-native-content-unresolved'
+         audit['content_formation']=formation
+         audit['changes_native_content']=bool(formation['content_count'])
+-        audit['changes_response_content']=False
++        audit['changes_response_content']=native_resolution_supersedes_ordinary
+         audit['changes_outward_transport']=False
+         st.last_selection_status=str(audit.get('selection_status') or '')
+         st.last_decision_layer=str(audit.get('decision_layer') or 'unresolved')
+@@ -1914,7 +1927,29 @@ class Noeron:
+                 }
+             )
+             native_text='';english_text='';text='';renderer_used=False;communication_audit={};egress_audit={};resolution_dispatch=None
+-            if thought.statement or thought.propositions or (thought.question_candidates and not resolution_channel):
++            native_resolution_selected=bool(
++                speech_act_audit.get('native_choice_claim')
++                and speech_act_audit.get('action') in {'clarify','ask','defer','remain-silent'}
++            )
++            if native_resolution_selected:
++                # A genuine native resolution-act choice supersedes ordinary answer
++                # transport for this turn.  Unsupported/private/nonsemantic execution
++                # never falls back to the ordinary answer and is never relabeled as
++                # expression.  The Room adapter remains the only content-send receipt.
++                if resolution_channel:
++                    prepared=self._prepare_resolution_transport(event,channel=resolution_channel)
++                    if prepared is not None:
++                        resolution_dispatch,output=prepared
++                        text,renderer_used,native_text,english_text,_selection,communication_audit,egress_audit=output
++                        speech_act_audit['transport_prepared']=True
++                        speech_act_audit['execution_status']='prepared-awaiting-asgi-send'
++                        speech_act_audit['changes_outward_transport']=True
++                    else:
++                        speech_act_audit['transport_prepared']=False
++                        speech_act_audit['execution_status']='native-resolution-selected-not-executed'
++                else:
++                    speech_act_audit['execution_status']='native-resolution-selected-no-supported-adapter'
++            elif thought.statement or thought.propositions or (thought.question_candidates and not resolution_channel):
+                 utterance=self._native_realize(thought,source='interaction'); self.store.append_thought(thought)
+                 text,renderer_used,native_text,english_text,_selection,communication_audit,egress_audit=self._conversation_transport(
+                     thought,utterance,event,nonconversational_observation=nonconversational_observation,
+@@ -1926,14 +1961,6 @@ class Noeron:
+                     lang.last_internal_utterance_source='interaction'
+                 communication_audit=dict(communication_audit)
+                 communication_audit['outward_text_present']=bool(text)
+-            elif resolution_channel:
+-                prepared=self._prepare_resolution_transport(event,channel=resolution_channel)
+-                if prepared is not None:
+-                    resolution_dispatch,output=prepared
+-                    text,renderer_used,native_text,english_text,_selection,communication_audit,egress_audit=output
+-                    speech_act_audit['transport_prepared']=True
+-                    speech_act_audit['execution_status']='prepared-awaiting-asgi-send'
+-                    speech_act_audit['changes_outward_transport']=True
+             # Advance the new working dialogue only for admitted live conversational
+             # text. This is prospective context, not cognitive memory and not
+             # historical replay. Owner curriculum/source observations remain separate.
