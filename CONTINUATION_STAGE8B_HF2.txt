@@ -1,3 +1,53 @@
+LATEST VERIFIED CHECKPOINT — M4C3A — 2026-09-18
+Stage 8B v0.8.2 remains IN PROGRESS. No local/live certification claim.
+live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.
+
+Verified runtime publication commit: 92ecefceee6ecf9f925b67317d21b847262c132d
+Exact HF1 SHA256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+Published patch chain: 0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008.
+0008: patches/hf2/0008-hf2-calibration-execution-boundary.patch
+0008 SHA256: a63ab56be024fabae02a2d9c5d75f96562402eff83ff5b4326dd2d55f0d17e22
+
+Read FIRST:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3A_20260918.txt
+Machine-readable hashes/run/artifact manifest:
+docs/evidence/HF2_M4C3A_20260918_MANIFEST.json
+
+Candidate+fresh replay run 35315397956 / job 105505834884: SUCCESS.
+3 intended baseline regressions reproduced; then 189 tests passed on candidate
+and 189 passed on a fresh exact-HF1 extraction. 0008 generated only after green.
+Published full-chain run 35315653697 / job 105506609739: SUCCESS; 189 passed.
+Actual results and artifacts inspected. No 0001-0007 patches overwritten.
+
+Calibration now previews only event-bound, current native/structured content.
+It does not execute, train, mark pending, increment counters, author fallback
+content or confer native choice. This corrects M4C2B's unproven actual-execution
+claim and missing import. Native resolution content-to-utterance remains pending.
+
+KNOWN OPEN LIMITATION: existing dialogue grammar overgenerates an event-role
+ambiguity for "The lamp is on. Is the lamp on?" and the proof gate blocks it.
+The ambiguity-free fixture "Lamp is on. Is lamp on?" answers through native proof
+and remains outside resolution selection. Do not claim broad language completion.
+
+Drive folder: 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+M4C3A evidence ZIP: 1HwOPu6DAxLgzf2IUwfvU-xMa7CKTDXeZ
+Published-chain ZIP: 1RYyQd-g_U-VoA5hJa6YfUwC-zufLwony
+Exact source inspection ZIP: 19XUEgNCDGRfNcWr6qaEfJ_GkeNR4DZAA
+Dedicated continuation: 1tLLc-nRXM9H-ioi0kDa49C2khzem5BTI
+Manifest: 1IExyuaApWtQwc7O-r50ZcV8yqeNBBClC
+Root continuation mirror: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Evidence ZIPs were read back from Drive and matched GitHub SHA256 digests.
+
+NEXT: inspect current branch and latest continuation before engineering M4C3B.
+Keep native IRG/DKT/regional EGR/RL-Frenet/DKT choice and existing expression
+transport separate. A future real actuator needs execution/transport evidence
+before consequence learning. Event identity alone is not such evidence.
+Do not turn parser diagnostic labels into semantic alternatives or utterances.
+
+Historical checkpoint entries follow. Where their status conflicts with this
+latest verified entry, this entry and the dedicated M4C3A continuation supersede it.
+===============================================================================
+
 LATEST — M4C3A CANDIDATE AND FRESH REPLAY GREEN; VERIFIED 0008 PUBLISHED HERE.
 Run 35315397956: 189 passed on candidate and 189 passed on fresh exact-HF1 0001-0008.
 The publication's full-chain run is pending. Read the dedicated M4C3A continuation.

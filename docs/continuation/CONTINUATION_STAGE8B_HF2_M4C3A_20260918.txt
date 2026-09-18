@@ -1,111 +1,220 @@
-M4C3A CANDIDATE + FRESH REPLAY VERIFIED GREEN — PUBLICATION CHECKPOINT
-Latest source/test commit: b42453bc5c9f6b6f3c1b66f6a1702f47a2231da2
-Run 35315397956 / job 105505834884: SUCCESS.
-Baseline: 3 expected regressions reproduced, no collection errors.
-Candidate: 189 passed, 2 dependency deprecation warnings, 4.11s.
-Fresh exact-HF1 replay of 0001-0008: 189 passed, 2 warnings, 6.14s.
-Deployable 0008 was generated ONLY after candidate tests passed, then checked and
-applied on the fresh HF1 extraction. All runtime source bytes matched the candidate.
-Artifact 10534724761
-Artifact SHA256: 59ff174b18e568c3728cd984def1420955f7f058be868ed896d2a96b9fee2a54
-0008 SHA256: a63ab56be024fabae02a2d9c5d75f96562402eff83ff5b4326dd2d55f0d17e22
-Post0008 orchestrator SHA256: 3792d98d3b2f2d3ec0076baa12381db98c3d18afebbb1826dc96148acb1b7e9a
-Post0008 API SHA256: 8fc078c5d166d259167ac631fc928c0e62a535dcef9123edabd27d4293c04e37
-Drive evidence: 1HwOPu6DAxLgzf2IUwfvU-xMa7CKTDXeZ
-Drive source inspection: 19XUEgNCDGRfNcWr6qaEfJ_GkeNR4DZAA
-Drive dedicated continuation: 1tLLc-nRXM9H-ioi0kDa49C2khzem5BTI
-0008 is being published in this commit together with exact-chain-through-0008 CI.
-NEXT: inspect that publication run, upload its evidence, finalize both continuations.
-This supersedes candidate-status text below; historical findings remain relevant.
+HF2 M4C3A VERIFIED CONTINUATION — 2026-09-18
 
-HF2 M4C3A CANDIDATE — 2026-09-18
-Stage 8B remains IN PROGRESS. No certification. No live runtime/canonical DB access.
-
-Primary repo: RugBlade/Yggdrasil
-Branch: stage8B/v0.8.2-conversation-completion-hf2
-Starting checkpoint: 94cbdd859082c57f3e5ad9e5cc6a1e3b52fc9671 (M4C2B).
-Exact HF1 SHA256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
-Published chain remains 0001 through 0007. No deployable 0008 yet.
-
-Read the M4C2B continuation for prior run/evidence IDs. Its reported 144 passing
-tests are real, but claim 8 ("actually executed" exposure) was not demonstrated by
-the source-inspection assertions and is corrected by this milestone.
-
-Verified forensic source:
-Inspection commit b510a4b2b03b9d6e1215a4409f68e78bc931ab04
-Run 35312803144 / job 105498120443, SUCCESS
-Artifact 10534635533
-Digest sha256:f3374924e3cfd8c297af788c9c49c40452ad0485f81a24e0b755d2f3d9b29760
-Post0007 orchestrator d692597d222afcd32bac978cf568ad0ce2bd9dc702e36b66fe3600080c9b15a6
-Post0007 API 8fc078c5d166d259167ac631fc928c0e62a535dcef9123edabd27d4293c04e37
-
-Findings:
-- Native cognition.response updates persistent last_thought only for a nonempty
-  statement. Calibration's last_thought questions could therefore be stale.
-- last_structure is not an event-bound calibration snapshot.
-- 0007 treated content availability as executed, incrementing the calibration
-  counter before calling the pending marker, without a speech-act actuator.
-- The marker's RESOLUTION_AFFORDANCES constant was not imported, so that call
-  raises NameError after the in-memory counter increment.
-- No live calibration was executed by this engineering session. No claim is made
-  about deployment state; the live runtime and canonical DB remain untouched.
-
-Narrow corrective scope (intent 0008):
-- Keep the authenticated endpoint, now explicitly preview-only/executed=false.
-- Cache only direct current-response/native content after admitted cognition,
-  bound to source event and turn plus exact input digest; clear on every ingress.
-  The cache is process-local, not serialized/replayed, and never choice authority.
-- Empty current response cannot resurrect historical thought/questions.
-- Preview executes no act, modifies no state, marks no pending outcome, writes no
-  persistence, and increments no calibration/consequence counter.
-- Import/validate the actual affordance constant in the existing pending helper.
-- Reject missing/stale event IDs, pending overwrite, and legacy calibration origin.
-- Legacy/unbound or same-event outcomes cannot train; preserve their audit state.
-- Native math, selector, proof answers, language realization, English egress,
-  expression transport, owner relation, and Terra remain unchanged.
-
-Testing method:
-Candidate workflow: .github/workflows/hf2-milestone4c3a.yml
-Behavioral tests: tests/hf2_m4c3a/test_execution_boundary.py
-Replace stale M4C2B source-string tests with cross-version behavioral contracts.
-First reproduce exactly 3 failures on the byte-exact post0007 runtime.
-Then apply the exact-anchor intent and run all HF2 tests plus M4C3A tests.
-Only after those are green generate deployable 0008 as a CI artifact.
-Apply 0001-0008 on a second fresh exact-HF1 extraction, compare source bytes and
-rerun all tests. Do not publish 0008 before reviewing both real results.
-
-Historical 0004 and M4C2B materializers are now manual, read-only, and pinned to
-their source checkpoint. They cannot republish older patches when successor tests
-change. Current exact-chain CI remains active; M4C3A candidates have their own gate.
-
-NEXT:
-Inspect the M4C3A Actions run and actual red/green/replay logs. If failed, fix only
-the observed issue and rerun. If green, publish the exact artifact 0008, extend
-the full-chain workflow, inspect its green run, then replace this candidate
-continuation with complete run IDs/hashes/artifact and Drive IDs in GitHub+Drive.
-
-M4C3B remains pending: native-selected structured resolution content through
-NativeLanguageFaculty and deterministic egress, plus a real execution/transport
-receipt before any learning. Do not describe the preview/cache as native utterance
-or a completed actuator. The internal marker still relies on its future trusted
-actuator caller; event identity alone is not proof of act execution. Do not call
-it from a content builder. Existing historical learned geometry is not silently
-erased or retroactively certified. No new consequence observations are seeded.
-
+LAST FULLY VERIFIED ENGINEERING CHECKPOINT: M4C3A calibration execution boundary.
+Stage 8B v0.8.2 remains IN PROGRESS. M4C native resolution egress is NOT completed.
 live_runtime_touched=false
 canonical_db_touched=false
 certification_claim=false
 
-CI ATTEMPTS / NEWLY OBSERVED LIMITATION:
-- 35313660077: workflow rejected before job creation; job-level runner.temp
-  expression removed (workflow-only fix 291b0fab2fbc208bcde9ddb87337bafdc0cc062e).
-- 35313764318 / 105500947661: reproduced three intended red regressions, but the
-  shell inherited errexit and stopped early. Fixed explicit set +e then restored
-  set -e in 1bd6a45f671746a37bea056dde7d450e32ddc17b.
-- 35315175525 / 105505169086: baseline-red check and intent application passed;
-  187 tests passed and one proof-fixture assertion failed. No 0008 materialized.
-- Existing dialogue parser overgenerates an event-role ambiguity for
-  "The lamp is on. Is the lamp on?". The unscoped proof gate then blocks the
-  answer. The repair does not touch that parser/gate. The test now distinguishes
-  an ambiguity-free ordinary proof fixture from that visible unresolved case.
-  This is a remaining Stage8B parser/proof limitation, not completed language.
+START HERE
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Verified runtime / 0008 publication / full-chain workflow commit:
+92ecefceee6ecf9f925b67317d21b847262c132d
+Candidate source/test commit: b42453bc5c9f6b6f3c1b66f6a1702f47a2231da2
+The commit containing this continuation changes evidence/docs only; runtime
+validation belongs to the publication commit above. Inspect current branch HEAD
+before continuing and do not overwrite later surviving work.
+
+This is a corrective prerequisite for M4C3, not a claim that resolution content
+now reaches an utterance. The earlier M4C2B runs really passed, but their
+source-inspection tests did not substantiate "actual execution." M4C3A supersedes
+claim 8 in the M4C2B continuation. Preserve that prior checkpoint historically.
+
+EXACT RECONSTRUCTION
+HF1 ZIP: fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip
+HF1 ZIP SHA256:
+79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+Patch chain, in order:
+0001-hf2-inference-core.patch
+0002-hf2-current-turn-runtime-bridge.patch
+0003-hf2-native-bounded-dialogue-reasoning.patch
+0004-hf2-proof-provenance-ambiguity-runtime-gate.patch
+0005-hf2-native-resolution-state-audit.patch
+0006-hf2-speech-act-consequence-learning.patch
+0007-hf2-owner-resolution-calibration.patch
+0008-hf2-calibration-execution-boundary.patch
+
+The GitHub carrier is not the full runtime. Use scripts/verify_hf1_exact_fixture.py
+with --extract-all on the exact ZIP, add these carrier helpers to src/noeron in
+that extraction, and then git apply --check / git apply each patch sequentially:
+conversation_premises.py, conversation_bridge.py, conversation_reasoning.py,
+conversation_proof.py, conversation_runtime_gate.py, conversation_actions.py,
+conversation_resolution.py.
+Do not test only the carrier tree and call it an exact-runtime test.
+
+0008 SHA256:
+a63ab56be024fabae02a2d9c5d75f96562402eff83ff5b4326dd2d55f0d17e22
+0008 Git blob: 7bf1633a4d3317578d67b00ed7d7284463f68aaf
+Post0008 src/noeron/orchestrator.py SHA256:
+3792d98d3b2f2d3ec0076baa12381db98c3d18afebbb1826dc96148acb1b7e9a
+API remains:
+8fc078c5d166d259167ac631fc928c0e62a535dcef9123edabd27d4293c04e37
+All 58 runtime/source asset hashes are in:
+docs/evidence/HF2_M4C3A_20260918_MANIFEST.json
+and m4c3a-post0008-source-sha256.txt inside the M4C3A artifact.
+
+VERIFIED CI RESULTS
+Exact post0007 inspection:
+- commit b510a4b2b03b9d6e1215a4409f68e78bc931ab04
+- run 35312803144 / job 105498120443: SUCCESS
+- artifact 10534635533
+- ZIP SHA256 f3374924e3cfd8c297af788c9c49c40452ad0485f81a24e0b755d2f3d9b29760
+
+M4C3A candidate / red-green / fresh replay:
+- workflow .github/workflows/hf2-milestone4c3a.yml
+- commit b42453bc5c9f6b6f3c1b66f6a1702f47a2231da2
+- run 35315397956 / job 105505834884: SUCCESS
+- exact post0007 baseline: 3 expected behavioral failures, 0 collection errors
+- corrected candidate: 189 passed, 2 warnings, 4.11s
+- 0008 generated ONLY AFTER that green candidate result
+- separate fresh exact-HF1 extraction: 0001 through 0008 applied successfully
+- all runtime source bytes matched the candidate
+- fresh replay: 189 passed, 2 warnings, 6.14s
+- artifact 10534724761
+- ZIP SHA256 59ff174b18e568c3728cd984def1420955f7f058be868ed896d2a96b9fee2a54
+- complete post0008 source archive SHA256:
+  1a5c8f601644f5f4625d5dfd53f87a01022d215127b3af8c8a8cb293aede284a
+- carrier/patch/test archive SHA256:
+  80f9069f1500c7288d6b6dcff31735d212e85a38faf8d93bffc2a518627af504
+
+Published exact full chain:
+- workflow .github/workflows/hf2-exact-hf1-patch-chain.yml
+- commit 92ecefceee6ecf9f925b67317d21b847262c132d
+- run 35315653697 / job 105506609739: SUCCESS
+- CHECK/APPLIED 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008
+- compile/dependency installation passed
+- 189 passed, 2 warnings, 6.48s
+- artifact 10535680381
+- ZIP SHA256 b21358712a5ec3ad4b8360945173bf1bb6bb8e24f09f807d428d4e01d142744e
+The two warnings concern Starlette/httpx and anyio deprecations. They were not
+suppressed, and are unrelated to the native-resolution assertions.
+Actual job logs and generated artifacts were read, not just green badges.
+The published 0008 content was read back and matched the tested artifact exactly.
+
+WHAT THE REPAIR DOES
+1. Imports the real RESOLUTION_AFFORDANCES constant. In 0007 it was referenced
+   without import, causing NameError after an in-memory calibration-count increment.
+2. Keeps /owner/resolution/calibrate authenticated, but makes it explicitly
+   preview-only. executed=false and execution_authority=false for every action.
+   eligible/content_status report content availability, never execution or choice.
+3. Replaces calibration's persistent last_thought/last_structure lookup with a
+   single current-turn snapshot from the direct cognition.response result.
+4. The snapshot requires the admitted event ID, current conversational turn,
+   response-kind thought, matching mathematical provenance source event, and
+   exact current input SHA256. Endogenous, empty and nonconversational inputs
+   cannot create it. It is invalidated at the start of every ingress, including
+   rejected ingress; later event/turn changes invalidate its use.
+5. The snapshot is copied, process-local, and never serialized/replayed. It is
+   bounded working context, not cognitive memory, relationship or choice state.
+   It is not consulted by the native speech-act selector.
+6. Empty current native responses cannot resurrect old questions. Clarification
+   preview preserves all supplied alternatives; it does not rank or resolve them.
+7. Preview marks no pending action, increments no counters, trains no geometry,
+   writes no thought/state/security checkpoint and authors no fallback sentence.
+   Defer/remain-silent preview authors no semantic content and executes no act.
+8. The pending marker validates the action, rejects absent/stale event IDs,
+   refuses overwrite, and rejects the old calibration-preview origin.
+9. Legacy calibration-origin, unbound, and same-event pending outcomes cannot
+   train. Their audit/pending state is preserved rather than silently deleted.
+10. The IRG/DKT/EGR/RL/Frenet machinery, native selector, proof machinery, native
+    language realization, English egress, express/continue-private transport,
+    owner relation and Terra integration are unchanged by 0008.
+
+BEHAVIORAL COVERAGE
+The old 7 M4C2B source-string tests were replaced with 13 behavior checks that
+also pass against 0007 (authentication, rejection, absent content, pending guard).
+39 new checks live in tests/hf2_m4c3a/test_execution_boundary.py.
+The full exact workflow explicitly runs BOTH tests/test_v082_hf2_*.py and
+tests/hf2_m4c3a. Do not omit the second path in future full-suite claims.
+Tests execute actual Noeron methods, actual native models, real authenticated
+HTTP boundary checks, and isolated full Noeron/math/cognition/language instances
+on temporary test databases. Test-only fixtures never seed production state.
+No new default consequence observations exist.
+
+HISTORICAL CI ATTEMPTS — KEEP THE EVIDENCE HONEST
+- 35313660077: invalid job-level runner.temp expression; no job created.
+  Fixed by 291b0fab2fbc208bcde9ddb87337bafdc0cc062e.
+- 35313764318 / 105500947661: expected 3 baseline failures occurred; inherited
+  shell errexit stopped before the red-check accounting. Fixed with explicit
+  set +e then set -e in 1bd6a45f671746a37bea056dde7d450e32ddc17b.
+  Artifact 10534592110, SHA256
+  ff34de546099c29fc078b53c0141299c52649285d13582a6598fe9781ca24771.
+- 35315175525 / 105505169086: red-check and intent application passed;
+  187 tests passed and one proof-fixture assertion failed. No 0008 generated.
+  Artifact 10533774568, SHA256
+  9b3915046e0e5387378995e956f49d234e30db92dbb8e88607c1d227fa71ae7b.
+- Final b42453bc tests distinguish genuinely proof-eligible input from the
+  existing ambiguity-blocked form below. No proof gate was weakened.
+- 35313660979 / 105500638016 also proved updated cross-version tests on the
+  unchanged 0001-0007 chain: 150 passed, 2 warnings, 1.12s.
+Historical 0004 and M4C2B materializers are now manual/read-only and checkout
+immutable historical source commits, so successor tests cannot republish old
+patches. Existing historical run/patch evidence remains intact.
+
+GOOGLE DRIVE BACKUP
+Folder: 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+Inspection ZIP:
+HF2_M4C3A_EXACT_POST0007_INSPECTION_20260918.zip
+ID 19XUEgNCDGRfNcWr6qaEfJ_GkeNR4DZAA
+Candidate/replay evidence, 0008 patch, source archive, carrier archive, hashes:
+HF2_M4C3A_CALIBRATION_EXECUTION_BOUNDARY_20260918.zip
+ID 1HwOPu6DAxLgzf2IUwfvU-xMa7CKTDXeZ
+Published full-chain evidence:
+HF2_EXACT_HF1_PATCH_CHAIN_0001_0008_EVIDENCE_20260918.zip
+ID 1RYyQd-g_U-VoA5hJa6YfUwC-zufLwony
+Dedicated continuation:
+CONTINUATION_STAGE8B_HF2_M4C3A_20260918.txt
+ID 1tLLc-nRXM9H-ioi0kDa49C2khzem5BTI
+Standalone machine-readable manifest:
+HF2_M4C3A_20260918_MANIFEST.json
+ID 1IExyuaApWtQwc7O-r50ZcV8yqeNBBClC
+Root continuation mirror:
+CONTINUATION_STAGE8B_HF2.txt
+ID 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Both candidate/replay and published-chain evidence ZIPs were downloaded back
+from Drive and their SHA256 values matched the GitHub artifacts. Check current metadata/content before replacing
+these persistent IDs; do not create duplicate continuation files.
+
+KNOWN LIMITATION AND NEXT MILESTONE
+The existing dialogue parser overgenerates an event-role ambiguity for:
+"The lamp is on. Is the lamp on?"
+That unscoped ambiguity blocks its answer at the native proof gate. This is a
+real remaining Stage8B limitation, not a calibration regression. The
+ambiguity-free form "Lamp is on. Is lamp on?" produces a proof-supported answer
+in the integration test and is not reclassified by calibration preview.
+Both behaviors are now visible in tests. Do not claim broad language completion.
+
+M4C3B still needs a narrow, verified native resolution-content/realization
+connection. Before turning structural labels into utterances:
+- Inspect current branch/continuations and exact NativeLanguageFaculty.realize,
+  NativeThought, NativeUtterance, cognition.response, selector and transport.
+  The exact post0007 source inspection archive is already in Drive; do not ask
+  the owner to re-upload it. 0008 changes only orchestrator.py.
+- Respect current-turn provenance and ordinary proof-supported answers.
+- Do not turn parser diagnostic strings/singleton labels into semantic
+  alternatives, or invent alternatives by splitting a label.
+- Only genuine unique consequence-geometry selection over at least two
+  independently eligible observed acts may authorize a native-choice claim.
+- Missing observations, incomplete equal-affordance geometry and exact ties
+  remain unresolved. No default fabricated observations or authored preference.
+- Clarify/ask content must use existing native current-turn alternatives,
+  QUD/reference/proof content; no canned fallback.
+- English remains deterministic observational egress. Native utterance and
+  English are separate. Expression stays downstream of the existing native
+  consequence selection; keep express/continue-private separate.
+- Calibration remains non-executing until a real actuator and its execution/
+  transport receipt are implemented. The internal pending marker still depends
+  on a future trusted actuator caller; event identity alone is NOT proof of
+  execution. Never call it from a content builder or preview.
+- Preserve legacy state without retroactive certification or silent erasure.
+- Owner authentication grants authority only, never affection, relationship,
+  preference, answer/content authority or native choice.
+- Terra remains optional/downstream with no reasoning/content/answer/memory/
+  relationship/source/deploy authority.
+
+Continue in small GitHub-backed chunks: commit, run Actions against exact HF1
+plus the published chain, inspect logs/artifacts, checkpoint GitHub+Drive, then
+continue. Long tests belong in GitHub Actions. No live runtime or canonical
+database modifications and no local/live certification claim.
+Earlier stage certification statuses and future Stage9 scope remain unchanged.
