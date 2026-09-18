@@ -1,0 +1,194 @@
+diff --git a/src/noeron/orchestrator.py b/src/noeron/orchestrator.py
+index 6f3ee2780d7fabeda2116c507b67856deaca57ab..a670cce2727614be69222a970537402114dde4ed 100644
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@ -41,7 +41,7 @@ from noeron.language_dialogue import CONVERSATION_VERSION, DIALOGUE_VERSION, PRO
+ from noeron.english_egress import ENGLISH_EGRESS_VERSION, realize_native_thought
+ from noeron.conversation_premises import BoundedConversationalPremiseContext
+ from noeron.conversation_bridge import admit_live_current_turn, native_trace_from_math_state
+-from noeron.conversation_actions import resolution_affordances, choose_resolution_act, observe_resolution_transition
++from noeron.conversation_actions import RESOLUTION_AFFORDANCES, resolution_affordances, choose_resolution_act, observe_resolution_transition
+ from noeron.conversation_resolution import build_operator_resolution_calibration
+ from noeron.source_identity import identify_source, provenance_digest
+ from noeron.stratification import ReclusterEntry, build_recluster_plan
+@@ -88,6 +88,7 @@ class Noeron:
+         # HF2 bounded working premises begin prospectively at this process start.
+         # Historical dialogue is deliberately not replayed as cognitive truth.
+         self._hf2_premise_floor_turn=int(self.state.conversational_turn)
++        self._hf2_resolution_turn=None  # prospective current-turn preview; never replayed
+         self._hf2_conversation_premises=BoundedConversationalPremiseContext(
+             max_turns=max(1,int(self.state.cognition.language.dialogue.max_turns))
+         )
+@@ -924,6 +925,17 @@ class Noeron:
+         st=self.state.cognition.speech_act_development
+         if not st.pending_action or st.pending_pre_knot is None or st.pending_pre_residual is None:
+             return None
++        # Legacy calibration exposure was not an executed speech act and supplied
++        # no event identity. Preserve its audit state, but do not train from it.
++        if (st.pending_event_id is None
++                or st.pending_origin=='authenticated-owner-resolution-calibration'
++                or st.pending_event_id==event.id):
++            return {
++                'learned':False,'action':st.pending_action,
++                'status':'unverified-or-nonlater-speech-act-outcome-not-learned',
++                'native_choice_claim':False,'preference_label_authority':False,
++                'relationship_authority':False,
++            }
+         post_residual=self._communication_consistency_residual(result.state)
+         admissible=bool(result.state.dkt.security_admissible) and self._nonworsening(st.pending_pre_residual,post_residual)
+         out=observe_resolution_transition(
+@@ -947,6 +959,12 @@ class Noeron:
+         if action not in RESOLUTION_AFFORDANCES:
+             raise ValueError(f'invalid resolution speech act: {action}')
+         st=self.state.cognition.speech_act_development
++        if st.pending_action:
++            return {'pending':False,'status':'pending-outcome-already-exists'}
++        if event_id is None or event_id!=self.state.last_event_id:
++            return {'pending':False,'status':'current-execution-event-required'}
++        if origin=='authenticated-owner-resolution-calibration':
++            return {'pending':False,'status':'calibration-preview-is-not-execution'}
+         st.pending_action=action
+         st.pending_pre_knot=self.state.math_kernel.dkt.core_knot.model_copy(deep=True)
+         st.pending_pre_residual=self._communication_consistency_residual(self.state.math_kernel)
+@@ -959,69 +977,78 @@ class Noeron:
+             'preference_label_authority':False,'relationship_authority':False,
+         }
+ 
++    def _cache_resolution_turn(self,event,thought,current_structure):
++        """Bind a preview to this admitted turn, never to persistent last_thought.
++
++        This single-turn cache is not serialized, replayed, or consulted by native
++        choice. It contains no new propositions and gives calibration no actuator.
++        """
++        self._hf2_resolution_turn=None
++        if (not event.content.strip() or event.metadata.get('endogenous')
++                or event.metadata.get('nonconversational_observation')
++                or self.state.last_event_id!=event.id
++                or thought.mathematical_provenance.source_event_id!=event.id
++                or thought.kind!=NativeThoughtKind.RESPONSE):
++            return
++        expected=hashlib.sha256(event.content.encode('utf-8')).hexdigest()
++        if current_structure.get('text_sha256')!=expected:
++            return
++        self._hf2_resolution_turn={
++            'event_id':event.id,
++            'turn':int(self.state.conversational_turn),
++            'structure':deepcopy(current_structure),
++            'questions':tuple(thought.question_candidates),
++        }
++
+     def operator_resolution_calibration(self,action:str,*,owner_authenticated:bool=False):
+-        """Execute one explicit authenticated operator calibration exposure.
++        """Preview grounded operator calibration content; execute nothing.
+ 
+-        The operator chooses the actuator for calibration. The content is read
+-        only from current structured/native state. This is never a native-choice,
+-        preference, relationship, truth, or answer claim.
++        The 0007 endpoint had no speech-act actuator or execution receipt. Content
++        availability cannot stand in for execution. Native-language/transport
++        coupling remains a later milestone, including nonsemantic act execution.
+         """
+         if not owner_authenticated:
+             raise ValueError('authenticated owner authority is required for resolution calibration')
++        action=str(action or '').strip()
++        if action not in RESOLUTION_AFFORDANCES:
++            raise ValueError('unsupported resolution calibration action')
+         with self._lock:
++            audit={
++                'executed':False,'action':action,
++                'status':'calibration-preview-only-actuator-not-connected',
++                'origin':'operator-directed-calibration-not-native-choice',
++                'authenticated_owner':True,
++                'native_choice_claim':False,'relationship_authority':False,
++                'preference_label_authority':False,'content_authority':False,
++                'transport_authority':False,'execution_authority':False,
++                'eligible':False,'candidates':[],
++            }
+             st=self.state.cognition.speech_act_development
+             if st.pending_action:
+-                return {
+-                    'executed':False,'action':action,
+-                    'status':'calibration-not-executed-pending-outcome-already-exists',
+-                    'origin':'operator-directed-calibration-not-native-choice',
+-                    'native_choice_claim':False,'relationship_authority':False,
+-                    'preference_label_authority':False,
+-                }
+-            lang=self.state.cognition.language
+-            raw=getattr(lang.dialogue,'last_structure',None)
+-            if hasattr(raw,'model_dump'):
+-                structure=raw.model_dump(mode='json')
+-            elif isinstance(raw,dict):
+-                structure=dict(raw)
+-            else:
+-                structure={}
+-            thought=self.state.cognition.last_thought
+-            questions=list(getattr(thought,'question_candidates',[]) or [])
++                audit['status']='calibration-not-executed-pending-outcome-already-exists'
++                return audit
++            current=getattr(self,'_hf2_resolution_turn',None)
++            if (not current or current['event_id']!=self.state.last_event_id
++                    or current['turn']!=int(self.state.conversational_turn)):
++                audit['status']='calibration-not-executed-no-current-turn-context'
++                return audit
+             exposure=build_operator_resolution_calibration(
+                 action=action,authenticated_owner=True,
+-                current_structure=structure,
+-                existing_question_candidates=questions,
++                current_structure=current['structure'],
++                existing_question_candidates=current['questions'],
+             )
+-            audit={
+-                'executed':bool(exposure.executable),
+-                'action':exposure.action,
+-                'status':exposure.status,
+-                'origin':exposure.origin,
+-                'authenticated_owner':True,
+-                'native_choice_claim':False,
+-                'relationship_authority':False,
+-                'preference_label_authority':False,
+-                'content_authority':False,
+-                'transport_authority':False,
++            audit.update({
++                'source_event_id':str(current['event_id']),
++                'eligible':bool(exposure.executable),
++                'content_status':exposure.status,
+                 'candidates':[{
+                     'act':c.act,'kind':c.kind,'source_id':c.source_id,
+                     'focus_surface':c.focus_surface,'alternatives':list(c.alternatives),
+                     'existing_question':c.existing_question,'source_units':list(c.source_units),
+                 } for c in exposure.candidates],
+-            }
+-            if not exposure.executable:
+-                return audit
+-            # The exposure above is the calibration actuator. Only after it has
+-            # actually produced its grounded/nonsemantic result do we mark the
+-            # pre-state for a later observed environmental consequence.
+-            st.operator_calibration_observations=int(st.operator_calibration_observations)+1
+-            audit['pending']=self._mark_speech_act_pending(
+-                exposure.action,
+-                decision_layer='operator-directed-calibration-not-native-choice',
+-                origin='authenticated-owner-resolution-calibration',
+-            )
+-            self.security.checkpoint(self.state);self.store.append_state(self.state)
++            })
++            # No execution receipt exists: no counter, pending state, consequence
++            # training, transport, thought persistence, or security checkpoint.
+             return audit
+ 
+     def _resolution_speech_act_selection(self,thought,result):
+@@ -1578,6 +1605,7 @@ class Noeron:
+ 
+     def ingest(self,event:CognitiveEvent,proposed_invariant_changes=None)->NoeronReply:
+         with self._lock:
++            self._hf2_resolution_turn=None  # invalidate even if this ingress is rejected
+             target=self._target(event)
+             owner_authenticated=bool(event.metadata.get('owner_authenticated'))
+             # Objective identity bindings are factual substrate, not relational meaning.
+@@ -1659,6 +1687,7 @@ class Noeron:
+                     source=f'admitted-interaction:{event.source}',source_memory_id=provenance_mem.id,
+                 )
+             thought=self.cognition.response(event,self.state,result,None)
++            self._cache_resolution_turn(event,thought,current_structure)
+             speech_act_audit=(
+                 self._resolution_speech_act_selection(thought,result)
+                 if not nonconversational_observation

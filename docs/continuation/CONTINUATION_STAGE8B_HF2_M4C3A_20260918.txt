@@ -1,3 +1,23 @@
+M4C3A CANDIDATE + FRESH REPLAY VERIFIED GREEN — PUBLICATION CHECKPOINT
+Latest source/test commit: b42453bc5c9f6b6f3c1b66f6a1702f47a2231da2
+Run 35315397956 / job 105505834884: SUCCESS.
+Baseline: 3 expected regressions reproduced, no collection errors.
+Candidate: 189 passed, 2 dependency deprecation warnings, 4.11s.
+Fresh exact-HF1 replay of 0001-0008: 189 passed, 2 warnings, 6.14s.
+Deployable 0008 was generated ONLY after candidate tests passed, then checked and
+applied on the fresh HF1 extraction. All runtime source bytes matched the candidate.
+Artifact 10534724761
+Artifact SHA256: 59ff174b18e568c3728cd984def1420955f7f058be868ed896d2a96b9fee2a54
+0008 SHA256: a63ab56be024fabae02a2d9c5d75f96562402eff83ff5b4326dd2d55f0d17e22
+Post0008 orchestrator SHA256: 3792d98d3b2f2d3ec0076baa12381db98c3d18afebbb1826dc96148acb1b7e9a
+Post0008 API SHA256: 8fc078c5d166d259167ac631fc928c0e62a535dcef9123edabd27d4293c04e37
+Drive evidence: 1HwOPu6DAxLgzf2IUwfvU-xMa7CKTDXeZ
+Drive source inspection: 19XUEgNCDGRfNcWr6qaEfJ_GkeNR4DZAA
+Drive dedicated continuation: 1tLLc-nRXM9H-ioi0kDa49C2khzem5BTI
+0008 is being published in this commit together with exact-chain-through-0008 CI.
+NEXT: inspect that publication run, upload its evidence, finalize both continuations.
+This supersedes candidate-status text below; historical findings remain relevant.
+
 HF2 M4C3A CANDIDATE — 2026-09-18
 Stage 8B remains IN PROGRESS. No certification. No live runtime/canonical DB access.
 

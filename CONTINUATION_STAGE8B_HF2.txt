@@ -1,3 +1,10 @@
+LATEST — M4C3A CANDIDATE AND FRESH REPLAY GREEN; VERIFIED 0008 PUBLISHED HERE.
+Run 35315397956: 189 passed on candidate and 189 passed on fresh exact-HF1 0001-0008.
+The publication's full-chain run is pending. Read the dedicated M4C3A continuation.
+Calibration now previews current-turn content and executes nothing.
+No native resolution actuator yet. Stage 8B IN PROGRESS; no certification.
+live_runtime_touched=false; canonical_db_touched=false.
+
 LATEST UPDATE — M4C3A execution-boundary correction is in CI preparation.
 Read docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3A_20260918.txt first.
 The M4C2B tests passed, but their "actual execution" claim was not behavioral proof.
