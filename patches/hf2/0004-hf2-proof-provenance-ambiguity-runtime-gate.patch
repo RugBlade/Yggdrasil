@@ -1,11 +1,11 @@
+diff --git a/src/noeron/inference.py b/src/noeron/inference.py
+index b0cbe68c38e0837f7f2d0197ca624e48fed2c20c..9fd0d4da52e08c27d23015a81898ac9ce20eba37 100644
 --- a/src/noeron/inference.py
 +++ b/src/noeron/inference.py
-@@
- def _relation_matches(stored: str, requested: str) -> bool:
-@@
+@@ -582,6 +582,26 @@ def _relation_matches(observed: str, requested: str) -> bool:
      return False
-+
-+
+ 
+ 
 +def query_target_propositions(
 +    rows: Sequence[LogicalProposition],
 +    query: LogicalQuery,
@@ -24,11 +24,48 @@
 +        and p.object == query.object
 +        and _relation_matches(p.relation, query.relation)
 +    ]
++
++
+ def _spatial_relation(relation: str) -> bool:
+     return str(relation or '').lower() in {'inside','beside','near','under','above','behind','before','after','on','in','at','from','to'}
+ 
+diff --git a/src/noeron/math/kernel.py b/src/noeron/math/kernel.py
+index 4b4c8094a6e96e0f35efa8fe0364ca755a4390fc..51cf47d8ba273c8796cc508da1100f51fa4f66b6 100644
+--- a/src/noeron/math/kernel.py
++++ b/src/noeron/math/kernel.py
+@@ -32,7 +32,7 @@ class MathematicalCognitiveKernel:
+     the renderer is reachable.
+     """
+ 
+-    def update(self,event:CognitiveEvent,previous:MathKernelState,memories:list[KnotMemory],semantic_prototypes:Mapping[str,SemanticKnotPrototype]|None=None,language_propositions:Sequence[object]|None=None,bounded_dialogue_premises:Sequence[object]|None=None)->CausalMathResult:
++    def update(self,event:CognitiveEvent,previous:MathKernelState,memories:list[KnotMemory],semantic_prototypes:Mapping[str,SemanticKnotPrototype]|None=None,language_propositions:Sequence[object]|None=None,bounded_dialogue_premises:Sequence[object]|None=None,current_language_structure:Mapping[str,object]|None=None,current_turn_index:int=0)->CausalMathResult:
+         # 1) Environment -> IRG via an explicit measured environment and interaction kernel.
+         irg_state=interaction_geometry(event,semantic_prototypes=semantic_prototypes)
+ 
+@@ -117,6 +117,9 @@ class MathematicalCognitiveKernel:
+             post_closure_knot=core2,
+             active_region_ids=egr_state.simultaneous_active_regions,
+             bounded_dialogue_premises=bounded_dialogue_premises or [],
++            current_language_structure=current_language_structure or {},
++            current_language_parse_audit=irg_state.language_parse_audit,
++            current_turn_index=int(current_turn_index),
+         )
+ 
+         trace=[
+@@ -128,6 +131,7 @@ class MathematicalCognitiveKernel:
+             'Affect diagnostic: recurring unnamed multi-region activation geometry is derived from EGR/IRG/DKT/RL/Frenet; it has no independent causal DKT coupling or preference authority',
+             'DKT: RL/EGR/Frenet result -> persistent knot deformation; external-event persistence is an explicit provenance substrate',
+             'Native reasoning: current IRG logical form + DKT-gated persistent propositions + post-closure DKT-selected bounded dialogue working premises -> generic proof closure -> auditable candidate propositions',
++            'Proof gate: explicit inference ancestry + provenance/conflict + current ambiguity constrain support eligibility; gate has zero truth/answer/speech-act authority',
+         ]
+         state=MathKernelState(
+             interface_version='0.7.3.4',dkt=dkt_state,irg=irg_state,rl=final_rl,egr=egr_state,frenet=fr,affect=affect,reasoning=reasoning,
+diff --git a/src/noeron/math/models.py b/src/noeron/math/models.py
+index 3c16fe7d44fab7dd996dc0a4508950c450b43417..2a32e9c928a1533b3c6afc78c441cc51ecfa8575 100644
 --- a/src/noeron/math/models.py
 +++ b/src/noeron/math/models.py
-@@
- class MultiMemoryReasoningMathState(BaseModel):
-@@
+@@ -344,6 +344,20 @@ class MultiMemoryReasoningMathState(BaseModel):
+     logical_query: LogicalQuery = Field(default_factory=LogicalQuery)
      answer_candidates: list[LogicalProposition] = Field(default_factory=list)
      answer_selection_status: str = 'no-logical-selection-requested'
 +    proof_support_audits: list[dict[str, Any]] = Field(default_factory=list)
@@ -46,9 +83,58 @@
 +        'deployment': False,
 +    })
      native_question_candidates: list[LogicalQuery] = Field(default_factory=list)
+     native_question_distances: dict[str,float] = Field(default_factory=dict)
+     native_question_selection_status: str = 'no-endogenous-question-candidate'
+diff --git a/src/noeron/orchestrator.py b/src/noeron/orchestrator.py
+index 556ffb752628e711dedc44eed3cfbbf28da007f3..9a1324769d63778229e5db2b345663f81bc6c2fe 100644
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@ -1415,11 +1415,24 @@ class Noeron:
+             memories=self.store.cognitive_memories()
+             math_memories=self._contextual_math_memories(event,memories)
+             bounded_dialogue_for_reasoning=()
++            current_structure={}
++            nonconversational_observation=bool(event.metadata.get('nonconversational_observation'))
++            next_conversational_turn=int(self.state.conversational_turn)+1
+             if event.content.strip() and not event.metadata.get('endogenous') and not event.metadata.get('nonconversational_observation'):
+                 bounded_dialogue_for_reasoning=self._hf2_conversation_premises.eligible(include_conflicts=True)
++                # Read-only structural observation happens before the math update so
++                # unresolved ambiguity can condition this same turn's final proof.
++                # It does NOT admit the current turn into bounded history early and
++                # therefore does not create a current-turn causal loop.
++                speaker=self._owner_referent() if owner_authenticated else 'external:unknown'
++                current_structure=self.language.dialogue_structure(
++                    event.content,self.state.cognition.language,speaker=speaker,addressee=self._self_referent()
++                )
+             result=self.math.update(
+                 event,self.state.math_kernel,math_memories,self._prototype_map(),self.state.cognition.language.propositions,
+                 bounded_dialogue_premises=bounded_dialogue_for_reasoning,
++                current_language_structure=current_structure,
++                current_turn_index=next_conversational_turn,
+             )
+             ingress_knot=result.experience_knot
+             decision=self.security.evaluate(self.state,target,proposed_invariant_changes,source_fingerprint=source_fp,deformation_knot=ingress_knot,owner_authenticated=owner_authenticated)
+@@ -1445,12 +1458,7 @@ class Noeron:
+             # the already-computed IRG proposition set. It cannot alter truth,
+             # answer selection, memory, relationship state, or native speech choice.
+             current_language_interpretation={}
+-            nonconversational_observation=bool(event.metadata.get('nonconversational_observation'))
+             if event.content.strip() and not event.metadata.get('endogenous') and not nonconversational_observation:
+-                speaker=self._owner_referent() if owner_authenticated else 'external:unknown'
+-                current_structure=self.language.dialogue_structure(
+-                    event.content,self.state.cognition.language,speaker=speaker,addressee=self._self_referent()
+-                )
+                 current_bridge=admit_live_current_turn(
+                     self._hf2_conversation_premises,
+                     turn=int(self.state.conversational_turn),
+diff --git a/src/noeron/reasoning.py b/src/noeron/reasoning.py
+index 7722a65f3f08ddfa32ae544825ce509aa166225d..1d2e323941d7da6d3eeacbd51b1a5166ebc9e6e7 100644
 --- a/src/noeron/reasoning.py
 +++ b/src/noeron/reasoning.py
-@@
+@@ -17,11 +17,13 @@ from statistics import median
+ from typing import Iterable, Sequence
+ 
+ from noeron.cognition.models import KnotMemory
 -from noeron.inference import infer, learned_to_logic
 +from noeron.inference import infer, learned_to_logic, query_target_propositions
  from noeron.math import dkt
@@ -58,21 +144,31 @@
  from noeron.conversation_reasoning import select_bounded_premises_by_native_geometry
 +from noeron.conversation_proof import AmbiguityConstraint, ambiguity_constraints_from_structure
 +from noeron.conversation_runtime_gate import gate_inference_candidates
-@@
+ from noeron.math.models import (
+     KnotState, MultiMemoryReasoningMathState, LogicalProposition, LogicalQuery,
+ )
+@@ -180,7 +182,7 @@ def _learned_premises_for_retrieved(rows: Sequence[object], retrieved: list[tupl
  def _bounded_dialogue_premises_for_post_closure(
      rows: Sequence[object],
      post_closure_knot: KnotState | None,
 -) -> tuple[list[LogicalProposition],dict[str,object]]:
 +) -> tuple[list[LogicalProposition],dict[str,object],tuple[ConversationalPremiseEnvelope,...]]:
-@@
--        return [],{
-+        return [],{
+     """Activate bounded working premises through the actual post-closure DKT metric.
+ 
+     This runs only after IRG -> DKT -> regional EGR -> RL/Frenet -> DKT closure.
+@@ -193,7 +195,7 @@ def _bounded_dialogue_premises_for_post_closure(
              'selection_status':'unresolved-missing-current-dkt-geometry',
              'selected_source_turns':[],'source_turn_distances':{},
              'missing_geometry_source_turns':[],'invalid_distance_source_turns':[],
 -        }
 +        },()
-@@
+     envelopes=[row for row in (rows or []) if isinstance(row,ConversationalPremiseEnvelope)]
+     current=post_closure_knot.model_dump(mode='python')
+     selection=select_bounded_premises_by_native_geometry(
+@@ -214,7 +216,53 @@ def _bounded_dialogue_premises_for_post_closure(
+             confidence=float(row.confidence),source_record_id=f'dialogue-turn:{row.source_turn}',
+             modifiers=modifiers,derived=False,
+         ))
 -    return out,dict(selection.audit)
 +    return out,dict(selection.audit),tuple(selection.selected)
 +
@@ -121,21 +217,30 @@
 +            resolved=False,
 +        ))
 +    return tuple(rows)
-@@
+ 
+ 
  def build_multi_memory_reasoning(
-@@
+@@ -227,6 +275,9 @@ def build_multi_memory_reasoning(
+     post_closure_knot: KnotState | None = None,
      active_region_ids: Sequence[str] | None = None,
      bounded_dialogue_premises: Sequence[object] | None = None,
 +    current_language_structure: Mapping[str,object] | None = None,
 +    current_language_parse_audit: Mapping[str,object] | None = None,
 +    current_turn_index: int = 0,
  ) -> MultiMemoryReasoningMathState:
-@@
+     """Construct the geometric workspace and runtime proof closure.
+ 
+@@ -308,7 +359,7 @@ def build_multi_memory_reasoning(
+ 
+     current_premises = [p.model_copy(deep=True) for p in (logical_propositions or [])]
+     learned_premises = _learned_premises_for_retrieved(learned_language_propositions or [], items)
 -    bounded_premises,bounded_audit=_bounded_dialogue_premises_for_post_closure(
 +    bounded_premises,bounded_audit,bounded_selected=_bounded_dialogue_premises_for_post_closure(
          bounded_dialogue_premises or [],post_closure_knot,
      )
-@@
+     # Identical canonical propositions are de-duplicated without creating new
+@@ -317,7 +368,32 @@ def build_multi_memory_reasoning(
+     premise_map = {p.canonical(): p for p in (bounded_premises + learned_premises + current_premises)}
      premises = list(premise_map.values())
      query = (logical_query or LogicalQuery()).model_copy(deep=True)
 -    derived, inference_steps, answers, selection_status = infer(premises, query)
@@ -165,9 +270,12 @@
 +        selection_status=proof_gate.status
 +    elif proof_gate.blocked_candidate_count:
 +        selection_status=f'{selection_status}|{proof_gate.status}'
-@@
--        inference_steps=inference_steps, logical_query=query, answer_candidates=answers,
-+        inference_steps=inference_steps, logical_query=query, answer_candidates=answers,
+     open_questions,question_distances,question_status=_native_open_questions(
+         premises+derived,items,post_closure_knot=post_closure_knot,
+         active_region_ids=(set(active_region_ids) if active_region_ids is not None else None),
+@@ -343,6 +419,12 @@ def build_multi_memory_reasoning(
+         premise_propositions=premises, derived_propositions=derived,
+         inference_steps=inference_steps, logical_query=query, answer_candidates=answers,
          answer_selection_status=selection_status,
 +        proof_support_audits=list(proof_gate.audits),proof_gate_status=proof_gate.status,
 +        proof_gate_blocked_candidate_count=int(proof_gate.blocked_candidate_count),
@@ -175,58 +283,6 @@
 +            len(list(row.get('unscoped_ambiguity_ids') or [])) for row in proof_gate.audits
 +        ),
 +        proof_gate_authority=dict(proof_gate.authority),
---- a/src/noeron/math/kernel.py
-+++ b/src/noeron/math/kernel.py
-@@
--    def update(self,event:CognitiveEvent,previous:MathKernelState,memories:list[KnotMemory],semantic_prototypes:Mapping[str,SemanticKnotPrototype]|None=None,language_propositions:Sequence[object]|None=None,bounded_dialogue_premises:Sequence[object]|None=None)->CausalMathResult:
-+    def update(self,event:CognitiveEvent,previous:MathKernelState,memories:list[KnotMemory],semantic_prototypes:Mapping[str,SemanticKnotPrototype]|None=None,language_propositions:Sequence[object]|None=None,bounded_dialogue_premises:Sequence[object]|None=None,current_language_structure:Mapping[str,object]|None=None,current_turn_index:int=0)->CausalMathResult:
-@@
-             post_closure_knot=core2,
-             active_region_ids=egr_state.simultaneous_active_regions,
-             bounded_dialogue_premises=bounded_dialogue_premises or [],
-+            current_language_structure=current_language_structure or {},
-+            current_language_parse_audit=irg_state.language_parse_audit,
-+            current_turn_index=int(current_turn_index),
-         )
-@@
-             'Reasoning: current IRG propositions + DKT-authorized persistent propositions + post-closure DKT-gated bounded dialogue -> transparent finite proof closure',
-+            'Proof gate: explicit inference ancestry + provenance/conflict + current ambiguity constrain support eligibility; gate has zero truth/answer/speech-act authority',
-         ]
---- a/src/noeron/orchestrator.py
-+++ b/src/noeron/orchestrator.py
-@@
--            bounded_dialogue_for_reasoning=()
-+            bounded_dialogue_for_reasoning=()
-+            current_structure={}
-+            nonconversational_observation=bool(event.metadata.get('nonconversational_observation'))
-+            next_conversational_turn=int(self.state.conversational_turn)+1
-             if event.content.strip() and not event.metadata.get('endogenous') and not event.metadata.get('nonconversational_observation'):
-                 bounded_dialogue_for_reasoning=self._hf2_conversation_premises.eligible(include_conflicts=True)
-+                # Read-only structural observation happens before the math update so
-+                # unresolved ambiguity can condition this same turn's final proof.
-+                # It does NOT admit the current turn into bounded history early and
-+                # therefore does not create a current-turn causal loop.
-+                speaker=self._owner_referent() if owner_authenticated else 'external:unknown'
-+                current_structure=self.language.dialogue_structure(
-+                    event.content,self.state.cognition.language,speaker=speaker,addressee=self._self_referent()
-+                )
-             result=self.math.update(
-                 event,self.state.math_kernel,math_memories,self._prototype_map(),self.state.cognition.language.propositions,
-                 bounded_dialogue_premises=bounded_dialogue_for_reasoning,
-+                current_language_structure=current_structure,
-+                current_turn_index=next_conversational_turn,
-             )
-@@
--            nonconversational_observation=bool(event.metadata.get('nonconversational_observation'))
-             if event.content.strip() and not event.metadata.get('endogenous') and not nonconversational_observation:
--                speaker=self._owner_referent() if owner_authenticated else 'external:unknown'
--                current_structure=self.language.dialogue_structure(
--                    event.content,self.state.cognition.language,speaker=speaker,addressee=self._self_referent()
--                )
-                 current_bridge=admit_live_current_turn(
-                     self._hf2_conversation_premises,
-                     turn=int(self.state.conversational_turn),
-@@
-                     structure=current_structure,
-@@
-                 current_language_interpretation=dict(current_bridge.language_interpretation)
+         bounded_dialogue_premise_count=len(bounded_premises),
+         bounded_dialogue_source_turns=[int(x) for x in bounded_audit.get('selected_source_turns',[])],
+         bounded_dialogue_distances={str(k):float(v) for k,v in bounded_audit.get('source_turn_distances',{}).items()},
