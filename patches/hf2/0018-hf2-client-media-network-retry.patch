@@ -1,0 +1,19 @@
+diff --git a/src/noeron/api.py b/src/noeron/api.py
+index db1c1b4..c543241 100644
+--- a/src/noeron/api.py
++++ b/src/noeron/api.py
+@@ -661,8 +661,12 @@ async function postClientMediaEvent(p,a,event,playbackSessionId){
+   current_time_seconds:Math.max(0,Number(a.currentTime)||0),duration_seconds:mediaMetric(a.duration),
+   muted:!!a.muted,volume:Math.max(0,Math.min(1,Number(a.volume)||0)),playback_rate:Math.max(0.01,Number(a.playbackRate)||1)};
+  for(let attempt=0;attempt<10;attempt++){
+-  let r=await fetch('/room/native/presentations/'+encodeURIComponent(p.id)+'/client-playback',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+-  let x=await r.json();if(r.ok)return x;if(r.status!==409||attempt===9)throw new Error(JSON.stringify(x));
++  let r;
++  try{r=await fetch('/room/native/presentations/'+encodeURIComponent(p.id)+'/client-playback',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify(payload)})}
++  catch(e){if(attempt===9)throw e;await new Promise(resolve=>setTimeout(resolve,250));continue}
++  if(!r.ok&&r.status!==409){let detail='HTTP '+r.status;try{detail=JSON.stringify(await r.json())}catch(e){}throw new Error(detail)}
++  let x;try{x=await r.json()}catch(e){if(attempt===9)throw e;await new Promise(resolve=>setTimeout(resolve,250));continue}
++  if(r.ok)return x;if(attempt===9)throw new Error(JSON.stringify(x));
+   await new Promise(resolve=>setTimeout(resolve,250));
+  }
+ }
