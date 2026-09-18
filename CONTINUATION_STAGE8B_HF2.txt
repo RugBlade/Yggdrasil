@@ -1,51 +1,172 @@
-CURRENT ENGINEERING CANDIDATE — M4C3E / 0012 INTENT — CI PENDING — 2026-09-18 UTC
+LATEST VERIFIED CHECKPOINT — M4C3E / PUBLISHED 0012 — 2026-09-18 UTC
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
 
-THIS BLOCK IS NOT A VERIFIED/PUBLISHED MILESTONE.
-Latest verified durable milestone remains M4C3D below.
-Stage8B remains IN PROGRESS.
+Stage8B and Stage8: IN PROGRESS.
 live_runtime_touched=false
 canonical_db_touched=false
 certification_claim=false
 
-Candidate intent:
-patches/hf2/0012-hf2-act-neutral-alternative-resolution.intent.patch
-Intent SHA256:
-69536a8b5f98664959e2db92efbc5d8ac9d800a07d059dd7002530bbb2e2d13e
-Corrected GitHub Actions candidate source commit:
-a59b85abd8e6afa5a8204a9d1bee43ef89e7c942
-Candidate workflow:
-.github/workflows/hf2-milestone4c3e.yml
-New tests:
-tests/hf2_m4c3e/test_act_neutral_alternative_routing.py
+CURRENT VERIFIED ENGINEERING STATE
+M4C3E candidate source/workflow commit:
+ffe14e77f508b09d74a665a74f9da2b272fc4e2c
+Candidate green receipt commit:
+d160f60938ae3a123adadcba536c1b28f469a595
+Ordinary 0012 publication commit:
+7bd2e5252c28fadda66e4cb2946671bdefbf6dbd
+Exact-chain-through-0012 workflow commit:
+28eb871dbe75b4e80ea15ede9ccbef6338247e9b
+Exact-chain green receipt / pre-documentation HEAD:
+cad2510594b285c35f7d286b00268681e155b710
+Dedicated verified M4C3E continuation initial commit:
+9234c47070daae096f03793a25aae3d3cc4ab522
+Verified M4C3E manifest initial commit:
+9590924d7c63688e56b5304ec05d9bd9edc6fc2e
+Final continuation Drive-metadata commit:
+49e53932792cb42d39f895f0c979982fef45b945
+Final manifest identity commit:
+345989321bea5463520a3546bfa6172f0e8ca5ea
+The final root-continuation commit is the commit produced by this update; obtain its exact identity from branch HEAD after the write.
 
-Dedicated candidate continuation:
-GitHub: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3E_CANDIDATE_20260918.txt
-Drive ID: 1-j8gAdzp_FF3LH634Ycq3RK-HhYLr0N9
-GitHub commit creating candidate continuation:
-4dcea7284805db58c1c0a7e1b09083e12d9f8695
+PATCH CHAIN
+Exact HF1:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011 -> 0012
+Latest ordinary patch:
+patches/hf2/0012-hf2-act-neutral-alternative-resolution.patch
+0012 SHA256:
+d8feb362a4eb652fe7451f27553dc2bab2c15ecc1f1ca7ce27170ef79170fe38
+0012 Git blob:
+b7edbd68e7eafeb1416c58878303bffc99132e80
 
-No ordinary 0012 has been published.
-Do not extend the published patch chain beyond 0011 unless the M4C3E candidate AND separate fresh replay are green.
+M4C3E CANDIDATE CI
+Run: 35338817481
+Job: 105579788375
+Conclusion: SUCCESS
+Source commit: ffe14e77f508b09d74a665a74f9da2b272fc4e2c
+Post-0011 baseline: 286 passed, 2 warnings, 19.80s
+Candidate: 291 passed, 2 warnings, 19.12s
+Fresh exact-HF1 replay through 0012: 291 passed, 2 warnings, 19.15s
+Candidate/replay source-byte parity: PASS
+0012 generated only after candidate green: true
+Candidate artifact ID: 10544720279
+Candidate artifact SHA256:
+dafaf3b648001da0de21041c1d125722c0af6522c267187a6759ad10f63c961e
+Generated 0012 SHA256:
+d8feb362a4eb652fe7451f27553dc2bab2c15ecc1f1ca7ce27170ef79170fe38
 
-Candidate design in one sentence:
-QUD/proposition/proof alternatives become act-neutral carriers compatible with BOTH ask and clarify; their existence can make both actuators feasible, but only learned native consequence geometry may select an act, and an ordinary multiple-answer response is superseded only after such a genuine native choice.
+PUBLISHED EXACT-HF1 CHAIN CI
+Run: 35339074903
+Job: 105580597314
+Conclusion: SUCCESS
+Workflow source commit:
+28eb871dbe75b4e80ea15ede9ccbef6338247e9b
+Actual logs inspected:
+- exact HF1 reconstructed;
+- ORIGINAL carrier helpers copied before patching;
+- 0001 through 0012 each passed git apply --check and applied sequentially;
+- compile/dependency steps passed;
+- tests included tests/hf2_m4c3e;
+- 291 passed, 2 warnings, 19.32s;
+- authority boundary remained certification_claim=false, live_runtime_touched=false, canonical_db_touched=false.
+Published-chain artifact ID: 10544033408
+Published-chain artifact SHA256:
+0de15f37d4a3a9c26c704b4565f7ab71282ebcc920e22e89e78c2778945b1a7b
 
-Short local smoke checks only:
-- candidate compileall: PASS
-- new focused tests: 5 passed
-- adjacent existing action + M4C3D tests: 17 passed
-These are not CI, certification, or publication evidence.
+DURABLE M4C3E EVIDENCE
+HF2 Drive folder:
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+Candidate evidence ZIP:
+HF2_M4C3E_ACT_NEUTRAL_ALTERNATIVE_RESOLUTION_20260918.zip
+Drive ID:
+13uc_igjjYxYtaRfxsVyU9lBsJQeA7TwI
+SHA256:
+dafaf3b648001da0de21041c1d125722c0af6522c267187a6759ad10f63c961e
+GitHub/Drive raw-byte equality: VERIFIED
 
-An intermediate workflow draft commit b294cb7739327df1f9953dbf943ebf01e21357e3 was found to contain stale/malformed evidence paths and is SUPERSEDED. It must not be used as validation evidence.
+Published exact-chain evidence ZIP:
+HF2_EXACT_HF1_PATCH_CHAIN_0001_0012_EVIDENCE_20260918.zip
+Drive ID:
+1Q2BfJQE697PpjfWcPorp9le7r2eQIeJf
+SHA256:
+0de15f37d4a3a9c26c704b4565f7ab71282ebcc920e22e89e78c2778945b1a7b
+GitHub/Drive raw-byte equality: VERIFIED
 
-NEXT:
-Inspect the actual GitHub Actions result for a59b85abd8e6afa5a8204a9d1bee43ef89e7c942.
-If it fails, repair and rerun without publishing 0012.
-If candidate + fresh replay are green, publish only the CI-generated 0012, extend the exact chain, preserve evidence in Drive, and replace this candidate block with a verified M4C3E checkpoint.
+Dedicated final M4C3E continuation:
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3E_20260918.txt
+Git blob:
+7856b59de64c7ab6eb015762c5074add9252171c
+SHA256:
+040d359f558536f4862677e0411af79d1f00d8cd9fd6a597278ac65e8551e878
+Drive ID:
+1yN_QJJlgyQ_vJQH-REoDkm-Wr8khmZhi
+Drive normalized-content equality: VERIFIED
+Raw byte equality is not claimed because Google Docs text export adds BOM/CRLF, section-boundary line normalization, and removes final newline.
 
-The verified M4C3D checkpoint follows immediately below.
+Final M4C3E manifest:
+GitHub:
+docs/evidence/HF2_M4C3E_20260918_MANIFEST.json
+Git blob:
+4665f12d8f2bcd3b6e7bb1702bb59454e3d48a04
+SHA256:
+5943a050c51e4f43ae201b2a2a44aaf2734abccb9bfb80d2ce2d9d5d7796c9a0
+Drive ID:
+1qDuoF1EwWVVNqAMi6m2nc7iGnvTtAbuT
+Drive normalized-content equality: VERIFIED
+Raw byte equality is not claimed because the text export normalizes BOM/line endings/final newline.
+
+Root continuation Drive ID, update in place:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+
+WHAT M4C3E ADDS
+- QUD/proposition/proof unresolved alternatives are act-neutral carriers compatible with ask and clarify.
+- Alternative multiplicity may open BOTH ask and clarify affordances but has zero native-choice authority.
+- Native speech-act selection still requires learned consequence geometry; missing evidence/exact ties remain unresolved.
+- Only after genuine native act selection may act-neutral content be bound to the selected act.
+- Realization uses only already-admitted content plus punctuation; no canned clarification/ask fallback exists.
+- Multiple proof-supported ordinary answers remain ordinary output unless a genuine native consequence choice supersedes them.
+- Unique supported answers are not displaced by unrelated proof multiplicity.
+- Once a genuine resolution act supersedes ordinary multi-answer transport, unavailable/private expression does not silently fall back to the ordinary answer.
+- Existing authenticated-owner Room HTTP remains the only content-send execution receipt adapter for clarify/ask.
+- ASGI send completion remains nonsemantic transport evidence only.
+- Receipt alone does not train; later consequence learning still needs a later distinct conversational USER_MESSAGE and existing admissibility/security/nonworsening checks.
+
+BOUNDARIES THAT MUST REMAIN TRUE
+- No parser/reasoner label directly chooses ask or clarify.
+- No forced candidate ranking or invented semantic claim.
+- No canned clarification/ask fallback.
+- No authentication/owner/transport-derived native preference or relationship authority.
+- No fabricated consequence observations or bootstrap preference insertion.
+- Operator calibration remains explicitly non-native calibration provenance.
+- Native content formation, speech-act selection, expression/private-continuation selection, execution receipt, and later learning remain distinct.
+- Terra remains optional/downstream with no reasoning/content/answer/memory/relationship/source-write/deploy authority.
+- SQLite remains persistence/provenance/audit substrate, not cognitive authority.
+- Live runtime and canonical DB remain untouched.
+- Stage8B remains IN PROGRESS and not newly certified.
+- No Stage9/self-upgrade work.
+
+KNOWN LIMITATIONS
+- Defer/remain-silent still lack concrete non-content execution/receipt semantics.
+- Generic/fluent native clarification remains deliberately limited to grounded option exposure.
+- Native audio and other non-HTTP receipt adapters are not implemented.
+- Owner resolution calibration remains operator calibration, not native preference.
+- Existing determiner-form parser ambiguity remains visible/proof-gated.
+- Serialization/fresh-instance checks are not live process-crash/restart certification.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3F
+Define concrete non-content execution semantics for genuinely native-selected defer and remain-silent without emitting empty/canned content merely to manufacture a receipt and without treating absence of a send as delivery, understanding, or peer causation.
+
+Required M4C3F constraints:
+- selection remains learned native consequence geometry only;
+- exact ties/missing evidence remain unresolved;
+- no empty/canned message is emitted merely for receipt creation;
+- any non-content receipt proves only the local runtime action boundary completed;
+- ordinary answer and clarify/ask Room HTTP paths remain unchanged;
+- later consequence learning requires real later admitted native state, not fabricated outcome;
+- no live runtime/canonical DB touch;
+- publish 0013 only after bounded candidate CI plus fresh exact-HF1 replay are green.
+
+Resume engineering from the dedicated M4C3E continuation and manifest above. Historical M4C3D and earlier sections are retained below for reconstruction/history; their older next-step statements are superseded by this M4C3F task.
 
 
 LATEST VERIFIED CHECKPOINT — M4C3D / PUBLISHED 0011 — 2026-09-18 UTC
