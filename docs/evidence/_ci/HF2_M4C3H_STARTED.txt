@@ -1,0 +1,11 @@
+milestone=M4C3H
+status=STARTED
+run_id=35367927674
+run_attempt=1
+source_commit=f1956d61d8e5cff29cdcad74056ae48f93437d7d
+source_branch=stage8B/v0.8.2-conversation-completion-hf2
+verification_only=true
+ordinary_0015_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
