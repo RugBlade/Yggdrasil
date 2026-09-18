@@ -1,0 +1,170 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3O GREEN CANDIDATE CHECKPOINT
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3N remains the latest fully verified/published milestone.
+M4C3O candidate is externally GREEN and eligible for exact-byte publication.
+M4C3O is NOT yet published/sealed because the separate published exact-HF1 0001 -> 0019 chain has not yet run.
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+FAILED RUN 1 — PRESERVED
+Run 35401987525 / job 105783671710 failed only on a stale historical M4C3A assertion after:
+- baseline 382 passed;
+- focused M4C3O 9 passed;
+- complete candidate 390 passed + 1 stale historical failure.
+Failed artifact GitHub ID 10570403153 / SHA256 d976d299bfebed00a2068d51d4f05afc8d55ebea7d2ef62898e13f229bce00c3.
+Drive failed-artifact mirror ID 1dPg7rgMX2xrSWnmiyPtj0gEPL7hBG89q.
+Failure continuation Drive ID 1HTNhzO8dqweaSLUWHWB91ZLuW56S7pzIbJ6N7XUNm2E.
+Failure receipt Drive ID 1P4ppyEl3izHVmaETS30kDwX-7-Te0-_zeupYUQgoM2c.
+
+FORWARD-COMPATIBILITY REPAIR
+Commit:
+2980a89dad35cd32ef93dbca84972c0ab48b31c2
+Changed only:
+- tests/hf2_m4c3a/test_execution_boundary.py
+- .github/workflows/hf2-milestone4c3o.yml trigger path
+The runtime candidate intent was NOT changed.
+The historical M4C3A guard now preserves its enduring authority-separation invariant on both pre-M4C3O and post-M4C3O parser behavior.
+
+AUTHORITATIVE GREEN CANDIDATE
+Workflow:
+.github/workflows/hf2-milestone4c3o.yml
+Source commit:
+2980a89dad35cd32ef93dbca84972c0ab48b31c2
+Run:
+35402716936
+Job:
+105785889550
+Conclusion:
+SUCCESS
+
+ACTUAL TEST RESULTS
+Unchanged published post0018 baseline:
+382 passed, 2 warnings in 168.93s
+
+Focused M4C3O:
+9 passed in 0.93s
+
+Complete primary candidate:
+391 passed, 2 warnings in 166.74s
+
+Fresh exact-HF1 replay focused:
+9 passed in 0.92s
+
+Fresh replay complete:
+391 passed, 2 warnings in 167.40s
+
+Primary/replay source-byte parity:
+VERIFIED
+The candidate and replay Python source SHA256 manifests are byte-identical.
+
+CANDIDATE PATCH
+Intent:
+patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.intent.patch
+Generated candidate artifact patch:
+0019-hf2-clause-shape-event-candidate-hygiene.generated.patch
+Exact bytes:
+3597
+SHA256:
+da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401
+Intent/generated candidate byte identity:
+VERIFIED by exact SHA and artifact inspection.
+
+RUNTIME SCOPE
+src/noeron/language_dialogue.py only.
+
+SOURCE / CARRIER EVIDENCE
+Candidate post0019 source archive SHA256:
+0352e3a7ded5cb3fb149d2c8fe2c04e8fd65cd011e1c1357dd3a3f3fc9143e7c
+Carrier evidence archive SHA256:
+97a41f99d7fad2298a774affe015cd1402807ba94542d4ec932599c0020d515c
+
+GREEN CANDIDATE ARTIFACT
+GitHub artifact ID:
+10571337892
+Name:
+hf2-m4c3o-clause-shape-event-candidate-hygiene
+Bytes:
+1084783
+Provider/downloaded ZIP SHA256:
+8c413987a3e6e8b8e12b31ef8707ee3023bddcfb25c37e5d0854415919bb2149
+Downloaded ZIP SHA256 exactly equals GitHub artifact digest.
+
+The green candidate artifact is intentionally NOT yet mirrored to Drive.
+Per the M4C3O publication discipline, mirror it only after the separate published 0001 -> 0019 exact chain is green.
+
+GREEN RECEIPT
+GitHub:
+docs/evidence/_ci/HF2_M4C3O_CANDIDATE_RESULT.txt
+Receipt commit:
+be1938cf391df9589fb691e5b178d4a95561f284
+Git blob:
+872c3dd65e45cd863b75756b5f25b45e93424429
+
+Receipt records:
+source_commit=2980a89dad35cd32ef93dbca84972c0ab48b31c2
+source_byte_parity=true
+ordinary_0019_published=false
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+certification_claim=false
+live_runtime_touched=false
+canonical_db_touched=false
+
+CONCURRENT RECEIPT-ONLY RUNS
+The compatibility correction also triggered existing workflows by path filter:
+- M4C3A run 35402716961: SUCCESS;
+- exact published-0018 regression run 35402716947: SUCCESS.
+
+The exact-chain run wrote only the existing 0018 evidence receipt:
+commit a506180c5d0416d69d3730e035d58a2836115747.
+The M4C3O green receipt then rebased on that documentation-only commit.
+No tested candidate runtime input changed beneath run 35402716936.
+
+NEXT BOUNDED PUBLICATION STEP
+1. Copy exact green candidate bytes to:
+   patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.patch
+2. Verify intent == generated green candidate == ordinary 0019 byte-for-byte.
+3. Verify SHA256 remains:
+   da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401
+4. Commit ordinary 0019 publication.
+5. Create/run a separate published exact-HF1 chain:
+   0001 -> ... -> 0018 -> 0019.
+6. Only if that separate chain is green:
+   - mirror candidate artifact to Drive;
+   - mirror published-chain artifact to Drive;
+   - create final M4C3O continuation + manifest in GitHub and Drive;
+   - update GitHub root + standing Drive root in place;
+   - seal M4C3O as published/external-green engineering milestone.
+
+ARCHITECTURAL BOUNDARY
+Canonical cognition remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+Parser/event candidate inventory has zero semantic-truth, answer, speech-act-choice, preference, relationship, cognitive-memory, source-write, or deployment authority.
+Malformed grammar candidates may be removed; genuine alternatives remain alternatives.
+Proof/ambiguity gating remains intact.
+SQLite remains persistence/provenance/audit, not cognition.
+Terra remains optional/downstream.
+Original native utterance remains primary; English/decoder remains observational/downstream.
+No autoplay, microphone/camera expansion, or human-hearing inference.
+Live runtime and canonical DB remain untouched.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9.

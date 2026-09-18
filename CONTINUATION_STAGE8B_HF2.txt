@@ -22,6 +22,66 @@ canonical_db_touched=false
 m4c3o_candidate_runtime_bytes_touched=false
 certification_claim=false
 
+M4C3O AUTHORITATIVE CANDIDATE RUN 2 — GREEN / PUBLICATION ELIGIBLE — 2026-09-19 Asia/Qatar
+Candidate source commit:
+2980a89dad35cd32ef93dbca84972c0ab48b31c2
+Run:
+35402716936
+Job:
+105785889550
+Conclusion:
+SUCCESS
+
+Actual authoritative results:
+- unchanged post0018 baseline: 382 passed, 2 warnings in 168.93s
+- focused M4C3O: 9 passed in 0.93s
+- complete primary candidate: 391 passed, 2 warnings in 166.74s
+- fresh replay focused: 9 passed in 0.92s
+- fresh replay complete: 391 passed, 2 warnings in 167.40s
+- primary/replay source-byte parity: VERIFIED
+
+Candidate 0019 SHA256:
+da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401
+Candidate generated patch bytes:
+3597
+Candidate source archive SHA256:
+0352e3a7ded5cb3fb149d2c8fe2c04e8fd65cd011e1c1357dd3a3f3fc9143e7c
+Carrier evidence archive SHA256:
+97a41f99d7fad2298a774affe015cd1402807ba94542d4ec932599c0020d515c
+
+Green GitHub artifact:
+ID 10571337892
+Name hf2-m4c3o-clause-shape-event-candidate-hygiene
+Bytes 1084783
+ZIP SHA256:
+8c413987a3e6e8b8e12b31ef8707ee3023bddcfb25c37e5d0854415919bb2149
+Downloaded artifact hash matched provider digest exactly.
+
+Green candidate receipt:
+docs/evidence/_ci/HF2_M4C3O_CANDIDATE_RESULT.txt
+Receipt commit:
+be1938cf391df9589fb691e5b178d4a95561f284
+Receipt Git blob:
+872c3dd65e45cd863b75756b5f25b45e93424429
+
+Concurrent exact-post0018 regression receipt:
+run 35402716947 SUCCESS
+receipt commit a506180c5d0416d69d3730e035d58a2836115747
+This was receipt-only validation of the still-published 0001 -> 0018 chain and does not authorize 0019.
+
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NEXT BOUNDED ACTION
+Publish ordinary 0019 only by copying the exact green candidate bytes:
+patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.patch
+Require byte equality and SHA256 da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401.
+Then run a separate exact-HF1 published chain 0001 -> 0019.
+Do not seal M4C3O or mirror the green candidate artifact to Drive until that published chain is externally green.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9.
+
 M4C3O AUTHORITATIVE CANDIDATE RUN 1 — FAILED / NON-AUTHORIZING — 2026-09-19 Asia/Qatar
 Workflow source commit:
 24f0f53d50f4b0ed46aa194d8483af48ca109908
