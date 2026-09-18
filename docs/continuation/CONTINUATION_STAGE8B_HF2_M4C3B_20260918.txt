@@ -1,80 +1,216 @@
-M4C3B CANDIDATE AND FRESH REPLAY VERIFIED — 2026-09-18
-Candidate commit: 57b886d6910202e98c23681a8abd6b2362679b0f
-Run 35325420504 / job 105537221261 SUCCESS.
-Exact post0008 baseline: 189 passed. Candidate: 228 passed. Fresh replay: 228 passed.
-0009 generated ONLY AFTER candidate green.
-Artifact 10538397746 SHA256 ae267343a6a4410e697f4d672b482337a8438f59aafb3f564a494bc331150a1b.
-0009 SHA256 305379a517b0473929c3c8370418bca9af6fc28a04fff57ecd461f8a4dba6023.
-This commit publishes the artifact unchanged and extends the full-chain gate.
-The publication full-chain run is pending; inspect it before claiming publication verified.
-Stage8B IN PROGRESS. No live/canonical DB changes. No certification or actuator.
-Raw private resolution content is process-local only; public audits contain counts/status.
-Read the scope and limitations below. M4C3A remains the prior verified checkpoint.
+HF2 M4C3B VERIFIED CONTINUATION — 2026-09-18
 
-HF2 M4C3B CANDIDATE — 2026-09-18
+LAST FULLY VERIFIED ENGINEERING CHECKPOINT: M4C3B native resolution content.
+Stage 8B v0.8.2 remains IN PROGRESS. M4C is NOT conversationally complete.
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+native_resolution_actuator_connected=false
+calibration_executed=false
+
+START HERE
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
-Stage 8B IN PROGRESS. No certification.
-live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.
-
+Verified runtime / 0009 publication / full-chain workflow commit:
+7cbf7169350e082fc0ba0b4a61772bd291cded8f
+Green candidate source/test commit:
+57b886d6910202e98c23681a8abd6b2362679b0f
 Parent verified checkpoint: c62b5a39632b4627173880a8e1cdbd8351b03860
-Published runtime chain remains 0001 through 0008.
-Read docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3A_20260918.txt for baseline.
+Previous continuation: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3A_20260918.txt
+This continuation's final GitHub commit changes evidence/docs only. Inspect current
+branch HEAD and latest root continuation before coding; preserve later work.
 
-Candidate intent: patches/hf2/0009-hf2-native-resolution-content.intent.patch
-Workflow: .github/workflows/hf2-milestone4c3b.yml
-Tests: tests/hf2_m4c3b/test_native_content.py
-0009 deployable patch MUST NOT be published until candidate and fresh replay pass.
-CI reconstructs exact HF1 SHA256
-79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
-then copies ORIGINAL carrier helpers before applying 0001-0008. It verifies the
-189-test baseline, applies candidate intent, compiles and runs the complete HF2
-suite plus tests/hf2_m4c3a and tests/hf2_m4c3b. Only after green does it generate
-0009, reconstruct a separate fresh HF1 tree, apply the entire chain and candidate,
-compare all source bytes, and rerun the complete suite. Review actual logs.
+EXACT RECONSTRUCTION — DO NOT TEST THE CARRIER AS IF IT WERE THE RUNTIME
+HF1 ZIP: fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip
+SHA256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+Use scripts/verify_hf1_exact_fixture.py --extract-all on this exact ZIP.
+Copy the ORIGINAL carrier helper files into src/noeron in that extraction BEFORE
+applying any patches:
+conversation_premises.py, conversation_bridge.py, conversation_reasoning.py,
+conversation_proof.py, conversation_runtime_gate.py, conversation_actions.py,
+conversation_resolution.py.
+The carrier conversation_actions.py and conversation_resolution.py intentionally
+remain their baseline versions; 0009 patches them. Do not copy post0009 versions
+before applying the chain, and do not copy the carrier helpers over patched files.
 
-Scope:
-- NativeResolutionContent is a distinct non-propositional field on NativeThought.
-- Current references must have >=2 explicit distinct string alternatives and
-  matching token, current parse reference row, unresolved status and authority.
-  Parser event-role diagnostic strings, malformed/singleton sets, stale event
-  provenance, and missing native content never become utterance content.
-- Clarify availability is independent of existing native question availability.
-  Programmed affordance eligibility is never choice.
-- Existing actual post-closure DKT and native transport/equal-affordance reference/
-  Sobolev distance/tie policy still select. Invalid distances now stay unresolved.
-- Formed content follows a genuine upstream unique consequence choice. It copies
-  current native questions or ALL reference alternatives. Native language adds
-  only schematic punctuation (e.g. focus: alternative / alternative?). This is
-  not fluent conversational completion or a semantic assertion.
-- Ordinary answers are not reclassified. The original response and its outward
-  express/continue-private transport remain separate.
-- Formation is observational, not execution. No pending marker, counter,
-  consequence training, cognitive thought write, Terra call or outward transport.
-- Raw resolution content stays in a single process-local current-turn observation.
-  It is not serialized into state/audit/reply. Default-off authenticated internal
-  observation controls expose it; translation requires its separate toggle.
-- Owner controls do not affect native selection or relationship state.
-- No default consequence observations are added. Test geometry is explicitly
-  synthetic and isolated, using real native math implementations.
+Sequential published chain:
+0001-hf2-inference-core.patch
+0002-hf2-current-turn-runtime-bridge.patch
+0003-hf2-native-bounded-dialogue-reasoning.patch
+0004-hf2-proof-provenance-ambiguity-runtime-gate.patch
+0005-hf2-native-resolution-state-audit.patch
+0006-hf2-speech-act-consequence-learning.patch
+0007-hf2-owner-resolution-calibration.patch
+0008-hf2-calibration-execution-boundary.patch
+0009-hf2-native-resolution-content.patch
 
-Known limitations persist:
-The determiner-form lamp parser defect from M4C3A is unchanged and tested.
-Only explicit native reference alternatives and already-existing native questions
-are covered. Other QUD/proof/event ambiguity forms remain unimplemented.
-Calibration stays preview-only. A real actuator plus execution/transport receipt
-and validated subsequent consequence admission are still required before learning.
+0001-0008 were not overwritten.
+0009 SHA256:
+305379a517b0473929c3c8370418bca9af6fc28a04fff57ecd461f8a4dba6023
+0009 Git blob: 879d7921dfcf32ee82ae474a62f962ba273527d9
+All 58 post0009 runtime/source asset hashes are in:
+docs/evidence/HF2_M4C3B_20260918_MANIFEST.json
+and m4c3b-post0009-source-sha256.txt inside the evidence ZIP.
 
-Next: inspect candidate Actions run; repair any real failure in a new commit;
-never publish 0009 on a failure. Then publish verified artifact plus full-chain
-gate, inspect full-chain result, back up evidence/source/hashes to Drive folder
-16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO, and update this continuation and root in both.
+VERIFIED CI — ACTUAL LOGS, JUNIT AND ARTIFACTS INSPECTED
+Workflow .github/workflows/hf2-milestone4c3b.yml
+Run 35325420504 / job 105537221261: SUCCESS.
+- Exact post0008 baseline: 189 passed, 2 warnings, 5.53s.
+- Candidate intent applied with exact old-side anchors; compile passed.
+- Candidate: 228 passed, 2 warnings, 7.40s; no skipped tests or collection errors.
+- ONLY THEN GitHub generated ordinary deployable 0009.
+- Separate fresh exact-HF1 reconstruction: 0001-0009 applied.
+- Full source byte parity versus candidate passed.
+- Fresh replay: 228 passed, 2 warnings, 9.77s.
+Artifact 10538397746, size 787301 bytes.
+Artifact ZIP SHA256:
+ae267343a6a4410e697f4d672b482337a8438f59aafb3f564a494bc331150a1b
+Full post0009 source archive SHA256:
+9d08b3cd98c71a46005768033e5a7f4cfbf9e521988453732dc4d0efb51a9520
+Carrier/helpers/patches/tests/workflow archive SHA256:
+72395eae08c4432637c051a5e63c95d25709a971ac59a398d02e452a84f3c09d
 
-FIRST CANDIDATE RESULT: run 35325261627 / job 105536714943.
-Baseline 189 passed. Candidate 226 passed, 2 failed. No 0009 materialized.
-Artifact 10538219072 SHA256 c7fafa84364da82af0db59b8cc45b02af80e251d207376dc4f1bd74dd8708c3a.
-Repair: count validated native reference sets for eligibility even when no answer
-candidate caused a proof ambiguity audit; never map the parser to act choice.
-The HTTP fixture token was below the existing 24-character minimum; corrected.
-Also report private observation available when only resolution content exists.
-Rerun pending; no green claim yet.
+Published .github/workflows/hf2-exact-hf1-patch-chain.yml
+Run 35325638309 / job 105537916273: SUCCESS.
+- CHECK/APPLIED each patch 0001,0002,0003,0004,0005,0006,0007,0008,0009.
+- Compile and dependency installation passed.
+- 228 passed, 2 warnings, 8.89s; JUnit has zero failures/errors/skips.
+- All 12 reported runtime hashes match the candidate's 58-file source manifest.
+Artifact 10539157799, size 7908 bytes.
+ZIP SHA256:
+3954dd169b531580c9c5b7429cd447a6e0987add10cb1e9a8a61bcc42875e606
+Published 0009 was read back from GitHub and matched the tested artifact.
+Two pytest warnings concern existing Starlette/httpx and anyio deprecations.
+Actions also reports existing Node 20 action-version deprecation notices.
+No warning was suppressed and no broad dependency migration was attempted.
+
+MANDATORY TEST PATHS
+tests/test_v082_hf2_*.py
+tests/hf2_m4c3a
+tests/hf2_m4c3b
+Do not omit the latter two paths in full-HF2 claims.
+M4C3B adds 39 behavioral cases. They execute actual native models, DKT transport,
+equal-affordance geometry, Sobolev distance/ties, language and deterministic
+egress, authenticated HTTP boundary, and isolated full Noeron ingestion on
+temporary SQLite. The learned consequence geometry fixtures are explicitly
+SYNTHETIC TEST DATA, never fabricated production observations.
+
+WHAT 0009 DOES — FIVE RUNTIME FILES ONLY
+1. cognition/models.py adds NativeResolutionContent, a separate non-propositional
+   field on NativeThought. It carries current event/source IDs, reference focus,
+   ALL unresolved alternatives, or an existing native question. Default is empty.
+   It never converts alternatives into NativeProposition assertions.
+2. conversation_resolution.py adds strict native source validation. A reference
+   ambiguity needs >=2 distinct nonempty string candidates, unresolved status,
+   grammatical-reference authority, matching current token index/surface and a
+   matching reference row in the same current structure. Malformed sets are
+   rejected whole; diagnostic event-role strings are not split or promoted.
+   Existing questions must already be strings in the direct current native thought.
+   These functions provide content availability, never action choice.
+   The older calibration/structured preview helpers remain non-executing.
+3. conversation_actions.py accepts an explicit native clarification-content count,
+   independent of ask availability. Legacy helper calls remain compatible.
+   Nonfinite/negative consequence distances now leave choice unresolved.
+   No substitute metric, semantic score, utility weight or preference is added.
+4. development.py realizes separate resolution units only when ordinary statement,
+   propositions and question fields are empty and event provenance matches.
+   Clarification uses only punctuation around the existing surfaces:
+   focus: alternative / alternative?
+   Ask preserves the existing question with question punctuation.
+   This is a SCHEMATIC native form, not fluent authored dialogue or a canned
+   fallback. All alternatives stay visible and unresolved. English uses the
+   existing deterministic observational egress unchanged.
+5. orchestrator.py binds content to the direct current event/response/parse:
+   admitted state event ID, thought provenance event ID, response kind,
+   nonempty conversational input, exact text SHA256, no endogenous observation.
+   It never consults last_thought or the calibration preview cache for selection.
+   Existing answer candidates, propositions or ordinary statement content bypass
+   the resolution layer. Native proof-supported responses are preserved.
+   Eligibility also sees validated reference sets even when there is no raw
+   answer candidate and hence no proof-audit ambiguity row.
+   The selection STILL injects exactly:
+   InitiativePolicy._transport_transition
+   equal_affordance_post_manifold
+   dkt.sobolev_distance
+   numerically_tied
+   on the already-computed post-closure DKT state. No parser directly selects an act.
+   Only a true native-choice claim produces content. Missing observations,
+   incomplete equal-affordance reference, one forced affordance, exact ties and
+   invalid distances cannot authorize content.
+   A separate NativeThought with copied mathematical provenance and causal trace
+   is realized read-only. The original response remains unchanged.
+   Defer/remain-silent author no content and are NOT treated as executed.
+
+PRIVATE OBSERVATION AND AUTHORITY
+Raw resolution content/utterance/English live only in
+_hf2_resolution_observation, a process-local current-turn value.
+It is invalidated at each ingress including rejection, never persisted/replayed
+as cognitive memory, and expires on event/turn mismatch.
+Public speech-act audit/state contains status/counts only, not new raw resolution
+content. Existing owner_internal_utterance_observation exposes nested
+resolution_observation only behind the existing default-OFF visibility control;
+English additionally requires the translation control.
+Existing owner endpoint /owner/internal-utterance/latest and Room callers retain
+their authentication requirements. No new API or auth policy was introduced.
+Owner controls neither select acts nor create preference or relationship state.
+No cognitive thought append, pending marker, execution receipt, counter increment,
+consequence training, expression transport or Terra call occurs for this formation.
+The NativeThought is internal structured content; serialization by itself grants
+no authority. SQL/provenance/audit remains separate from cognitive DKT memory.
+
+FAILED FIRST ATTEMPT — PRESERVE HONEST HISTORY
+Commit 98b261adbb188116edf99baf96673722feb10a62.
+Run 35325261627 / job 105536714943: baseline 189 passed;
+candidate 226 passed, 2 failed. 0009 generation/replay were skipped.
+Artifact 10538219072 SHA256:
+c7fafa84364da82af0db59b8cc45b02af80e251d207376dc4f1bd74dd8708c3a
+The real-ingestion test found that proof-audit ambiguity counts can be zero when
+there is no answer candidate to audit. Valid native reference sets now separately
+contribute to eligibility; choice is still native consequence geometry only.
+The HTTP fixture token was shorter than the existing 24-character authenticator
+minimum; the test-only token was corrected. No authentication rule was weakened.
+Private observation status was also corrected when only resolution content exists.
+57b886d6910202e98c23681a8abd6b2362679b0f contains these repairs and passed both gates.
+
+DRIVE BACKUPS — SAME STAGE8B/HF2 FOLDER
+Folder: 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+HF2_M4C3B_NATIVE_RESOLUTION_CONTENT_20260918.zip
+ID 1Er7q04R2XLBN0VH1Aaru4SqQviviCn9N
+HF2_EXACT_HF1_PATCH_CHAIN_0001_0009_EVIDENCE_20260918.zip
+ID 18QkYgAbM1PzifLYVyrlR7Bu2_rsgiOoI
+HF2_M4C3B_FIRST_CANDIDATE_DIAGNOSTIC_20260918.zip
+ID 1Gts69BiYcHyGQhezlzbddwg6BTvD5uJt
+Root continuation mirror ID: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+See the latest root continuation for the dedicated continuation and standalone
+manifest Drive IDs. Preserve existing IDs on update.
+
+OPEN LIMITATIONS / NEXT SMALL CHUNK: M4C3C
+- M4C3B is native content formation + private observational realization ONLY.
+  No new outward resolution utterance has been executed; no calibration executed.
+- The existing determiner-form parser defect remains:
+  "The lamp is on. Is the lamp on?" generates a bogus event-role ambiguity and
+  blocks proof. "Lamp is on. Is lamp on?" is proof-supported and preserved.
+  Existing tests retain both behaviors. Do not hide the defect or weaken proof.
+- Only explicit reference alternatives and already-existing current native
+  questions are realized. Generic QUD/proposition/proof/event-role resolution
+  composition and fluent native clarification remain future work. Diagnostic
+  parser labels are never semantic alternatives.
+- No default consequence observations exist. Missing data remains unresolved.
+  This work does not bootstrap a native resolution preference or claim live choice.
+- A subsequent actuator/transport chunk must consume actual selected native
+  content, retain independent express/continue-private consequence selection,
+  and produce a verifiable execution/transport receipt before marking a speech
+  act pending. Internal formation/private observation/owner authentication is
+  not execution. Event identity alone is not execution evidence.
+- Any future operator calibration remains origin=owner-directed with authenticated
+  owner authority, never relabeled Yggdrasil preference/native choice.
+- Only a later admitted native post-state may train an actually executed act;
+  preserve same-event, rejected, legacy/unbound pending safeguards from 0008.
+- Keep native utterance and deterministic English separate. Terra stays optional
+  downstream without reasoning/answer/content/memory/relationship/source/deploy
+  authority. No forced speech or canned fallback to compensate for missing data.
+- Use GitHub small commits and Actions; inspect actual logs; publish a next patch
+  only after exact post0009 candidate and fresh replay pass. Checkpoint evidence
+  and detailed continuation in GitHub and Drive before the next chunk.
+- Do not modify live server or canonical DB. Stage 8B and Stage 8 remain IN PROGRESS.
+  Earlier certification history is unchanged. Do not jump to self-upgrade/Stage9.

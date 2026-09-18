@@ -1,15 +1,58 @@
-M4C3B CANDIDATE AND FRESH REPLAY VERIFIED — 2026-09-18
-Candidate commit: 57b886d6910202e98c23681a8abd6b2362679b0f
-Run 35325420504 / job 105537221261 SUCCESS.
-Exact post0008 baseline: 189 passed. Candidate: 228 passed. Fresh replay: 228 passed.
-0009 generated ONLY AFTER candidate green.
-Artifact 10538397746 SHA256 ae267343a6a4410e697f4d672b482337a8438f59aafb3f564a494bc331150a1b.
-0009 SHA256 305379a517b0473929c3c8370418bca9af6fc28a04fff57ecd461f8a4dba6023.
-This commit publishes the artifact unchanged and extends the full-chain gate.
-The publication full-chain run is pending; inspect it before claiming publication verified.
-Stage8B IN PROGRESS. No live/canonical DB changes. No certification or actuator.
-Raw private resolution content is process-local only; public audits contain counts/status.
-Read the scope and limitations below. M4C3A remains the prior verified checkpoint.
+LATEST VERIFIED CHECKPOINT — M4C3B — 2026-09-18
+Stage 8B v0.8.2 remains IN PROGRESS. No local/live certification claim.
+live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.
+Native resolution actuator remains disconnected; calibration remains preview-only.
+
+Verified runtime publication commit: 7cbf7169350e082fc0ba0b4a61772bd291cded8f
+Published chain: 0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009.
+Exact HF1 SHA256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+0009: patches/hf2/0009-hf2-native-resolution-content.patch
+0009 SHA256: 305379a517b0473929c3c8370418bca9af6fc28a04fff57ecd461f8a4dba6023
+
+READ FIRST:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3B_20260918.txt
+Hashes/run/artifact manifest:
+docs/evidence/HF2_M4C3B_20260918_MANIFEST.json
+
+Candidate/fresh replay run 35325420504 / job 105537221261: SUCCESS.
+Baseline 189 passed; candidate 228 passed; fresh exact-HF1 replay 228 passed.
+Published full-chain run 35325638309 / job 105537916273: SUCCESS; 228 passed.
+Actual logs, JUnit, artifacts, patch readback and runtime hashes inspected.
+0009 generated only after candidate green. 0001-0008 were not overwritten.
+
+M4C3B forms separate native reference-alternative/existing-question content only
+after actual native consequence selection and current-turn provenance validation.
+All alternatives stay unresolved. Native realization is schematic punctuation;
+English is existing deterministic observational egress. Ordinary answers preserved.
+Raw resolution content stays current-turn/process-local and behind default-OFF
+authenticated internal observation controls. Public new audit fields are counts/
+status only. Formation/private observation is NOT execution or consequence learning.
+No pending marker, learned observations, outward resolution text or Terra invocation.
+
+IMPORTANT RECONSTRUCTION DETAIL: copy ORIGINAL carrier helpers into exact HF1
+before applying the chain. 0009 modifies conversation_actions.py and
+conversation_resolution.py in the reconstructed runtime. Do not overwrite those
+patched versions afterward, or copy post0009 helper versions before patch replay.
+
+Drive folder: 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+Candidate/source/replay ZIP: 1Er7q04R2XLBN0VH1Aaru4SqQviviCn9N
+Published-chain ZIP: 18QkYgAbM1PzifLYVyrlR7Bu2_rsgiOoI
+First failed attempt diagnostic ZIP: 1Gts69BiYcHyGQhezlzbddwg6BTvD5uJt
+Dedicated M4C3B continuation: 15nWqwaRVhtfaJLZfgFz3rrP-hG4T1N1w
+M4C3B manifest: 1Jr6kvqh77PFwkdTVRJXrVEtmq-BQjSQA
+Root continuation mirror: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+All three evidence ZIPs were read back from Drive and matched GitHub SHA256.
+
+NEXT SMALL CHUNK: M4C3C actuator/receipt coupling, after inspecting this checkpoint.
+Preserve genuine native act choice and independent express/continue-private.
+Only actual execution plus a verifiable receipt can justify later consequence
+learning. Owner calibration is owner-directed, never native preference/choice.
+The known determiner-form lamp parser defect and broader QUD/proof/event-role
+composition remain open; do not claim broad language completion or certification.
+
+Historical checkpoints follow. This entry and dedicated M4C3B continuation
+supersede conflicting status text below while preserving historical evidence.
+===============================================================================
 
 LATEST VERIFIED CHECKPOINT — M4C3A — 2026-09-18
 Stage 8B v0.8.2 remains IN PROGRESS. No local/live certification claim.
