@@ -1,0 +1,132 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3H CANDIDATE CHECKPOINT
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3H: VERIFICATION CANDIDATE — CI PENDING.
+This is a verification-only milestone unless CI exposes a runtime defect.
+Ordinary 0015: NOT CREATED / NOT PUBLISHED.
+Published runtime remains exact HF1 + patches 0001 -> 0014.
+Stage8B and Stage8: IN PROGRESS.
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED CHECKPOINT
+M4C3G root checkpoint commit:
+72c14bbe13dc6a26fcf39c30d433f642cc7f33d0
+M4C3G dedicated continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3G_20260918.txt
+M4C3G manifest:
+docs/evidence/HF2_M4C3G_20260918_MANIFEST.json
+Latest published patch:
+patches/hf2/0014-hf2-same-db-restart-recovery.patch
+0014 SHA256:
+28088fc61ee9fe59a6b2bd8dcfcf1a9185d8bcf1481ea2a7f922e68dc5669819
+Published exact-chain run:
+35364492389 / job 105663499079 / SUCCESS / 320 passed, 2 warnings.
+
+M4C3H QUESTION
+M4C3G proves clean true-process restart after durable state.
+M4C3H asks what happens if the process terminates abruptly at specific execution-persistence boundaries.
+
+For content clarify/ask:
+- ASGI terminal response send can return before complete_resolution_dispatch persists a ResolutionExecutionReceipt.
+- A crash after send completion but before durable receipt append must not be relabeled as no-send.
+- On restart, absence of a durable receipt must grant no learning authority and must not auto-resend an old process-local dispatch.
+- If the receipt is durable before the crash, restart must restore it and later consume it at most once.
+
+For non-content defer/remain-silent:
+- there is no outward transport side effect;
+- a crash before receipt append must leave no durable execution receipt;
+- a crash after receipt append must restore the receipt, block duplicate local execution, and allow at-most-once later consequence consumption.
+
+CARRIER
+Tests:
+tests/hf2_m4c3h/test_crash_window_atomicity.py
+Commit:
+f658c026adbc68e35dfde75b4b39f6753b798cc1
+SHA256:
+f01355c3c4135648efb79c433468cf7f861efa2029a3d3a6284c7925282064ca
+
+Candidate workflow:
+.github/workflows/hf2-milestone4c3h.yml
+Workflow commit:
+556e8249824d5bb293a61d8acb1a182108349f2f
+
+NO RUNTIME SOURCE CHANGE
+There is no 0015 intent or ordinary patch at this checkpoint.
+M4C3H uses the published 0001-0014 runtime exactly.
+Do not create 0015 merely because this is a new milestone.
+Only create a runtime patch if external verification exposes an actual defect.
+
+TRUE HARD-EXIT TESTS
+The focused test module uses isolated SQLite databases, brand-new subprocesses, and os._exit crash boundaries.
+
+Seven collected cases:
+1. content: terminate inside terminal ASGI body send before send completion;
+2. content: terminal send completes, receipt transaction reaches persistence, terminate before SQLite append;
+3. content: terminate immediately after SQLite receipt append;
+4. defer: terminate before SQLite receipt append;
+5. remain-silent: terminate before SQLite receipt append;
+6. defer: terminate immediately after SQLite receipt append;
+7. remain-silent: terminate immediately after SQLite receipt append.
+
+Every restart creates a brand-new Noeron instance against the same isolated SQLite database.
+The test never treats a same-process model roundtrip as crash/restart evidence.
+
+EXPECTED SAFETY SEMANTICS
+- no durable receipt => no consequence learning authority;
+- no durable receipt after a content send window is NOT evidence that no bytes were sent;
+- no process-local dispatch capability survives restart;
+- runtime never automatically re-sends the pre-crash content dispatch;
+- durable content receipt restores expression linkage and can be consumed at most once;
+- durable non-content receipt restores no-content provenance, blocks duplicate local execution, and can be consumed at most once;
+- crash verification does not select an act, create preference weights, relationship meaning, semantic truth, source-write or deployment authority;
+- peer_delivery/read/understanding/reply causation remain false.
+
+SHORT LOCAL PROBE ONLY — NOT EXTERNAL EVIDENCE
+The first bounded run completed the first five collected cases with no failure before the command timeout.
+The two remaining post-durable non-content cases were then run independently:
+- defer: 1 passed in 9.41s
+- remain-silent: 1 passed in 9.19s
+Thus all 7/7 focused cases passed in bounded local probes.
+This is not publication/certification evidence.
+
+EXTERNAL CI GATE
+The workflow must:
+1. reconstruct byte-exact HF1;
+2. copy ORIGINAL carrier helpers before patching;
+3. apply published 0001 through 0014 only;
+4. prove the existing post-0014 baseline before M4C3H tests;
+5. run the seven focused hard-exit tests;
+6. run the complete HF2 suite including M4C3H;
+7. independently reconstruct fresh exact HF1 and reapply 0001-0014;
+8. prove runtime source-byte parity;
+9. run focused and complete M4C3H-inclusive suites again;
+10. preserve evidence and a self-identifying green receipt.
+
+The workflow explicitly requires:
+verification_only=true
+ordinary_0015_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+EXPECTED TEST COUNTS
+Published pre-M4C3H baseline:
+320 tests.
+M4C3H focused:
+7 tests.
+Complete with M4C3H:
+327 tests.
+Fresh replay focused:
+7 tests.
+Fresh replay complete:
+327 tests.
+
+NEXT
+Inspect the actual Actions run sourced from 556e8249824d5bb293a61d8acb1a182108349f2f.
+Do not infer success from local probes.
+If external CI is green and no runtime defect appears, seal M4C3H as verification-only with NO 0015.
+If CI exposes a genuine crash-integrity defect, stop verification-only sealing and create a separate 0015 candidate through the established intent -> candidate -> fresh replay -> publication pipeline.
