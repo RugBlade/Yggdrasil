@@ -1,0 +1,179 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3E VERIFIED CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Stage8B and Stage8 overall: IN PROGRESS.
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+READ THIS FIRST
+M4C3E is now durably published and externally verified.
+Continue from the exact HF1 patch chain:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011 -> 0012.
+Latest ordinary patch:
+patches/hf2/0012-hf2-act-neutral-alternative-resolution.patch
+0012 SHA256:
+d8feb362a4eb652fe7451f27553dc2bab2c15ecc1f1ca7ce27170ef79170fe38
+0012 Git blob:
+b7edbd68e7eafeb1416c58878303bffc99132e80
+
+Do not restart M4C3D or reconstruct M4C3E from scratch. The candidate, generated patch, published patch, exact-chain replay, and Drive evidence are all verified below.
+
+DURABLE GITHUB STATE
+M4C3E corrected candidate source/workflow commit:
+ffe14e77f508b09d74a665a74f9da2b272fc4e2c
+message: ci: make M4C3E green run self-identifying
+Candidate green-receipt commit:
+d160f60938ae3a123adadcba536c1b28f469a595
+message: ci: record green M4C3E candidate receipt [skip ci]
+Ordinary 0012 publication commit:
+7bd2e5252c28fadda66e4cb2946671bdefbf6dbd
+message: hf2: publish green 0012 act-neutral alternative resolution
+Exact-chain-through-0012 workflow commit:
+28eb871dbe75b4e80ea15ede9ccbef6338247e9b
+message: ci: extend exact HF1 chain through green 0012
+Exact-chain green-receipt commit / pre-documentation HEAD:
+cad2510594b285c35f7d286b00268681e155b710
+message: ci: record green HF2 exact chain through 0012 [skip ci]
+
+CARRIER IDENTITIES
+Intent file:
+patches/hf2/0012-hf2-act-neutral-alternative-resolution.intent.patch
+Git blob: 2100aaaab8e9725d19ae3a89458a81c471d6dd2e
+SHA256: 69536a8b5f98664959e2db92efbc5d8ac9d800a07d059dd7002530bbb2e2d13e
+M4C3E tests:
+tests/hf2_m4c3e/test_act_neutral_alternative_routing.py
+Git blob: 47265af4b09ce1d81f1cee95c02526f8964d018b
+SHA256: 956340d07c8c2990d04f3d33a753983638a80352bdcb0e3009ac5268a811460e
+Candidate workflow:
+.github/workflows/hf2-milestone4c3e.yml
+Exact-chain workflow:
+.github/workflows/hf2-exact-hf1-patch-chain.yml
+Exact-chain workflow Git blob after 0012 extension:
+25a047226f68d5200e4f08ec825508c584c66c70
+
+M4C3E CANDIDATE VALIDATION
+Workflow run: 35338817481
+Job: 105579788375
+Conclusion: SUCCESS
+Source commit: ffe14e77f508b09d74a665a74f9da2b272fc4e2c
+Exact post-0011 baseline: 286 passed, 2 warnings, 19.80s.
+Candidate after 0012 intent: 291 passed, 2 warnings, 19.12s.
+Fresh exact-HF1 replay applying 0001-0012: 291 passed, 2 warnings, 19.15s.
+Candidate/replay source-byte parity passed.
+Ordinary 0012 was materialized only after candidate tests were green.
+
+Candidate artifact:
+ID: 10544720279
+Name: hf2-m4c3e-act-neutral-alternative-resolution
+Bytes: 886271
+ZIP SHA256:
+dafaf3b648001da0de21041c1d125722c0af6522c267187a6759ad10f63c961e
+Generated 0012 SHA256:
+d8feb362a4eb652fe7451f27553dc2bab2c15ecc1f1ca7ce27170ef79170fe38
+Exact post-0012 source archive SHA256:
+127ff263738697f0ff1e1248e2e20757126cfaa410a2fa176f16ae77fdf815d7
+Carrier archive SHA256:
+3c7f37a39bc7593baf4e16b1a45f0e89ec38e4fbf5bcc477e0fc4725c9e18b46
+Intent audit: PASS.
+Authority flags false for semantic truth, answer, candidate ranking, cognitive memory, relationship, source-write runtime, deployment, and speech act.
+
+PUBLISHED EXACT-HF1 0001-0012 VALIDATION
+Workflow run: 35339074903
+Job: 105580597314
+Source commit: 28eb871dbe75b4e80ea15ede9ccbef6338247e9b
+Conclusion: SUCCESS
+Actual job logs inspected:
+- exact HF1 fixture reconstructed;
+- ORIGINAL carrier helpers copied before patch application;
+- 0001 through 0012 each passed git apply --check and applied sequentially;
+- patched runtime compiled;
+- tests/hf2_m4c3e included in the complete HF2 invocation;
+- 291 passed, 2 warnings, 19.32s;
+- 0012 SHA256 in chain evidence exactly d8feb362a4eb652fe7451f27553dc2bab2c15ecc1f1ca7ce27170ef79170fe38;
+- certification_claim=false;
+- live_runtime_touched=false;
+- canonical_db_touched=false.
+
+Published-chain artifact:
+ID: 10544033408
+Name: hf2-exact-hf1-patch-chain-evidence
+Bytes: 9323
+ZIP SHA256:
+0de15f37d4a3a9c26c704b4565f7ab71282ebcc920e22e89e78c2778945b1a7b
+
+GOOGLE DRIVE EVIDENCE
+HF2 folder ID:
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+Candidate evidence ZIP:
+HF2_M4C3E_ACT_NEUTRAL_ALTERNATIVE_RESOLUTION_20260918.zip
+Drive ID: 13uc_igjjYxYtaRfxsVyU9lBsJQeA7TwI
+Raw SHA256: dafaf3b648001da0de21041c1d125722c0af6522c267187a6759ad10f63c961e
+Byte equality with GitHub Actions artifact: VERIFIED.
+Published-chain evidence ZIP:
+HF2_EXACT_HF1_PATCH_CHAIN_0001_0012_EVIDENCE_20260918.zip
+Drive ID: 1Q2BfJQE697PpjfWcPorp9le7r2eQIeJf
+Raw SHA256: 0de15f37d4a3a9c26c704b4565f7ab71282ebcc920e22e89e78c2778945b1a7b
+Byte equality with GitHub Actions artifact: VERIFIED.
+Existing candidate continuation Drive ID:
+1-j8gAdzp_FF3LH634Ycq3RK-HhYLr0N9
+Existing root continuation Drive ID, update in place:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+
+WHAT M4C3E IMPLEMENTS
+1. QUD/proposition/proof unresolved alternatives are act-neutral content carriers. Their compatible actions are ask and clarify; before selection their own act is empty.
+2. Act-neutral content may make ask and clarify simultaneously feasible. It has no authority to choose between them.
+3. Native speech-act selection remains in the existing learned consequence geometry. Missing observations, incomplete reference geometry, infrastructure-forced single affordances, and exact ties remain unresolved.
+4. Only after a genuine native ask/clarify choice may compatible act-neutral content be converted into NativeResolutionContent for the selected act.
+5. Ask/clarify realization uses only already-admitted option strings plus punctuation. No canned "Do you mean", "Which one", or authored fallback wording is introduced.
+6. Multiple proof-supported ordinary answers remain ordinary output unless a genuine native consequence choice supersedes them.
+7. Once a genuine resolution act supersedes ordinary multi-answer transport, private/unresolved expression or an unsupported adapter does not silently fall back to the ordinary answer.
+8. Unique supported answers are not displaced merely because unrelated proof multiplicity exists.
+9. Existing authenticated-owner Room HTTP remains the only content-send execution-receipt adapter. ASGI send completion remains nonsemantic transport evidence only.
+10. Receipt alone does not train. Later consequence learning still requires a distinct later conversational USER_MESSAGE plus existing native admissibility/security/nonworsening checks.
+
+BOUNDARIES THAT REMAIN TRUE
+- No parser/reasoner label directly chooses ask or clarify.
+- No candidate ranking is forced.
+- No semantic claim is invented from ambiguity.
+- No canned clarification/ask fallback.
+- No authentication-derived native preference or relationship authority.
+- No owner command presented as Yggdrasil's preference.
+- No fabricated consequence observations or bootstrap preference insertion.
+- Explicit owner calibration remains operator-directed calibration, not native choice.
+- Native content formation, native speech-act choice, expression/private-continuation choice, transport execution, and later consequence learning remain distinct.
+- Terra remains optional/downstream with no reasoning/content/answer/memory/relationship/source-write/deployment authority.
+- SQLite remains persistence/provenance/audit substrate, not cognitive authority.
+- Live runtime and canonical database remain untouched.
+- Stage8B remains IN PROGRESS; no new certification claim.
+- No Stage9/self-upgrade work has started.
+
+KNOWN REMAINING LIMITATIONS
+- Defer and remain-silent still lack a concrete non-content execution/receipt definition; a native choice for them can currently remain selected-but-not-executed.
+- Generic/fluent native clarification remains intentionally limited to grounded option exposure rather than authored fallback prose.
+- Native audio and other non-HTTP receipt adapters are not implemented.
+- Owner resolution calibration remains preview/operator-calibration infrastructure, not native preference.
+- Existing determiner-form parser ambiguity such as "The lamp is on. Is the lamp on?" remains visible/proof-gated.
+- Serialization/fresh-instance checks are not live process-crash/restart certification.
+
+RECONSTRUCTION RULE
+1. Reconstruct fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip and verify SHA256 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29.
+2. Copy ORIGINAL carrier helpers before applying any HF2 patches.
+3. Apply 0001 through 0012 strictly in order.
+4. Never overwrite patched conversation helpers with original carrier copies after patching.
+5. Run tests/test_v082_hf2_*.py plus tests/hf2_m4c3a, m4c3b, m4c3c, m4c3d, and m4c3e.
+6. Publish any later ordinary patch only after candidate CI and a separate fresh replay are green.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3F
+Define concrete non-content execution semantics for genuinely native-selected defer and remain-silent without reinterpreting absence of a send as proof of delivery, understanding, or preference.
+Required properties:
+- defer/remain-silent selection must still come only from native learned consequence geometry;
+- no empty/canned message may be emitted merely to manufacture a receipt;
+- a non-content execution receipt, if introduced, must prove only the local runtime action boundary actually completed;
+- it must not be treated as peer delivery/read/understanding/reply causation;
+- it must preserve independent expression/private-continuation semantics where applicable;
+- it must integrate with later consequence learning without fabricating outcomes;
+- ordinary answers and clarify/ask Room HTTP transport must remain unchanged;
+- no live runtime or canonical DB touch.
+Start by inspecting the post-0012 execution path and existing pending/receipt state; design and test this as a small separate candidate before publishing 0013.
