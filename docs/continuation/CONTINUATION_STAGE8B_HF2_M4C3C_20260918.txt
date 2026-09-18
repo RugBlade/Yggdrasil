@@ -1,0 +1,60 @@
+HF2 M4C3C CANDIDATE — 2026-09-18
+
+Repository RugBlade/Yggdrasil
+Branch stage8B/v0.8.2-conversation-completion-hf2
+Parent verified checkpoint 2595a67248f24547d6d4f49cd4de8b79e27357b8 (M4C3B).
+Published runtime remains 0001-0009 until the candidate and fresh replay pass.
+Stage8B IN PROGRESS. live_runtime_touched=false; canonical_db_touched=false;
+certification_claim=false. No deployment or owner calibration execution.
+
+Candidate intent:
+patches/hf2/0010-hf2-native-resolution-transport-receipt.intent.patch
+Workflow .github/workflows/hf2-milestone4c3c.yml
+Tests tests/hf2_m4c3c/test_transport_receipt.py
+
+SCOPE
+A narrow first resolution actuator: authenticated Ed25519-device Room HTTP text.
+The existing native reference/question formation still selects the act through
+post-closure native DKT consequence geometry. The existing independent
+InitiativePolicy express/continue-private selector still selects expression.
+Both genuine native choices are required. Availability/authentication/owner
+controls cannot manufacture either choice. No fallback strings or Terra call.
+Ordinary proof-supported answers use their existing path.
+Native clarify/ask content can prepare a private dispatch capability, not a
+learning observation. It is excluded from JSON/state serialization and invalidated
+on new ingress. No new raw private text enters public audit metadata.
+Only the Room Response adapter can complete its in-process capability, after a
+successful ASGI 200 response body send on POST /room/message. The exact emitted
+text digest, current event/turn/pre-geometry/residual and both selections must match.
+An ASGI receipt proves send-buffer completion, NOT peer delivery/read/understanding.
+Reference: https://asgi.readthedocs.io/en/latest/specs/www.html#response-body-send-event
+
+Only then mark resolution and associated expression pending together, checkpoint
+and persist a NONSEMANTIC receipt. No training at selection/preparation/send time.
+Failed/stale/replayed/wrong-payload/unverified completions cannot become pending.
+Receipt persistence failure restores in-memory state and the security checkpoint.
+Learning requires a later-created, different, admitted conversational input and
+the existing native DKT security/nonworsening gates. Legacy unreceipted outcomes
+stay unresolved and preserved. A receipt without later native evidence does not
+fabricate observations. Default state remains empty.
+A coupled expression pending receipt cannot be silently overwritten.
+
+LIMITS
+Only Room HTTP clarify/ask is wired. Other adapters, native audio, defer/silent
+actuator receipts and actual owner-directed calibration remain later work.
+Calibration remains preview-only; no owner task is relabeled as native choice.
+No fresh-state bootstrapping: native speech-act observations are still empty by
+default. Synthetic test geometry never enters production defaults.
+M4C3B schematic content and parser/QUD/proof-language limitations remain unchanged.
+
+CI METHOD
+Reconstruct byte-exact HF1:
+79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29.
+Copy ORIGINAL carrier helpers before all patches, apply 0001-0009 in order.
+Baseline test paths: tests/test_v082_hf2_*.py, tests/hf2_m4c3a, tests/hf2_m4c3b.
+Then apply exact-anchor intent, compile and add tests/hf2_m4c3c.
+ONLY after candidate green generate deployable 0010; fresh-extract HF1, replay
+0001-0010, compare every source byte and rerun all four test paths.
+Review actual logs, JUnit and artifacts before publishing patch/gate.
+Then inspect the published full-chain result; checkpoint GitHub and Drive folder
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO, including exact sources/hashes/continuations.
