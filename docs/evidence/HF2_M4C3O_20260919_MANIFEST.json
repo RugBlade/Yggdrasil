@@ -1,0 +1,174 @@
+{
+  "schema_version": "HF2-M4C3O-20260919-v1",
+  "generated_date_local": "2026-09-19 Asia/Qatar",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "roadmap": {
+    "authority_drive_id": "1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog",
+    "stage8_range": "8A-8M",
+    "stage8_self_upgrade_milestones": [
+      "8H",
+      "8J",
+      "8K"
+    ],
+    "stage9_after_stage8": true,
+    "current_stage": "8B",
+    "stage8c_through_8m_authorized": false,
+    "stage9_authorized": false
+  },
+  "milestone": {
+    "id": "M4C3O",
+    "title": "transparent clause-shape hygiene for language_dialogue event-candidate inventory",
+    "status": "PUBLISHED_AND_EXTERNALLY_VERIFIED_ENGINEERING",
+    "m4c3o_sealed": true,
+    "stage8b_complete": false,
+    "broad_conversational_completion_claim": false,
+    "certification_claim": false,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false
+  },
+  "patch0019": {
+    "intent_path": "patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.intent.patch",
+    "published_path": "patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.patch",
+    "git_blob": "15b189a47701ffe1870dcb5ca147ed0d205d7621",
+    "sha256": "da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401",
+    "bytes": 3597,
+    "intent_published_byte_identity": true,
+    "runtime_scope": [
+      "src/noeron/language_dialogue.py"
+    ],
+    "publication_commit": "b722ed7f624db3cab3d76764703a192099549938",
+    "ordinary_0019_published": true
+  },
+  "failed_candidate_run": {
+    "authorizing": false,
+    "workflow_source_commit": "24f0f53d50f4b0ed46aa194d8483af48ca109908",
+    "run_id": 35401987525,
+    "job_id": 105783671710,
+    "result": "FAILURE",
+    "baseline": "382 passed, 2 warnings in 165.24s",
+    "focused": "9 passed in 0.93s",
+    "complete": "390 passed, 1 failed, 2 warnings in 163.87s",
+    "failure_class": "stale_historical_regression_contract",
+    "artifact": {
+      "github_id": 10570403153,
+      "sha256": "d976d299bfebed00a2068d51d4f05afc8d55ebea7d2ef62898e13f229bce00c3",
+      "drive_id": "1dPg7rgMX2xrSWnmiyPtj0gEPL7hBG89q"
+    },
+    "checkpoint_commit": "806e09b12e973fc0a6c5c2ea4d39cec601e1e910"
+  },
+  "forward_compatibility_repair": {
+    "commit": "2980a89dad35cd32ef93dbca84972c0ab48b31c2",
+    "runtime_candidate_bytes_changed": false,
+    "retained_invariant": "parser/grammar state cannot itself grant owner-calibration execution or native-choice authority"
+  },
+  "green_candidate": {
+    "workflow": ".github/workflows/hf2-milestone4c3o.yml",
+    "source_commit": "2980a89dad35cd32ef93dbca84972c0ab48b31c2",
+    "run_id": 35402716936,
+    "job_id": 105785889550,
+    "result": "SUCCESS",
+    "baseline": "382 passed, 2 warnings in 168.93s",
+    "focused": "9 passed in 0.93s",
+    "complete": "391 passed, 2 warnings in 166.74s",
+    "replay_focused": "9 passed in 0.92s",
+    "replay_complete": "391 passed, 2 warnings in 167.40s",
+    "source_byte_parity": true,
+    "candidate_source_archive_sha256": "0352e3a7ded5cb3fb149d2c8fe2c04e8fd65cd011e1c1357dd3a3f3fc9143e7c",
+    "carrier_archive_sha256": "97a41f99d7fad2298a774affe015cd1402807ba94542d4ec932599c0020d515c",
+    "receipt": {
+      "path": "docs/evidence/_ci/HF2_M4C3O_CANDIDATE_RESULT.txt",
+      "commit": "be1938cf391df9589fb691e5b178d4a95561f284",
+      "git_blob": "872c3dd65e45cd863b75756b5f25b45e93424429"
+    },
+    "artifact": {
+      "github_id": 10571337892,
+      "name": "hf2-m4c3o-clause-shape-event-candidate-hygiene",
+      "bytes": 1084783,
+      "sha256": "8c413987a3e6e8b8e12b31ef8707ee3023bddcfb25c37e5d0854415919bb2149",
+      "drive_id": "1-1Su0OWAxZuYwDzQvmQ6zlGf-Oj1ADKW",
+      "github_drive_raw_byte_equality": true
+    }
+  },
+  "published_exact_chain": {
+    "workflow": ".github/workflows/hf2-m4c3o-published-chain.yml",
+    "source_commit": "19baf8d9575183507ca3f8be755df85f1972edd0",
+    "run_id": 35404408342,
+    "job_id": 105791053674,
+    "result": "SUCCESS",
+    "patch_chain": [
+      "0001",
+      "0002",
+      "0003",
+      "0004",
+      "0005",
+      "0006",
+      "0007",
+      "0008",
+      "0009",
+      "0010",
+      "0011",
+      "0012",
+      "0013",
+      "0014",
+      "0015",
+      "0016",
+      "0017",
+      "0018",
+      "0019"
+    ],
+    "test_summary": "391 passed, 2 warnings in 166.30s (0:02:46)",
+    "source_archive_sha256": "76112e7baba6e6368b600e384585a4cef38a64ea498040394dc8643fa8f3f73e",
+    "receipt": {
+      "path": "docs/evidence/_ci/HF2_EXACT_CHAIN_0019_RESULT.txt",
+      "commit": "aae3090c459a19a418618e7cd391c422a95749f6",
+      "git_blob": "3fd32d600eee12e5b39930fe24214daed7fd7c57"
+    },
+    "artifact": {
+      "github_id": 10570859646,
+      "name": "hf2-m4c3o-exact-hf1-published-0019",
+      "bytes": 676513,
+      "sha256": "a2fec75ae391a8b8b5ceb7540240480218d4ce06f90cdf62e4c4e03f94950cf4",
+      "drive_id": "1Q3uF2Nx9QksU7B3KHOKOxtk9_C0L-XqN",
+      "github_drive_raw_byte_equality": true
+    },
+    "published_exact_chain_0019_green": true
+  },
+  "authority_boundaries": {
+    "parser_event_candidate_inventory_only": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "sqlite_cognitive_retrieval_authority": false,
+    "terra_optional_downstream": true,
+    "original_native_utterance_primary": true,
+    "english_decoder_observational_downstream": true
+  },
+  "final_continuation": {
+    "github_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3O_20260919.txt",
+    "github_commit": "094fdb6986c7b4abaec7f04a8159f26f40dc6a30",
+    "github_blob": "6bd78957204496fbf7c08f7f7a8d9e26739eb992",
+    "drive_id": "1YPg4S-bKyISxFboUDKRfKlWk1yR9uEyKE6xjlwxIvsU",
+    "normalized_equality": true
+  },
+  "standing_root_drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+  "next_bounded_task": {
+    "id": "M4C3P",
+    "mode": "design_verification_first",
+    "description": "Inspect exact published post0019 for remaining unresolved QUD/proposition/proof-composition and generic clarification surface; build a bounded reproducible inventory before any runtime patch.",
+    "ordinary_0020_authorized_by_numbering": false
+  }
+}
