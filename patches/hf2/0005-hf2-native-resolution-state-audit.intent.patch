@@ -37,7 +37,6 @@
      initiative_development: InitiativeDevelopmentState = Field(default_factory=InitiativeDevelopmentState)
 +    speech_act_development: SpeechActDevelopmentState = Field(default_factory=SpeechActDevelopmentState)
      realization_development: RealizationDevelopmentState = Field(default_factory=RealizationDevelopmentState)
-
 --- a/src/noeron/models.py
 +++ b/src/noeron/models.py
 @@
@@ -48,7 +47,6 @@
 +    speech_act_audit: dict[str,Any] = Field(default_factory=dict)
      state: NoeronState
      security: SecurityDecision
-
 --- a/src/noeron/orchestrator.py
 +++ b/src/noeron/orchestrator.py
 @@
