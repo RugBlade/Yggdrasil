@@ -34,6 +34,7 @@ def main() -> None:
         default="fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip",
     )
     ap.add_argument("--extract-dir", default="")
+    ap.add_argument("--extract-all", action="store_true")
     ap.add_argument("--evidence", default="")
     args = ap.parse_args()
 
@@ -52,16 +53,41 @@ def main() -> None:
             fail("duplicate ZIP member names")
 
         forbidden = []
+        unsafe = []
         for name in names:
             low = name.lower()
             base = Path(low).name
+            member = Path(name)
+            if (
+                member.is_absolute()
+                or ".." in member.parts
+                or (len(member.parts) and ":" in member.parts[0])
+            ):
+                unsafe.append(name)
             if base == ".env" or low.endswith(FORBIDDEN_SUFFIXES):
                 forbidden.append(name)
+        if unsafe:
+            fail("unsafe ZIP member paths: " + ", ".join(unsafe))
         if forbidden:
             fail("forbidden sensitive payload names: " + ", ".join(forbidden))
 
-        observed = {}
         extracted = Path(args.extract_dir) if args.extract_dir else None
+        if args.extract_all and extracted is None:
+            fail("--extract-all requires --extract-dir")
+
+        if args.extract_all:
+            for info in zf.infolist():
+                target = extracted / info.filename
+                if info.is_dir():
+                    target.mkdir(parents=True, exist_ok=True)
+                    continue
+                unix_mode = (info.external_attr >> 16) & 0o170000
+                if unix_mode == 0o120000:
+                    fail(f"symlink ZIP member not allowed in fixture extraction: {info.filename}")
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(zf.read(info.filename))
+
+        observed = {}
         for path, expected in EXPECTED_FILES.items():
             if path not in names:
                 fail(f"missing required HF1 member: {path}")
@@ -75,7 +101,7 @@ def main() -> None:
                 "crlf_count": data.count(b"\r\n"),
                 "lf_count": data.count(b"\n"),
             }
-            if extracted is not None:
+            if extracted is not None and not args.extract_all:
                 target = extracted / path
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(data)
@@ -91,6 +117,7 @@ def main() -> None:
             "size_bytes": len(archive_bytes),
             "sha256": archive_sha,
             "member_count": len(names),
+            "extract_all": bool(args.extract_all),
         },
         "verified_files": observed,
         "forbidden_payload_hits": [],

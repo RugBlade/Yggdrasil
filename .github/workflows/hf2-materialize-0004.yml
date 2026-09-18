@@ -36,7 +36,7 @@ jobs:
           set -euo pipefail
           FIX="$RUNNER_TEMP/ygg-hf1-post0003"
           echo "FIX=$FIX" >> "$GITHUB_ENV"
-          python scripts/verify_hf1_exact_fixture.py --extract-dir "$FIX" --evidence hf1-identity.json
+          python scripts/verify_hf1_exact_fixture.py --extract-dir "$FIX" --extract-all --evidence hf1-identity.json
           for f in conversation_premises.py conversation_bridge.py conversation_reasoning.py conversation_proof.py conversation_runtime_gate.py; do
             cp "src/noeron/$f" "$FIX/src/noeron/$f"
           done
