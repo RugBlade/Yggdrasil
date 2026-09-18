@@ -181,3 +181,20 @@ NEXT STEPS
 ROADMAP REMINDER
 Stage 8 remains broad through 8A-8M. Final Stage 8 endpoint: own-source observe -> understand -> native reasoning -> converse/explain -> propose/accept authorized task -> Patch IR -> sandbox -> test -> diagnose/revise -> evidence -> owner promotion -> live upgrade -> same persistent Yggdrasil survives -> inspect/explain change.
 Stage 9: 9A knot/DNA-like memory compression/migration; 9B reversible defensive internal-representation morphing only on authorized owner infrastructure; 9C privacy transport; 9D authenticated owner-device/domain mount; 9E secure operator console. Rejected: unauthorized/covert access, bypass, spoofing, compromise, anti-forensics, third-party persistence, retaliation/hackback.
+
+
+HF2 RECOVERY CHECKPOINT — 2026-09-18 EXACT HF1 BASE IDENTITY
+- Current branch previously survived through commit 2f26f40de96e4e84a1b6a38f534406c67490de3d (M3D + 0004 carrier checkpoint).
+- M3C final CI: run 35269294053 / job 105364264154 SUCCESS.
+- M3D corrected runtime proof gate: run 35269905613 / job 105366306481 SUCCESS.
+- M3D 0004 contract: run 35270169434 / job 105367201355 SUCCESS.
+- Byte-exact Drive artifact recovered: noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip, Drive id 1GTwmxa0GVDkNJCxXrNxVIv8P2-Dw2Ehj, 1,396,552 bytes.
+- Actual SHA256 independently recomputed from downloaded bytes: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29.
+- Historical H6_HOTFIX_RESUME_SHEET.txt states a different ZIP SHA256 (79d04505988c6ed6a6949333d20ba3af87be269782031dc8be563e39cc43d8634). Preserve that discrepancy; do not rewrite history. For the new exact-HF1 engineering fixture, use the byte-verified stored Drive artifact identity above.
+- New manifest committed: fixtures/hf1_exact/HF2_EXACT_HF1_BASE_IDENTITY_20260918.json.
+- Package scan: 199 archive entries; no .sqlite3/.db/.pem/.key/.p12/.pfx/.env payload hits. .env.example files are allowed examples only.
+- Canonical live DB/state and live runtime were not touched.
+- Status remains Stage 8B IN PROGRESS; no new local/live certification claim.
+
+NEXT CHUNK — keep it small
+Import the seven exact affected HF1 runtime files named in the new manifest into a GitHub fixture without normalization, verify their SHA256 values in Actions, and only then add sequential 0001 -> 0002 -> 0003 -> 0004 apply/check gates. Stop and checkpoint immediately after that fixture/hash gate is green before adding broader runtime tests.
