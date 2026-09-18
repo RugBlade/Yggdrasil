@@ -1,0 +1,40 @@
+name: HF2 Milestone 4C1 - grounded resolution content
+
+on:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'src/noeron/conversation_resolution.py'
+      - 'tests/test_v082_hf2_conversation_resolution.py'
+      - '.github/workflows/hf2-milestone4c1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  grounded-resolution-content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check pytest
+      - run: python -m compileall -q src/noeron/conversation_resolution.py
+      - name: Run content grounding tests
+        env:
+          PYTHONPATH: src
+        run: python -m pytest -q tests/test_v082_hf2_conversation_resolution.py
+      - name: Zero-authority and no-fallback scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q '"speech_act_selection": False' src/noeron/conversation_resolution.py
+          grep -q '"semantic_truth": False' src/noeron/conversation_resolution.py
+          grep -q '"ambiguity_resolution": False' src/noeron/conversation_resolution.py
+          grep -q 'inactive-without-native-speech-act-choice' src/noeron/conversation_resolution.py
+          ! grep -Eiq "i don't know|i do not know|sorry|please clarify|cannot answer|as an ai" src/noeron/conversation_resolution.py
+          echo "m4c1_content_authority_scan=PASS"
