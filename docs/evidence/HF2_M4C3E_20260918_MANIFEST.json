@@ -164,7 +164,7 @@
       "name": "CONTINUATION_STAGE8B_HF2_M4C3E_20260918.txt",
       "raw_byte_equal": false,
       "normalized_content_equal": true,
-      "normalization": "remove UTF-8 BOM; CRLF/CR -> LF; collapse exporter-added third newline at section boundaries"
+      "normalization": "remove UTF-8 BOM; CRLF/CR -> LF; collapse exporter-added third newline at section boundaries; restore final newline"
     },
     "final_manifest": {
       "id": "1qDuoF1EwWVVNqAMi6m2nc7iGnvTtAbuT",
@@ -185,7 +185,7 @@
   "next": "M4C3F: define non-content local execution semantics/receipt for genuinely native-selected defer and remain-silent without empty-message fabrication, peer-delivery claims, or changes to ordinary answer and clarify/ask transport.",
   "continuation": {
     "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3E_20260918.txt",
-    "sha256": "8cbbeafbb38064d7f077bc31acf99c68c9f5ecae5b4758b398f8f6a681e99ae0",
-    "git_blob": "872add8493467e16dbfc3a679168ca58741765bf"
+    "sha256": "040d359f558536f4862677e0411af79d1f00d8cd9fd6a597278ac65e8551e878",
+    "git_blob": "7856b59de64c7ab6eb015762c5074add9252171c"
   }
 }
