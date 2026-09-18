@@ -1,3 +1,8 @@
+M4C3B CANDIDATE IN CI — 2026-09-18
+Read docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3B_20260918.txt first.
+Last verified runtime is 0001-0008 at M4C3A. 0009 is not published yet.
+Native content formation/realization only; no actuator or certification.
+
 LATEST VERIFIED CHECKPOINT — M4C3A — 2026-09-18
 Stage 8B v0.8.2 remains IN PROGRESS. No local/live certification claim.
 live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.

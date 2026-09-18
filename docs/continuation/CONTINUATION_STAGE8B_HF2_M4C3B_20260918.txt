@@ -1,0 +1,58 @@
+HF2 M4C3B CANDIDATE — 2026-09-18
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Stage 8B IN PROGRESS. No certification.
+live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.
+
+Parent verified checkpoint: c62b5a39632b4627173880a8e1cdbd8351b03860
+Published runtime chain remains 0001 through 0008.
+Read docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3A_20260918.txt for baseline.
+
+Candidate intent: patches/hf2/0009-hf2-native-resolution-content.intent.patch
+Workflow: .github/workflows/hf2-milestone4c3b.yml
+Tests: tests/hf2_m4c3b/test_native_content.py
+0009 deployable patch MUST NOT be published until candidate and fresh replay pass.
+CI reconstructs exact HF1 SHA256
+79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+then copies ORIGINAL carrier helpers before applying 0001-0008. It verifies the
+189-test baseline, applies candidate intent, compiles and runs the complete HF2
+suite plus tests/hf2_m4c3a and tests/hf2_m4c3b. Only after green does it generate
+0009, reconstruct a separate fresh HF1 tree, apply the entire chain and candidate,
+compare all source bytes, and rerun the complete suite. Review actual logs.
+
+Scope:
+- NativeResolutionContent is a distinct non-propositional field on NativeThought.
+- Current references must have >=2 explicit distinct string alternatives and
+  matching token, current parse reference row, unresolved status and authority.
+  Parser event-role diagnostic strings, malformed/singleton sets, stale event
+  provenance, and missing native content never become utterance content.
+- Clarify availability is independent of existing native question availability.
+  Programmed affordance eligibility is never choice.
+- Existing actual post-closure DKT and native transport/equal-affordance reference/
+  Sobolev distance/tie policy still select. Invalid distances now stay unresolved.
+- Formed content follows a genuine upstream unique consequence choice. It copies
+  current native questions or ALL reference alternatives. Native language adds
+  only schematic punctuation (e.g. focus: alternative / alternative?). This is
+  not fluent conversational completion or a semantic assertion.
+- Ordinary answers are not reclassified. The original response and its outward
+  express/continue-private transport remain separate.
+- Formation is observational, not execution. No pending marker, counter,
+  consequence training, cognitive thought write, Terra call or outward transport.
+- Raw resolution content stays in a single process-local current-turn observation.
+  It is not serialized into state/audit/reply. Default-off authenticated internal
+  observation controls expose it; translation requires its separate toggle.
+- Owner controls do not affect native selection or relationship state.
+- No default consequence observations are added. Test geometry is explicitly
+  synthetic and isolated, using real native math implementations.
+
+Known limitations persist:
+The determiner-form lamp parser defect from M4C3A is unchanged and tested.
+Only explicit native reference alternatives and already-existing native questions
+are covered. Other QUD/proof/event ambiguity forms remain unimplemented.
+Calibration stays preview-only. A real actuator plus execution/transport receipt
+and validated subsequent consequence admission are still required before learning.
+
+Next: inspect candidate Actions run; repair any real failure in a new commit;
+never publish 0009 on a failure. Then publish verified artifact plus full-chain
+gate, inspect full-chain result, back up evidence/source/hashes to Drive folder
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO, and update this continuation and root in both.

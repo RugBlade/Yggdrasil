@@ -1,0 +1,361 @@
+--- a/src/noeron/cognition/models.py
++++ b/src/noeron/cognition/models.py
+@@
+ from __future__ import annotations
+ 
+ from datetime import datetime, timezone
+ from enum import Enum
++from typing import Literal
+ from uuid import UUID, uuid4
+ from pydantic import BaseModel, Field
+ 
+ from noeron.math.models import KnotState
+@@
+     consolidation_score: float = 0.0
+     consolidated_memory_id: UUID | None = None
+ 
+ 
++class NativeResolutionContent(BaseModel):
++    """Current-turn alternatives/questions, never proposition assertions.
++
++    Selection provenance lives in the enclosing thought/audit. Serialization of
++    this content is neither execution evidence nor cognitive memory.
++    """
++    act: Literal['clarify', 'ask']
++    source_event_id: UUID
++    source_id: str
++    focus_surface: str = ''
++    alternatives: list[str] = Field(default_factory=list)
++    existing_question: str = ''
++    source_units: list[str] = Field(default_factory=list)
++    unresolved: Literal[True] = True
++
++
+ class NativeThought(BaseModel):
+     id: UUID = Field(default_factory=uuid4)
+     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+     kind: NativeThoughtKind
+     statement: str
+     propositions: list[NativeProposition] = Field(default_factory=list)
+     question_candidates: list[str] = Field(default_factory=list)
++    resolution_content: list[NativeResolutionContent] = Field(default_factory=list)
+     judgment: NativeJudgment | None = None
+     evidence_memory_ids: list[UUID] = Field(default_factory=list)
+     dkt_distances: list[float] = Field(default_factory=list)
+     importance: float = 0.5
+--- a/src/noeron/conversation_actions.py
++++ b/src/noeron/conversation_actions.py
+@@
+ unique native-geometry minimum. Missing evidence and exact ties remain unresolved.
+ """
+ 
+ from dataclasses import dataclass
++import math
+ from typing import Callable, Iterable, Mapping, Sequence
+ 
+ 
+ RESOLUTION_AFFORDANCES = (
+@@
+     proof_gate_status: str,
+     ambiguity_count: int,
+     native_question_count: int,
+     answer_candidate_count: int,
++    native_clarification_count: int | None = None,
+ ) -> SpeechActEligibility:
+     """Return non-authoritative actuator eligibility for an unresolved response.
+ 
+     This function never selects an act. In particular, ambiguity does not mean
+@@
+ 
+     if questions > 0:
+         actions.append("ask")
+         reasons.append("native-question-content-already-exists")
+-        if ambiguity > 0:
+-            actions.append("clarify")
+-            reasons.append("unresolved-ambiguity-and-native-question-content-exist")
++    # Legacy callers may supply only a question count. The native runtime supplies
++    # an explicit count of validated current reference sets, independently of ask.
++    clarifications = questions if native_clarification_count is None else max(0, int(native_clarification_count))
++    if ambiguity > 0 and clarifications > 0:
++        actions.append("clarify")
++        reasons.append("unresolved-ambiguity-and-native-clarification-content-exist")
+     elif ambiguity > 0:
+         reasons.append("clarify-not-eligible-without-native-question-content")
+ 
+     ordered = tuple(a for a in RESOLUTION_AFFORDANCES if a in set(actions))
+@@
+         )
+         predicted[action] = post
+         distances[action] = float(distance_fn(post, reference))
+ 
++    if any(not math.isfinite(d) or d < 0 for d in distances.values()):
++        return {
++            **base_audit,
++            "action": None,
++            "selection_status": "unresolved-invalid-native-consequence-distance",
++        }
++
+     best = min(distances.values())
+     winners = tuple(a for a, d in distances.items() if tied_fn(d, best))
+     if len(winners) != 1:
+         return {
+--- a/src/noeron/conversation_resolution.py
++++ b/src/noeron/conversation_resolution.py
+@@
+         )
+     return tuple(out)
+ 
+ 
++def native_resolution_sources(
++    structure: Mapping[str, object], existing_questions: Sequence[str] = (),
++) -> tuple[tuple[ResolutionContentCandidate, ...], tuple[ResolutionContentCandidate, ...]]:
++    """Validate native content availability; never choose an act or alternative.
++
++    Only explicit unresolved reference sets supported by the same current parse
++    are admitted in M4C3B. Event-role diagnostic labels are not semantic units.
++    Reject malformed sets as a whole; filtering out a bad member could invent a
++    smaller alternative set. The caller must bind this structure to the event.
++    """
++    refs = structure.get("reference_candidates")
++    ambiguities = structure.get("ambiguities")
++    tokens = structure.get("tokens")
++    valid = []
++    if isinstance(refs, list) and isinstance(ambiguities, list) and isinstance(tokens, list):
++        for raw in ambiguities:
++            if not isinstance(raw, Mapping) or raw.get("kind") != "reference" or raw.get("resolved"):
++                continue
++            if (raw.get("status") != "ambiguous-alternatives-preserved"
++                    or raw.get("authority") != "grammatical-reference-candidate-only"):
++                continue
++            index = raw.get("token_index")
++            focus = raw.get("surface")
++            alternatives = raw.get("candidates")
++            if (type(index) is not int or not 0 <= index < len(tokens)
++                    or not isinstance(focus, str) or not focus.strip()
++                    or tokens[index] != focus
++                    or not isinstance(alternatives, list) or len(alternatives) < 2
++                    or any(not isinstance(x, str) or not x.strip() for x in alternatives)):
++                continue
++            if len(set(x.strip() for x in alternatives)) != len(alternatives):
++                continue
++            keys = ("surface", "token_index", "candidates", "status", "authority")
++            if not any(isinstance(ref, Mapping) and all(ref.get(k) == raw.get(k) for k in keys) for ref in refs):
++                continue
++            # Keep occurrence identity and source order; do not collapse two tokens.
++            valid.append({**{k: raw[k] for k in keys}, "kind": "reference", "id": f"reference-token-{index}"})
++    questions = tuple(q for q in existing_questions if isinstance(q, str) and q.strip())
++    return _clarification_candidates({"ambiguities": valid}), _ask_candidates(questions)
++
++
++def resolution_content_units(candidates, *, action, source_event_id):
++    """Copy already-validated units into native non-propositional content.
++
++    The caller alone owns the native consequence-selection gate. This conversion
++    has no act-selection, truth, reference-resolution or execution authority.
++    """
++    from noeron.cognition.models import NativeResolutionContent
++    return [NativeResolutionContent(
++        act=action, source_event_id=source_event_id, source_id=c.source_id,
++        focus_surface=c.focus_surface, alternatives=list(c.alternatives),
++        existing_question=c.existing_question, source_units=list(c.source_units),
++    ) for c in candidates if c.act == action]
++
++
+ def build_resolution_content(
+     *,
+     selected_action: str | None,
+     native_choice_claim: bool,
+--- a/src/noeron/development.py
++++ b/src/noeron/development.py
+@@
+         for q in thought.question_candidates:
+             text=q.strip()
+             if text:
+                 clauses.append(text if text.endswith('?') else text+'?'); frames.append('native-open-question')
++        # Resolution is a separate non-propositional field. No ordinary answer is
++        # overwritten, mixed with alternatives, or reclassified as a resolution.
++        if not (thought.propositions or thought.question_candidates or thought.statement.strip()):
++            for unit in thought.resolution_content:
++                if unit.source_event_id != thought.mathematical_provenance.source_event_id:
++                    continue
++                if unit.act == 'clarify' and unit.focus_surface.strip() and len(unit.alternatives) >= 2:
++                    if any(not x.strip() for x in unit.alternatives) or len(set(unit.alternatives)) != len(unit.alternatives):
++                        continue
++                    # Punctuation only: every content token already exists in the
++                    # unresolved reference field. This is a schematic native form,
++                    # not a fluent authored clarification or a resolved assertion.
++                    clauses.append(unit.focus_surface.strip()+': '+' / '.join(unit.alternatives)+'?')
++                    frames.append('native-resolution-reference-alternatives')
++                elif unit.act == 'ask' and unit.existing_question.strip():
++                    text=unit.existing_question.strip()
++                    clauses.append(text if text.endswith('?') else text+'?')
++                    frames.append('native-resolution-existing-question')
+         native=' '.join(c for c in clauses if c.strip()).strip() or thought.statement.strip()
+         words=_words(native); known=0; concepts=[]
+         for w in words:
+             lx=state.lexicon.get(w)
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@
+ from noeron.english_egress import ENGLISH_EGRESS_VERSION, realize_native_thought
+ from noeron.conversation_premises import BoundedConversationalPremiseContext
+ from noeron.conversation_bridge import admit_live_current_turn, native_trace_from_math_state
+ from noeron.conversation_actions import RESOLUTION_AFFORDANCES, resolution_affordances, choose_resolution_act, observe_resolution_transition
+-from noeron.conversation_resolution import build_operator_resolution_calibration
++from noeron.conversation_resolution import build_operator_resolution_calibration, native_resolution_sources, resolution_content_units
+ from noeron.source_identity import identify_source, provenance_digest
+ from noeron.stratification import ReclusterEntry, build_recluster_plan
+ from noeron.llm import LanguageEngine
+ from noeron.memory import LocalEventStore
+@@
+         # HF2 bounded working premises begin prospectively at this process start.
+         # Historical dialogue is deliberately not replayed as cognitive truth.
+         self._hf2_premise_floor_turn=int(self.state.conversational_turn)
+         self._hf2_resolution_turn=None  # prospective current-turn preview; never replayed
++        self._hf2_resolution_observation=None  # private formation; not execution or memory
+         self._hf2_conversation_premises=BoundedConversationalPremiseContext(
+             max_turns=max(1,int(self.state.cognition.language.dialogue.max_turns))
+         )
+         self.room=RoomController(self,store,store.path,native_decoder_executable=room_native_decoder_executable,asr_executable=room_asr_executable,max_payload_bytes=room_max_payload_bytes)
+@@
+             # No execution receipt exists: no counter, pending state, consequence
+             # training, transport, thought persistence, or security checkpoint.
+             return audit
+ 
+-    def _resolution_speech_act_selection(self,thought,result):
++    def _resolution_speech_act_selection(self,thought,result,*,event=None,current_structure=None):
+         """Observe/select unresolved-response act without changing answer content.
+ 
+         The current context geometry is the already-computed post-closure DKT state,
+         whose causal trace contains the preceding IRG, persistent-memory DKT,
+         regional EGR and RL/Frenet stages. Programmed eligibility has zero choice
+         authority. Native choice may be claimed only by learned consequence geometry.
+         """
+         reasoning=result.state.reasoning
++        self._hf2_resolution_observation=None
++        # Read the direct current response/parse, never the preview cache or a
++        # persistent last_thought. The content field does not rank native actions.
++        bound=bool(event is not None and event.content.strip()
++            and not event.metadata.get('endogenous')
++            and not event.metadata.get('nonconversational_observation')
++            and self.state.last_event_id==event.id
++            and thought.mathematical_provenance.source_event_id==event.id
++            and thought.kind==NativeThoughtKind.RESPONSE
++            and isinstance(current_structure,dict)
++            and current_structure.get('text_sha256')==hashlib.sha256(event.content.encode('utf-8')).hexdigest())
++        has_answer=bool(reasoning.answer_candidates or thought.propositions or thought.statement.strip())
++        clarifications,questions=native_resolution_sources(current_structure,thought.question_candidates) if bound and not has_answer else ((),())
+         eligibility=resolution_affordances(
+-            query_kind=str(reasoning.logical_query.kind or ''),
+-            proof_gate_status=str(reasoning.proof_gate_status or ''),
+-            ambiguity_count=int(reasoning.proof_gate_unscoped_ambiguity_count or 0),
+-            native_question_count=len(list(thought.question_candidates or [])),
++            query_kind=str(reasoning.logical_query.kind or '') if bound and not has_answer else '',
++            proof_gate_status=str(reasoning.proof_gate_status or '') if bound and not has_answer else '',
++            ambiguity_count=int(reasoning.proof_gate_unscoped_ambiguity_count or 0) if bound and not has_answer else 0,
++            native_question_count=len(questions),
+             answer_candidate_count=len(list(reasoning.answer_candidates or [])),
++            native_clarification_count=len(clarifications),
+         )
+         st=self.state.cognition.speech_act_development
+         st.last_context_knot=result.state.dkt.core_knot.model_copy(deep=True)
+         st.last_context_signature=result.state.dkt.core_knot.invariant_signature
+@@
+                 'native_context_source':'post-closure-DKT-after-IRG-DKT-regional-EGR-RL-Frenet-DKT',
+                 'changes_outward_transport':False,
+                 'changes_native_content':False,
+             }
++        formation={
++            'status':'no-native-resolution-content','content_count':0,
++            'source_event_id':str(event.id) if bound else None,
++            'current_turn_bound':bound,'ordinary_answer_preserved':has_answer,
++            'native_text_present':False,
++            'executed':False,'transport_authority':False,'execution_authority':False,
++            'semantic_truth_authority':False,'answer_authority':False,
++            'relationship_authority':False,'cognitive_memory_authority':False,
++        }
++        if bound and not has_answer and audit.get('native_choice_claim'):
++            action=audit.get('action')
++            candidates=clarifications if action=='clarify' else questions if action=='ask' else ()
++            units=resolution_content_units(candidates,action=action,source_event_id=event.id)
++            if units:
++                resolution=NativeThought(
++                    kind=NativeThoughtKind.RESPONSE,statement='',resolution_content=units,
++                    origin='native-consequence-selected-resolution-content',
++                    mathematical_provenance=thought.mathematical_provenance.model_copy(deep=True),
++                    causal_trace=list(thought.causal_trace)+[str(audit['selection_status'])],
++                )
++                # Read-only realization. Do not overwrite last native response,
++                # append a cognitive thought, invoke transport, or mark execution.
++                utterance=self.language.realize(resolution,self.state.cognition.language)
++                english,egress=realize_native_thought(resolution,utterance)
++                resolution.native_utterance=utterance
++                self._hf2_resolution_observation={
++                    'event_id':event.id,'turn':int(self.state.conversational_turn),
++                    'thought':resolution,'english_text':english,'english_egress_audit':egress,
++                }
++                formation.update({
++                    'status':'native-resolution-content-realized-observationally',
++                    'content_count':len(units),'native_text_present':bool(utterance.native_text),
++                })
++            elif action in {'defer','remain-silent'}:
++                formation['status']='selected-nonsemantic-act-no-content-or-execution'
++            else:
++                formation['status']='selected-act-has-no-native-content-unresolved'
++        audit['content_formation']=formation
++        audit['changes_native_content']=bool(formation['content_count'])
++        audit['changes_response_content']=False
++        audit['changes_outward_transport']=False
+         st.last_selection_status=str(audit.get('selection_status') or '')
+         st.last_decision_layer=str(audit.get('decision_layer') or 'unresolved')
+         st.last_native_choice_claim=bool(audit.get('native_choice_claim'))
+         st.last_audit=dict(audit)
+@@
+ 
+     def ingest(self,event:CognitiveEvent,proposed_invariant_changes=None)->NoeronReply:
+         with self._lock:
+             self._hf2_resolution_turn=None  # invalidate even if this ingress is rejected
++            self._hf2_resolution_observation=None  # private, current-turn-only native content
+             target=self._target(event)
+             owner_authenticated=bool(event.metadata.get('owner_authenticated'))
+             # Objective identity bindings are factual substrate, not relational meaning.
+             facts=list(event.metadata.get('identity_facts') or [])
+@@
+                 )
+             thought=self.cognition.response(event,self.state,result,None)
+             self._cache_resolution_turn(event,thought,current_structure)
+             speech_act_audit=(
+-                self._resolution_speech_act_selection(thought,result)
++                self._resolution_speech_act_selection(thought,result,event=event,current_structure=current_structure)
+                 if not nonconversational_observation
+                 else {
+                     'requires_resolution':False,'action':None,
+                     'selection_status':'nonconversational-observation-not-evaluated',
+@@
+                 translation,translation_egress_audit=realize_native_thought(observational_thought,utterance)
+                 translation=str(translation or '').strip()
+                 translation_origin='deterministic-read-only-existing-native-utterance'
+                 translation_generated_on_read=bool(translation)
++        resolution_observation=None
++        current=getattr(self,'_hf2_resolution_observation',None)
++        if (current and current['event_id']==self.state.last_event_id
++                and current['turn']==int(self.state.conversational_turn)):
++            resolved=current['thought']
++            resolution_observation={
++                'source_event_id':str(current['event_id']),
++                'content':[u.model_dump(mode='json') for u in resolved.resolution_content],
++                'native_utterance':resolved.native_utterance.model_dump(mode='json'),
++                'english_translation':current['english_text'] if controls.internal_utterance_translation else '',
++                'english_egress_audit':deepcopy(current['english_egress_audit']) if controls.internal_utterance_translation else {},
++                'mathematical_provenance':resolved.mathematical_provenance.model_dump(mode='json'),
++                'causal_trace':list(resolved.causal_trace),
++                'act_native_choice_claim':True,'executed':False,'communication_authority':False,
++                'origin':'native-consequence-selected-content-private-observation-only',
++            }
+         return {
+             'status':('available' if native else 'no-internal-utterance-available'),
++            'resolution_observation':resolution_observation,
+             'source':str(st.last_internal_utterance_source or ''),
+             'native_text':native,
+             'native_text_sha256':(hashlib.sha256(native.encode('utf-8')).hexdigest() if native else ''),
+             'english_translation':translation,
