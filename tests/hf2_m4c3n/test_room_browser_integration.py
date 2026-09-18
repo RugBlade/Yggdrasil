@@ -183,6 +183,15 @@ def _wait_receipts(store: LocalEventStore, count: int, timeout: float = 10.0):
     return store.native_audio_client_playback_receipts(100)
 
 
+def _wait_audio_eval(page, expression: str, timeout: float = 10.0):
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        if page.eval_on_selector("audio", expression):
+            return
+        time.sleep(0.05)
+    raise AssertionError(f"audio predicate did not become true: {expression}")
+
+
 def _ensure_transport(page, store: LocalEventStore, artifact_id: str):
     before = len(store.native_audio_transport_receipts(100))
     page.evaluate(
@@ -219,7 +228,7 @@ def test_real_chromium_keeps_same_audio_element_through_snapshot_transport_and_t
             assert page.evaluate("document.querySelector('audio')===window.__m4c3nAudio") is True
 
             page.eval_on_selector("audio", "a => {a.muted=true; return a.play()}")
-            page.wait_for_function("document.querySelector('audio').dataset.playingReported==='1'", timeout=10_000)
+            _wait_audio_eval(page, "a => a.dataset.playingReported==='1'")
             rows = _wait_receipts(store, 1)
             assert [r.event for r in rows] == ["playing"]
             sid = rows[0].playback_session_id
@@ -231,7 +240,7 @@ def test_real_chromium_keeps_same_audio_element_through_snapshot_transport_and_t
             page.wait_for_timeout(350)
             assert len(store.native_audio_client_playback_receipts(100)) == 1
 
-            page.wait_for_function("document.querySelector('audio').ended===true", timeout=10_000)
+            _wait_audio_eval(page, "a => a.ended===true")
             rows = _wait_receipts(store, 2)
             assert [r.event for r in rows] == ["playing", "ended"]
             assert rows[0].playback_session_id == rows[1].playback_session_id == sid
@@ -270,7 +279,7 @@ def test_real_chromium_network_uncertainty_retries_identical_playback_identity(t
 
             page.route("**/client-playback", intercept)
             page.eval_on_selector("audio", "a => {a.muted=true; return a.play()}")
-            page.wait_for_function("document.querySelector('audio').dataset.playingReported==='1'", timeout=10_000)
+            _wait_audio_eval(page, "a => a.dataset.playingReported==='1'")
             page.eval_on_selector("audio", "a => a.pause()")
             assert len(seen) == 2
             assert seen[0] == seen[1]
@@ -319,7 +328,7 @@ def test_reload_and_renewed_authenticated_session_cannot_close_old_playback(tmp_
         try:
             _ensure_transport(page_a, store, str(a.id))
             page_a.eval_on_selector("audio", "a => {a.muted=true; return a.play()}")
-            page_a.wait_for_function("document.querySelector('audio').dataset.playingReported==='1'", timeout=10_000)
+            _wait_audio_eval(page_a, "a => a.dataset.playingReported==='1'")
             page_a.eval_on_selector("audio", "a => a.pause()")
             playing = _wait_receipts(store, 1)[0]
             sid = str(playing.playback_session_id)
