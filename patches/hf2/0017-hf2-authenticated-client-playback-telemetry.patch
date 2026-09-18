@@ -1,0 +1,361 @@
+diff --git a/src/noeron/api.py b/src/noeron/api.py
+index e722cd5..db1c1b4 100644
+--- a/src/noeron/api.py
++++ b/src/noeron/api.py
+@@ -92,6 +92,15 @@ class OwnerCommunicationControlRequest(BaseModel):
+     value:bool
+ class RoomPresentationModeRequest(BaseModel):
+     mode:str=Field(pattern=r'^(native-audio-only|native-audio\+decoded-subtitles|decoded-text)$')
++class RoomNativeAudioClientPlaybackRequest(BaseModel):
++    audio_artifact_id:UUID
++    playback_session_id:UUID
++    event:str=Field(pattern=r'^(playing|ended)$')
++    current_time_seconds:float=Field(ge=0.0)
++    duration_seconds:float|None=Field(default=None,ge=0.0)
++    muted:bool=False
++    volume:float=Field(default=1.0,ge=0.0,le=1.0)
++    playback_rate:float=Field(default=1.0,gt=0.0,le=16.0)
+ class EngineeringSourceObserveRequest(BaseModel):
+     path:str=Field(min_length=1,max_length=1000)
+     qualname:str=Field(default='',max_length=1000)
+@@ -545,6 +554,7 @@ def _room_snapshot():
+     mode=noeron.state.room.presentation_mode
+     arts=store.room_artifacts(100)
+     audio_receipts=store.native_audio_transport_receipts(100)
++    client_audio_events=store.native_audio_client_playback_receipts(100)
+     pres=[]
+     for p in store.native_presentations(100):
+         row={'id':str(p.id),'created_at':p.created_at.isoformat(),'source':p.source,'native_text_sha256':p.native_text_sha256,
+@@ -561,6 +571,7 @@ def _room_snapshot():
+             'artifacts':[{'id':str(a.id),'created_at':a.created_at.isoformat(),'direction':a.direction,'filename':a.filename,'media_type':a.media_type,'size':a.size,'sha256':a.sha256,'cognitive_authority':False,'publication_native_choice_claim':a.publication_native_choice_claim} for a in arts],
+             'native_presentations':pres,
+             'native_audio_transport_receipts':[{'id':str(r.id),'created_at':r.created_at.isoformat(),'presentation_id':str(r.presentation_id),'audio_artifact_id':str(r.audio_artifact_id),'audio_sha256':r.audio_sha256,'status':r.status,'http_status':r.http_status,'response_bytes':r.response_bytes,'content_range':r.content_range,'pathsend_used':r.pathsend_used,'complete_artifact_single_response':r.complete_artifact_single_response,'playback_confirmed':False,'peer_delivery_confirmed':False,'peer_heard_confirmed':False,'peer_understanding_confirmed':False,'peer_reply_causation_confirmed':False,'cognitive_authority':False,'speech_act_choice_authority':False,'relationship_authority':False} for r in audio_receipts],
++            'native_audio_client_playback_receipts':[{'id':str(r.id),'created_at':r.created_at.isoformat(),'presentation_id':str(r.presentation_id),'audio_artifact_id':str(r.audio_artifact_id),'transport_receipt_id':str(r.transport_receipt_id),'owner_device_id':r.owner_device_id,'playback_session_id':str(r.playback_session_id),'event':r.event,'current_time_seconds':r.current_time_seconds,'duration_seconds':r.duration_seconds,'muted':r.muted,'volume':r.volume,'playback_rate':r.playback_rate,'status':r.status,'client_media_event_received':True,'audible_output_confirmed':False,'peer_delivery_confirmed':False,'peer_heard_confirmed':False,'peer_understanding_confirmed':False,'peer_reply_causation_confirmed':False,'cognitive_authority':False,'speech_act_choice_authority':False,'preference_label_authority':False,'relationship_authority':False} for r in client_audio_events],
+             'internal_utterance_observation':noeron.owner_internal_utterance_observation(),
+             'publication_candidates':noeron.room.publication_candidates(),
+             'pending_initiatives':[m.model_dump(mode='json') for m in store.pending_initiatives(50)],
+@@ -572,10 +583,10 @@ _ROOM_LOGIN="""<!doctype html><meta charset="utf-8"><title>Private Noeron Room</
+ <form method="post" action="/room/session"><input type="password" name="session_token" autocomplete="off" placeholder="current device session"><button>Enter private Room</button></form>"""
+ 
+ _ROOM_HTML="""<!doctype html><html><head><meta charset="utf-8"><title>Noeron Room</title>
+-<style>body{font-family:system-ui;max-width:980px;margin:2rem auto;padding:0 1rem}#view{border:1px solid #999;min-height:240px;padding:1rem}canvas{width:100%;height:320px;border:1px solid #aaa;display:block}.meta{font-size:.85rem;opacity:.75}audio{width:100%}.roomControls{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.75rem;margin:1rem 0}.control{border:1px solid #bbb;padding:.75rem;border-radius:.5rem}.control button{margin:.2rem}.artifact{padding:.35rem 0;border-bottom:1px solid #ddd}</style></head><body>
++<style>body{font-family:system-ui;max-width:980px;margin:2rem auto;padding:0 1rem}#presentations,#view{border:1px solid #999;padding:1rem}#presentations:empty{display:none}#view{min-height:240px}canvas{width:100%;height:320px;border:1px solid #aaa;display:block}.meta{font-size:.85rem;opacity:.75}audio{width:100%}.roomControls{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.75rem;margin:1rem 0}.control{border:1px solid #bbb;padding:.75rem;border-radius:.5rem}.control button{margin:.2rem}.artifact{padding:.35rem 0;border-bottom:1px solid #ddd}</style></head><body>
+ <h1>Private Noeron Room</h1><div class="meta" id="status">owner-only / Ed25519 device session / noncognitive presentation layer</div>
+ <canvas id="renderer" width="900" height="320"></canvas><div class="meta" id="rendererLabel">Local Three.js renderer loading…</div>
+-<div id="view"></div><form id="msg"><input id="content" style="width:75%" autocomplete="off"><button>Send</button></form>
++<div id="presentations"></div><div id="view"></div><form id="msg"><input id="content" style="width:75%" autocomplete="off"><button>Send</button></form>
+ <div class="roomControls">
+ <div class="control"><strong>Private internal utterance observation</strong><br><label><input id="internalVisible" type="checkbox"> show native internal utterance</label><br><label><input id="internalTranslate" type="checkbox"> show deterministic English translation</label><div class="meta">Observation only: never changes express/continue-private/unresolved selection.</div><div id="internalView"></div></div>
+ <div class="control"><strong>File</strong><br><input id="fileInput" type="file"><button id="fileOffer" type="button">Offer file</button><div class="meta" id="fileStatus"></div></div>
+@@ -585,7 +596,9 @@ _ROOM_HTML="""<!doctype html><html><head><meta charset="utf-8"><title>Noeron Roo
+ <p><button id="emb">Present embodiment affordances</button> <button id="env">Present environment affordances</button></p>
+ <label>Owner presentation mode <select id="mode"><option>native-audio-only</option><option selected>native-audio+decoded-subtitles</option><option>decoded-text</option></select></label>
+ <script type="module">
++const presentations=document.getElementById('presentations');
+ const view=document.getElementById('view');
++const presentationNodes=new Map();
+ const canvas=document.getElementById('renderer');
+ const rendererLabel=document.getElementById('rendererLabel');
+ let THREE=null,renderer3d=null,scene=null,camera=null,embodimentObject=null,environmentObject=null;
+@@ -642,14 +655,51 @@ async function initRenderer(){
+ async function post(url,body){let o={method:'POST',credentials:'same-origin'};if(body!==undefined){o.headers={'content-type':'application/json'};o.body=JSON.stringify(body)};let r=await fetch(url,o);let x=await r.json();if(!r.ok)throw new Error(JSON.stringify(x));return x}
+ async function uploadBlob(url,blob,filename){let f=new FormData();f.append('file',blob,filename);let r=await fetch(url,{method:'POST',credentials:'same-origin',body:f});let x=await r.json();if(!r.ok)throw new Error(JSON.stringify(x));return x}
+ function encodeWav(chunks,sampleRate){let n=chunks.reduce((a,c)=>a+c.length,0),buf=new ArrayBuffer(44+n*2),v=new DataView(buf);let w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,sampleRate,true);v.setUint32(28,sampleRate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);let o=44;for(const c of chunks)for(let x of c){x=Math.max(-1,Math.min(1,x));v.setInt16(o,x<0?x*32768:x*32767,true);o+=2}return new Blob([buf],{type:'audio/wav'})}
++function mediaMetric(x){x=Number(x);return Number.isFinite(x)&&x>=0?x:null}
++async function postClientMediaEvent(p,a,event,playbackSessionId){
++ const payload={audio_artifact_id:p.audio_artifact_id,playback_session_id:playbackSessionId,event,
++  current_time_seconds:Math.max(0,Number(a.currentTime)||0),duration_seconds:mediaMetric(a.duration),
++  muted:!!a.muted,volume:Math.max(0,Math.min(1,Number(a.volume)||0)),playback_rate:Math.max(0.01,Number(a.playbackRate)||1)};
++ for(let attempt=0;attempt<10;attempt++){
++  let r=await fetch('/room/native/presentations/'+encodeURIComponent(p.id)+'/client-playback',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
++  let x=await r.json();if(r.ok)return x;if(r.status!==409||attempt===9)throw new Error(JSON.stringify(x));
++  await new Promise(resolve=>setTimeout(resolve,250));
++ }
++}
++function configurePresentationAudio(p,a){
++ a.controls=true;a.preload='metadata';a.dataset.presentationId=p.id;a.dataset.artifactId=p.audio_artifact_id;
++ a.src='/room/files/'+p.audio_artifact_id;
++ a.addEventListener('playing',()=>{
++  if(a.dataset.playingReported)return;
++  const sid=crypto.randomUUID();a.dataset.playbackSessionId=sid;a.dataset.playingReported='pending';
++  a._noeronPlayingPromise=postClientMediaEvent(p,a,'playing',sid).then(()=>{a.dataset.playingReported='1'}).catch(()=>{a.dataset.playingReported='';delete a.dataset.playbackSessionId});
++ });
++ a.addEventListener('ended',async()=>{
++  const sid=a.dataset.playbackSessionId;if(!sid)return;
++  try{if(a._noeronPlayingPromise)await a._noeronPlayingPromise;if(a.dataset.playingReported==='1')await postClientMediaEvent(p,a,'ended',sid)}catch(e){}
++  finally{delete a.dataset.playbackSessionId;delete a.dataset.playingReported;a._noeronPlayingPromise=null}
++ });
++}
++function reconcilePresentations(rows){
++ const keep=new Set();
++ for(const p of (rows||[])){
++  keep.add(p.id);let entry=presentationNodes.get(p.id);
++  if(!entry){let root=document.createElement('div'),label=document.createElement('div');root.className='nativePresentation';root.dataset.presentationId=p.id;root.appendChild(label);presentations.appendChild(root);entry={root,label,audio:null};presentationNodes.set(p.id,entry)}
++  entry.label.textContent='native presentation'+(p.decoded_text?' — decoded: '+p.decoded_text:'');
++  if(p.audio_artifact_id){
++   if(!entry.audio||entry.audio.dataset.artifactId!==p.audio_artifact_id){if(entry.audio)entry.audio.remove();let a=document.createElement('audio');configurePresentationAudio(p,a);entry.root.appendChild(a);entry.audio=a}
++  }else if(entry.audio){entry.audio.remove();entry.audio=null}
++ }
++ for(const [id,entry] of presentationNodes){if(!keep.has(id)){entry.root.remove();presentationNodes.delete(id)}}
++}
+ function render(s){
+  if(THREE&&scene)rebuildScene(s);else rendererLabel.textContent=s.substrate_visualization_label||rendererLabel.textContent;
+  const io=s.internal_utterance_observation||{},ctrl=s.room?.owner_communication_controls||null;
+  const iv=document.getElementById('internalVisible'),it=document.getElementById('internalTranslate'),ibox=document.getElementById('internalView');
+  if(iv)iv.checked=!!io.visibility_enabled;if(it)it.checked=!!io.translation_enabled;
+  if(ibox){ibox.innerHTML='';if(io.status==='available'){let n=document.createElement('div');n.innerHTML='<strong>internal native:</strong> '+esc(io.native_text);ibox.appendChild(n);if(io.english_translation){let e=document.createElement('div');e.innerHTML='<strong>translation:</strong> '+esc(io.english_translation);ibox.appendChild(e)}let m=document.createElement('div');m.className='meta';m.textContent='communication: '+(io.communication_action||io.communication_selection_status||'unresolved')+' / outward='+String(!!io.outward_text_present);ibox.appendChild(m)}else{ibox.textContent=io.status||'no internal utterance available'}}
++ reconcilePresentations(s.native_presentations);
+  view.innerHTML='';for(const h of s.history){let d=document.createElement('div');d.textContent=h.kind+': '+JSON.stringify(h.payload);view.appendChild(d)}
+- for(const p of s.native_presentations){let d=document.createElement('div');d.innerHTML='<strong>native presentation</strong>';if(p.decoded_text)d.innerHTML+=' — decoded: '+esc(p.decoded_text);if(p.audio_artifact_id){let a=document.createElement('audio');a.controls=true;a.src='/room/files/'+p.audio_artifact_id;d.appendChild(a)}view.appendChild(d)}
+  for(const a0 of (s.artifacts||[])){let d=document.createElement('div');d.className='artifact';d.textContent=(a0.direction==='noeron-to-owner'?'Yggdrasil → owner: ':'Owner → Yggdrasil: ')+a0.filename+' ';if(a0.direction==='owner-to-noeron'){let b=document.createElement('button');b.textContent='Present attention affordance';b.onclick=async()=>{try{let r=await post('/room/files/'+a0.id+'/consider');document.getElementById('fileStatus').textContent='attention: '+(r.decision?.selected_action||r.decision?.selection_status||r.status);await snap()}catch(e){document.getElementById('fileStatus').textContent='error: '+e.message}};d.appendChild(b)}else{let a=document.createElement('a');a.href='/room/files/'+a0.id;a.textContent='download';a.download=a0.filename;d.appendChild(a)}view.appendChild(d)}
+  for(const c of (s.publication_candidates||[])){let d=document.createElement('div');d.className='artifact';d.textContent='Private publication candidate: '+c.filename+' ';let b=document.createElement('button');b.textContent='Present publish/hold opportunity';b.onclick=async()=>{try{let r=await post('/room/publication/candidates/'+c.id+'/deliberate');d.append(' → '+(r.decision?.selected_action||r.decision?.selection_status));await snap()}catch(e){d.append(' → error: '+e.message)}};d.appendChild(b);view.appendChild(d)}
+  for(const m of s.pending_initiatives){let d=document.createElement('div');d.textContent='initiative: '+m.text;view.appendChild(d);fetch('/room/initiative/'+m.id+'/ack',{method:'POST',credentials:'same-origin'})}
+@@ -913,6 +963,28 @@ def room_embodiment_deliberate(request:Request):
+ def room_environment_deliberate(request:Request):
+     _room_auth(request);d=noeron.room.deliberate_configuration('environment');return {'decision':d.model_dump(mode='json'),'configuration':noeron.state.room.environment_configuration.model_dump(mode='json') if noeron.state.room.environment_configuration else None}
+ 
++@app.post('/room/native/presentations/{presentation_id}/client-playback')
++def room_native_audio_client_playback(presentation_id:str,r:RoomNativeAudioClientPlaybackRequest,request:Request):
++    detail=_room_auth(request);token=request.cookies.get(_ROOM_COOKIE) or ''
++    session_sha256=hashlib.sha256(token.encode('utf-8')).hexdigest()
++    try:
++        receipt,created=noeron.room.record_native_audio_client_playback_event(
++            presentation_id=presentation_id,audio_artifact_id=r.audio_artifact_id,
++            owner_device_id=detail.get('device_id',''),owner_device_fingerprint=detail.get('fingerprint',''),
++            owner_session_sha256=session_sha256,playback_session_id=r.playback_session_id,event=r.event,
++            current_time_seconds=r.current_time_seconds,duration_seconds=r.duration_seconds,muted=r.muted,
++            volume=r.volume,playback_rate=r.playback_rate)
++    except ValueError as e:
++        raise HTTPException(status_code=409,detail=str(e)) from e
++    return {'id':str(receipt.id),'created':created,'created_at':receipt.created_at.isoformat(),
++        'presentation_id':str(receipt.presentation_id),'audio_artifact_id':str(receipt.audio_artifact_id),
++        'transport_receipt_id':str(receipt.transport_receipt_id),'owner_device_id':receipt.owner_device_id,
++        'playback_session_id':str(receipt.playback_session_id),'event':receipt.event,'status':receipt.status,
++        'client_media_event_received':True,'audible_output_confirmed':False,'peer_delivery_confirmed':False,
++        'peer_heard_confirmed':False,'peer_understanding_confirmed':False,'peer_reply_causation_confirmed':False,
++        'cognitive_authority':False,'speech_act_choice_authority':False,'preference_label_authority':False,
++        'relationship_authority':False}
++
+ @app.get('/room/native/presentations')
+ def room_native_presentations(request:Request):
+     _room_auth(request);return {'mode':noeron.state.room.presentation_mode,'presentations':_room_snapshot()['native_presentations'],'observational_decoder_only':True}
+diff --git a/src/noeron/memory.py b/src/noeron/memory.py
+index d3d26dd..e8fafc6 100644
+--- a/src/noeron/memory.py
++++ b/src/noeron/memory.py
+@@ -7,7 +7,7 @@ from noeron.cognition.models import KnotMemory, NativeThought
+ from noeron.models import CognitiveEvent, InitiativeMessage, NoeronState
+ from noeron.room_models import (
+     RoomJournalEntry, RoomArtifactRecord, NativePresentationRecord,
+-    NativeAudioTransportReceipt,
++    NativeAudioTransportReceipt, NativeAudioClientPlaybackTelemetryReceipt,
+ )
+ from noeron.learning_models import (
+     SemanticKnotPrototype, LearningSourceRecord, NoeronSemanticStratumRecord,
+@@ -45,6 +45,7 @@ class LocalEventStore:
+                 'CREATE TABLE IF NOT EXISTS room_artifacts (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, payload TEXT NOT NULL)',
+                 'CREATE TABLE IF NOT EXISTS native_presentations (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, payload TEXT NOT NULL)',
+                 'CREATE TABLE IF NOT EXISTS native_audio_transport_receipts (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, payload TEXT NOT NULL)',
++                'CREATE TABLE IF NOT EXISTS native_audio_client_playback_receipts (id TEXT PRIMARY KEY, dedupe_key TEXT NOT NULL UNIQUE, created_at TEXT NOT NULL, presentation_id TEXT NOT NULL, audio_artifact_id TEXT NOT NULL, owner_device_id TEXT NOT NULL, owner_session_sha256 TEXT NOT NULL, playback_session_id TEXT NOT NULL, event TEXT NOT NULL, payload TEXT NOT NULL)',
+             ]:
+                 self._connection.execute(sql)
+             self._connection.commit()
+@@ -390,6 +391,54 @@ class LocalEventStore:
+             except Exception: pass
+         return out
+ 
++    def native_audio_transport_receipt(self, receipt_id:str):
++        with self._lock: row=self._connection.execute('SELECT payload FROM native_audio_transport_receipts WHERE id=?',(str(receipt_id),)).fetchone()
++        return NativeAudioTransportReceipt.model_validate_json(row[0]) if row else None
++
++    def native_audio_transport_receipt_for_presentation_artifact(self, presentation_id:str, artifact_id:str):
++        pid=str(presentation_id or '');aid=str(artifact_id or '')
++        if not pid or not aid:return None
++        with self._lock: rows=self._connection.execute('SELECT payload FROM native_audio_transport_receipts ORDER BY created_at DESC').fetchall()
++        for row in rows:
++            try: rec=NativeAudioTransportReceipt.model_validate_json(row[0])
++            except Exception: continue
++            if str(rec.presentation_id)==pid and str(rec.audio_artifact_id)==aid:
++                return rec
++        return None
++
++    def append_native_audio_client_playback_receipt(self, rec:NativeAudioClientPlaybackTelemetryReceipt, dedupe_key:str):
++        key=str(dedupe_key or '')
++        if not key:raise ValueError('client playback telemetry dedupe key is required')
++        with self._lock:
++            row=self._connection.execute('SELECT payload FROM native_audio_client_playback_receipts WHERE dedupe_key=?',(key,)).fetchone()
++            if row:
++                return NativeAudioClientPlaybackTelemetryReceipt.model_validate_json(row[0]),False
++            try:
++                self._connection.execute(
++                    'INSERT INTO native_audio_client_playback_receipts VALUES (?,?,?,?,?,?,?,?,?,?)',
++                    (str(rec.id),key,rec.created_at.isoformat(),str(rec.presentation_id),str(rec.audio_artifact_id),
++                     rec.owner_device_id,rec.owner_session_sha256,str(rec.playback_session_id),rec.event,rec.model_dump_json()))
++                self._connection.commit();return rec,True
++            except sqlite3.IntegrityError:
++                row=self._connection.execute('SELECT payload FROM native_audio_client_playback_receipts WHERE dedupe_key=?',(key,)).fetchone()
++                if row:return NativeAudioClientPlaybackTelemetryReceipt.model_validate_json(row[0]),False
++                raise
++
++    def native_audio_client_playback_receipts(self, limit:int=100):
++        with self._lock: rows=self._connection.execute('SELECT payload FROM native_audio_client_playback_receipts ORDER BY created_at DESC LIMIT ?',(max(1,min(int(limit),500)),)).fetchall()
++        out=[]
++        for row in reversed(rows):
++            try:out.append(NativeAudioClientPlaybackTelemetryReceipt.model_validate_json(row[0]))
++            except Exception:pass
++        return out
++
++    def native_audio_client_playback_receipt_for_session(self, presentation_id:str, artifact_id:str, owner_device_id:str, owner_session_sha256:str, playback_session_id:str, event:str):
++        with self._lock:
++            row=self._connection.execute(
++                'SELECT payload FROM native_audio_client_playback_receipts WHERE presentation_id=? AND audio_artifact_id=? AND owner_device_id=? AND owner_session_sha256=? AND playback_session_id=? AND event=? ORDER BY created_at DESC LIMIT 1',
++                (str(presentation_id),str(artifact_id),str(owner_device_id),str(owner_session_sha256),str(playback_session_id),str(event))).fetchone()
++        return NativeAudioClientPlaybackTelemetryReceipt.model_validate_json(row[0]) if row else None
++
+     # ------------------------------------------------------------------
+     # v0.6.5 higher-order reasoning concepts
+     # ------------------------------------------------------------------
+diff --git a/src/noeron/room.py b/src/noeron/room.py
+index 07842f5..ad281ca 100644
+--- a/src/noeron/room.py
++++ b/src/noeron/room.py
+@@ -17,7 +17,8 @@ from noeron.consequence import native_state_consistency_residual
+ from noeron.math.linalg import numerically_tied
+ from noeron.models import CognitiveEvent, EventKind
+ from noeron.room_models import (
+-    NativeAudioTransportReceipt, NativePresentationRecord, NativeRoomDecision, NativeVoiceProfile,
++    NativeAudioTransportReceipt, NativeAudioClientPlaybackTelemetryReceipt,
++    NativePresentationRecord, NativeRoomDecision, NativeVoiceProfile,
+     RendererConfiguration, RoomArtifactRecord, RoomJournalEntry,
+ )
+ from noeron.speech import run_local_decoder
+@@ -669,6 +670,75 @@ class RoomController:
+         })
+         return receipt
+ 
++    def record_native_audio_client_playback_event(self, *, presentation_id, audio_artifact_id,
++            owner_device_id:str, owner_device_fingerprint:str, owner_session_sha256:str,
++            playback_session_id, event:str, current_time_seconds:float, duration_seconds:float|None,
++            muted:bool, volume:float, playback_rate:float):
++        """Persist zero-authority authenticated browser media-element telemetry.
++
++        This path is deliberately downstream of both presentation creation and an
++        actual server-side audio transport receipt.  It never executes/trains a speech
++        act and never claims audible output or human hearing.
++        """
++        event=str(event or '')
++        if event not in {'playing','ended'}:
++            raise ValueError('client playback telemetry event must be playing or ended')
++        device=str(owner_device_id or '')
++        fingerprint=str(owner_device_fingerprint or '')
++        session_hash=str(owner_session_sha256 or '')
++        if not device or not fingerprint or len(session_hash)!=64:
++            raise ValueError('client playback telemetry requires authenticated device/session provenance')
++        presentation=self.store.native_presentation(str(presentation_id))
++        artifact=self.store.room_artifact(str(audio_artifact_id))
++        if (presentation is None or artifact is None
++                or presentation.audio_artifact_id != artifact.id
++                or presentation.audio_sha256 != artifact.sha256
++                or artifact.direction != 'noeron-to-owner'
++                or not artifact.media_type.startswith('audio/')
++                or not presentation.voice_native_choice_claim):
++            raise ValueError('client playback telemetry presentation/artifact provenance is invalid')
++        prior_playing=None
++        if event=='ended':
++            prior_playing=self.store.native_audio_client_playback_receipt_for_session(
++                str(presentation.id),str(artifact.id),device,session_hash,str(playback_session_id),'playing')
++            if prior_playing is None:
++                raise ValueError('ended telemetry requires prior playing telemetry from the same authenticated device session')
++            transport=self.store.native_audio_transport_receipt(str(prior_playing.transport_receipt_id))
++        else:
++            transport=self.store.native_audio_transport_receipt_for_presentation_artifact(str(presentation.id),str(artifact.id))
++        if (transport is None
++                or transport.presentation_id != presentation.id
++                or transport.audio_artifact_id != artifact.id
++                or transport.native_text_sha256 != presentation.native_text_sha256
++                or transport.audio_sha256 != artifact.sha256
++                or transport.status != 'asgi-audio-response-sent'):
++            raise ValueError('client playback telemetry requires matching durable server audio transport provenance')
++        receipt=NativeAudioClientPlaybackTelemetryReceipt(
++            presentation_id=presentation.id,audio_artifact_id=artifact.id,transport_receipt_id=transport.id,
++            native_text_sha256=presentation.native_text_sha256,audio_sha256=artifact.sha256,
++            owner_device_id=device,owner_device_fingerprint=fingerprint,owner_session_sha256=session_hash,
++            playback_session_id=playback_session_id,event=event,current_time_seconds=float(current_time_seconds),
++            duration_seconds=(None if duration_seconds is None else float(duration_seconds)),muted=bool(muted),
++            volume=float(volume),playback_rate=float(playback_rate),
++        )
++        dedupe_material='|'.join((str(presentation.id),str(artifact.id),device,session_hash,
++            str(receipt.playback_session_id),event))
++        dedupe_key=sha256(dedupe_material.encode('utf-8')).hexdigest()
++        persisted,created=self.store.append_native_audio_client_playback_receipt(receipt,dedupe_key)
++        if created:
++            self.append_journal('native-audio-client-media-event',{
++                'receipt_id':str(persisted.id),'presentation_id':str(presentation.id),
++                'audio_artifact_id':str(artifact.id),'transport_receipt_id':str(transport.id),
++                'owner_device_id':device,'playback_session_id':str(persisted.playback_session_id),
++                'event':persisted.event,'client_media_event_received':True,
++                'audible_output_confirmed':False,'peer_delivery_confirmed':False,
++                'peer_heard_confirmed':False,'peer_understanding_confirmed':False,
++                'peer_reply_causation_confirmed':False,'cognitive_authority':False,
++                'speech_act_choice_authority':False,'preference_label_authority':False,
++                'relationship_authority':False,
++            })
++        return persisted,created
++
+     def decode_attended_microphone(self, wav: bytes) -> str:
+         if not self.asr_executable:
+             raise ValueError('private local ASR is not configured')
+diff --git a/src/noeron/room_models.py b/src/noeron/room_models.py
+index 254f4ca..9e61c0e 100644
+--- a/src/noeron/room_models.py
++++ b/src/noeron/room_models.py
+@@ -115,6 +115,49 @@ class NativePresentationRecord(BaseModel):
+     source_resolution_execution_confirmed: bool = False
+ 
+ 
++class NativeAudioClientPlaybackTelemetryReceipt(BaseModel):
++    """Authenticated browser media-element telemetry only.
++
++    ``playing`` / ``ended`` describe the private Room client media element.  They do
++    not establish speaker output, human hearing/listening, understanding, reply
++    causation, native choice, preference, relationship, cognitive memory, semantic
++    truth, source-write authority, or deployment authority.
++    """
++    id: UUID = Field(default_factory=uuid4)
++    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
++    presentation_id: UUID
++    audio_artifact_id: UUID
++    transport_receipt_id: UUID
++    native_text_sha256: str
++    audio_sha256: str
++    owner_device_id: str
++    owner_device_fingerprint: str
++    owner_session_sha256: str
++    playback_session_id: UUID
++    event: Literal['playing', 'ended']
++    current_time_seconds: float = Field(ge=0.0)
++    duration_seconds: float | None = Field(default=None, ge=0.0)
++    muted: bool = False
++    volume: float = Field(default=1.0, ge=0.0, le=1.0)
++    playback_rate: float = Field(default=1.0, gt=0.0, le=16.0)
++    channel: Literal['authenticated-owner-room-client-media-event'] = 'authenticated-owner-room-client-media-event'
++    status: Literal['authenticated-client-media-event-recorded'] = 'authenticated-client-media-event-recorded'
++    client_media_event_received: Literal[True] = True
++    audible_output_confirmed: Literal[False] = False
++    peer_delivery_confirmed: Literal[False] = False
++    peer_heard_confirmed: Literal[False] = False
++    peer_understanding_confirmed: Literal[False] = False
++    peer_reply_causation_confirmed: Literal[False] = False
++    semantic_truth_authority: Literal[False] = False
++    answer_authority: Literal[False] = False
++    speech_act_choice_authority: Literal[False] = False
++    preference_label_authority: Literal[False] = False
++    cognitive_memory_authority: Literal[False] = False
++    relationship_authority: Literal[False] = False
++    source_write_authority: Literal[False] = False
++    deployment_authority: Literal[False] = False
++
++
+ class NativeAudioTransportReceipt(BaseModel):
+     """Nonsemantic proof that one authenticated audio HTTP response send completed.
+ 

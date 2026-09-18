@@ -1,0 +1,13 @@
+milestone=M4C3L
+status=PUBLISHED_FROM_GREEN_CANDIDATE
+source_commit=e75f5b75081bd71db06f8c36f598f6feb650fd5c
+source_branch=stage8B/v0.8.2-conversation-completion-hf2
+candidate_run_id=35383948748
+candidate_job_id=105726332606
+candidate_receipt_commit=f64734102f66a669fc31da603601fb3316b2d6d2
+patch0017_sha256=8aa84fe086d090fabb84b7289aa9c8d7080eeabe5cd3a446b73f3c330b0bd40a
+ordinary_0017_published=true
+exact_candidate_bytes=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
