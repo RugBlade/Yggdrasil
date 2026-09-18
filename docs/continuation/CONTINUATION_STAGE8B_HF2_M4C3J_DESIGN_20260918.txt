@@ -1,0 +1,188 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3J SOURCE-INSPECTION / DESIGN CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3I is sealed and published through ordinary 0015.
+M4C3J design/source inspection is complete.
+No M4C3J runtime change has been made yet.
+ordinary_0016_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+VERIFIED BASELINE
+M4C3I root checkpoint:
+06b7987bc80ad27dc0acfc8246d88092b44701b9
+Published chain:
+0001 -> 0015
+Latest patch:
+patches/hf2/0015-hf2-native-audio-transport-receipt.patch
+0015 SHA256:
+54f3099a4b2fe1af521f1584cd5da2839c46a55d9e93843dd2cad1aa01c6e54a
+Published exact-chain run:
+35371612919 / job 105686665117 / SUCCESS / 337 passed, 2 warnings.
+
+SOURCE INSPECTION BASIS
+Inspected the verified exact-post0015 source archive from the M4C3I candidate artifact:
+m4c3i-exact-post0015-source.tar.gz
+Source archive SHA256:
+36609b9a9ac7a74cd79d5f7208902e018988c254420656377d383b09a8be7e33
+
+Relevant exact-runtime paths inspected:
+src/noeron/api.py
+src/noeron/orchestrator.py
+src/noeron/room.py
+src/noeron/room_models.py
+src/noeron/cognition/models.py
+src/noeron/memory.py
+src/noeron/conversation_actions.py
+src/noeron/conversation_resolution.py
+
+CURRENT SEPARATION — IMPORTANT
+1. Native-selected clarify/ask:
+   - native speech-act selection is already complete;
+   - independent initiative/expression selection must choose express;
+   - _prepare_resolution_transport creates one process-local dispatch;
+   - POST /room/message returns _ResolutionRoomResponse;
+   - only after the trusted terminal JSON response body send succeeds can complete_resolution_dispatch create ResolutionExecutionReceipt;
+   - only that receipt can mark the speech-act/expression pending outcome;
+   - later learning remains distinct and at most once.
+
+2. Ordinary native expression:
+   - room_message calls present_native_utterance(out.native_text, source='interaction')
+     only when out._resolution_dispatch is None;
+   - present_native_utterance independently invokes the existing native voice selector;
+   - only a genuine native voice choice of voice creates/publishes a WAV artifact;
+   - decoder/English remains downstream and observational;
+   - NativePresentationRecord is presentation provenance, not speech-act execution.
+
+3. Explicit exclusion:
+Current api.py deliberately prevents native presentation for a resolution dispatch:
+presentation is created only if out._resolution_dispatch is None.
+Therefore native-selected clarify/ask has trusted text execution but no native audio presentation.
+
+4. M4C3I:
+Authenticated /room/files/{artifact_id} can now create NativeAudioTransportReceipt only after server-side audio ASGI send completion.
+This receipt remains transport/provenance only and never means playback/hearing or speech-act execution.
+
+ROOM CLIENT OBSERVATION
+The private Room renders NativePresentationRecord audio with:
+- an ordinary HTML audio element;
+- controls enabled;
+- no autoplay.
+
+However, assigning audio.src may permit browser metadata/range fetching even without playback.
+Therefore:
+- NativeAudioTransportReceipt may exist without play();
+- it must remain transport-only;
+- browser fetch must never be used as the clarify/ask execution boundary.
+
+DESIGN CONCLUSION
+The safest M4C3J bridge is POST-EXECUTION presentation:
+
+A. Keep the existing ResolutionExecutionReceipt as the one and only execution receipt for native-selected clarify/ask.
+B. Do NOT create/publish a resolution audio presentation merely because content was prepared.
+C. Do NOT create/publish it merely because the native expression selector chose express.
+D. Only after complete_resolution_dispatch has durably recorded a valid ResolutionExecutionReceipt may the exact same native utterance be offered to the independent native voice selector.
+E. If native voice selection remains unresolved or selects text-only, the already-valid speech-act execution remains valid and no audio presentation is created.
+F. If a native voice presentation is created, it is downstream presentation of an already-executed act and must not mark speech-act or expression consequence pending a second time.
+G. Later audio HTTP fetch creates only NativeAudioTransportReceipt and must not train speech-act consequence geometry.
+H. Decoder English remains observational and downstream.
+
+REQUIRED PROVENANCE
+A resolution-derived NativePresentationRecord should carry explicit zero-authority linkage to the already-durable ResolutionExecutionReceipt, rather than relying on temporal proximity alone.
+
+Recommended optional provenance fields:
+source_resolution_receipt_id: UUID | None
+source_resolution_event_id: UUID | None
+source_resolution_action: clarify | ask | None
+source_resolution_execution_confirmed: bool = false
+
+For ordinary presentations these remain empty/false.
+For resolution-derived presentations they are populated only after a valid durable ResolutionExecutionReceipt and after verifying:
+sha256(exact native utterance) == receipt.native_text_sha256.
+
+These fields are audit/provenance only.
+They grant zero:
+speech-act choice authority
+execution authority
+semantic truth
+answer authority
+preference
+relationship meaning
+cognitive-memory authority
+source-write authority
+deployment authority
+peer delivery/hearing/understanding authority
+
+RECOMMENDED IMPLEMENTATION BOUNDARY
+1. Extend NativePresentationRecord only with optional resolution-execution provenance.
+2. Extend present_native_utterance with optional already-executed resolution provenance parameters.
+3. Extend complete_resolution_dispatch return data only enough to expose zero-authority receipt identity/event/action/native-text hash to the same trusted in-process adapter.
+4. _ResolutionRoomResponse should retain the process-local exact native text privately.
+5. After terminal JSON send completion:
+   a. complete_resolution_dispatch first;
+   b. require receipt_recorded=true;
+   c. verify native-text SHA against returned receipt provenance;
+   d. only then call present_native_utterance(... source='resolution-interaction', receipt provenance ...).
+6. Presentation failure/unresolved native voice must NOT roll back or invalidate the already-durable ResolutionExecutionReceipt.
+7. No presentation is created on:
+   - response send failure;
+   - stale/mismatched dispatch;
+   - receipt persistence failure;
+   - missing/changed native text hash.
+8. Do not make audio presentation a prerequisite for clarify/ask execution.
+9. Do not create a second speech-act pending marker for audio.
+10. Do not change M4C3I NativeAudioTransportReceipt semantics.
+
+CLIENT/API SURFACE
+The JSON response body is serialized before the post-send resolution receipt exists.
+Therefore the response body must not falsely claim that a resolution audio presentation already exists.
+
+Safe choices:
+- preserve presentation_id=None in that immediate response;
+- optionally expose a zero-authority field such as native_presentation_deferred_until_execution_receipt=true;
+- authoritative presentation state remains /room/state after the post-send commit.
+
+A client may race and snapshot before post-send presentation commit is visible.
+That is a UI freshness issue, not a cognition/execution issue.
+Do not solve it by moving presentation before the trusted execution receipt.
+
+FOCUSED TEST PLAN FOR A FUTURE 0016 CANDIDATE
+At minimum verify:
+1. resolution preparation alone creates no NativePresentationRecord;
+2. while terminal JSON send is pending, no resolution presentation exists;
+3. failed terminal JSON send creates neither ResolutionExecutionReceipt nor resolution presentation;
+4. successful receipt + native voice selection creates exactly one linked resolution presentation;
+5. linked native-text SHA equals ResolutionExecutionReceipt.native_text_sha256;
+6. unresolved/no voice selection leaves valid text execution intact with no audio presentation;
+7. presentation rendering/publication failure does not erase or duplicate the already-durable ResolutionExecutionReceipt;
+8. resolution presentation creation does not change speech-act action-observation count;
+9. resolution presentation creation does not create a second pending speech-act/expression outcome;
+10. subsequent audio fetch creates only NativeAudioTransportReceipt;
+11. repeated audio fetches do not create extra speech-act learning;
+12. ordinary non-resolution presentation behavior remains unchanged;
+13. owner command/override/authentication cannot force native voice choice;
+14. decoder output remains observational and cannot alter native content/receipt linkage;
+15. restart/persistence surfaces do not reinterpret presentation provenance as cognitive memory or execution authority.
+
+BOUNDARIES
+- Canonical Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra path unchanged.
+- Native speech-act choice, independent expression choice and native voice choice remain distinct.
+- ResolutionExecutionReceipt remains the clarify/ask execution boundary.
+- NativePresentationRecord remains presentation provenance.
+- NativeAudioTransportReceipt remains audio HTTP transport provenance.
+- No duplicate learning across text/audio.
+- No playback/hearing inference.
+- No authentication/channel-derived preference/relationship/native choice.
+- Original native utterance remains primary.
+- English/decoder remains downstream observational rendering.
+- Live runtime/canonical DB remain untouched.
+- Stage8B remains IN PROGRESS.
+- No Stage9/self-upgrade.
+
+NEXT
+If implementing M4C3J, create a small 0016 intent patch and focused tests against exact post0015 source.
+Do not publish ordinary 0016 unless exact post0015 baseline + focused candidate + complete candidate + separate fresh exact-HF1 replay + source parity are externally green, followed by a separate green published exact-chain-through-0016 run.
