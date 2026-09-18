@@ -1,0 +1,95 @@
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@
+ from noeron.conversation_actions import resolution_affordances, choose_resolution_act, observe_resolution_transition
++from noeron.conversation_resolution import build_operator_resolution_calibration
+@@
+-    def _resolution_speech_act_selection(self,thought,result):
++    def operator_resolution_calibration(self,action:str,*,owner_authenticated:bool=False):
++        """Execute one explicit authenticated operator calibration exposure.
++
++        The operator chooses the actuator for calibration. The content is read
++        only from current structured/native state. This is never a native-choice,
++        preference, relationship, truth, or answer claim.
++        """
++        if not owner_authenticated:
++            raise ValueError('authenticated owner authority is required for resolution calibration')
++        with self._lock:
++            st=self.state.cognition.speech_act_development
++            if st.pending_action:
++                return {
++                    'executed':False,'action':action,
++                    'status':'calibration-not-executed-pending-outcome-already-exists',
++                    'origin':'operator-directed-calibration-not-native-choice',
++                    'native_choice_claim':False,'relationship_authority':False,
++                    'preference_label_authority':False,
++                }
++            lang=self.state.cognition.language
++            raw=getattr(lang.dialogue,'last_structure',None)
++            if hasattr(raw,'model_dump'):
++                structure=raw.model_dump(mode='json')
++            elif isinstance(raw,dict):
++                structure=dict(raw)
++            else:
++                structure={}
++            thought=self.state.cognition.last_thought
++            questions=list(getattr(thought,'question_candidates',[]) or [])
++            exposure=build_operator_resolution_calibration(
++                action=action,authenticated_owner=True,
++                current_structure=structure,
++                existing_question_candidates=questions,
++            )
++            audit={
++                'executed':bool(exposure.executable),
++                'action':exposure.action,
++                'status':exposure.status,
++                'origin':exposure.origin,
++                'authenticated_owner':True,
++                'native_choice_claim':False,
++                'relationship_authority':False,
++                'preference_label_authority':False,
++                'content_authority':False,
++                'transport_authority':False,
++                'candidates':[{
++                    'act':c.act,'kind':c.kind,'source_id':c.source_id,
++                    'focus_surface':c.focus_surface,'alternatives':list(c.alternatives),
++                    'existing_question':c.existing_question,'source_units':list(c.source_units),
++                } for c in exposure.candidates],
++            }
++            if not exposure.executable:
++                return audit
++            # The exposure above is the calibration actuator. Only after it has
++            # actually produced its grounded/nonsemantic result do we mark the
++            # pre-state for a later observed environmental consequence.
++            st.operator_calibration_observations=int(st.operator_calibration_observations)+1
++            audit['pending']=self._mark_speech_act_pending(
++                exposure.action,
++                decision_layer='operator-directed-calibration-not-native-choice',
++                origin='authenticated-owner-resolution-calibration',
++            )
++            self.security.checkpoint(self.state);self.store.append_state(self.state)
++            return audit
++
++    def _resolution_speech_act_selection(self,thought,result):
+--- a/src/noeron/api.py
++++ b/src/noeron/api.py
+@@
+ class EngineeringSourceObserveRequest(BaseModel):
+     path:str=Field(min_length=1,max_length=1000)
+     qualname:str=Field(default='',max_length=1000)
++class OwnerResolutionCalibrationRequest(BaseModel):
++    action:str=Field(pattern=r'^(clarify|ask|defer|remain-silent)$')
+ 
+ def _auth_detail(token:str|None):return owner_auth.verify_detail(token)
+@@
+ @app.post('/owner/communication/control')
+ def owner_communication_control(r:OwnerCommunicationControlRequest,x_noeron_owner_token:str|None=Header(default=None,alias='X-Noeron-Owner-Token')):
+     _require_owner(x_noeron_owner_token)
+     try:return noeron.set_owner_communication_control(r.control,r.value)
+     except ValueError as e:raise HTTPException(status_code=400,detail=str(e)) from e
++@app.post('/owner/resolution/calibrate')
++def owner_resolution_calibrate(r:OwnerResolutionCalibrationRequest,x_noeron_owner_token:str|None=Header(default=None,alias='X-Noeron-Owner-Token')):
++    _require_owner(x_noeron_owner_token)
++    try:return noeron.operator_resolution_calibration(r.action,owner_authenticated=True)
++    except ValueError as e:raise HTTPException(status_code=400,detail=str(e)) from e
+ @app.get('/owner/internal-utterance/latest')
