@@ -1,0 +1,152 @@
+diff --git a/src/noeron/api.py b/src/noeron/api.py
+index 11f41a7d5d6f0248293ef42ed363aacc3f4e3e52..e722cd5e336638c2fa56781be91700ae4ad6fa50 100644
+--- a/src/noeron/api.py
++++ b/src/noeron/api.py
+@@ -2,6 +2,7 @@ from __future__ import annotations
+ from contextlib import asynccontextmanager
+ import json,logging,threading,time,hashlib,asyncio,ipaddress
+ from urllib.parse import urlparse
++from uuid import UUID
+ import httpx
+ from fastapi import FastAPI,HTTPException,UploadFile,File,Header,Form,Request,Response,WebSocket,WebSocketDisconnect
+ from fastapi.responses import StreamingResponse,HTMLResponse,FileResponse,RedirectResponse,JSONResponse
+@@ -753,9 +754,9 @@ class _ResolutionRoomResponse(JSONResponse):
+     No client can submit a completion claim. The capability is process-local and
+     never enters JSON, headers, cookies, audit state, or an API request schema.
+     """
+-    def __init__(self,payload,runtime,dispatch):
++    def __init__(self,payload,runtime,dispatch,*,native_text:str=''):
+         super().__init__(payload,headers={'Cache-Control':'no-store'})
+-        self._runtime=runtime;self._dispatch=dispatch
++        self._runtime=runtime;self._dispatch=dispatch;self._native_text=str(native_text or '')
+ 
+     async def __call__(self,scope,receive,send):
+         status=None;body=None
+@@ -775,8 +776,20 @@ class _ResolutionRoomResponse(JSONResponse):
+             if not isinstance(emitted,str) or not emitted:
+                 self._runtime.abandon_resolution_dispatch(self._dispatch)
+                 return
+-            await run_in_threadpool(self._runtime.complete_resolution_dispatch,self._dispatch,
++            completion=await run_in_threadpool(self._runtime.complete_resolution_dispatch,self._dispatch,
+                 channel='authenticated-owner-room-http',text_sha256=hashlib.sha256(emitted.encode()).hexdigest())
++            config=self._runtime.state.room.embodiment_configuration
++            native_hash=hashlib.sha256(self._native_text.encode()).hexdigest() if self._native_text else ''
++            if (completion.get('receipt_recorded') and self._native_text and config is not None
++                    and config.voice_profile is not None and completion.get('native_text_sha256')==native_hash):
++                try:
++                    await run_in_threadpool(self._runtime.room.present_native_utterance,self._native_text,
++                        source='resolution-interaction',source_resolution_receipt_id=UUID(completion['receipt_id']),
++                        source_resolution_event_id=UUID(completion['event_id']),
++                        source_resolution_action=completion['action'],
++                        source_resolution_native_text_sha256=completion['native_text_sha256'])
++                except Exception:
++                    logger.exception('Post-receipt native resolution presentation failed')
+         except BaseException:
+             self._runtime.abandon_resolution_dispatch(self._dispatch)
+             raise
+@@ -790,9 +803,9 @@ def room_message(r:RoomMessageRequest,request:Request):
+         if out._resolution_dispatch is None and out.communication_action=='express' and out.communication_native_choice_claim and out.text and out.native_text else None)
+     internal_observation=noeron.owner_internal_utterance_observation()
+     noeron.room.append_journal('noeron-realized-reply',{'text':out.text if out.text else '[no outward realization executed]','renderer_used':out.renderer_used,'native_text_present_for_audit':bool(out.native_text),'private_internal_observation_enabled':bool(internal_observation.get('visibility_enabled')),'native_text_exposed_as_outward_fallback':False,'presentation_id':str(presentation.id) if presentation else None})
+-    payload={'text':out.text,'english_text':(out.english_text if out.text else ''),'renderer_used':out.renderer_used,'communication_action':out.communication_action,'communication_selection_status':out.communication_selection_status,'communication_native_choice_claim':out.communication_native_choice_claim,'transport_origin':out.transport_origin,'presentation_id':str(presentation.id) if presentation else None,'native_text_exposed_as_outward_fallback':False,'internal_utterance_observation':internal_observation,'native_presentation_created':bool(presentation),'room':noeron.state.room.model_dump(mode='json')}
++    payload={'text':out.text,'english_text':(out.english_text if out.text else ''),'renderer_used':out.renderer_used,'communication_action':out.communication_action,'communication_selection_status':out.communication_selection_status,'communication_native_choice_claim':out.communication_native_choice_claim,'transport_origin':out.transport_origin,'presentation_id':str(presentation.id) if presentation else None,'native_text_exposed_as_outward_fallback':False,'internal_utterance_observation':internal_observation,'native_presentation_created':bool(presentation),'native_presentation_deferred_until_execution_receipt':bool(out._resolution_dispatch is not None and out.native_text),'room':noeron.state.room.model_dump(mode='json')}
+     if out._resolution_dispatch is not None:
+-        return _ResolutionRoomResponse(payload,noeron,out._resolution_dispatch)
++        return _ResolutionRoomResponse(payload,noeron,out._resolution_dispatch,native_text=out.native_text)
+     return payload
+ 
+ @app.post('/room/internal-utterance/control')
+diff --git a/src/noeron/orchestrator.py b/src/noeron/orchestrator.py
+index 4f28a2b3660fc6d4ba620d04559ec14c9deaedb9..3d1f69736c9d439babae56926b65062fb9c3f935 100644
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@ -1557,7 +1557,9 @@ class Noeron:
+             finally:
+                 self._hf2_receipt_to_mark=None
+             return {'receipt_recorded':True,'executed':True,'status':receipt.status,'receipt_id':str(receipt.receipt_id),
+-                'peer_delivery_confirmed':False,'learned':False,'relationship_authority':False}
++                'event_id':str(receipt.event_id),'action':receipt.action,'channel':receipt.channel,
++                'native_text_sha256':receipt.native_text_sha256,'peer_delivery_confirmed':False,
++                'learned':False,'relationship_authority':False}
+ 
+     def _conversation_transport(self,thought,utterance,event,*,nonconversational_observation:bool=False,native_resolution:bool=False):
+         """Gate outward conversation by native communication consequence.
+diff --git a/src/noeron/room.py b/src/noeron/room.py
+index 66baed11ff147f00c45529f907a7d8b4eeb36dd9..07842f52bb0b21e24fd20280dd94170b816d5bb6 100644
+--- a/src/noeron/room.py
++++ b/src/noeron/room.py
+@@ -522,14 +522,36 @@ class RoomController:
+         return rec
+ 
+     # ---------------- native voice + observational decoder ---------------
+-    def present_native_utterance(self, native_text: str, *, source: str='interaction') -> NativePresentationRecord | None:
++    def present_native_utterance(self, native_text: str, *, source: str='interaction',
++            source_resolution_receipt_id: UUID | None=None, source_resolution_event_id: UUID | None=None,
++            source_resolution_action: str | None=None, source_resolution_native_text_sha256: str='') -> NativePresentationRecord | None:
+         if not native_text: return None
++        text_hash=sha256(native_text.encode('utf-8')).hexdigest()
++        resolution_link=any((source_resolution_receipt_id is not None,source_resolution_event_id is not None,
++            bool(source_resolution_action),bool(source_resolution_native_text_sha256)))
++        if resolution_link:
++            if (source_resolution_receipt_id is None or source_resolution_event_id is None
++                    or source_resolution_action not in {'clarify','ask'}
++                    or source_resolution_native_text_sha256!=text_hash):
++                raise ValueError('resolution presentation provenance is incomplete or native-text mismatched')
++            current=self.noeron.state.cognition.speech_act_development.pending_execution_receipt
++            persisted_state=self.store.latest_state()
++            persisted=(persisted_state.cognition.speech_act_development.pending_execution_receipt if persisted_state else None)
++            def matches(receipt):
++                return bool(receipt is not None
++                    and str(getattr(receipt,'receipt_id',''))==str(source_resolution_receipt_id)
++                    and str(getattr(receipt,'event_id',''))==str(source_resolution_event_id)
++                    and getattr(receipt,'action',None)==source_resolution_action
++                    and getattr(receipt,'channel',None)=='authenticated-owner-room-http'
++                    and getattr(receipt,'status',None)=='asgi-response-body-sent'
++                    and getattr(receipt,'native_text_sha256',None)==text_hash)
++            if not matches(current) or not matches(persisted):
++                raise ValueError('resolution presentation provenance lacks matching durable execution receipt')
+         st=self.noeron.state.room
+         config=st.embodiment_configuration
+         if config is None or config.voice_profile is None:
+             st.last_voice_decision=NativeRoomDecision(domain='native-voice',selection_status='unresolved-no-selected-native-voice',native_choice_claim=False)
+             self.store.append_state(self.noeron.state); return None
+-        text_hash=sha256(native_text.encode('utf-8')).hexdigest()
+         text_only=[{'name':'stage7-text-only','role':'stage7-realization-affordance','value':0.0}]
+         vp=list(config.voice_profile.model_dump().values())
+         voice=[{'name':f'stage7-native-voice-{i}','role':'stage7-realization-affordance','value':_clip01(v)} for i,v in enumerate(vp)]
+@@ -554,12 +576,20 @@ class RoomController:
+             audio_artifact_id=artifact.id,audio_sha256=artifact.sha256,decoded_text=decoded,
+             decoder_ran_after_native_utterance=decoder_ran,decoder_cognitive_authority=False,
+             decoder_realization_authority=False,voice_native_choice_claim=True,voice_decision_id=rec.id,
++            source_resolution_receipt_id=source_resolution_receipt_id,
++            source_resolution_event_id=source_resolution_event_id,
++            source_resolution_action=(source_resolution_action if resolution_link else None),
++            source_resolution_execution_confirmed=bool(resolution_link),
+         )
+         self.store.append_native_presentation(presentation)
+         self.append_journal('native-presentation',{
+             'presentation_id':str(presentation.id),'native_text_sha256':text_hash,'audio_artifact_id':str(artifact.id),
+             'audio_sha256':artifact.sha256,'decoded_text':decoded,'decoder_cognitive_authority':False,
+             'voice_native_choice_claim':True,'voice_decision_id':str(rec.id),
++            'source_resolution_receipt_id':str(source_resolution_receipt_id) if source_resolution_receipt_id else None,
++            'source_resolution_event_id':str(source_resolution_event_id) if source_resolution_event_id else None,
++            'source_resolution_action':source_resolution_action if resolution_link else None,
++            'source_resolution_execution_confirmed':bool(resolution_link),
+         })
+         self.store.append_state(self.noeron.state)
+         return presentation
+diff --git a/src/noeron/room_models.py b/src/noeron/room_models.py
+index 0096e223d73d5855b65855ecbdfeb7fb05ce143f..254f4ca35fdf23ea95e2084942b4255ec142718d 100644
+--- a/src/noeron/room_models.py
++++ b/src/noeron/room_models.py
+@@ -109,6 +109,10 @@ class NativePresentationRecord(BaseModel):
+     decoder_realization_authority: bool = False
+     voice_native_choice_claim: bool = False
+     voice_decision_id: UUID | None = None
++    source_resolution_receipt_id: UUID | None = None
++    source_resolution_event_id: UUID | None = None
++    source_resolution_action: Literal['clarify', 'ask'] | None = None
++    source_resolution_execution_confirmed: bool = False
+ 
+ 
+ class NativeAudioTransportReceipt(BaseModel):
