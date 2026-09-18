@@ -1,0 +1,70 @@
+diff --git a/src/noeron/language_dialogue.py b/src/noeron/language_dialogue.py
+index 098259a..ead9586 100644
+--- a/src/noeron/language_dialogue.py
++++ b/src/noeron/language_dialogue.py
+@@ -112,11 +112,36 @@ def _event_candidates(sentence: str) -> list[dict]:
+         })
+         return rows
+ 
+-    # Ditransitive: "Mira gave Omar the book".
+-    m = re.match(r"^(.+?)\s+([a-z][a-z-]*)\s+(.+?)\s+(?:a\s+|an\s+|the\s+)?([^ ]+)$", low)
++    # A transparent copular declarative is already a complete clause-shape
++    # candidate.  Return it before broad active patterns can reinterpret a leading
++    # determiner as the whole subject and its head noun as a verb.
++    m = re.match(r"^(.+?)\s+(am|is|are|was|were)\s+(.+)$", low)
++    if m:
++        subj, cop, pred = m.groups()
++        rows.append({
++            "predicate_surface": cop, "predicate_lemma": "be", "voice": "copular-surface",
++            "roles": {"theme": subj.strip(), "attribute_or_identity": pred.strip()},
++            "authority": "candidate-only",
++        })
++        return rows
++
++    # For the bounded active patterns below, normalize only the transparent
++    # determiner+single-head subject shape.  This is grammatical constituent
++    # hygiene, not semantic typing or candidate ranking.
++    active = low
++    m = re.match(r"^(?:a|an|the)\s+([a-z][a-z-]*)\s+(.+)$", active)
++    if m:
++        active = f"{m.group(1)} {m.group(2)}"
++
++    # Ditransitive: "Mira gave Omar the book".  A middle constituent that starts
++    # with a determiner is compatible with an ordinary direct-object noun phrase,
++    # so it cannot by itself justify a second argument/role-alternative row.
++    m = re.match(r"^(.+?)\s+([a-z][a-z-]*)\s+(.+?)\s+(?:a\s+|an\s+|the\s+)?([^ ]+)$", active)
+     if m:
+         subj, verb, middle, final = m.groups()
+-        if verb not in _FUNCTION and len(words(middle)) <= 4:
++        middle_tokens = words(middle)
++        if (verb not in _FUNCTION and len(middle_tokens) <= 4
++                and not (middle_tokens and middle_tokens[0] in _DETERMINERS)):
+             rows.append({
+                 "predicate_surface": verb, "predicate_lemma": lemma(verb), "voice": "active-surface",
+                 "roles": {"agent": subj.strip(), "recipient_or_theme": middle.strip(), "theme_or_patient": final.strip()},
+@@ -130,21 +155,12 @@ def _event_candidates(sentence: str) -> list[dict]:
+                 "authority": "candidate-only",
+             })
+ 
+-    # Copular candidate.
+-    m = re.match(r"^(.+?)\s+(am|is|are|was|were)\s+(.+)$", low)
+-    if m:
+-        subj, cop, pred = m.groups()
+-        rows.append({
+-            "predicate_surface": cop, "predicate_lemma": "be", "voice": "copular-surface",
+-            "roles": {"theme": subj.strip(), "attribute_or_identity": pred.strip()},
+-            "authority": "candidate-only",
+-        })
+-
+-    # Generic SVO candidate.
+-    m = re.match(r"^(.+?)\s+([a-z][a-z-]*)\s+(.+)$", low)
++    # Generic SVO candidate.  Auxiliary/modal/question-initial inversion is not an
++    # active declarative solely because it has three surface tokens.
++    m = re.match(r"^(.+?)\s+([a-z][a-z-]*)\s+(.+)$", active)
+     if m:
+         subj, verb, obj = m.groups()
+-        if verb not in _FUNCTION:
++        if verb not in _FUNCTION and subj.strip() not in (_AUX | _MODALS | _QUESTION):
+             role = {"agent": subj.strip(), "patient_or_theme": obj.strip()}
+             # Detect transparent obliques without claiming attachment truth.
+             pm = re.search(r"\b(with|in|on|at|by|from|to|near|under|above|behind|beside|inside)\b\s+(.+)$", obj)
