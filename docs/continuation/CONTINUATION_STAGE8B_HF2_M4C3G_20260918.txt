@@ -1,0 +1,263 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3G VERIFIED CHECKPOINT
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3G: PUBLISHED AND EXTERNALLY VERIFIED.
+Stage8B and Stage8 overall: IN PROGRESS.
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+READ THIS FIRST
+Continue from exact HF1 plus the ordered published chain:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011 -> 0012 -> 0013 -> 0014.
+
+Latest ordinary patch:
+patches/hf2/0014-hf2-same-db-restart-recovery.patch
+SHA256:
+28088fc61ee9fe59a6b2bd8dcfcf1a9185d8bcf1481ea2a7f922e68dc5669819
+Git blob:
+fb9d8fee1890d2e15a4fe1c34c5a88f0af78a0a0
+Diffstat:
+2 files changed, 159 insertions, 2 deletions.
+Runtime files changed:
+- src/noeron/memory.py
+- src/noeron/orchestrator.py
+
+PREVIOUS VERIFIED CHECKPOINT
+M4C3F root checkpoint:
+d74e086c63ad729e6a5a6a759c069b8521b7a633
+M4C3F published exact chain:
+0001 -> 0013
+M4C3F exact-chain run:
+35354898382 / job 105631741124 / SUCCESS / 306 passed, 2 warnings.
+
+WHY M4C3G EXISTS
+True new-process tests showed that valid pending content and non-content execution receipts already reconstructed from the same isolated SQLite database.
+A real restart-integrity defect remained: if an older already-consumed state containing the same pending receipt was replayed as the newest SQLite state, a fresh Noeron runtime could consume that receipt again and add a duplicate consequence observation.
+M4C3G closes that replay/double-learning path without changing speech-act choice, content, expression, transport, authentication, or consequence weights.
+
+M4C3G ENGINEERING COMMITS
+0014 intent commit:
+6476f58fce1b5d64211b9e188121d2b1c90b863c
+Intent:
+patches/hf2/0014-hf2-same-db-restart-recovery.intent.patch
+Intent SHA256:
+b1abbb07022b7501215fa1ccc56cf0cbd6308a2f84c9e06a2b1ff495a7849a47
+Intent Git blob:
+2b74fa0f35cac9a15924362dfba1429bf1d77cbb
+
+True-restart test commit:
+bc9899291d20d5ce9290d2d1e3f52cd34e338d13
+Tests:
+tests/hf2_m4c3g/test_same_db_restart_recovery.py
+Test SHA256:
+6379b6aa2a2b4637c9c93a7a068b26efe5d3acbd853f1dc9a441c389d3f74125
+Test Git blob:
+06c568988c1fcd4850097a691317cffd43441ce6
+
+Candidate continuation checkpoint:
+99b28fcb6d293c4c92fccd40c43d2de9fcdf7312
+Candidate workflow/source commit:
+90558197a644f04ff747c3cca7a356b979af0337
+Candidate workflow Git blob:
+4e92d10be750c972684882325c97465897bfe85e
+Candidate continuation workflow-pin commit:
+69aa6a55115128c4b1c174933a23d158c0f1448c
+Candidate green receipt commit:
+e6e4d1d09b227ad05bec265b2011894bdfc89ac0
+Ordinary 0014 publication commit:
+f0a09fa50e27de161868ba10c6a56c2e0d2ff91c
+Exact-chain-through-0014 workflow commit:
+9ce99e588d754adcb7ebeecd6166f68c839c2811
+Intermediate publication continuation commit:
+32fd761330d418fb4255e95fde64335a9b517c2a
+Exact-chain green receipt / pre-documentation HEAD:
+f84d8e6288e790430444dc65a74a4455ff8110d5
+
+CANDIDATE VALIDATION
+GitHub Actions run:
+35364110888
+Job:
+105662254470
+Source commit:
+90558197a644f04ff747c3cca7a356b979af0337
+Conclusion:
+SUCCESS
+
+Exact published post-0013 baseline:
+306 passed, 2 warnings in 18.83s.
+Focused genuine new-process/same-SQLite restart tests:
+14 passed in 25.06s.
+Complete candidate:
+320 passed, 2 warnings in 37.37s.
+Separate fresh exact-HF1 replay through generated 0014:
+320 passed, 2 warnings in 37.50s.
+Candidate/replay source parity:
+PASS.
+Ordinary 0014 materialized only after candidate green:
+true.
+
+Candidate artifact:
+ID 10555900717
+Name: hf2-m4c3g-same-db-restart-recovery
+Bytes: 935758
+ZIP SHA256:
+76ee07f08bd2a88e8e2ae7601eef3f23c857037d93ae2ba4df7f0385de45572b
+Exact post-0014 source archive SHA256:
+518a0f70be47f9bf973c17fe9a35ff647c9e1426b67df51da8dae52c17796856
+Carrier evidence archive SHA256:
+8a6f696e369cdc83fc174e6cc6bb97ba22ac04b0d87ebacbf9ea95dc919c0298
+Intent audit:
+PASS.
+All semantic-truth, answer, candidate-ranking, cognitive-memory, relationship, source-write runtime, deployment and speech-act authority flags are false.
+
+PUBLISHED EXACT-HF1 0001-0014 VALIDATION
+GitHub Actions run:
+35364492389
+Job:
+105663499079
+Source commit:
+9ce99e588d754adcb7ebeecd6166f68c839c2811
+Conclusion:
+SUCCESS.
+
+Actual job/log evidence inspected:
+- reconstructed byte-exact HF1;
+- copied ORIGINAL carrier helpers before applying patches;
+- applied 0001 through 0014 sequentially with git apply --check and git apply;
+- compiled the patched runtime;
+- invoked the complete HF2 suite including tests/hf2_m4c3g;
+- 320 passed, 2 warnings in 70.13s;
+- recorded patch0014 SHA256 exactly 28088fc61ee9fe59a6b2bd8dcfcf1a9185d8bcf1481ea2a7f922e68dc5669819;
+- live_runtime_touched=false;
+- canonical_db_touched=false;
+- certification_claim=false.
+
+Published-chain artifact:
+ID 10554894172
+Name: hf2-exact-hf1-patch-chain-evidence
+Bytes: 10220
+ZIP SHA256:
+f80385fe03ef51108e5deefff3a8d1e85e3f2879c61e691d30afb99eec2667bd
+
+POST-0014 EXACT RUNTIME IDENTITIES
+src/noeron/memory.py:
+6fad8ec2ee486fc7ad86033f2e7f5c7ce93d50150a94bf468c445b10046f4935
+src/noeron/orchestrator.py:
+e98c930b513275224ecbb4b68c55d1be7f8758024be539e763d9a64d7747969b
+src/noeron/inference.py:
+9c55bb6753d12649aa8706e6e4d73d4dfab96606b3c6ed4eaddacc582df976a7
+src/noeron/models.py:
+a91dfaeb3e11a3a5109044183c931ca50409931844d3b467f07b92632d3780b7
+src/noeron/api.py:
+115584fb3f1908b931040063a4d607f2cb6bf9a1ddeaf3500f5a9c34cc76681d
+src/noeron/cognition/models.py:
+786231e57f3f906f8941dca5386f2c92a16aa23c8605995e8a83e60f1dd809b0
+src/noeron/conversation_actions.py:
+1e9b36b9f693ef9848417a52d3cc18ea09b5c0f151a8c5fea830a3a7520a07f5
+src/noeron/conversation_resolution.py:
+ea1ead068b8c68bd34d5d852a2918634ae272c692e37831a77f1a1bb63057191
+src/noeron/development.py:
+dc38d2663953f7bf6ee2158178eb3883500c9fc5452de2648f094613bbc1d57c
+src/noeron/english_egress.py:
+dc8d5456304cac3fca9cb17a48de2da079315ba6b3988cbb609bdf07f4c70c83
+
+GOOGLE DRIVE EVIDENCE
+HF2 folder ID:
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+
+Candidate evidence ZIP:
+HF2_M4C3G_SAME_DB_RESTART_RECOVERY_20260918.zip
+Drive ID:
+1B-UUIQuUYft-serjCJVZ1__A1JzoMG2h
+Raw readback SHA256:
+76ee07f08bd2a88e8e2ae7601eef3f23c857037d93ae2ba4df7f0385de45572b
+GitHub artifact / Drive raw-byte equality:
+VERIFIED.
+
+Published-chain evidence ZIP:
+HF2_EXACT_HF1_PATCH_CHAIN_0001_0014_EVIDENCE_20260918.zip
+Drive ID:
+1K5SrsKNpPfpQk9ds9TSpM1xtmkbplPhK
+Raw readback SHA256:
+f80385fe03ef51108e5deefff3a8d1e85e3f2879c61e691d30afb99eec2667bd
+GitHub artifact / Drive raw-byte equality:
+VERIFIED.
+
+Historical M4C3G candidate continuation Drive ID:
+1QUouUMDrmy_2HSiGjEdA_GPXq-_Kr4gUfF8OT2gGyl4
+
+WHAT M4C3G IMPLEMENTS
+1. LocalEventStore.latest_state now fails closed with PersistedStateValidationError when the newest persisted NoeronState is unparseable, instead of silently treating corruption as no saved state and booting a fresh identity.
+2. Startup checks pending resolution execution provenance before normal runtime migration/work begins.
+3. A valid persisted pending content receipt must match action, event, turn, pre-knot digest, pre-residual, origin, last execution receipt and the independent expression pending linkage.
+4. A valid persisted non-content receipt must match the same speech-act provenance while preserving content_emitted=false, outward_transport_performed=false, all peer-uptake flags=false and no expression pending state.
+5. If the newest state replays a receipt already durably recorded as consumed in earlier SQLite state history, startup recovers to the newest prior valid post-consumption state and persists that recovery. It does not learn again.
+6. Parseable but mismatched pending state is cleared as non-learnable and written to provenance/audit with all authority flags false.
+7. An unparseable newest state fails closed rather than fabricating a fresh runtime state.
+8. Recovery logic does not select a speech act, author content, create an observation, change consequence weights, or claim peer delivery/read/understanding/reply causation.
+9. SQLite history inspection is restart-integrity provenance only and is not cognitive retrieval or semantic memory.
+
+TRUE PROCESS-RESTART EVIDENCE
+The focused tests construct real post-0013 execution receipts through the trusted execution paths, then launch brand-new Python subprocesses and brand-new Noeron instances pointed at the same isolated SQLite database.
+They prove:
+- content and non-content pending receipts reconstruct with linked pre-state;
+- defer/remain-silent cannot be executed a second time merely because a process restarted;
+- one later admissible conversational USER_MESSAGE consumes a persisted pending outcome at most once;
+- a replayed already-consumed receipt does not add a second consequence observation;
+- action, pre-knot and content-expression linkage mismatches are non-learnable;
+- malformed/unparseable latest persisted receipt state fails closed;
+- restart recovery does not create cognitive-memory or relationship authority.
+
+BOUNDARIES THAT REMAIN TRUE
+- Canonical causal path remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Speech-act selection remains learned native consequence geometry only.
+- Parser/reasoner labels, receipt machinery and restart recovery have zero native-choice authority.
+- No canned clarification/ask/defer content and no hidden response table.
+- No authored preference weights or bootstrap consequence observations.
+- Authentication remains access authority only and grants no relationship meaning.
+- Operator calibration remains explicitly non-native.
+- Content formation, speech-act selection, expression/private-continuation selection, execution receipt and later learning remain distinct.
+- Terra remains optional/downstream with no reasoning/content/answer/memory/relationship/source-write/deployment authority.
+- SQLite remains persistence/provenance/audit substrate, not cognitive retrieval authority.
+- live runtime and canonical database remain untouched.
+- Stage8B remains IN PROGRESS.
+- No Stage9/self-upgrade work.
+
+KNOWN REMAINING LIMITATIONS
+- M4C3G verifies clean process restart from durable SQLite state but does not yet certify abrupt process termination at every persistence boundary while an execution receipt is being committed.
+- Crash timing between trusted execution, security checkpointing and SQLite state append remains a separate fault-injection problem.
+- SQLite history-scan performance under long-lived state histories has not been characterized.
+- Native audio and other non-HTTP content receipt adapters remain unimplemented.
+- Existing determiner-form parser ambiguity remains visible/proof-gated.
+- Stage8B conversational completion and any new LOCAL/LIVE certification remain unclaimed.
+
+RECONSTRUCTION RULE
+1. Reconstruct fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip.
+2. Verify HF1 SHA256 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29.
+3. Copy ORIGINAL carrier helpers before applying patches:
+   conversation_premises.py
+   conversation_bridge.py
+   conversation_reasoning.py
+   conversation_proof.py
+   conversation_runtime_gate.py
+   conversation_actions.py
+   conversation_resolution.py
+4. Apply 0001 through 0014 strictly in order.
+5. Never overwrite patched conversation helpers after replay.
+6. Run tests/test_v082_hf2_*.py plus tests/hf2_m4c3a through tests/hf2_m4c3g.
+7. Publish any later ordinary patch only after exact baseline, candidate, separate fresh exact-HF1 replay, source parity and external CI are green.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3H
+Verify crash-window atomicity around resolution execution persistence before expanding communication adapters.
+
+Use isolated temporary SQLite databases and controlled subprocess/fault-injection boundaries to distinguish:
+- failure before any trusted execution completion;
+- content ASGI send completion followed by interruption before/while receipt state is durably appended;
+- non-content local execution interruption before/while receipt state is durably appended;
+- interruption after durable receipt append but before a later outcome;
+- restart after each boundary.
+
+The next candidate must prevent duplicate execution/learning and must never fabricate a no-send claim, execution receipt, peer uptake, native choice, preference or relationship meaning. Do not touch live runtime/canonical DB. Keep Stage8B IN PROGRESS. Do not publish 0015 unless the established exact-baseline/candidate/fresh-replay pipeline is green.
