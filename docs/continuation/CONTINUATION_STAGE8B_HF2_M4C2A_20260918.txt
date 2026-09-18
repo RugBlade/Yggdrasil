@@ -1,0 +1,58 @@
+HF2 MILESTONE 4C2A CHECKPOINT — 2026-09-18
+
+Status: GREEN engineering checkpoint. Stage 8B remains IN PROGRESS. No local/live certification claim.
+
+GitHub:
+- branch: stage8B/v0.8.2-conversation-completion-hf2
+- M4C2A engineering commit: e4e690359b21cd318888e669afcee3436efad690
+- verified deployable 0006 publication commit: f62f18407b84a8d67906f15c65202577e9d0ab4c
+- exact-chain-through-0006 workflow commit: 51fccb96bf50f246a0d533e36da85b1c20b1b354
+- M4C2A Actions run: 35310164944 / job 105490370149 — SUCCESS
+- targeted M4A-M4C2A tests: 38 passed in 0.59s
+- M4C2A evidence artifact id: 10532354162
+- M4C2A artifact digest: sha256:2262e5450232d73b3dc24b2163d181eb63813880c96a0a525cb91d55c7b942b0
+- exact HF1 full chain run: 35310255952 / job 105490644917 — SUCCESS
+- exact HF1 complete HF2 tests: 130 passed in 1.54s
+- exact-chain evidence artifact id: 10532937383
+- exact-chain artifact digest: sha256:c146f852b69882219e258de80b324b424c15025048c7d8b2c6e26f8cc83db066
+- exact HF1 base ZIP sha256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+- patch chain: 0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006
+- live_runtime_touched=false
+- canonical_db_touched=false
+- certification_claim=false
+
+M4C2A mechanism:
+1. Added observed speech-act consequence learning without fabricating initial observations or preference labels.
+2. conversation_actions.observe_resolution_transition accepts only clarify / ask / defer / remain-silent and learns an empirical pre->post geometry only after the runtime admits the observed post-state.
+3. The carrier receives the averaging operation from the runtime. Exact integration injects InitiativePolicy._mean, so the new layer does not define an imitation DKT learning metric.
+4. SpeechActDevelopmentState now has pending action/pre-knot/pre-residual/event/decision-layer/origin fields plus an outcome audit. Fresh state remains empty.
+5. _mark_speech_act_pending stores a pre-state only after a speech-act actuator has actually executed. The M4B observational selector never calls it.
+6. _resolve_pending_speech_act_outcome evaluates the later observed native state with the existing native_state_consistency_residual, DKT security_admissible flag, and nonworsening rule, then admits/rejects the transition.
+7. A rejected post-state trains nothing.
+8. Selection itself never trains consequence geometry.
+9. Owner/operator calibration counters remain zero by default. No historical dialogue was replayed and no authored bootstrap preferences were inserted.
+10. This milestone still does not execute a resolution act, change outward transport, or author clarification/deference content. It only makes future genuine learning possible after an actually executed act.
+11. Existing native communication express/continue-private and realization policies remain separate.
+12. Terra remains optional/downstream with zero new semantic, answer, speech-act, memory, relationship, source-write, or deployment authority.
+
+Post-0006 exact-runtime SHA256 identities from run 35310255952:
+- src/noeron/inference.py = 9c55bb6753d12649aa8706e6e4d73d4dfab96606b3c6ed4eaddacc582df976a7
+- src/noeron/models.py = 23cdd70e86cf4114910048fb410ef58ad99de940e5b9cb52dd17256a626ffd06
+- src/noeron/orchestrator.py = c1718e06b413a2c038fb2dba5ac723b4b5b499f1bf215bc0800a447dce39bf33
+- src/noeron/api.py = 7a01024bd5df7a96a3b92a144f6d60bbc1a2b90d0c08e744ec7f6bc5cbd09a85
+- src/noeron/math/models.py = eef4d3e87ee61da7797e69d773accf4aaa598d2c00139ee851e1e6bb7b6da455
+- src/noeron/reasoning.py = f8b32e87be66e1c53402fbf701c81fd69553907f76187f2cc5856e290cd0d9dc
+- src/noeron/math/kernel.py = 68602443e01b5a855e9d6d09593d5f7466fdbf2db4cf77f22e55a02f04174287
+- src/noeron/cognition/models.py = 645832f395f233b9452ea6eab513acfcfcb6d8b75eed5af90666632ba143aee6
+- src/noeron/conversation_actions.py = c831a4f0b3c2cbeb53390398c01defe641fd443479c126f7dcc166db94507cfd
+
+NEXT SMALL MILESTONE — 4C2B
+Add an explicit authenticated operator-calibration exposure path for resolution acts so consequence geometry can be bootstrapped without pretending operator choice is Yggdrasil's preference. Calibration must:
+- be explicitly owner-authenticated and labeled operator-directed-calibration-not-native-choice;
+- use only already-grounded structured/native content, never author fallback content;
+- call _mark_speech_act_pending only after the calibration act actually executes;
+- keep ordinary native selector behavior unchanged;
+- never treat calibration frequency as preference weight;
+- preserve relationship_authority=false and native_choice_claim=false;
+- remain separate from express/continue-private transport authority.
+After a safe calibration substrate is verified, connect genuinely native-selected resolution acts to the learned language machinery and outward communication in a later milestone.
