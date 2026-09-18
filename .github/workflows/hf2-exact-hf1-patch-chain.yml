@@ -173,7 +173,7 @@ jobs:
             echo "live_runtime_touched=false"
             echo "canonical_db_touched=false"
             echo "base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29"
-            echo "patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016,0017,0017"
+            echo "patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016,0017"
             sha256sum patches/hf2/0010-hf2-native-resolution-transport-receipt.patch \
               patches/hf2/0011-hf2-typed-current-turn-alternative-content.patch \
               patches/hf2/0012-hf2-act-neutral-alternative-resolution.patch \
@@ -230,7 +230,7 @@ jobs:
           source_branch=$GITHUB_REF_NAME
           job_name=exact-hf1-patch-chain
           base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
-          patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016
+          patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016,0017
           patch0017_sha256=$PATCH_SHA
           test_summary=$TEST_SUMMARY
           stable_keyed_audio_dom_reconciliation=true
@@ -246,7 +246,7 @@ jobs:
           EOF
           git config user.name "Yggdrasil HF2 CI"
           git config user.email "hf2-ci@example.invalid"
-          git add docs/evidence/_ci/HF2_EXACT_CHAIN_0016_RESULT.txt
+          git add docs/evidence/_ci/HF2_EXACT_CHAIN_0017_RESULT.txt
           git commit -m "ci: record green HF2 exact chain through 0017 [skip ci]"
           git pull --rebase origin "$GITHUB_REF_NAME"
           git push origin "HEAD:$GITHUB_REF_NAME"
