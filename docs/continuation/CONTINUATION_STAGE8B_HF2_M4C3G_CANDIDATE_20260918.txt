@@ -1,0 +1,135 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3G CANDIDATE CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3G: CANDIDATE — CI PENDING.
+Ordinary 0014: NOT PUBLISHED.
+Published durable baseline remains M4C3F / exact chain 0001 -> 0013.
+Stage8B and Stage8: IN PROGRESS.
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED CHECKPOINT
+M4C3F root checkpoint commit:
+d74e086c63ad729e6a5a6a759c069b8521b7a633
+M4C3F dedicated continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3F_20260918.txt
+M4C3F manifest:
+docs/evidence/HF2_M4C3F_20260918_MANIFEST.json
+M4C3F 0013 SHA256:
+9f9429c4deb011c3366625739385422e63157fe0002f9c0fc41701fd59158e8f
+Published-chain run:
+35354898382 / job 105631741124 / SUCCESS / 306 passed, 2 warnings.
+Do not rebuild or republish M4C3F.
+
+WHY M4C3G NEEDS A PATCH
+A true new-process/same-SQLite probe showed that valid pending ResolutionExecutionReceipt and
+NonContentResolutionExecutionReceipt state already reconstructs correctly after restart.
+However, a replayed older state row containing an already-consumed pending receipt could be
+made the newest SQLite state. A brand-new Noeron instance then loaded that stale pending state
+and a later admissible conversational USER_MESSAGE could train the same receipt a second time.
+This is a restart-integrity/double-learning defect. It does not concern native act choice.
+
+M4C3G INTENT
+Path:
+patches/hf2/0014-hf2-same-db-restart-recovery.intent.patch
+SHA256:
+b1abbb07022b7501215fa1ccc56cf0cbd6308a2f84c9e06a2b1ff495a7849a47
+Intent commit:
+6476f58fce1b5d64211b9e188121d2b1c90b863c
+
+Tests:
+tests/hf2_m4c3g/test_same_db_restart_recovery.py
+SHA256:
+6379b6aa2a2b4637c9c93a7a068b26efe5d3acbd853f1dc9a441c389d3f74125
+Test commit:
+bc9899291d20d5ce9290d2d1e3f52cd34e338d13
+
+CANDIDATE CHANGE — TWO RUNTIME FILES ONLY
+1. src/noeron/memory.py
+- Adds PersistedStateValidationError.
+- latest_state() now fails closed if the newest persisted NoeronState cannot be validated,
+  rather than silently returning None and allowing a fresh-state fallback.
+- Adds a bounded state-history integrity lookup for a receipt ID. It searches only for
+  durable evidence that the same execution receipt was already consumed and returns the
+  newest prior valid state after consumption.
+- This state-history inspection is explicitly restart-integrity provenance only. It is not
+  cognitive retrieval and has zero semantic/preference/relationship/source/deploy authority.
+
+2. src/noeron/orchestrator.py
+- Runs persisted resolution execution integrity recovery during process initialization.
+- A valid pending content/noncontent receipt is restored without execution or learning.
+- Receipt/pre-knot/pre-residual/event/action/origin linkage is checked.
+- Content receipts also require the persisted expression receipt/pre-state linkage.
+- Noncontent receipts require exact no-content/no-transport/no-peer-evidence invariants and
+  no expression pending state.
+- If the newest state replays a receipt already durably consumed in prior SQLite history,
+  startup recovers to the newest prior valid post-consumption state and persists that recovery.
+- A parseable but mismatched pending state is cleared as non-learnable and recorded in
+  provenance/audit only.
+- An unparseable newest persisted state fails closed; it does not silently boot a fresh identity.
+
+AUTHORITY BOUNDARY
+Restart recovery:
+semantic_truth=false
+answer=false
+speech_act_choice=false
+preference_label=false
+cognitive_memory=false
+relationship=false
+source_write_runtime=false
+deployment=false
+
+It does not select clarify/ask/defer/remain-silent.
+It does not create observations or preferences.
+It does not author content.
+It does not reinterpret SQLite as cognition.
+It does not change authentication, Terra, expression, Room HTTP, ASGI receipt, or local
+noncontent receipt semantics.
+
+TRUE RESTART TEST COVERAGE
+The M4C3G test module creates actual execution receipts through the post-0013 trusted paths,
+then constructs brand-new Python subprocesses and Noeron instances against the same isolated
+SQLite database. It covers:
+- content and noncontent pending receipt + linked pre-state reconstruction;
+- defer/remain-silent duplicate local execution blocked after restart;
+- later admissible USER_MESSAGE consumes content/noncontent pending outcome at most once;
+- replayed already-consumed pending state cannot create a second observation;
+- action/pre-knot/content-expression linkage mismatches become non-learnable;
+- malformed/unparseable persisted receipt state fails closed;
+- restart recovery does not create cognitive-memory or relationship authority.
+
+SHORT LOCAL EVIDENCE ONLY — NOT PUBLICATION
+Exact post-0013 published HF2 suite under candidate source:
+306 passed.
+M4C3G true-restart groups:
+6 passed + 2 passed + 6 passed = 14/14.
+The combined one-shot local run exceeded the disposable command timeout near completion, with
+no failure shown. Publication therefore depends on GitHub Actions, not this local run.
+
+INTENT MATERIALIZATION
+scripts/materialize_hf2_intent_patch.py applied the 0014 intent against exact post-0013 source.
+Resulting src/noeron/memory.py and src/noeron/orchestrator.py are byte-for-byte equal to the
+locally tested candidate.
+compileall: PASS.
+Intent audit: PASS.
+All authority flags false.
+
+PUBLICATION RULE
+Do not create patches/hf2/0014-hf2-same-db-restart-recovery.patch until:
+1. exact published 0001-0013 baseline is green in M4C3G CI;
+2. focused true-restart tests are green;
+3. complete candidate HF2 suite including M4C3G is green;
+4. ordinary 0014 is materialized only after candidate green;
+5. a separate fresh exact-HF1 extraction applies 0001-0013 plus generated 0014;
+6. candidate/fresh-replay source parity is proven;
+7. the fresh replay complete suite is green;
+8. an actual CI receipt/artifact is inspected.
+
+NEXT
+Create the bounded M4C3G GitHub Actions candidate workflow. Keep ordinary 0014 unpublished.
+After the workflow source commit, update this candidate continuation with that exact commit
+and mirror it to the Stage8/HF2 Google Drive folder.
