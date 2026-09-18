@@ -180,6 +180,9 @@ def test_resolution_presentation_provenance_rejects_incomplete_or_mismatched_lin
     with pytest.raises(ValueError,match='mismatched'):
         n.room.present_native_utterance('native',source_resolution_receipt_id=uuid4(),source_resolution_event_id=uuid4(),
             source_resolution_action='clarify',source_resolution_native_text_sha256='0'*64)
+    with pytest.raises(ValueError,match='durable execution receipt'):
+        n.room.present_native_utterance('native',source_resolution_receipt_id=uuid4(),source_resolution_event_id=uuid4(),
+            source_resolution_action='clarify',source_resolution_native_text_sha256=hashlib.sha256(b'native').hexdigest())
 
 
 def test_ordinary_native_presentation_has_no_resolution_execution_link(tmp_path,monkeypatch):
