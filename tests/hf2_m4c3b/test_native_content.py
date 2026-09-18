@@ -291,7 +291,7 @@ def test_full_native_path_forms_current_reference_content_after_geometry(isolate
     event=CognitiveEvent(kind=EventKind.USER_MESSAGE,source='isolated-test',content='She moved.')
     reply=n.ingest(event)
     assert reply.security.allowed
-    assert reply.speech_act_audit['action']=='clarify'
+    assert reply.speech_act_audit['action']=='clarify', reply.speech_act_audit
     obs=n._hf2_resolution_observation
     assert obs['thought'].native_utterance.native_text=='she: Sara / Mira?'
     assert obs['thought'].causal_trace[-1]=='native-unique-speech-act-predicted-post-state-hs-minimum'
@@ -312,10 +312,10 @@ def test_http_private_resolution_observation_requires_owner(isolated,monkeypatch
     select(isolated,turn)
     isolated.state.cognition.language.owner_communication_controls.internal_utterance_visibility=True
     monkeypatch.setattr(api,'noeron',isolated)
-    monkeypatch.setattr(api,'owner_auth',OwnerAuthenticator('test-only-m4c3b-token'))
+    monkeypatch.setattr(api,'owner_auth',OwnerAuthenticator('isolated-m4c3b-owner-test-token-not-deployment'))
     client=TestClient(api.app)
     unauth=client.get('/owner/internal-utterance/latest')
     assert unauth.status_code in (401,403)
-    response=client.get('/owner/internal-utterance/latest',headers={'X-Noeron-Owner-Token':'test-only-m4c3b-token'})
+    response=client.get('/owner/internal-utterance/latest',headers={'X-Noeron-Owner-Token':'isolated-m4c3b-owner-test-token-not-deployment'})
     assert response.status_code==200
     assert response.json()['resolution_observation']['content']

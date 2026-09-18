@@ -56,3 +56,12 @@ Next: inspect candidate Actions run; repair any real failure in a new commit;
 never publish 0009 on a failure. Then publish verified artifact plus full-chain
 gate, inspect full-chain result, back up evidence/source/hashes to Drive folder
 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO, and update this continuation and root in both.
+
+FIRST CANDIDATE RESULT: run 35325261627 / job 105536714943.
+Baseline 189 passed. Candidate 226 passed, 2 failed. No 0009 materialized.
+Artifact 10538219072 SHA256 c7fafa84364da82af0db59b8cc45b02af80e251d207376dc4f1bd74dd8708c3a.
+Repair: count validated native reference sets for eligibility even when no answer
+candidate caused a proof ambiguity audit; never map the parser to act choice.
+The HTTP fixture token was below the existing 24-character minimum; corrected.
+Also report private observation available when only resolution content exists.
+Rerun pending; no green claim yet.

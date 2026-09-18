@@ -252,7 +252,10 @@
 -            native_question_count=len(list(thought.question_candidates or [])),
 +            query_kind=str(reasoning.logical_query.kind or '') if bound and not has_answer else '',
 +            proof_gate_status=str(reasoning.proof_gate_status or '') if bound and not has_answer else '',
-+            ambiguity_count=int(reasoning.proof_gate_unscoped_ambiguity_count or 0) if bound and not has_answer else 0,
++            # A no-answer-candidate proof audit can contain no ambiguity rows.
++            # Explicit validated reference alternatives still make clarification
++            # eligible; they never select it or resolve a referent.
++            ambiguity_count=max(int(reasoning.proof_gate_unscoped_ambiguity_count or 0),len(clarifications)) if bound and not has_answer else 0,
 +            native_question_count=len(questions),
              answer_candidate_count=len(list(reasoning.answer_candidates or [])),
 +            native_clarification_count=len(clarifications),
@@ -353,7 +356,8 @@
 +                'origin':'native-consequence-selected-content-private-observation-only',
 +            }
          return {
-             'status':('available' if native else 'no-internal-utterance-available'),
+-            'status':('available' if native else 'no-internal-utterance-available'),
++            'status':('available' if native or resolution_observation else 'no-internal-utterance-available'),
 +            'resolution_observation':resolution_observation,
              'source':str(st.last_internal_utterance_source or ''),
              'native_text':native,
