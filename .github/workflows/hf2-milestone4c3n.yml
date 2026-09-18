@@ -1,0 +1,252 @@
+name: HF2 M4C3N - real browser Room verification
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'tests/hf2_m4c3n/**'
+      - '.github/workflows/hf2-milestone4c3n.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  exact-post0018-browser-verification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      NOERON_AUTONOMY_ENABLED: 'false'
+      NOERON_TERRA_ENABLED: 'false'
+      NOERON_LLM_BACKEND: mock
+      NOERON_OWNER_TOKEN: ''
+      NOERON_OWNER_LEGACY_TOKEN_ENABLED: 'false'
+      NOERON_ROOM_COOKIE_SECURE: 'false'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Reconstruct byte-exact HF1 fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          FIX="$RUNNER_TEMP/ygg-hf1-m4c3n"
+          echo "FIX=$FIX" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py --extract-dir "$FIX" --extract-all             --evidence evidence-m4c3n-hf1.json
+
+      - name: Add ORIGINAL HF2 carrier helper modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in             conversation_premises.py conversation_bridge.py conversation_reasoning.py             conversation_proof.py conversation_runtime_gate.py conversation_actions.py             conversation_resolution.py
+          do
+            cp "src/noeron/$f" "$FIX/src/noeron/$f"
+          done
+
+      - name: Apply published 0001 through 0018 sequentially
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FIX"
+          git init -q
+          for p in             0001-hf2-inference-core.patch             0002-hf2-current-turn-runtime-bridge.patch             0003-hf2-native-bounded-dialogue-reasoning.patch             0004-hf2-proof-provenance-ambiguity-runtime-gate.patch             0005-hf2-native-resolution-state-audit.patch             0006-hf2-speech-act-consequence-learning.patch             0007-hf2-owner-resolution-calibration.patch             0008-hf2-calibration-execution-boundary.patch             0009-hf2-native-resolution-content.patch             0010-hf2-native-resolution-transport-receipt.patch             0011-hf2-typed-current-turn-alternative-content.patch             0012-hf2-act-neutral-alternative-resolution.patch             0013-hf2-local-noncontent-execution-receipt.patch             0014-hf2-same-db-restart-recovery.patch             0015-hf2-native-audio-transport-receipt.patch             0016-hf2-resolution-native-audio-presentation.patch             0017-hf2-authenticated-client-playback-telemetry.patch             0018-hf2-client-media-network-retry.patch
+          do
+            echo "CHECK $p"
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git diff --check
+            echo "APPLIED $p"
+          done
+          python -m compileall -q src/noeron
+
+      - name: Install exact runtime dependencies
+        run: python -m pip install --disable-pip-version-check -e "$FIX[dev]"
+
+      - name: Verify published post0018 baseline before browser tooling
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+          NOERON_DB_PATH: ${{ runner.temp }}/m4c3n-baseline.sqlite3
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          python -m pytest -q             tests/test_v082_hf2_*.py             tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d             tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h             tests/hf2_m4c3i tests/hf2_m4c3j tests/hf2_m4c3k tests/hf2_m4c3l             tests/hf2_m4c3m             --junitxml=evidence/m4c3n-baseline.xml | tee evidence/m4c3n-baseline.txt
+
+      - name: Install test-only Playwright Chromium
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium
+          python -m pip show playwright | tee evidence/m4c3n-playwright-version.txt
+          python - <<'PY' | tee evidence/m4c3n-browser-version.txt
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as p:
+              b=p.chromium.launch(headless=True)
+              print("chromium_version="+b.version)
+              b.close()
+          PY
+
+      - name: Run focused M4C3N real-browser verification
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+          NOERON_DB_PATH: ${{ runner.temp }}/m4c3n-focused.sqlite3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/hf2_m4c3n             --junitxml=evidence/m4c3n-focused.xml | tee evidence/m4c3n-focused.txt
+
+      - name: Run complete HF2 plus M4C3N browser verification
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+          NOERON_DB_PATH: ${{ runner.temp }}/m4c3n-complete.sqlite3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q             tests/test_v082_hf2_*.py             tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d             tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h             tests/hf2_m4c3i tests/hf2_m4c3j tests/hf2_m4c3k tests/hf2_m4c3l             tests/hf2_m4c3m tests/hf2_m4c3n             --junitxml=evidence/m4c3n-complete.xml | tee evidence/m4c3n-complete.txt
+
+      - name: Reconstruct separate fresh exact-HF1 post0018 replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          REPLAY="$RUNNER_TEMP/ygg-hf1-m4c3n-fresh-replay"
+          echo "REPLAY=$REPLAY" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py --extract-dir "$REPLAY" --extract-all             --evidence evidence/m4c3n-replay-hf1-identity.json
+          for f in             conversation_premises.py conversation_bridge.py conversation_reasoning.py             conversation_proof.py conversation_runtime_gate.py conversation_actions.py             conversation_resolution.py
+          do
+            cp "src/noeron/$f" "$REPLAY/src/noeron/$f"
+          done
+          cd "$REPLAY"
+          git init -q
+          for p in             0001-hf2-inference-core.patch             0002-hf2-current-turn-runtime-bridge.patch             0003-hf2-native-bounded-dialogue-reasoning.patch             0004-hf2-proof-provenance-ambiguity-runtime-gate.patch             0005-hf2-native-resolution-state-audit.patch             0006-hf2-speech-act-consequence-learning.patch             0007-hf2-owner-resolution-calibration.patch             0008-hf2-calibration-execution-boundary.patch             0009-hf2-native-resolution-content.patch             0010-hf2-native-resolution-transport-receipt.patch             0011-hf2-typed-current-turn-alternative-content.patch             0012-hf2-act-neutral-alternative-resolution.patch             0013-hf2-local-noncontent-execution-receipt.patch             0014-hf2-same-db-restart-recovery.patch             0015-hf2-native-audio-transport-receipt.patch             0016-hf2-resolution-native-audio-presentation.patch             0017-hf2-authenticated-client-playback-telemetry.patch             0018-hf2-client-media-network-retry.patch
+          do
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+          done
+          git diff --check
+          python -m compileall -q src/noeron
+          diff -qr --exclude=__pycache__ "$FIX/src/noeron" "$REPLAY/src/noeron"
+
+      - name: Run browser verification on fresh replay
+        env:
+          PYTHONPATH: ${{ env.REPLAY }}/src
+          NOERON_DB_PATH: ${{ runner.temp }}/m4c3n-replay.sqlite3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/hf2_m4c3n             --junitxml=evidence/m4c3n-replay-focused.xml | tee evidence/m4c3n-replay-focused.txt
+          python -m pytest -q             tests/test_v082_hf2_*.py             tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d             tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h             tests/hf2_m4c3i tests/hf2_m4c3j tests/hf2_m4c3k tests/hf2_m4c3l             tests/hf2_m4c3m tests/hf2_m4c3n             --junitxml=evidence/m4c3n-replay-complete.xml | tee evidence/m4c3n-replay-complete.txt
+
+      - name: Preserve browser verification evidence and authority boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar --exclude=__pycache__ -czf evidence/m4c3n-exact-post0018-source.tar.gz -C "$REPLAY" src/noeron
+          (cd "$FIX" && find src/noeron -type f -name '*.py' -print0 | sort -z | xargs -0 sha256sum) > evidence/m4c3n-primary-source-sha256.txt
+          (cd "$REPLAY" && find src/noeron -type f -name '*.py' -print0 | sort -z | xargs -0 sha256sum) > evidence/m4c3n-replay-source-sha256.txt
+          diff -u evidence/m4c3n-primary-source-sha256.txt evidence/m4c3n-replay-source-sha256.txt
+          {
+            echo "milestone=M4C3N"
+            echo "verification_only=true"
+            echo "source_commit=$GITHUB_SHA"
+            echo "base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29"
+            echo "published_patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016,0017,0018"
+            echo "patch0018_sha256=fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a"
+            echo "real_browser_engine=chromium"
+            echo "stable_keyed_audio_dom_under_snapshot_churn_tested=true"
+            echo "play_pause_resume_ended_tested=true"
+            echo "network_uncertainty_same_playback_id_tested=true"
+            echo "explicit_non409_no_retry_tested=true"
+            echo "renewed_session_cannot_close_old_playback_tested=true"
+            echo "autoplay_added=false"
+            echo "product_programmatic_native_audio_play=false"
+            echo "client_media_telemetry_only=true"
+            echo "audible_output_confirmed=false"
+            echo "peer_delivery_confirmed=false"
+            echo "peer_heard_confirmed=false"
+            echo "peer_understanding_confirmed=false"
+            echo "peer_reply_causation_confirmed=false"
+            echo "speech_act_choice_authority=false"
+            echo "preference_label_authority=false"
+            echo "cognitive_memory_authority=false"
+            echo "relationship_authority=false"
+            echo "source_write_authority=false"
+            echo "deployment_authority=false"
+            echo "ordinary_0019_published=false"
+            echo "certification_claim=false"
+            echo "live_runtime_touched=false"
+            echo "canonical_db_touched=false"
+            sha256sum evidence/m4c3n-exact-post0018-source.tar.gz
+          } | tee evidence/m4c3n-boundary.txt
+
+      - name: Upload M4C3N browser verification evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-m4c3n-real-browser-room-verification
+          path: evidence/
+          if-no-files-found: error
+
+      - name: Publish green M4C3N verification-only receipt
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/evidence/_ci
+          BASELINE_SUMMARY="$(tail -n 1 evidence/m4c3n-baseline.txt)"
+          FOCUSED_SUMMARY="$(tail -n 1 evidence/m4c3n-focused.txt)"
+          COMPLETE_SUMMARY="$(tail -n 1 evidence/m4c3n-complete.txt)"
+          REPLAY_FOCUSED_SUMMARY="$(tail -n 1 evidence/m4c3n-replay-focused.txt)"
+          REPLAY_COMPLETE_SUMMARY="$(tail -n 1 evidence/m4c3n-replay-complete.txt)"
+          SOURCE_SHA="$(sha256sum evidence/m4c3n-exact-post0018-source.tar.gz | awk '{print $1}')"
+          cat > docs/evidence/_ci/HF2_M4C3N_VERIFICATION_RESULT.txt <<EOF
+          milestone=M4C3N
+          status=GREEN
+          verification_only=true
+          run_id=$GITHUB_RUN_ID
+          run_attempt=$GITHUB_RUN_ATTEMPT
+          workflow_ref=$GITHUB_WORKFLOW_REF
+          source_commit=$GITHUB_SHA
+          source_branch=$GITHUB_REF_NAME
+          job_name=exact-post0018-browser-verification
+          base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+          published_patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016,0017,0018
+          patch0018_sha256=fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a
+          source_archive_sha256=$SOURCE_SHA
+          baseline_summary=$BASELINE_SUMMARY
+          focused_browser_summary=$FOCUSED_SUMMARY
+          complete_summary=$COMPLETE_SUMMARY
+          replay_focused_browser_summary=$REPLAY_FOCUSED_SUMMARY
+          replay_complete_summary=$REPLAY_COMPLETE_SUMMARY
+          source_byte_parity=true
+          real_browser_engine=chromium
+          browser_defect_found=false
+          stable_keyed_audio_dom_under_snapshot_churn_tested=true
+          network_uncertainty_same_playback_id_tested=true
+          explicit_non409_no_retry_tested=true
+          renewed_session_cannot_close_old_playback_tested=true
+          autoplay_added=false
+          audible_output_confirmed=false
+          peer_heard_confirmed=false
+          peer_understanding_confirmed=false
+          peer_reply_causation_confirmed=false
+          speech_act_choice_authority=false
+          preference_label_authority=false
+          cognitive_memory_authority=false
+          relationship_authority=false
+          ordinary_0019_published=false
+          certification_claim=false
+          live_runtime_touched=false
+          canonical_db_touched=false
+          EOF
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add docs/evidence/_ci/HF2_M4C3N_VERIFICATION_RESULT.txt
+          git commit -m "ci: record green M4C3N browser verification [skip ci]"
+          git fetch origin "$GITHUB_REF_NAME"
+          git rebase "origin/$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
