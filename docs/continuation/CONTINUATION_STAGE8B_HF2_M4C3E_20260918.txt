@@ -118,6 +118,14 @@ Raw SHA256: 0de15f37d4a3a9c26c704b4565f7ab71282ebcc920e22e89e78c2778945b1a7b
 Byte equality with GitHub Actions artifact: VERIFIED.
 Existing candidate continuation Drive ID:
 1-j8gAdzp_FF3LH634Ycq3RK-HhYLr0N9
+Final verified M4C3E continuation Drive ID:
+1yN_QJJlgyQ_vJQH-REoDkm-Wr8khmZhi
+Final M4C3E manifest Drive ID:
+1qDuoF1EwWVVNqAMi6m2nc7iGnvTtAbuT
+Drive text-mirror verification:
+- continuation export normalizes to the exact GitHub text after removing UTF-8 BOM, converting CRLF to LF, and collapsing the exporter-added third newline at section boundaries;
+- manifest export normalizes to the exact GitHub JSON after removing UTF-8 BOM, converting CRLF to LF, and restoring the final newline;
+- because the Google Docs text export bridge rewrites line formatting, raw byte equality is NOT claimed for these two text files.
 Existing root continuation Drive ID, update in place:
 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
 
