@@ -8,7 +8,7 @@ on:
     paths:
       - 'patches/hf2/0012-hf2-act-neutral-alternative-resolution.intent.patch'
       - 'tests/hf2_m4c3e/**'
-      - '.github/workflows/hf2-milestone4c3d.yml'
+      - '.github/workflows/hf2-milestone4c3e.yml'
 
 permissions:
   contents: read
@@ -133,7 +133,7 @@ jobs:
         run: |
           set -euo pipefail
           git -C "$FIX" diff --binary --full-index             > evidence/0012-hf2-act-neutral-alternative-resolution.patch
-          test -s evidence/0011-hf2-typed-current-turn-alternative-content.patch
+          test -s evidence/0012-hf2-act-neutral-alternative-resolution.patch
           git -C "$FIX" diff --stat | tee evidence/m4c3e-diffstat.txt
 
       - name: Prove 0012 on a fresh exact-HF1 extraction
@@ -154,8 +154,8 @@ jobs:
             git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
             echo "APPLIED $p"
           done
-          git apply --check "$GITHUB_WORKSPACE/evidence/0011-hf2-typed-current-turn-alternative-content.patch"
-          git apply "$GITHUB_WORKSPACE/evidence/0011-hf2-typed-current-turn-alternative-content.patch"
+          git apply --check "$GITHUB_WORKSPACE/evidence/0012-hf2-act-neutral-alternative-resolution.patch"
+          git apply "$GITHUB_WORKSPACE/evidence/0012-hf2-act-neutral-alternative-resolution.patch"
           echo "APPLIED 0012-hf2-act-neutral-alternative-resolution.patch"
           diff -qr --exclude=__pycache__ "$FIX/src/noeron" "$REPLAY/src/noeron"
           python -m compileall -q src/noeron
@@ -167,14 +167,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python -m pytest -q tests/test_v082_hf2_*.py tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3e             --junitxml=evidence/m4c3e-replay-green.xml             | tee evidence/m4c3e-replay-green.txt
+          python -m pytest -q tests/test_v082_hf2_*.py tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d tests/hf2_m4c3e             --junitxml=evidence/m4c3e-replay-green.xml             | tee evidence/m4c3e-replay-green.txt
 
       - name: Preserve source, carrier, hashes, and authority boundary
         shell: bash
         run: |
           set -euo pipefail
           tar --exclude=__pycache__ -czf evidence/m4c3e-exact-post0012-source.tar.gz -C "$REPLAY" src/noeron
-          tar -czf evidence/m4c3e-carrier-evidence.tar.gz             patches/hf2 src/noeron/conversation_*.py tests/test_v082_hf2_*.py tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3e             scripts/verify_hf1_exact_fixture.py scripts/materialize_hf2_intent_patch.py             .github/workflows/hf2-milestone4c3d.yml
+          tar -czf evidence/m4c3e-carrier-evidence.tar.gz             patches/hf2 src/noeron/conversation_*.py tests/test_v082_hf2_*.py tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d tests/hf2_m4c3e             scripts/verify_hf1_exact_fixture.py scripts/materialize_hf2_intent_patch.py             .github/workflows/hf2-milestone4c3e.yml
           (cd "$FIX" && git ls-files -z src/noeron | xargs -0 sha256sum)             > evidence/m4c3e-post0012-source-sha256.txt
           {
             echo "gate=M4C3E exact HF1 0001-0011 plus 0012 act-neutral-alternative-resolution candidate and fresh replay"
@@ -185,9 +185,12 @@ jobs:
             echo "canonical_db_touched=false"
             echo "native_resolution_actuator_connected=authenticated-owner-room-http-only"
             echo "typed_alternative_content=reference,event-role,qud,proposition,proof"
-            echo "act_neutral_alternative_content=qud,proposition,proof"\n            echo "alternative_inventory_changes_affordance_eligibility=true"\n            echo "alternative_inventory_speech_act_choice_authority=false"\n            echo "ordinary_multiple_answer_superseded_only_after_native_choice=true"
+            echo "act_neutral_alternative_content=qud,proposition,proof"
+            echo "alternative_inventory_changes_affordance_eligibility=true"
+            echo "alternative_inventory_speech_act_choice_authority=false"
+            echo "ordinary_multiple_answer_superseded_only_after_native_choice=true"
             echo "calibration_executed=false"
-            sha256sum evidence/0011-hf2-typed-current-turn-alternative-content.patch               evidence/m4c3e-exact-post0011-source.tar.gz evidence/m4c3e-carrier-evidence.tar.gz
+            sha256sum evidence/0012-hf2-act-neutral-alternative-resolution.patch               evidence/m4c3e-exact-post0012-source.tar.gz evidence/m4c3e-carrier-evidence.tar.gz
           } | tee evidence/m4c3e-boundary.txt
 
       - name: Upload actual results even on failure
