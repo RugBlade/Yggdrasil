@@ -1,0 +1,146 @@
+{
+  "schema": "yggdrasil-hf2-milestone-evidence-v1",
+  "milestone": "M4C3N",
+  "date": "2026-09-18",
+  "status": "EXTERNALLY_VERIFIED_VERIFICATION_ONLY_GREEN",
+  "verification_only": true,
+  "browser_defect_found": false,
+  "stage8b_status": "IN PROGRESS",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "previous_verified_root_checkpoint": "dfb437ad3f256c3f5728592d76f5e4ffc8a7b89b",
+  "published_runtime_patch_chain": "0001-0018",
+  "ordinary_0019_published": false,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "hf1_zip_sha256": "79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29",
+  "patch0018": {
+    "path": "patches/hf2/0018-hf2-client-media-network-retry.patch",
+    "git_blob": "b58497f3a1c3fe9f5798322f5bfa88d84a412c4a",
+    "sha256": "fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a",
+    "publication_commit": "344d9c1bbc0483dba3fe54e8f474907a917b97d3"
+  },
+  "design_history": {
+    "design_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_DESIGN_20260918.txt",
+    "design_git_blob": "24030168a454b84da7a93e55a9580a4d7b20b5d9",
+    "design_drive_id": "1VGlvEErKFhyiqUzykq58MFsiyr1cLJMKYHD5O2Ec_KA",
+    "harness_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_HARNESS_20260918.txt",
+    "harness_drive_id": "16JnK9i7afj0f6LGP50ofTV5OzTXF3uF5ue084fTmn_o",
+    "harness2_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_HARNESS2_20260918.txt",
+    "harness2_drive_id": "1mPzCJnNgQ9bECwvTAYmZCvHJKolfNq37b-zIk8c5MN4",
+    "failed_diagnostics": [
+      {
+        "run_id": 35393517368,
+        "drive_id": "1WqXpUaHUhd7_Rv7aLhM-fGDsjJ5eGT5G",
+        "title": "HF2_M4C3N_FAILED_HARNESS_35393517368_20260918.zip",
+        "publication_authority": false
+      },
+      {
+        "run_id": 35394109156,
+        "drive_id": "1ePfvakRqs9vKsZukBVGvJRJHZeTSZXYp",
+        "title": "HF2_M4C3N_FAILED_HARNESS2_35394109156_20260918.zip",
+        "publication_authority": false
+      }
+    ]
+  },
+  "verification": {
+    "workflow_path": ".github/workflows/hf2-milestone4c3n.yml",
+    "source_commit": "9d208ba1e3b445fc262d22324123f60b82f35576",
+    "run_id": 35394745667,
+    "job_id": 105760894087,
+    "job_name": "exact-post0018-browser-verification",
+    "conclusion": "success",
+    "baseline_summary": "382 passed, 2 warnings in 144.47s (0:02:24)",
+    "focused_browser_summary": "8 passed in 57.87s",
+    "complete_summary": "390 passed, 2 warnings in 183.61s (0:03:03)",
+    "replay_focused_browser_summary": "8 passed in 57.09s",
+    "replay_complete_summary": "390 passed, 2 warnings in 191.92s (0:03:11)",
+    "source_byte_parity": true,
+    "real_browser_engine": "chromium",
+    "source_archive_sha256": "d8a3622b80fcd478cb20923c5483d282edef9ba8c5798d7004228fdb0a6a5642",
+    "receipt_path": "docs/evidence/_ci/HF2_M4C3N_VERIFICATION_RESULT.txt",
+    "receipt_commit": "4838d3d01df86b24e1c3240bb8cae88b9f5e0949",
+    "receipt_git_blob": "6719eacffb794c0bc76009f52ae1c726f788dbb4"
+  },
+  "branch_reality": {
+    "source_to_receipt_ahead_by": 1,
+    "hidden_engineering_after_source_before_receipt": false,
+    "receipt_was_branch_tip_before_documentation": true
+  },
+  "artifact": {
+    "github_artifact_id": 10567463178,
+    "name": "hf2-m4c3n-real-browser-room-verification",
+    "bytes": 698601,
+    "sha256": "8b0541b868b2e49010f21663bb2405b5bc58790b4c0a81a64757d3c26a934b02",
+    "drive_title": "HF2_M4C3N_REAL_BROWSER_ROOM_VERIFICATION_20260918.zip",
+    "drive_id": "1GC8Pz6sovnicke85yYqAZgC9DnX6VN5r",
+    "drive_bytes": 698601,
+    "drive_sha256": "8b0541b868b2e49010f21663bb2405b5bc58790b4c0a81a64757d3c26a934b02",
+    "github_drive_raw_byte_equal": true
+  },
+  "browser_tests": {
+    "path": "tests/hf2_m4c3n/test_room_browser_integration.py",
+    "git_blob": "5bde07945cc5aa3e67d1bcab92d466557dd7b5a3",
+    "focused_authoritative_count": 8,
+    "named_tests": [
+      "test_real_chromium_keeps_same_audio_element_through_snapshot_transport_and_telemetry",
+      "test_real_chromium_network_uncertainty_retries_identical_playback_identity",
+      "test_real_chromium_explicit_non409_http_failure_does_not_retry",
+      "test_reload_and_renewed_authenticated_session_cannot_close_old_playback",
+      "test_room_product_code_contains_no_autoplay_or_programmatic_native_audio_play"
+    ],
+    "stable_keyed_audio_dom_under_snapshot_churn_tested": true,
+    "network_uncertainty_same_playback_id_tested": true,
+    "explicit_non409_no_retry_tested": true,
+    "renewed_session_cannot_close_old_playback_tested": true,
+    "autoplay_added": false,
+    "product_programmatic_native_audio_play": false
+  },
+  "authority": {
+    "client_media_telemetry_only": true,
+    "audible_output_confirmed": false,
+    "peer_delivery_confirmed": false,
+    "peer_heard_confirmed": false,
+    "peer_understanding_confirmed": false,
+    "peer_reply_causation_confirmed": false,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_label_authority": false,
+    "cognitive_memory_authority": false,
+    "relationship_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false
+  },
+  "architecture": {
+    "canonical_path": "Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra",
+    "original_native_utterance_primary": true,
+    "decoder_english_observational_downstream": true,
+    "auth_creates_relationship_meaning": false,
+    "browser_state_creates_native_choice_authority": false,
+    "client_media_event_trains_speech_act": false,
+    "sqlite_cognitive_retrieval_authority": false,
+    "terra_optional_downstream": true,
+    "autoplay": false,
+    "microphone_camera_scope": false,
+    "stage9_self_upgrade": false
+  },
+  "documentation": {
+    "final_continuation_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_20260918.txt",
+    "final_continuation_commit": "093e63d00fc1d8b6568028284c5b6fb27523cd41",
+    "final_continuation_git_blob": "110c5fff1bdfb2e67ff186b776bd9044241d3fba",
+    "final_continuation_drive_id": "1FKFZdcPmEgMm_r_SgOXu937OGgbDtcmyHSZ82TQGgP8",
+    "final_continuation_normalized_equal": true,
+    "root_continuation_drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+    "pre_m4c3n_root_normalized_equal": true
+  },
+  "remaining_stage8b_limitations": [
+    "Known determiner-form parser ambiguity remains visible/proof-gated.",
+    "Generic/fluent clarification and broader unresolved QUD/proposition/proof composition remain incomplete.",
+    "Browser playing/ended telemetry does not prove speaker output or human hearing.",
+    "Broad conversational completion and new LOCAL/LIVE certification remain unclaimed."
+  ],
+  "post_seal_next_milestone_selection_required": true,
+  "next_milestone_selected_in_this_manifest": false
+}
