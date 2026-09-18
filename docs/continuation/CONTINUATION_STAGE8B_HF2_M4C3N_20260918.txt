@@ -1,0 +1,256 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3N VERIFIED CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3N: EXTERNALLY VERIFIED / VERIFICATION-ONLY GREEN.
+M4C3N found no runtime defect.
+Published runtime remains exact HF1 + ordinary patches 0001 -> 0018.
+ordinary_0019_published=false
+browser_defect_found=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+Stage8B and Stage8 remain IN PROGRESS.
+
+READ THIS FIRST
+M4C3N is the real-browser-engine verification milestone requested by the M4C3M checkpoint.
+It verifies the private Room's stable keyed native-audio DOM and authenticated client playback telemetry in Chromium on a disposable exact-post0018 runtime.
+
+M4C3N DID NOT MODIFY RUNTIME SOURCE.
+No ordinary or intent 0019 exists as an M4C3N runtime patch.
+The latest published runtime patch remains:
+patches/hf2/0018-hf2-client-media-network-retry.patch
+SHA256:
+fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a
+
+PREVIOUS VERIFIED ROOT
+M4C3M root checkpoint:
+dfb437ad3f256c3f5728592d76f5e4ffc8a7b89b
+
+Published runtime:
+exact HF1 + ordinary patches 0001 -> 0018
+
+M4C3M published exact-chain:
+run 35392043131
+job 105752376375
+382 passed, 2 warnings in 128.11s
+ordinary_0018_published=true
+
+M4C3N DURABLE PRE-GREEN CHECKPOINTS
+Design continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_DESIGN_20260918.txt
+Git blob:
+24030168a454b84da7a93e55a9580a4d7b20b5d9
+Drive ID:
+1VGlvEErKFhyiqUzykq58MFsiyr1cLJMKYHD5O2Ec_KA
+
+First harness checkpoint:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_HARNESS_20260918.txt
+Drive ID:
+16JnK9i7afj0f6LGP50ofTV5OzTXF3uF5ue084fTmn_o
+
+Second harness checkpoint:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_HARNESS2_20260918.txt
+Drive ID:
+1mPzCJnNgQ9bECwvTAYmZCvHJKolfNq37b-zIk8c5MN4
+
+Historical failed harness diagnostic ZIPs remain non-authorizing:
+HF2_M4C3N_FAILED_HARNESS_35393517368_20260918.zip
+Drive ID:
+1WqXpUaHUhd7_Rv7aLhM-fGDsjJ5eGT5G
+
+HF2_M4C3N_FAILED_HARNESS2_35394109156_20260918.zip
+Drive ID:
+1ePfvakRqs9vKsZukBVGvJRJHZeTSZXYp
+
+They are retained as diagnostic history only and do not alter the verified final result.
+
+AUTHORITATIVE M4C3N VERIFICATION
+Workflow:
+.github/workflows/hf2-milestone4c3n.yml
+
+Source commit:
+9d208ba1e3b445fc262d22324123f60b82f35576
+Message:
+test: reuse Chromium for M4C3N renewed-session context
+
+Run:
+35394745667
+
+Job:
+105760894087
+
+Job name:
+exact-post0018-browser-verification
+
+Conclusion:
+SUCCESS
+
+Published post0018 baseline:
+382 passed, 2 warnings in 144.47s
+
+Focused real-browser Chromium verification:
+8 passed in 57.87s
+
+Complete HF2 + M4C3N:
+390 passed, 2 warnings in 183.61s
+
+Fresh exact-HF1 replay focused browser verification:
+8 passed in 57.09s
+
+Fresh replay complete:
+390 passed, 2 warnings in 191.92s
+
+Primary/replay runtime source parity:
+true
+
+Exact HF1 base ZIP SHA256:
+79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+
+Published patch chain:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011 -> 0012 -> 0013 -> 0014 -> 0015 -> 0016 -> 0017 -> 0018
+
+0018 SHA256:
+fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a
+
+Exact post0018 source archive SHA256:
+d8a3622b80fcd478cb20923c5483d282edef9ba8c5798d7004228fdb0a6a5642
+
+GREEN RECEIPT
+Path:
+docs/evidence/_ci/HF2_M4C3N_VERIFICATION_RESULT.txt
+
+Receipt commit / current pre-documentation branch tip:
+4838d3d01df86b24e1c3240bb8cae88b9f5e0949
+
+Receipt Git blob:
+6719eacffb794c0bc76009f52ae1c726f788dbb4
+
+Provider ancestry verification:
+source 9d208ba1e3b445fc262d22324123f60b82f35576
+-> exactly one later commit
+-> receipt 4838d3d01df86b24e1c3240bb8cae88b9f5e0949
+
+No hidden engineering commit exists after the authoritative source before this documentation seal.
+
+GREEN ARTIFACT
+GitHub Actions artifact ID:
+10567463178
+
+Name:
+hf2-m4c3n-real-browser-room-verification
+
+Bytes:
+698601
+
+ZIP SHA256:
+8b0541b868b2e49010f21663bb2405b5bc58790b4c0a81a64757d3c26a934b02
+
+Drive mirror:
+HF2_M4C3N_REAL_BROWSER_ROOM_VERIFICATION_20260918.zip
+
+Drive ID:
+1GC8Pz6sovnicke85yYqAZgC9DnX6VN5r
+
+Drive raw bytes:
+698601
+
+Drive raw SHA256:
+8b0541b868b2e49010f21663bb2405b5bc58790b4c0a81a64757d3c26a934b02
+
+GitHub artifact / Drive raw-byte equality:
+VERIFIED
+
+REAL-BROWSER TEST SURFACE
+Test file:
+tests/hf2_m4c3n/test_room_browser_integration.py
+
+Git blob:
+5bde07945cc5aa3e67d1bcab92d466557dd7b5a3
+
+The focused browser suite includes:
+1. real Chromium keeps the same HTMLAudioElement through Room snapshot, transport and telemetry churn;
+2. real Chromium network uncertainty retries the identical playback identity;
+3. explicit non-409 HTTP failure does not enter the provenance retry loop;
+4. reload plus renewed authenticated session cannot close the old session-bound playback;
+5. product Room code contains no autoplay or programmatic native-audio play.
+
+Parameterized cases account for the authoritative focused count of 8 passed.
+
+WHAT M4C3N PROVES
+- The stable keyed native-presentation reconciliation introduced by 0017 survives the tested real Chromium snapshot/transport/telemetry churn without replacing the same audio element.
+- Browser-side telemetry under tested network uncertainty reuses the same playback_session_id/payload identity introduced by 0018.
+- Explicit non-409 HTTP failures remain fail-fast rather than being reinterpreted as provenance-retry conditions.
+- A renewed authenticated Room session cannot submit ended as if it closed the prior exact-session-bound playback.
+- Product Room code does not add autoplay and does not programmatically call native audio play.
+- Exact-post0018 primary and fresh exact-HF1 replay source trees are byte-identical.
+- No runtime defect was found, so M4C3N is verification-only and 0019 remains unpublished.
+
+WHAT M4C3N DOES NOT PROVE
+- browser media-element playing/ended does not prove physical speaker output;
+- it does not prove audible sound at the owner location;
+- it does not prove human hearing, listening, attention or comprehension;
+- it does not prove peer delivery;
+- it does not prove reply causation;
+- it does not create semantic truth or answer authority;
+- it does not create native speech-act choice authority;
+- it does not create preference or relationship meaning;
+- it does not create cognitive memory;
+- it does not create source-write or deployment authority;
+- it does not certify arbitrary browser/kernel/power-loss behavior;
+- it does not establish broad conversational completion or new LOCAL/LIVE certification.
+
+AUTHORITY BOUNDARY
+verification_only=true
+real_browser_engine=chromium
+browser_defect_found=false
+client_media_telemetry_only=true
+autoplay_added=false
+audible_output_confirmed=false
+peer_delivery_confirmed=false
+peer_heard_confirmed=false
+peer_understanding_confirmed=false
+peer_reply_causation_confirmed=false
+speech_act_choice_authority=false
+preference_label_authority=false
+cognitive_memory_authority=false
+relationship_authority=false
+source_write_authority=false
+deployment_authority=false
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NON-NEGOTIABLE ARCHITECTURE
+- Canonical cognition remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Original native utterance remains primary; decoder/English stays observational/downstream.
+- Native content formation, speech-act choice, expression/private continuation, native voice choice, presentation, server transport, browser telemetry and later consequence learning remain distinct.
+- Authentication grants objective access authority only; it creates no native preference, familiarity or relationship meaning.
+- Browser/media/device state grants no native-choice authority.
+- Client media events do not directly train speech-act consequence geometry.
+- SQLite remains persistence/provenance/audit/integrity substrate, not cognitive retrieval authority.
+- Terra remains optional/downstream.
+- Live runtime and canonical DB remain untouched.
+- No autoplay.
+- No microphone/camera work in this milestone.
+- No Stage9/self-upgrade.
+
+KNOWN REMAINING STAGE8B LIMITATIONS
+- The long-standing determiner-form parser ambiguity remains visible/proof-gated, including the known "The lamp is on. Is the lamp on?" case.
+- Generic/fluent clarification and broader unresolved QUD/proposition/proof composition remain incomplete.
+- playing/ended remain browser media-element telemetry only.
+- Speaker output and human hearing remain intentionally unclaimed.
+- Broad conversation completion and new LOCAL/LIVE certification remain unclaimed.
+
+POST-SEAL RULE
+This file seals M4C3N only.
+Select the next bounded Stage8B milestone only AFTER:
+1. this continuation exists in GitHub and Drive;
+2. the M4C3N manifest exists in GitHub and Drive;
+3. the standing root continuation is reconciled in GitHub and Drive.
+
+Do not create 0019 merely to continue numbering.
+A future 0019 requires a separately demonstrated concrete runtime defect/change and the established exact-baseline/candidate/replay/published-chain gates.
