@@ -1,0 +1,108 @@
+name: HF2 Materialize Patch 0004
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'patches/hf2/0001-hf2-inference-core.patch'
+      - 'patches/hf2/0002-hf2-current-turn-runtime-bridge.patch'
+      - 'patches/hf2/0003-hf2-native-bounded-dialogue-reasoning.patch'
+      - 'patches/hf2/0004-hf2-proof-provenance-ambiguity-runtime-gate.intent.patch'
+      - 'scripts/materialize_hf2_intent_patch.py'
+      - 'scripts/verify_hf1_exact_fixture.py'
+      - 'fixtures/hf1_exact/**'
+      - 'src/noeron/conversation_*.py'
+      - 'tests/test_v082_hf2_*.py'
+      - '.github/workflows/hf2-materialize-0004.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  materialize-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Reconstruct post-0003 exact HF1 tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          FIX="$RUNNER_TEMP/ygg-hf1-post0003"
+          echo "FIX=$FIX" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py --extract-dir "$FIX" --evidence hf1-identity.json
+          for f in conversation_premises.py conversation_bridge.py conversation_reasoning.py conversation_proof.py conversation_runtime_gate.py; do
+            cp "src/noeron/$f" "$FIX/src/noeron/$f"
+          done
+          cd "$FIX"
+          git init -q
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add .
+          git commit -qm "HF1 plus carrier helpers"
+          for p in 0001-hf2-inference-core.patch 0002-hf2-current-turn-runtime-bridge.patch 0003-hf2-native-bounded-dialogue-reasoning.patch; do
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git diff --check
+          done
+          git add .
+          git commit -qm "post-0003 exact fixture"
+
+      - name: Materialize 0004 intent against post-0003 bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/materialize_hf2_intent_patch.py \
+            --root "$FIX" \
+            --intent patches/hf2/0004-hf2-proof-provenance-ambiguity-runtime-gate.intent.patch \
+            --audit 0004-materialization-audit.json
+          cd "$FIX"
+          git diff --check
+          git diff --binary --full-index > "$GITHUB_WORKSPACE/0004-generated.patch"
+          test -s "$GITHUB_WORKSPACE/0004-generated.patch"
+
+      - name: Prove generated 0004 applies from clean post-0003
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FIX"
+          git reset --hard -q HEAD
+          git apply --check "$GITHUB_WORKSPACE/0004-generated.patch"
+          git apply "$GITHUB_WORKSPACE/0004-generated.patch"
+          git diff --check
+          python -m compileall -q \
+            src/noeron/inference.py src/noeron/math/models.py src/noeron/reasoning.py \
+            src/noeron/math/kernel.py src/noeron/orchestrator.py \
+            src/noeron/conversation_premises.py src/noeron/conversation_reasoning.py \
+            src/noeron/conversation_proof.py src/noeron/conversation_runtime_gate.py
+
+      - name: Install exact runtime dependencies
+        run: python -m pip install --disable-pip-version-check -e "$FIX[dev]"
+
+      - name: Run 0004 proof/ambiguity runtime tests
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+        run: |
+          python -m pytest -q \
+            tests/test_v082_hf2_conversation_proof.py \
+            tests/test_v082_hf2_ambiguity_policy.py \
+            tests/test_v082_hf2_runtime_proof_gate.py \
+            tests/test_v082_hf2_reasoning.py \
+            | tee 0004-runtime-tests.txt
+
+      - name: Upload generated patch and evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-generated-0004
+          path: |
+            0004-generated.patch
+            0004-materialization-audit.json
+            0004-runtime-tests.txt
+            hf1-identity.json
+          if-no-files-found: error
