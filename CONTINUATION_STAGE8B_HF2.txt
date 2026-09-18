@@ -198,3 +198,50 @@ HF2 RECOVERY CHECKPOINT — 2026-09-18 EXACT HF1 BASE IDENTITY
 
 NEXT CHUNK — keep it small
 Import the seven exact affected HF1 runtime files named in the new manifest into a GitHub fixture without normalization, verify their SHA256 values in Actions, and only then add sequential 0001 -> 0002 -> 0003 -> 0004 apply/check gates. Stop and checkpoint immediately after that fixture/hash gate is green before adding broader runtime tests.
+
+
+HF2 EXACT-HF1 PATCH-CHAIN CHECKPOINT — 2026-09-18
+Status: GREEN engineering checkpoint; Stage 8B remains IN PROGRESS. This is NOT local/live certification.
+
+Authoritative current branch checkpoint at time of this note:
+- branch: stage8B/v0.8.2-conversation-completion-hf2
+- exact-chain workflow commit: 76bd8b0b1798f8a52a4b22282eacbd40c79cd66d
+- exact-chain GitHub Actions run: 35307184134
+- conclusion: SUCCESS
+- evidence artifact id: 10532206355
+- evidence artifact digest: sha256:65212a4d187d69dfd381d1108edebac6ed9f45184a7996f0bb79880db349929f
+- exact HF1 ZIP sha256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+- package entry count: 199
+- live_runtime_touched=false
+- canonical_db_touched=false
+- certification_claim=false
+
+What was repaired/learned:
+1. The exact Drive HF1 package was imported byte-for-byte as a GitHub engineering fixture; no canonical DB/state, credentials, keys, owner tokens, or private modality data were included.
+2. Patch 0003 had malformed unified-diff hunk counts and an orchestrator hunk authored against a nearby source layout. Both were repaired against the exact HF1 bytes. The repaired 0003 now applies through ordinary git apply --check/git apply.
+3. Historical 0004 was not a deployable unified diff: it was an intent-style patch with bare @@ markers. Its content was preserved separately as patches/hf2/0004-hf2-proof-provenance-ambiguity-runtime-gate.intent.patch rather than silently rewritten.
+4. A deterministic materializer now applies the 0004 intent to the exact post-0003 tree by exact old-side anchors, emits an ordinary Git patch, resets the tree, and proves that generated patch applies cleanly.
+5. Materializer run 35306532227 succeeded, compiled the resulting runtime and ran 31 targeted proof/ambiguity/reasoning tests successfully.
+6. CI then published the verified generated 0004 as patches/hf2/0004-hf2-proof-provenance-ambiguity-runtime-gate.patch. The publication commit was cc01410df0a46260a872583c51857a6a4e09abdf.
+7. The complete exact-HF1 chain subsequently applied 0001 -> 0002 -> 0003 -> 0004 sequentially under git apply --check, compiled the patched runtime, installed noeron-0.8.2 from the exact extracted fixture, and ran the complete tests/test_v082_hf2_*.py set: 88 passed in 0.39s.
+
+Post-chain affected runtime SHA256 identities from run 35307184134:
+- src/noeron/inference.py = 9c55bb6753d12649aa8706e6e4d73d4dfab96606b3c6ed4eaddacc582df976a7
+- src/noeron/models.py = 244224113f2a8a5eb46e84a4e32c8a6fc195d3624e726d6ebdbc6505db162dc3
+- src/noeron/orchestrator.py = 616036fc7b38ac3dca1a56c6530baf92bb97ba56b2b12a0e7aee74051a1b22a5
+- src/noeron/api.py = 7a01024bd5df7a96a3b92a144f6d60bbc1a2b90d0c08e744ec7f6bc5cbd09a85
+- src/noeron/math/models.py = eef4d3e87ee61da7797e69d773accf4aaa598d2c00139ee851e1e6bb7b6da455
+- src/noeron/reasoning.py = f8b32e87be66e1c53402fbf701c81fd69553907f76187f2cc5856e290cd0d9dc
+- src/noeron/math/kernel.py = 68602443e01b5a855e9d6d09593d5f7466fdbf2db4cf77f22e55a02f04174287
+
+Architecture preserved by this chain:
+- bounded conversation remains working context, not cognitive memory or truth authority;
+- support activation occurs only after the native Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT closure;
+- DKT geometry can activate bounded support but does not manufacture semantic truth;
+- WHY support must carry actual causal/explanatory/inference provenance rather than echoing event truth;
+- unresolved ambiguity can block proof eligibility;
+- proof gating has no semantic-truth, answer-selection, speech-act, candidate-ranking, cognitive-memory, relationship, source-write or deployment authority;
+- Terra remains optional/downstream and did not become reasoning or answer authority.
+
+NEXT SMALL MILESTONE
+Milestone 4: native defer / clarify / remain-silent / ask consequence selection. Implement it as a native communication consequence layer downstream of the existing proof/ambiguity result and native IRG/DKT/EGR/RL/Frenet machinery. Do NOT implement canned fallback sentences or a rule that simply maps parser labels to a claimed Yggdrasil choice. A claimed native act must be selected through native consequence state; exact ties or insufficient evidence remain unresolved. Owner transport controls remain transport/task authority only. Build this in small commits with GitHub Actions, then checkpoint GitHub + Drive before proceeding further.
