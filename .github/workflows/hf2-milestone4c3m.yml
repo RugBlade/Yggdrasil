@@ -7,6 +7,7 @@ on:
       - stage8B/v0.8.2-conversation-completion-hf2
     paths:
       - 'patches/hf2/0018-hf2-client-media-network-retry.intent.patch'
+      - 'tests/hf2_m4c3l/**'
       - 'tests/hf2_m4c3m/**'
       - '.github/workflows/hf2-milestone4c3m.yml'
 
