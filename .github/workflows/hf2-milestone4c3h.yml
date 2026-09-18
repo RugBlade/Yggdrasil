@@ -184,8 +184,8 @@ jobs:
             patches/hf2 src/noeron/conversation_*.py tests/test_v082_hf2_*.py \
             tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h \
             scripts/verify_hf1_exact_fixture.py .github/workflows/hf2-milestone4c3h.yml
-          (cd "$FIX" && git ls-files -z src/noeron | xargs -0 sha256sum) > evidence/m4c3h-post0014-source-sha256.txt
-          (cd "$REPLAY" && git ls-files -z src/noeron | xargs -0 sha256sum) > evidence/m4c3h-replay-source-sha256.txt
+          (cd "$FIX" && find src/noeron -type f -name '*.py' -print0 | sort -z | xargs -0 sha256sum) > evidence/m4c3h-post0014-source-sha256.txt
+          (cd "$REPLAY" && find src/noeron -type f -name '*.py' -print0 | sort -z | xargs -0 sha256sum) > evidence/m4c3h-replay-source-sha256.txt
           diff -u evidence/m4c3h-post0014-source-sha256.txt evidence/m4c3h-replay-source-sha256.txt
           {
             echo "gate=M4C3H crash-window atomicity verification over published exact HF1 chain 0001-0014"
