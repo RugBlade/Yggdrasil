@@ -197,6 +197,25 @@ VERIFIED.
 
 Historical candidate continuation Drive ID:
 1l7lF09oVAtjhQhqHwRMlSIfI2L6xeUF8
+
+Dedicated VERIFIED M4C3F continuation:
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3F_20260918.txt
+Drive ID:
+1jL_kG7cDIUg-pAcP8dJhlDm4XCnkE-Uq
+Drive normalized-content equality:
+VERIFIED.
+Raw byte equality is not claimed because the Google Docs text-export bridge adds UTF-8 BOM/CRLF and one extra separator in blank-paragraph runs; the entire file matches GitHub after documented normalization.
+
+Final M4C3F manifest:
+GitHub:
+docs/evidence/HF2_M4C3F_20260918_MANIFEST.json
+Drive ID:
+1IAqQ2hekNSHr1w6x-NLeb7AnFr00Ukyi
+Drive normalized-content equality:
+VERIFIED.
+Raw byte equality is not claimed for the manifest text mirror; the normalized GitHub/Drive content SHA256 is ed8c5c592b6d75773537db1fc18b7d05a417cb38ae98a26413b2455ccf58a3ca before the final metadata refresh.
+
 Root continuation Drive ID to update in place after this dedicated checkpoint is coherent:
 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
 
