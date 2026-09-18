@@ -1,0 +1,206 @@
+--- a/src/noeron/cognition/models.py
++++ b/src/noeron/cognition/models.py
+@@
+     peer_delivery_confirmed: Literal[False] = False
+ 
+ 
++class NonContentResolutionExecutionReceipt(BaseModel):
++    """Local completion of a non-content resolution act, never peer uptake.
++
++    The receipt proves only that this runtime committed the selected local control
++    action for the current turn. It proves no transport, delivery, reading,
++    understanding, reply causation, relationship meaning, or preference.
++    """
++    receipt_id: UUID = Field(default_factory=uuid4)
++    event_id: UUID
++    turn: int = Field(ge=1)
++    action: Literal['defer', 'remain-silent']
++    channel: Literal['local-runtime-noncontent'] = 'local-runtime-noncontent'
++    status: Literal['local-noncontent-action-committed'] = 'local-noncontent-action-committed'
++    effect: Literal['defer-current-turn-resolution', 'close-current-turn-without-outward-realization']
++    completed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
++    pre_knot_sha256: str = Field(pattern=r'^[a-f0-9]{64}$')
++    pre_residual: float
++    content_emitted: Literal[False] = False
++    outward_transport_performed: Literal[False] = False
++    peer_delivery_confirmed: Literal[False] = False
++    peer_read_confirmed: Literal[False] = False
++    peer_understanding_confirmed: Literal[False] = False
++    peer_reply_causation_confirmed: Literal[False] = False
++
++
+ class SpeechActDevelopmentState(BaseModel):
+     """Prospective consequence geometry for unresolved-response speech acts.
+ 
+@@
+     pending_event_id: UUID | None = None
+     pending_decision_layer: str = ''
+     pending_origin: str = ''
+-    pending_execution_receipt: ResolutionExecutionReceipt | None = None
+-    last_execution_receipt: ResolutionExecutionReceipt | None = None
++    pending_execution_receipt: ResolutionExecutionReceipt | NonContentResolutionExecutionReceipt | None = None
++    last_execution_receipt: ResolutionExecutionReceipt | NonContentResolutionExecutionReceipt | None = None
+     operator_calibration_observations: int = 0
+     last_outcome_audit: dict[str,object] = Field(default_factory=dict)
+     last_context_knot: KnotState | None = None
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@
+ import re
+ 
+ from noeron.cognition.kernel import GeometricCognitionKernel
+-from noeron.cognition.models import KnotMemory, NativeProposition, NativeThought, NativeThoughtKind, SensoryConceptCluster, WebStudyRecord, MemoryRetentionDecisionRecord, ResolutionExecutionReceipt
++from noeron.cognition.models import KnotMemory, NativeProposition, NativeThought, NativeThoughtKind, SensoryConceptCluster, WebStudyRecord, MemoryRetentionDecisionRecord, ResolutionExecutionReceipt, NonContentResolutionExecutionReceipt
+ from noeron.cognition.renderer import LanguageRenderer
+ from noeron.development import NativeLanguageFaculty
+ from noeron.initiative import InitiativePolicy
+@@
+             return {'pending':False,'status':'current-execution-event-required'}
+         if origin=='authenticated-owner-resolution-calibration':
+             return {'pending':False,'status':'calibration-preview-is-not-execution'}
+-        # Only the successful adapter completion transaction can supply this
+-        # identical in-process receipt object. A serialized/dict claim cannot.
+-        if (execution_receipt is None
++        # Only a successful trusted execution transaction can supply this identical
++        # in-process receipt object. A serialized/dict/client claim cannot. Content
++        # sends and local non-content actions intentionally use distinct receipt types.
++        valid_type=(
++            action in {'clarify','ask'} and isinstance(execution_receipt,ResolutionExecutionReceipt)
++        ) or (
++            action in {'defer','remain-silent'} and isinstance(execution_receipt,NonContentResolutionExecutionReceipt)
++        )
++        if (not valid_type
+                 or execution_receipt is not getattr(self,'_hf2_receipt_to_mark',None)
+                 or execution_receipt.event_id!=event_id or execution_receipt.action!=action):
+-            return {'pending':False,'status':'verified-transport-execution-receipt-required'}
++            return {'pending':False,'status':'verified-execution-receipt-required'}
+         st.pending_action=action
+         st.pending_pre_knot=self.state.math_kernel.dkt.core_knot.model_copy(deep=True)
+         st.pending_pre_residual=self._communication_consistency_residual(self.state.math_kernel)
+@@
+     def _resolution_knot_digest(knot):
+         return hashlib.sha256(json.dumps(knot.model_dump(mode='json'),sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+ 
++    @staticmethod
++    def _noncontent_resolution_effect(action):
++        return {
++            'defer':'defer-current-turn-resolution',
++            'remain-silent':'close-current-turn-without-outward-realization',
++        }.get(str(action or ''),'')
++
+     def _resolution_receipt_allows_outcome(self,event):
+         st=self.state.cognition.speech_act_development
+         receipt=st.pending_execution_receipt
+-        if (receipt is None or st.pending_pre_knot is None
++        if isinstance(receipt,ResolutionExecutionReceipt):
++            expected_origin='native-resolution-asgi-send-completed'
++        elif isinstance(receipt,NonContentResolutionExecutionReceipt):
++            expected_origin='native-resolution-local-noncontent-completed'
++            if (receipt.channel!='local-runtime-noncontent'
++                    or receipt.status!='local-noncontent-action-committed'
++                    or receipt.effect!=self._noncontent_resolution_effect(receipt.action)
++                    or receipt.content_emitted or receipt.outward_transport_performed
++                    or receipt.peer_delivery_confirmed or receipt.peer_read_confirmed
++                    or receipt.peer_understanding_confirmed or receipt.peer_reply_causation_confirmed):
++                return False
++        else:
++            return False
++        if (st.pending_pre_knot is None
+                 or receipt.event_id!=st.pending_event_id or receipt.action!=st.pending_action
+-                or st.pending_origin!='native-resolution-asgi-send-completed'
++                or st.pending_origin!=expected_origin
+                 or receipt.pre_knot_sha256!=self._resolution_knot_digest(st.pending_pre_knot)
+                 or receipt.pre_residual!=st.pending_pre_residual
+                 or event.id==receipt.event_id or event.kind!=EventKind.USER_MESSAGE
+@@
+             return False
+         return event.created_at>receipt.completed_at and int(self.state.conversational_turn)>=receipt.turn
+ 
++    def _commit_noncontent_resolution_execution(self,event):
++        """Commit a selected defer/remain-silent act at a local no-content boundary.
++
++        No message is emitted and no expression action is implied. The receipt proves
++        only that this runtime durably committed the selected control action for this
++        turn. It cannot prove peer delivery, reading, understanding, or reply causation.
++        """
++        st=self.state.cognition.speech_act_development
++        initiative=self.state.cognition.initiative_development
++        action=str(st.last_selected_action or '')
++        base={
++            'receipt_recorded':False,'executed':False,'action':action or None,
++            'content_emitted':False,'outward_transport_performed':False,
++            'peer_delivery_confirmed':False,'peer_read_confirmed':False,
++            'peer_understanding_confirmed':False,'peer_reply_causation_confirmed':False,
++            'learned':False,'relationship_authority':False,'preference_label_authority':False,
++        }
++        if not st.last_native_choice_claim or action not in {'defer','remain-silent'}:
++            return {**base,'status':'native-noncontent-resolution-choice-required'}
++        if (event.kind!=EventKind.USER_MESSAGE or not event.content.strip()
++                or event.id!=self.state.last_event_id
++                or event.metadata.get('endogenous') or event.metadata.get('nonconversational_observation')
++                or event.metadata.get('owner_command') or event.metadata.get('operator_realization_override')):
++            return {**base,'status':'current-ordinary-conversational-event-required'}
++        if (st.pending_action or initiative.pending_expression_pre_knot is not None
++                or getattr(self,'_hf2_resolution_dispatch',None) is not None):
++            return {**base,'status':'pending-or-dispatch-conflict'}
++        pre_residual=self._communication_consistency_residual(self.state.math_kernel)
++        if not math.isfinite(pre_residual):
++            return {**base,'status':'nonfinite-pre-execution-residual'}
++        receipt=NonContentResolutionExecutionReceipt(
++            event_id=event.id,turn=int(self.state.conversational_turn),action=action,
++            effect=self._noncontent_resolution_effect(action),
++            pre_knot_sha256=self._resolution_knot_digest(self.state.math_kernel.dkt.core_knot),
++            pre_residual=pre_residual,
++        )
++        before_speech=st.model_copy(deep=True)
++        checkpoint=self.security.restore()
++        try:
++            self._hf2_receipt_to_mark=receipt
++            marked=self._mark_speech_act_pending(
++                action,event.id,'learned-deliberative',
++                'native-resolution-local-noncontent-completed',execution_receipt=receipt,
++            )
++            if not marked['pending']:
++                raise RuntimeError('verified local non-content execution could not mark outcome')
++            st.last_audit['execution_receipt']=receipt.model_dump(mode='json')
++            self.security.checkpoint(self.state)
++            self.store.append_state(self.state)
++        except BaseException:
++            self.state.cognition.speech_act_development=before_speech
++            self.security.checkpoint(checkpoint)
++            raise
++        finally:
++            self._hf2_receipt_to_mark=None
++        return {
++            **base,'receipt_recorded':True,'executed':True,'status':receipt.status,
++            'receipt_id':str(receipt.receipt_id),'effect':receipt.effect,
++        }
++
+     def _prepare_resolution_transport(self,event,*,channel):
+         """Offer selected content to the existing independent expression selector.
+ 
+@@
+             )
+             if native_resolution_selected:
+                 # A genuine native resolution-act choice supersedes ordinary answer
+-                # transport for this turn.  Unsupported/private/nonsemantic execution
+-                # never falls back to the ordinary answer and is never relabeled as
+-                # expression.  The Room adapter remains the only content-send receipt.
+-                if resolution_channel:
++                # transport for this turn. Content acts still require independent
++                # expression + trusted Room send. Non-content acts commit only a local
++                # no-message execution boundary and never imply expression or peer uptake.
++                selected_resolution_action=str(speech_act_audit.get('action') or '')
++                if selected_resolution_action in {'defer','remain-silent'}:
++                    execution=self._commit_noncontent_resolution_execution(event)
++                    speech_act_audit['noncontent_execution']=dict(execution)
++                    speech_act_audit['execution_status']=execution['status']
++                    speech_act_audit['changes_outward_transport']=False
++                    if execution.get('executed'):
++                        speech_act_audit['content_formation']['executed']=True
++                        speech_act_audit['content_formation']['status']='selected-nonsemantic-act-executed-locally-no-content'
++                    self.state.cognition.speech_act_development.last_audit=dict(speech_act_audit)
++                elif resolution_channel:
+                     prepared=self._prepare_resolution_transport(event,channel=resolution_channel)
+                     if prepared is not None:
+                         resolution_dispatch,output=prepared
