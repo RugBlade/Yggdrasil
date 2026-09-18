@@ -1,3 +1,280 @@
+LATEST VERIFIED CHECKPOINT — M4C3M / PUBLISHED 0018 — 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+Stage8B and Stage8: IN PROGRESS.
+M4C3M: PUBLISHED AND EXTERNALLY VERIFIED.
+Published runtime: exact HF1 + ordinary patches 0001 -> 0018.
+ordinary_0018_published=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+READ THIS FIRST
+M4C3M repaired a concrete private-Room client telemetry provenance gap after M4C3L.
+The server was already persistently idempotent, but browser postClientMediaEvent() retried HTTP 409 only.
+If the server durably persisted playing and the HTTP response was lost, the browser could clear playback_session_id and later lose continuity to ended.
+Published 0018 retries ambiguous fetch/network and response-body-read failures with the SAME payload/playback_session_id, while explicit non-409 HTTP failures remain fail-fast.
+
+This is still browser media-element telemetry only.
+It is NOT speaker-output proof, human-hearing/listening proof, peer delivery, understanding, reply causation, native choice, preference, relationship meaning, cognitive memory, semantic truth, source-write authority or deployment authority.
+
+Continue from exact HF1 plus:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011 -> 0012 -> 0013 -> 0014 -> 0015 -> 0016 -> 0017 -> 0018.
+
+Read first:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3M_20260918.txt
+docs/evidence/HF2_M4C3M_20260918_MANIFEST.json
+docs/evidence/_ci/HF2_M4C3M_CANDIDATE_RESULT.txt
+docs/evidence/_ci/HF2_M4C3M_PUBLICATION_RESULT.txt
+docs/evidence/_ci/HF2_EXACT_CHAIN_0018_RESULT.txt
+
+M4C3M VERIFIED IDENTITIES
+Previous verified M4C3L root:
+55d7ff29460c05c33a2e56ba89148ea90d2a4914
+Design:
+6eb9c68c78a8c8fb058961a5c491598f8dad10de
+Candidate checkpoint:
+e97193591df7efbaf07baa6773cab59bf9b3c86e
+0018 intent:
+fe0957406aa4016fcaef58a56fa54d884ff1d7f1
+Focused M4C3M tests:
+051f16dc3fbc71baad2e5076fd9f8d51137adaca
+Forward-compatible M4C3L retry-contract correction:
+f0f641ff9af5a15783f18a40bd86a1670dbbc5c4
+Authoritative candidate workflow/source:
+bddedac92573ef773bffe1b6bafd6daac7ecabd0
+Candidate green receipt:
+106af63cda7a0da400194a0a6e9d3bbd166904c9
+Ordinary 0018 publication:
+344d9c1bbc0483dba3fe54e8f474907a917b97d3
+Published exact-chain workflow/source:
+44cbe818e293becd5ffc2fb0602595f3662e3ea9
+Published exact-chain green receipt:
+11c451eb87e3103df2a9a180820f742baed7b146
+M4C3M publication receipt:
+273aafae4ec59d1d1b9950f86f7ff17af2a87d0b
+Final dedicated continuation:
+53cb88b193fab2448951235a150a22c2736f92e9
+Final manifest:
+894fdb33124cad70f3553db3d5c6cc046508b5b6
+
+PATCH 0018
+Path:
+patches/hf2/0018-hf2-client-media-network-retry.patch
+Intent:
+patches/hf2/0018-hf2-client-media-network-retry.intent.patch
+Git blob, both:
+b58497f3a1c3fe9f5798322f5bfa88d84a412c4a
+SHA256:
+fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a
+Diffstat:
+1 file changed, 6 insertions, 2 deletions.
+Runtime file:
+src/noeron/api.py
+Intent/published byte equality:
+VERIFIED
+
+AUTHORITATIVE CANDIDATE CI
+Run:
+35390901864
+Job:
+105748769899
+Source:
+bddedac92573ef773bffe1b6bafd6daac7ecabd0
+Conclusion:
+SUCCESS
+
+Published post0017 baseline:
+373 passed, 2 warnings in 164.52s
+
+Focused M4C3M:
+9 passed in 2.49s
+
+Complete candidate:
+382 passed, 2 warnings in 167.41s
+
+Fresh exact-HF1 replay focused:
+9 passed in 2.56s
+
+Fresh replay complete:
+382 passed, 2 warnings in 166.74s
+
+Candidate/replay source parity:
+PASS
+
+Candidate post0018 source archive SHA256:
+9853ea2cbf882dbd7bc70a0b8fce1f024c3eb050d564b5cfea3e032265dfc7bc
+Candidate carrier archive SHA256:
+c2c792feb1326a926cea8565055f2d79bfca711f555e3bda80d8c4ecf8be2e18
+
+Candidate artifact:
+ID 10566332848
+Name hf2-m4c3m-client-media-network-retry
+Bytes 1071723
+ZIP SHA256:
+0ace192f99e76a09009c9bd24dc25a25464e8379340e8108a3d7f3dcfe7f750e
+Drive ID:
+14OaUqRaLb6E3qdAoI24dsScj-xdKVZiQ
+GitHub/Drive raw equality:
+VERIFIED
+
+FAILED ATTEMPTS — NON-AUTHORIZING
+Run 35389596831:
+baseline 373 PASS; focused 9 PASS; complete 381 pass + 1 stale M4C3L literal-source assertion failure.
+Replay/publication skipped.
+Diagnostic artifact GitHub 10565386263 / SHA 01f5c4e889ab2dd36768b28ab1749a7932922f7a7f1e2b9cd41aa59d14361996.
+Drive ID:
+11cOWkyxndef6OhM5xDHJgaB1BYHbVkJa
+This is NON-GREEN evidence only.
+
+Run 35390539804:
+baseline stopped at 372 pass + 1 failure because the temporarily over-tightened historical M4C3L test required M4C3M syntax BEFORE applying 0018.
+No publication authority.
+The compatibility contract was corrected by f0f641ff9af5a15783f18a40bd86a1670dbbc5c4.
+Redundant historical runs 35390513810 / 35390513848 also failed during that transient test state and published no M4C3M runtime.
+
+PUBLISHED EXACT-HF1 CHAIN THROUGH 0018
+Run:
+35392043131
+Job:
+105752376375
+Source:
+44cbe818e293becd5ffc2fb0602595f3662e3ea9
+Conclusion:
+SUCCESS
+
+- byte-exact HF1 reconstructed;
+- ORIGINAL carrier helpers copied before patching;
+- 0001 through 0018 each passed git apply --check and applied sequentially;
+- patched runtime compiled;
+- complete HF2 suite including M4C3M: 382 passed, 2 warnings in 128.11s;
+- evidence patch_chain exactly 0001,...,0017,0018;
+- 0018 SHA256 exactly fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a;
+- authority boundary preserved;
+- receipt publication succeeded.
+
+Exact-chain receipt:
+docs/evidence/_ci/HF2_EXACT_CHAIN_0018_RESULT.txt
+Git blob:
+bc9b42283a85a0279fb2cc1b7cac791349d36850
+
+Published-chain artifact:
+ID 10565744727
+Name hf2-exact-hf1-patch-chain-evidence
+Bytes 12217
+ZIP SHA256:
+04f4c28ea1f2029143e34b86e11c4a192e114f58e7f65b409b839924bbbc6f6c
+Drive ID:
+1y3VeNphwwxaTJglrt3-56Iekj4ZrAii9
+GitHub/Drive raw equality:
+VERIFIED
+
+DURABLE DOCUMENTATION
+HF2 Drive folder:
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+
+Final M4C3M continuation:
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3M_20260918.txt
+Commit:
+53cb88b193fab2448951235a150a22c2736f92e9
+Git blob:
+9f360d8d2809c6acf75558c51f8c1dc597d3976a
+Drive ID:
+1Vcsp4KWe6KisXSms7GzdlNz4yhdO_1SZx9KzZt71vMY
+GitHub/Drive normalized equality:
+VERIFIED
+
+Final M4C3M manifest:
+GitHub:
+docs/evidence/HF2_M4C3M_20260918_MANIFEST.json
+Commit:
+894fdb33124cad70f3553db3d5c6cc046508b5b6
+Git blob:
+5c37598b1c27939905d724fcf2f4f6abb4430cba
+Drive ID:
+1D-GunTddyHuFKWeB6Ht7MDdsN7YgVMzU2TBUDm87Ecs
+GitHub/Drive normalized equality:
+VERIFIED
+
+Root continuation Drive ID to update in place:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+
+WHAT 0018 ADDS
+- bounded retry of ambiguous fetch/network failure for client playback telemetry;
+- bounded retry of ambiguous response-body JSON-read failure;
+- exact same telemetry payload/playback_session_id reused across retry;
+- HTTP 409 provenance-race retry preserved;
+- explicit non-409 HTTP errors are not retried;
+- no autoplay/programmatic native-audio play;
+- no server schema/model changes;
+- no speech-act consequence-learning changes.
+
+AUTHORITY BOUNDARY
+client_media_telemetry_only=true
+client_network_uncertainty_retry=true
+same_playback_identity_reused=true
+explicit_non409_http_retry=false
+autoplay_added=false
+client_media_event_trains_speech_act=false
+audible_output_confirmed=false
+peer_delivery_confirmed=false
+peer_heard_confirmed=false
+peer_understanding_confirmed=false
+peer_reply_causation_confirmed=false
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_label_authority=false
+cognitive_memory_authority=false
+relationship_authority=false
+source_write_authority=false
+deployment_authority=false
+
+BOUNDARIES THAT MUST REMAIN TRUE
+- Canonical path remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Browser telemetry is provenance only, not cognition.
+- Media-element state is not speaker output or human hearing.
+- Native content, speech-act choice, expression/private continuation, native voice, presentation, server transport, client telemetry and later consequence learning remain separate.
+- Authentication/session/device grants objective access authority only and no preference/familiarity/relationship meaning.
+- SQLite remains persistence/provenance/audit/integrity substrate, not cognitive retrieval.
+- Original native utterance remains primary; decoder/English remains observational/downstream.
+- Terra remains optional/downstream.
+- Live runtime and canonical DB remain untouched.
+- No Stage9/self-upgrade.
+
+KNOWN LIMITATIONS
+- Stable keyed audio DOM and telemetry lifecycle are source-contract tested, not yet verified in a real browser engine.
+- playing/ended remain browser media-element telemetry only.
+- Speaker output, human hearing/listening, attention, understanding and reply causation remain unproved.
+- Arbitrary browser crash/power-loss behavior is not certified.
+- Existing determiner-form parser ambiguity remains visible/proof-gated.
+- Broad conversational completion and new LOCAL/LIVE certification remain unclaimed.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3N
+Verification-first real browser-engine integration of stable keyed native-audio DOM and authenticated playback telemetry on a disposable exact-post0018 Room runtime.
+
+Start verification-only; do NOT create 0019 unless a concrete runtime defect is demonstrated.
+
+Verify:
+1. the same HTMLAudioElement survives unrelated WebSocket snapshot/journal/transport/telemetry updates;
+2. play -> pause/resume -> ended does not manufacture duplicate playback sessions;
+3. reload/session rotation cannot falsely close old session-bound playback;
+4. actual browser network uncertainty retry preserves playback_session_id;
+5. explicit 401/403/422/500 responses do not enter the provenance-retry loop;
+6. no autoplay/programmatic play appears;
+7. client events remain zero hearing/native-choice/preference/relationship/cognitive-memory authority.
+
+If existing runtime passes, seal M4C3N verification-only with no 0019.
+If a concrete defect exists, patch only it through exact baseline + focused candidate + complete candidate + fresh replay + separate published-chain CI.
+
+Do not broaden M4C3N into microphone/camera surveillance, speaker-output inference, human-hearing inference, generic multimodal conversation, Stage9 or self-upgrade.
+
+Historical M4C3L and earlier sections follow. Their older next-task statements are superseded by M4C3N.
+
+
+
 LATEST VERIFIED CHECKPOINT — M4C3L / PUBLISHED 0017 — 2026-09-18 UTC
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
