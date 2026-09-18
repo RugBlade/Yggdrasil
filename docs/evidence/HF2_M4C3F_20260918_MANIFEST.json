@@ -1,0 +1,151 @@
+{
+  "schema": "yggdrasil-hf2-milestone-evidence-v1",
+  "milestone": "M4C3F",
+  "date": "2026-09-18",
+  "status": "PUBLISHED_AND_EXTERNALLY_VERIFIED",
+  "stage8b_status": "IN PROGRESS",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "pre_documentation_head": "2b357b8b46ce8979831982150b5a900c950de2ad",
+  "dedicated_continuation_commit": "d7470a6e51ae0dcfd6db66eabb91f871d70ee8fb",
+  "candidate_source_commit": "f6be278a2523222ccffe9c6baa72cc136ef39163",
+  "candidate_receipt_commit": "30f05d00538ae10ed482a9d0d980f43ff13ace8a",
+  "runtime_publication_commit": "0cc14f810904f196395c906707cf4edff37c4d03",
+  "exact_chain_workflow_commit": "86010c3316461be3a5f2385a5dec284ac92cf2f6",
+  "exact_chain_receipt_commit": "2b357b8b46ce8979831982150b5a900c950de2ad",
+  "authority": {
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority_from_receipt": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_runtime_authority": false,
+    "deployment_authority": false,
+    "peer_delivery_confirmed": false,
+    "peer_read_confirmed": false,
+    "peer_understanding_confirmed": false,
+    "peer_reply_causation_confirmed": false
+  },
+  "hf1_zip_sha256": "79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29",
+  "patch_chain": "0001-0013",
+  "patch0013": {
+    "path": "patches/hf2/0013-hf2-local-noncontent-execution-receipt.patch",
+    "sha256": "9f9429c4deb011c3366625739385422e63157fe0002f9c0fc41701fd59158e8f",
+    "git_blob": "ff80d79595d2f710ac3bcc7034a0cd1e8c2035e5",
+    "changed_files": 2,
+    "insertions": 134,
+    "deletions": 13,
+    "runtime_files": [
+      "src/noeron/cognition/models.py",
+      "src/noeron/orchestrator.py"
+    ]
+  },
+  "intent0013": {
+    "path": "patches/hf2/0013-hf2-local-noncontent-execution-receipt.intent.patch",
+    "sha256": "60ed36ebae64529083985e5a811d1f66932208ee4695c365646d9c77668fca2d",
+    "git_blob": "fe41d99fa0eaf99655b5d319dc90ef0b34e970e4",
+    "commit": "36dd5f774a875cb746e29bbe1a506cc3d5a8536f",
+    "audit_status": "PASS"
+  },
+  "tests": {
+    "path": "tests/hf2_m4c3f/test_noncontent_execution_receipt.py",
+    "git_blob": "dd9350ce827a859cff352cc6f27fe414fe96e158",
+    "commit": "83dbad40affdc1c26360626d99d050bbf6a581a3",
+    "focused_case_count": 15
+  },
+  "workflows": {
+    "candidate": ".github/workflows/hf2-milestone4c3f.yml",
+    "candidate_final_race_safe_commit": "f6be278a2523222ccffe9c6baa72cc136ef39163",
+    "exact_chain": ".github/workflows/hf2-exact-hf1-patch-chain.yml",
+    "exact_chain_commit": "86010c3316461be3a5f2385a5dec284ac92cf2f6"
+  },
+  "ci": {
+    "candidate": {
+      "run_id": 35346309224,
+      "job_id": 105603590397,
+      "conclusion": "success",
+      "baseline_tests": 291,
+      "candidate_tests": 306,
+      "replay_tests": 306,
+      "failures": 0,
+      "baseline_warnings": 2,
+      "candidate_warnings": 2,
+      "replay_warnings": 2,
+      "baseline_seconds": 21.04,
+      "candidate_seconds": 22.11,
+      "replay_seconds": 21.75,
+      "artifact_id": 10547386396,
+      "artifact_bytes": 905629,
+      "artifact_sha256": "c155321ec916dc5ccc35dc9366c3dad5c7a845a733b1a64e6d37b37c60516829",
+      "source_archive_sha256": "9deee754411b52fc6c94adddbd55f00fc3e671829730a8f9747274a834d96e04",
+      "carrier_archive_sha256": "a023e798f5a90bbb055d4737bc056f9d0a5703291ca577bc13009e775017fdf6",
+      "source_byte_parity": true,
+      "patch_generated_only_after_candidate_green": true
+    },
+    "published_chain": {
+      "run_id": 35354898382,
+      "job_id": 105631741124,
+      "conclusion": "success",
+      "tests_passed": 306,
+      "failures": 0,
+      "warnings": 2,
+      "seconds": 21.95,
+      "artifact_id": 10551511188,
+      "artifact_bytes": 9721,
+      "artifact_sha256": "a624f100c21b1c79a1a70909dbce10d2ad8fcd56f1d7c489f00ac28b1c3e6edd",
+      "patch_chain": "0001-0013"
+    }
+  },
+  "runtime_source_sha256": {
+    "src/noeron/inference.py": "9c55bb6753d12649aa8706e6e4d73d4dfab96606b3c6ed4eaddacc582df976a7",
+    "src/noeron/models.py": "a91dfaeb3e11a3a5109044183c931ca50409931844d3b467f07b92632d3780b7",
+    "src/noeron/orchestrator.py": "7cbc6fce619a15bd5122cc5b96db85066c465aff81af97fe76b14203342b7cbe",
+    "src/noeron/api.py": "115584fb3f1908b931040063a4d607f2cb6bf9a1ddeaf3500f5a9c34cc76681d",
+    "src/noeron/math/models.py": "eef4d3e87ee61da7797e69d773accf4aaa598d2c00139ee851e1e6bb7b6da455",
+    "src/noeron/reasoning.py": "f8b32e87be66e1c53402fbf701c81fd69553907f76187f2cc5856e290cd0d9dc",
+    "src/noeron/math/kernel.py": "68602443e01b5a855e9d6d09593d5f7466fdbf2db4cf77f22e55a02f04174287",
+    "src/noeron/cognition/models.py": "786231e57f3f906f8941dca5386f2c92a16aa23c8605995e8a83e60f1dd809b0",
+    "src/noeron/conversation_actions.py": "1e9b36b9f693ef9848417a52d3cc18ea09b5c0f151a8c5fea830a3a7520a07f5",
+    "src/noeron/conversation_resolution.py": "ea1ead068b8c68bd34d5d852a2918634ae272c692e37831a77f1a1bb63057191",
+    "src/noeron/development.py": "dc38d2663953f7bf6ee2158178eb3883500c9fc5452de2648f094613bbc1d57c",
+    "src/noeron/english_egress.py": "dc8d5456304cac3fca9cb17a48de2da079315ba6b3988cbb609bdf07f4c70c83"
+  },
+  "drive": {
+    "folder_id": "16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO",
+    "candidate_evidence": {
+      "id": "1L2TvMv8E9Wx9IKbPhYPV7QWIVQ92-kXS",
+      "name": "HF2_M4C3F_LOCAL_NONCONTENT_EXECUTION_RECEIPT_20260918.zip",
+      "sha256": "c155321ec916dc5ccc35dc9366c3dad5c7a845a733b1a64e6d37b37c60516829",
+      "github_byte_equal": true
+    },
+    "published_chain_evidence": {
+      "id": "1gpgVQ3CDhzKNSBZXnV4RdX7rJ93Pwn6Q",
+      "name": "HF2_EXACT_HF1_PATCH_CHAIN_0001_0013_EVIDENCE_20260918.zip",
+      "sha256": "a624f100c21b1c79a1a70909dbce10d2ad8fcd56f1d7c489f00ac28b1c3e6edd",
+      "github_byte_equal": true
+    },
+    "candidate_continuation_id": "1l7lF09oVAtjhQhqHwRMlSIfI2L6xeUF8",
+    "verified_continuation_id": "1jL_kG7cDIUg-pAcP8dJhlDm4XCnkE-Uq",
+    "verified_continuation_raw_byte_equal": false,
+    "verified_continuation_normalized_content_equal": true,
+    "verified_continuation_normalization": "strip UTF-8 BOM; CRLF/CR to LF; collapse each >=3 LF paragraph run to two LF; ignore trailing LF",
+    "root_continuation_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1"
+  },
+  "documentation": {
+    "continuation_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3F_20260918.txt",
+    "continuation_git_blob": "2941fd8e8dde283105e057785ddf4aa7555371be",
+    "continuation_commit": "d7470a6e51ae0dcfd6db66eabb91f871d70ee8fb"
+  },
+  "scope": "Local no-content execution receipt semantics for genuinely native-selected defer/remain-silent while preserving zero transport/peer-uptake claims and later consequence-learning gates.",
+  "limits": [
+    "Stage8B remains IN PROGRESS; no live runtime or canonical database touched and no certification claim.",
+    "M4C3F does not yet prove true same-database process restart/recovery with a pending execution receipt.",
+    "Process-crash timing during persistence is not certified.",
+    "Native audio and other non-HTTP content receipt adapters remain unimplemented.",
+    "Existing determiner-form parser ambiguity remains visible/proof-gated."
+  ],
+  "next": "M4C3G: true same-database restart/recovery verification for pending clarify/ask and defer/remain-silent execution receipts, including at-most-once later consequence consumption, without publishing 0014 unless candidate and fresh replay are green."
+}
