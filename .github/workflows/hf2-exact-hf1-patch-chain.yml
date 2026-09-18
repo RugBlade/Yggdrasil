@@ -12,6 +12,7 @@ on:
       - 'patches/hf2/0003-hf2-native-bounded-dialogue-reasoning.patch'
       - 'patches/hf2/0004-hf2-proof-provenance-ambiguity-runtime-gate.patch'
       - 'patches/hf2/0005-hf2-native-resolution-state-audit.patch'
+      - 'patches/hf2/0006-hf2-speech-act-consequence-learning.patch'
       - 'src/noeron/conversation_*.py'
       - 'tests/test_v082_hf2_*.py'
       - 'scripts/verify_hf1_exact_fixture.py'
@@ -58,7 +59,7 @@ jobs:
             cp "src/noeron/$f" "$FIX/src/noeron/$f"
           done
 
-      - name: Apply 0001 through 0005 sequentially
+      - name: Apply 0001 through 0006 sequentially
         shell: bash
         run: |
           set -euo pipefail
@@ -73,7 +74,8 @@ jobs:
             0002-hf2-current-turn-runtime-bridge.patch \
             0003-hf2-native-bounded-dialogue-reasoning.patch \
             0004-hf2-proof-provenance-ambiguity-runtime-gate.patch \
-            0005-hf2-native-resolution-state-audit.patch
+            0005-hf2-native-resolution-state-audit.patch \
+            0006-hf2-speech-act-consequence-learning.patch
           do
             echo "CHECK $p"
             git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
@@ -121,12 +123,12 @@ jobs:
         run: |
           set -euo pipefail
           {
-            echo "gate=HF2 exact HF1 patch chain 0001-0005"
+            echo "gate=HF2 exact HF1 patch chain 0001-0006"
             echo "certification_claim=false"
             echo "live_runtime_touched=false"
             echo "canonical_db_touched=false"
             echo "base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29"
-            echo "patch_chain=0001,0002,0003,0004,0005"
+            echo "patch_chain=0001,0002,0003,0004,0005,0006"
             sha256sum \
               "$FIX/src/noeron/inference.py" \
               "$FIX/src/noeron/models.py" \
