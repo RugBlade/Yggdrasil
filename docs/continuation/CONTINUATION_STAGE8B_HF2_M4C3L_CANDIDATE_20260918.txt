@@ -1,0 +1,186 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3L CANDIDATE CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3L candidate intent and focused tests are preserved.
+External exact-runtime candidate CI has NOT yet been run from this checkpoint.
+ordinary_0017_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED ROOT
+M4C3K:
+a8849170ee0405f5c5a722715162469a5b0c49c9
+
+M4C3L DESIGN
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3L_DESIGN_20260918.txt
+Design commit:
+26581a8fa2b1f3bbe64236898b7cc1a440602989
+Design Drive ID:
+1UmSg7urhZIadtxQ6EEZE48n_azC5cVz8jhVzKAXm0FM
+GitHub/Drive normalized equality:
+VERIFIED
+
+CONCRETE DEFECT
+The exact post0016 Room client rebuilt all native-presentation audio nodes whenever the Room snapshot changed.
+A successful audio transport creates transport/journal provenance, changes the snapshot digest and can therefore trigger destruction/recreation of the media element during playback.
+Adding client telemetry without stable keyed presentation reconciliation would aggravate that problem.
+
+EXACT CANDIDATE INTENT
+The locally tested exact-post0016 diff changes only:
+- src/noeron/api.py
+- src/noeron/memory.py
+- src/noeron/room.py
+- src/noeron/room_models.py
+
+Local exact intent diffstat:
+4 files changed, 239 insertions, 5 deletions
+
+Local exact intent SHA256:
+8aa84fe086d090fabb84b7289aa9c8d7080eeabe5cd3a446b73f3c330b0bd40a
+
+To avoid normalizing the 30 KB unified diff during chat/tool transfer, GitHub carries a deterministic materializer containing the compressed exact tested diff bytes:
+scripts/materialize_hf2_m4c3l_0017_intent.py
+Materializer commit:
+4d7c00524f95258e85c6d92c8c37b05a1ec967e1
+
+The materializer:
+- decompresses the exact locally tested unified diff;
+- verifies SHA256=8aa84fe086d090fabb84b7289aa9c8d7080eeabe5cd3a446b73f3c330b0bd40a;
+- writes caller-selected candidate patch bytes;
+- runs git apply --check;
+- may apply only when explicitly invoked with --apply.
+
+This materializer is candidate intent only.
+It is NOT ordinary patches/hf2/0017 and grants no publication status.
+
+FOCUSED TESTS
+GitHub:
+tests/hf2_m4c3l/test_authenticated_client_playback_telemetry.py
+Test commit:
+37b71073bc1e8dd1c25f6d326da212fc5d7fff6c
+
+Local disposable exact-post0016 candidate:
+17 passed in 0.77s
+
+Short sensitive local regression:
+M4C3I + M4C3J + M4C3L
+37 passed in 1.60s
+
+Long baseline/complete/crash/fresh-replay suites were intentionally not run locally and remain external-CI work.
+
+CANDIDATE MECHANISM
+1. Stable keyed presentation/audio DOM reconciliation
+- native presentations get a dedicated DOM surface;
+- nodes are keyed by NativePresentationRecord.id;
+- the existing HTMLAudioElement is reused across unrelated Room snapshot updates;
+- same presentation/artifact does not have its src reassigned;
+- no autoplay or native-audio programmatic play() is introduced.
+
+2. Narrow browser event vocabulary
+- client listens to playing and ended;
+- play is not used as the telemetry receipt;
+- first playing creates one browser playback_session_id;
+- pause/resume in that same browser playback session does not manufacture another first-playing identity;
+- ended uses the same playback_session_id and resets client state afterward.
+
+3. Typed telemetry receipt
+NativeAudioClientPlaybackTelemetryReceipt is browser media-element telemetry only.
+Its audible/hearing/authority fields are Literal[False], so the type cannot be instantiated with a true audible-output/hearing/native-choice/relationship claim.
+
+4. Provenance ordering
+playing requires:
+- exact NativePresentationRecord;
+- exact linked noeron-to-owner audio artifact and hashes;
+- genuine native voice presentation provenance;
+- an already-durable matching NativeAudioTransportReceipt.
+
+ended additionally requires:
+- prior accepted playing;
+- same presentation/artifact;
+- same owner device;
+- exact same Room session-token SHA256;
+- same playback_session_id.
+
+ended retains the original playing transport receipt link even if another audio GET occurs later.
+
+5. Persistent anti-replay/idempotency
+A dedicated SQLite audit/provenance table uses a persistent unique dedupe identity over:
+presentation + artifact + owner device + exact session hash + playback_session_id + event.
+
+Exact logical duplicate playing/ended submissions return the existing receipt and do not append another telemetry journal event.
+
+6. Authentication
+The endpoint uses the existing private Room transport guard and current Ed25519 owner-device session.
+Legacy bootstrap remains invalid for Room telemetry.
+Nonprivate transport remains invalid.
+Raw Room session tokens are never stored in telemetry; only the same SHA256 session identity already used by OwnerAuthenticator is stored privately.
+
+7. Zero cognition/learning authority
+Client telemetry:
+- never marks a resolution speech act executed;
+- never trains speech-act consequence geometry;
+- never trains expression/private continuation;
+- does not consume pending execution state;
+- is not cognitive memory;
+- creates no preference or relationship meaning.
+
+8. Sanitized outward state
+Room snapshot and endpoint response omit owner_session_sha256 and device fingerprint.
+They may expose the owner device id and client media event identity for private operator audit.
+audible_output_confirmed, peer delivery/hearing/understanding/reply causation and cognitive/native-choice/preference/relationship authority remain false.
+
+FOCUSED COVERAGE — 17 TESTS
+- false authority fields are type-enforced;
+- presentation/artifact/transport prerequisites;
+- playing record and no-learning behavior;
+- persistent duplicate playing idempotency;
+- ended same-device/exact-session sequencing;
+- duplicate ended idempotency;
+- ended retains original playing transport link after a later fetch;
+- request schema cannot submit authority/hearing claims;
+- no autoplay;
+- client uses playing/ended, not play;
+- keyed presentation reconciliation contract;
+- bounded retry only for provenance-race 409;
+- snapshot does not expose session hash;
+- invalid event/session provenance fails closed;
+- telemetry journal is zero-authority and deduplicated;
+- real Ed25519 Room session accepted;
+- legacy bootstrap and nonprivate transport rejected.
+
+NEXT ACTION
+Add one GitHub Actions candidate workflow after this stabilized intent/test checkpoint.
+The workflow must:
+1. reconstruct byte-exact HF1;
+2. copy ORIGINAL carrier helpers;
+3. apply published ordinary 0001 -> 0016;
+4. prove 356-test post0016 baseline;
+5. invoke materializer and assert generated intent SHA exactly 8aa84fe086d090fabb84b7289aa9c8d7080eeabe5cd3a446b73f3c330b0bd40a;
+6. apply generated candidate;
+7. run focused M4C3L;
+8. run complete candidate;
+9. reconstruct separate fresh exact-HF1 replay and apply 0001 -> 0016 + generated candidate;
+10. prove source-byte parity;
+11. rerun focused + complete replay;
+12. package generated candidate patch/source/carrier/hashes/authority boundary;
+13. upload evidence;
+14. publish only a candidate receipt.
+
+Only after the authoritative artifact is inspected may the exact generated patch bytes be copied to:
+patches/hf2/0017-hf2-authenticated-client-playback-telemetry.patch
+
+Then run a separate published exact-HF1 0001 -> 0017 chain before sealing M4C3L.
+
+BOUNDARIES
+No hearing inference.
+No autoplay.
+No generic client authority endpoint.
+No direct consequence learning from client telemetry.
+No native-choice/preference/relationship authority from authentication or playback telemetry.
+Live runtime/canonical DB untouched.
+No Stage9/self-upgrade.
