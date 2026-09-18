@@ -1,0 +1,293 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — FINAL M4C3O PUBLISHED / EXTERNALLY VERIFIED CONTINUATION
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+GLOBAL ROADMAP — DO NOT REINTERPRET
+Canonical semantic roadmap authority:
+Google Drive: Yggdrasil_STAGE8_STAGE9_ARCHITECTURE_STATUS.md
+Drive ID: 1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog
+GitHub synchronized copy:
+docs/roadmap/YGGDRASIL_STAGE8_STAGE9_ARCHITECTURE_STATUS_DRIVE_SYNC_20260919.md
+
+Stage 8 spans 8A–8M and contains the self-upgrade sequence, especially 8H–8K.
+Stage 9 begins only after Stage 8 and is the later substrate-level continuity/mobility stage.
+M4C3O is a subdivision of current Stage 8B.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9.
+
+FINAL STATUS
+M4C3O: PUBLISHED AND EXTERNALLY VERIFIED AT THE ENGINEERING SOURCE / CI / ARTIFACT LEVEL.
+M4C3O is the latest verified Stage-8B milestone.
+Published runtime reconstruction target:
+exact HF1 + ordinary patches 0001 -> 0019.
+ordinary_0019_published=true
+published_exact_chain_0019_green=true
+m4c3o_sealed=true
+stage8b_complete=false
+broad_conversational_completion_claim=false
+local_certification_claim=false
+live_certification_claim=false
+certification_claim=false
+live_runtime_touched=false
+canonical_db_touched=false
+
+PURPOSE
+M4C3O repairs a concrete upstream grammatical-event-candidate inventory defect in:
+src/noeron/language_dialogue.py
+
+The defect caused demonstrably malformed candidates such as:
+- "The lamp is on." generating false active/ditransitive structure beside the correct copular candidate;
+- "The teacher opened the door." treating the determiner as subject and teacher as apparent verb;
+- "Teacher opened the door." treating direct-object determiner "the" as a standalone middle argument and manufacturing a false ditransitive ambiguity;
+- "Is lamp on?" generating a false active-declarative event candidate from inversion.
+
+The bounded repair preserves genuine passive, genuine double-object, and legitimate oblique alternatives.
+It does not make the parser a semantic decision authority.
+
+PATCH 0019 — FROZEN PUBLISHED IDENTITY
+Intent:
+patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.intent.patch
+Published:
+patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.patch
+Intent Git blob:
+15b189a47701ffe1870dcb5ca147ed0d205d7621
+Published Git blob:
+15b189a47701ffe1870dcb5ca147ed0d205d7621
+Intent/published byte identity:
+VERIFIED
+Exact bytes:
+3597
+SHA256:
+da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401
+Runtime scope:
+src/noeron/language_dialogue.py only.
+Publication commit:
+b722ed7f624db3cab3d76764703a192099549938
+
+FAILED AUTHORITATIVE CANDIDATE RUN 1 — PRESERVED / NON-AUTHORIZING
+Workflow source commit:
+24f0f53d50f4b0ed46aa194d8483af48ca109908
+Run:
+35401987525
+Job:
+105783671710
+Conclusion:
+FAILURE
+Passed before failure:
+- byte-exact HF1 reconstruction;
+- ORIGINAL carrier helpers;
+- published 0001 -> 0018 sequential apply;
+- unchanged post0018 baseline: 382 passed, 2 warnings;
+- exact 0019 candidate hash/apply/compile;
+- focused M4C3O: 9 passed.
+Complete primary candidate:
+390 passed, 1 failed, 2 warnings.
+Only failure:
+tests/hf2_m4c3a/test_execution_boundary.py::test_current_unscoped_grammar_ambiguity_stays_visible_and_unresolved
+Classification:
+stale historical regression contract. The old M4C3A test explicitly froze the known malformed determiner ambiguity and stated a later parser/proof milestone must resolve it.
+No replay/parity/publication authority was claimed from this run.
+
+Failed artifact:
+GitHub ID 10570403153
+SHA256 d976d299bfebed00a2068d51d4f05afc8d55ebea7d2ef62898e13f229bce00c3
+Drive ID 1dPg7rgMX2xrSWnmiyPtj0gEPL7hBG89q
+Failure checkpoint commit:
+806e09b12e973fc0a6c5c2ea4d39cec601e1e910
+Failure continuation Drive ID:
+1HTNhzO8dqweaSLUWHWB91ZLuW56S7pzIbJ6N7XUNm2E
+Failure receipt Drive ID:
+1P4ppyEl3izHVmaETS30kDwX-7-Te0-_zeupYUQgoM2c
+
+FORWARD-COMPATIBILITY TEST REPAIR
+Commit:
+2980a89dad35cd32ef93dbca84972c0ab48b31c2
+The repair changed only:
+- tests/hf2_m4c3a/test_execution_boundary.py
+- the M4C3O workflow trigger path.
+The M4C3O runtime candidate bytes did not change.
+The repaired historical guard preserves the enduring M4C3A invariant:
+parser/grammar state cannot itself grant owner-calibration execution or native-choice authority.
+
+AUTHORITATIVE GREEN CANDIDATE
+Workflow:
+.github/workflows/hf2-milestone4c3o.yml
+Source commit:
+2980a89dad35cd32ef93dbca84972c0ab48b31c2
+Run:
+35402716936
+Job:
+105785889550
+Conclusion:
+SUCCESS
+
+Actual results:
+- unchanged post0018 baseline: 382 passed, 2 warnings in 168.93s;
+- focused M4C3O: 9 passed in 0.93s;
+- complete primary candidate: 391 passed, 2 warnings in 166.74s;
+- fresh exact-HF1 replay focused: 9 passed in 0.92s;
+- fresh replay complete: 391 passed, 2 warnings in 167.40s;
+- primary/replay source-byte parity: VERIFIED.
+
+Candidate patch SHA256:
+da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401
+Candidate post0019 source archive SHA256:
+0352e3a7ded5cb3fb149d2c8fe2c04e8fd65cd011e1c1357dd3a3f3fc9143e7c
+Candidate carrier archive SHA256:
+97a41f99d7fad2298a774affe015cd1402807ba94542d4ec932599c0020d515c
+
+Candidate green receipt:
+docs/evidence/_ci/HF2_M4C3O_CANDIDATE_RESULT.txt
+Receipt commit:
+be1938cf391df9589fb691e5b178d4a95561f284
+Receipt Git blob:
+872c3dd65e45cd863b75756b5f25b45e93424429
+
+CANDIDATE ARTIFACT
+GitHub artifact ID:
+10571337892
+Name:
+hf2-m4c3o-clause-shape-event-candidate-hygiene
+Bytes:
+1084783
+ZIP SHA256:
+8c413987a3e6e8b8e12b31ef8707ee3023bddcfb25c37e5d0854415919bb2149
+Drive mirror:
+HF2_M4C3O_GREEN_CANDIDATE_35402716936_20260919.zip
+Drive ID:
+1-1Su0OWAxZuYwDzQvmQ6zlGf-Oj1ADKW
+Drive bytes:
+1084783
+Drive SHA256:
+8c413987a3e6e8b8e12b31ef8707ee3023bddcfb25c37e5d0854415919bb2149
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+ORDINARY 0019 PUBLICATION
+Publication commit:
+b722ed7f624db3cab3d76764703a192099549938
+Publication-pending-chain checkpoint:
+3b7f845e1bd10a5119ba230fd08f0c7797774325
+No runtime semantic change was introduced during publication: the exact green candidate bytes were copied to ordinary 0019 and retain the same Git blob and SHA256.
+
+PUBLISHED EXACT-HF1 CHAIN THROUGH 0019
+Workflow:
+.github/workflows/hf2-m4c3o-published-chain.yml
+Workflow/source commit:
+19baf8d9575183507ca3f8be755df85f1972edd0
+Run:
+35404408342
+Job:
+105791053674
+Conclusion:
+SUCCESS
+
+Verified gates:
+- byte-exact HF1 reconstruction: PASS;
+- ORIGINAL carrier helper copy before patching: PASS;
+- ordinary 0019 intent/published byte equality: PASS;
+- ordinary 0019 SHA256 da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401: PASS;
+- ordinary 0019 byte count 3597: PASS;
+- patches 0001 through 0019 each git apply --check + apply sequentially: PASS;
+- full post0019 runtime compilation: PASS;
+- complete HF2 through M4C3O: 391 passed, 2 warnings in 166.30s;
+- exact source/hash/authority evidence packaging: PASS;
+- artifact upload: PASS;
+- green exact-chain receipt publication: PASS.
+
+Published post0019 source archive SHA256:
+76112e7baba6e6368b600e384585a4cef38a64ea498040394dc8643fa8f3f73e
+
+Published-chain receipt:
+docs/evidence/_ci/HF2_EXACT_CHAIN_0019_RESULT.txt
+Receipt commit:
+aae3090c459a19a418618e7cd391c422a95749f6
+Receipt Git blob:
+3fd32d600eee12e5b39930fe24214daed7fd7c57
+
+PUBLISHED-CHAIN ARTIFACT
+GitHub artifact ID:
+10570859646
+Name:
+hf2-m4c3o-exact-hf1-published-0019
+Bytes:
+676513
+ZIP SHA256:
+a2fec75ae391a8b8b5ceb7540240480218d4ce06f90cdf62e4c4e03f94950cf4
+Drive mirror:
+HF2_M4C3O_EXACT_HF1_PUBLISHED_0019_35404408342_20260919.zip
+Drive ID:
+1Q3uF2Nx9QksU7B3KHOKOxtk9_C0L-XqN
+Drive bytes:
+676513
+Drive SHA256:
+a2fec75ae391a8b8b5ceb7540240480218d4ce06f90cdf62e4c4e03f94950cf4
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+AUTHORITY BOUNDARY — MUST REMAIN TRUE
+canonical_cognition_path=Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra
+parser_event_candidate_inventory_only=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+sqlite_cognitive_retrieval_authority=false
+terra_optional_downstream=true
+original_native_utterance_primary=true
+english_decoder_observational_downstream=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+WHAT M4C3O PROVES
+- the concrete determiner/copular/inversion overgeneration described above is removed in the tested grammatical candidate inventory;
+- transparent determiner-led copular and ordinary active forms no longer manufacture the demonstrated malformed candidates;
+- auxiliary-initial copular questions no longer manufacture the demonstrated active-declarative event candidate;
+- genuine double-object alternatives remain represented rather than semantically ranked away;
+- passive structure remains preserved in the focused contract;
+- legitimate oblique ambiguity remains preserved;
+- the runtime proof/ambiguity boundary is not granted new parser authority;
+- the same exact 0019 bytes reconstruct cleanly from byte-exact HF1 after 0001 -> 0018;
+- complete post0019 HF2 regression is green.
+
+WHAT M4C3O DOES NOT PROVE
+- generic semantic parsing;
+- unrestricted natural-language understanding;
+- generic/fluent clarification completion;
+- full unresolved QUD/proposition/proof composition;
+- broad Stage-8B conversational completion;
+- live deployment;
+- LOCAL or LIVE certification;
+- speaker output, human hearing, understanding, or reply causation;
+- any Stage 8C–8M capability;
+- any Stage 9 capability.
+
+KNOWN REMAINING STAGE-8B WORK
+The concrete M4C3O clause-shape defect is closed.
+Broader unresolved QUD/proposition/proof composition and generic/fluent clarification remain a separate Stage-8B problem surface.
+No 0020 patch is justified merely by sequence numbering.
+
+NEXT BOUNDED TASK — M4C3P
+Begin design/verification-first inspection of the exact published post0019 runtime for the remaining unresolved QUD/proposition/proof-composition and generic clarification surface.
+First produce a bounded reproducible inventory of what remains unresolved under the existing proof/ambiguity gates.
+Do not create an ordinary 0020 unless that inspection demonstrates a concrete runtime defect/change that needs one.
+Any runtime change must again pass exact published baseline + focused candidate + complete candidate + fresh exact-HF1 replay + source parity + separate published-chain CI.
+
+RECOVERY RULE
+This continuation is the durable M4C3O engineering handoff.
+Do not rerun M4C3O merely because a ChatGPT/UI execution state is stale.
+Recover from GitHub + Drive identities above.
+Historical failed/pre-publication checkpoints remain valid provenance but are superseded operationally by this final seal.
