@@ -1,0 +1,474 @@
+diff --git a/src/noeron/cognition/models.py b/src/noeron/cognition/models.py
+index 62c90f56fb40447641cdb993c84d1bedb9eeaff2..a91dee6a9682de753c4e21ffc452189dacbbeb79 100644
+--- a/src/noeron/cognition/models.py
++++ b/src/noeron/cognition/models.py
+@@ -669,12 +669,19 @@ class MathematicalProvenance(BaseModel):
+ 
+ 
+ class NativeResolutionContent(BaseModel):
+-    """Current-turn alternatives/questions, never proposition assertions.
++    """Typed current-turn alternatives/questions, never proposition assertions.
+ 
+-    Selection provenance lives in the enclosing thought/audit. Serialization of
+-    this content is neither execution evidence nor cognitive memory.
++    ``kind`` says which already-observed current-turn field supplied the content.
++    It does not make that field true, choose among alternatives, choose a speech
++    act, or prove that an alternative is the intended interpretation. Selection
++    provenance lives in the enclosing thought/audit. Serialization of this content
++    is neither execution evidence nor cognitive memory.
+     """
+     act: Literal['clarify', 'ask']
++    kind: Literal[
++        'reference-alternatives', 'event-role-alternatives', 'qud-alternatives',
++        'proposition-alternatives', 'proof-alternatives', 'existing-native-question',
++    ] = 'reference-alternatives'
+     source_event_id: UUID
+     source_id: str
+     focus_surface: str = ''
+@@ -682,6 +689,11 @@ class NativeResolutionContent(BaseModel):
+     existing_question: str = ''
+     source_units: list[str] = Field(default_factory=list)
+     unresolved: Literal[True] = True
++    semantic_truth_authority: Literal[False] = False
++    answer_authority: Literal[False] = False
++    candidate_ranking_authority: Literal[False] = False
++    speech_act_selection_authority: Literal[False] = False
++    reference_resolution_authority: Literal[False] = False
+ 
+ 
+ class NativeThought(BaseModel):
+diff --git a/src/noeron/conversation_resolution.py b/src/noeron/conversation_resolution.py
+index b296c9b8af8d59ab8c0d057e592dfda1c514aec0..9a2161e83adfb5de4e49deb57cf09b43f169df09 100644
+--- a/src/noeron/conversation_resolution.py
++++ b/src/noeron/conversation_resolution.py
+@@ -14,6 +14,7 @@ remain-silent author no semantic content.
+ """
+ 
+ from dataclasses import dataclass
++import json
+ from typing import Iterable, Mapping, Sequence
+ 
+ 
+@@ -118,16 +119,14 @@ def _ask_candidates(existing_question_candidates: Sequence[str]) -> tuple[Resolu
+     return tuple(out)
+ 
+ 
+-def native_resolution_sources(
+-    structure: Mapping[str, object], existing_questions: Sequence[str] = (),
+-) -> tuple[tuple[ResolutionContentCandidate, ...], tuple[ResolutionContentCandidate, ...]]:
+-    """Validate native content availability; never choose an act or alternative.
++def _strict_string_alternatives(raw: object) -> tuple[str, ...]:
++    if not isinstance(raw, list) or len(raw) < 2 or any(not isinstance(x, str) or not x.strip() for x in raw):
++        return ()
++    values = tuple(x.strip() for x in raw)
++    return values if len(set(values)) == len(values) else ()
+ 
+-    Only explicit unresolved reference sets supported by the same current parse
+-    are admitted in M4C3B. Event-role diagnostic labels are not semantic units.
+-    Reject malformed sets as a whole; filtering out a bad member could invent a
+-    smaller alternative set. The caller must bind this structure to the event.
+-    """
++
++def _reference_resolution_candidates(structure: Mapping[str, object]) -> tuple[ResolutionContentCandidate, ...]:
+     refs = structure.get("reference_candidates")
+     ambiguities = structure.get("ambiguities")
+     tokens = structure.get("tokens")
+@@ -139,24 +138,163 @@ def native_resolution_sources(
+             if (raw.get("status") != "ambiguous-alternatives-preserved"
+                     or raw.get("authority") != "grammatical-reference-candidate-only"):
+                 continue
+-            index = raw.get("token_index")
+-            focus = raw.get("surface")
+-            alternatives = raw.get("candidates")
++            index = raw.get("token_index"); focus = raw.get("surface")
++            alternatives = _strict_string_alternatives(raw.get("candidates"))
+             if (type(index) is not int or not 0 <= index < len(tokens)
+-                    or not isinstance(focus, str) or not focus.strip()
+-                    or tokens[index] != focus
+-                    or not isinstance(alternatives, list) or len(alternatives) < 2
+-                    or any(not isinstance(x, str) or not x.strip() for x in alternatives)):
+-                continue
+-            if len(set(x.strip() for x in alternatives)) != len(alternatives):
++                    or not isinstance(focus, str) or not focus.strip() or tokens[index] != focus
++                    or not alternatives):
+                 continue
+             keys = ("surface", "token_index", "candidates", "status", "authority")
+             if not any(isinstance(ref, Mapping) and all(ref.get(k) == raw.get(k) for k in keys) for ref in refs):
+                 continue
+-            # Keep occurrence identity and source order; do not collapse two tokens.
+             valid.append({**{k: raw[k] for k in keys}, "kind": "reference", "id": f"reference-token-{index}"})
++    legacy = _clarification_candidates({"ambiguities": valid})
++    return tuple(
++        ResolutionContentCandidate(
++            act=row.act, kind="reference-alternatives", source_id=row.source_id,
++            focus_surface=row.focus_surface, alternatives=row.alternatives,
++            existing_question=row.existing_question, source_units=row.source_units,
++        )
++        for row in legacy
++    )
++
++
++def _event_role_resolution_candidates(structure: Mapping[str, object]) -> tuple[ResolutionContentCandidate, ...]:
++    events = structure.get("event_candidates"); rows = structure.get("event_role_alternatives")
++    if not isinstance(events, list) or not isinstance(rows, list):
++        return ()
++    out = []
++    for raw in rows:
++        if (not isinstance(raw, Mapping) or raw.get("status") != "ambiguous-alternatives-preserved"
++                or raw.get("authority") != "grammatical-event-role-candidate-only"):
++            continue
++        alternatives = _strict_string_alternatives(raw.get("candidates"))
++        sentence_index = raw.get("sentence_index"); event_index = raw.get("event_index")
++        source_id = raw.get("source_id"); slot = raw.get("role_slot"); surface = raw.get("surface")
++        if (type(sentence_index) is not int or type(event_index) is not int or not alternatives
++                or not isinstance(source_id, str) or not source_id
++                or not isinstance(slot, str) or not slot
++                or not isinstance(surface, str) or not surface.strip()):
++            continue
++        matches = [e for e in events if isinstance(e, Mapping)
++            and e.get("sentence_index") == sentence_index and e.get("event_index") == event_index]
++        if len(matches) != 1:
++            continue
++        source_rows = matches[0].get("role_alternatives")
++        keys = ("role_slot", "surface", "candidates", "authority")
++        if not isinstance(source_rows, list) or not any(
++                isinstance(x, Mapping) and all(x.get(k) == raw.get(k) for k in keys) for x in source_rows):
++            continue
++        out.append(ResolutionContentCandidate(
++            act="clarify", kind="event-role-alternatives", source_id=source_id,
++            focus_surface=surface.strip(), alternatives=alternatives, existing_question="",
++            source_units=(f"event:{sentence_index}:{event_index}", f"role-slot:{slot}",
++                          *(f"role-candidate:{x}" for x in alternatives)),
++        ))
++    return tuple(out)
++
++
++def _field(obj: object, name: str, default=None):
++    if isinstance(obj, Mapping):
++        return obj.get(name, default)
++    return getattr(obj, name, default)
++
++
++def native_current_turn_alternative_sources(
++    structure: Mapping[str, object], reasoning: object | None = None,
++) -> tuple[ResolutionContentCandidate, ...]:
++    """Collect typed *unselected* current-turn alternatives with zero choice authority.
++
++    Every emitted string is copied from an explicit parser/query/proposition/proof
++    field or is JSON serialization of one existing proof step. The collector never
++    resolves a reference/role, ranks candidates, manufactures a proposition, or
++    chooses a speech act. Missing explicit source multiplicity yields no unit.
++    """
++    out = list(_reference_resolution_candidates(structure))
++    out.extend(_event_role_resolution_candidates(structure))
++
++    # A QUD alternative set exists only when a question sentence is explicitly
++    # scoped by one of the parser's already-explicit unresolved alternative sets.
++    quds = structure.get("qud_candidates")
++    source_rows = list(structure.get("ambiguities") or []) + list(structure.get("event_role_alternatives") or [])
++    if isinstance(quds, list):
++        for q in quds:
++            if not isinstance(q, Mapping) or q.get("authority") != "current-turn-question-surface-only":
++                continue
++            si = q.get("sentence_index"); surface = q.get("surface"); qid = q.get("source_id")
++            if type(si) is not int or not isinstance(surface, str) or not surface.strip() or not isinstance(qid, str):
++                continue
++            for raw in source_rows:
++                if not isinstance(raw, Mapping) or raw.get("sentence_index") != si:
++                    continue
++                alternatives = _strict_string_alternatives(raw.get("candidates"))
++                if not alternatives:
++                    continue
++                sid = str(raw.get("source_id") or raw.get("id") or "")
++                if not sid:
++                    continue
++                out.append(ResolutionContentCandidate(
++                    act="clarify", kind="qud-alternatives", source_id=f"{qid}:{sid}",
++                    focus_surface=surface.strip(), alternatives=alternatives, existing_question="",
++                    source_units=(f"qud:{qid}", f"unresolved-source:{sid}",
++                                  *(f"candidate:{x}" for x in alternatives)),
++                ))
++
++    if reasoning is not None:
++        answers = list(_field(reasoning, "answer_candidates", ()) or ())
++        selection = str(_field(reasoning, "answer_selection_status", "") or "")
++        canonicals = []
++        for row in answers:
++            canonical = row.canonical() if hasattr(row, "canonical") else str(_field(row, "canonical", "") or "")
++            if canonical and canonical not in canonicals:
++                canonicals.append(canonical)
++        if selection.startswith("multiple-proof-supported-answers-no-forced-choice") and len(canonicals) >= 2:
++            query = _field(reasoning, "logical_query", None)
++            focus = str(_field(query, "raw", "") or "").strip()
++            out.append(ResolutionContentCandidate(
++                act="clarify", kind="proposition-alternatives", source_id="reasoning-answer-candidates",
++                focus_surface=focus, alternatives=tuple(canonicals), existing_question="",
++                source_units=(f"answer-selection-status:{selection}",
++                              *(f"answer-canonical:{x}" for x in canonicals)),
++            ))
++
++        # Multiple direct derivation steps for the same exact conclusion are proof
++        # alternatives. Preserve each step as canonical JSON; do not summarize it.
++        groups = {}
++        for step in list(_field(reasoning, "inference_steps", ()) or ()):
++            conclusion = str(_field(step, "conclusion", "") or "").strip()
++            rule = str(_field(step, "rule", "") or "").strip()
++            premises = list(_field(step, "premises", ()) or ())
++            if not conclusion or not rule or any(not isinstance(x, str) or not x.strip() for x in premises):
++                continue
++            payload = json.dumps({"conclusion": conclusion, "premises": premises, "rule": rule},
++                                 sort_keys=True, separators=(",", ":"))
++            groups.setdefault(conclusion, []).append(payload)
++        for conclusion, rows in groups.items():
++            alternatives = tuple(dict.fromkeys(rows))
++            if len(alternatives) < 2:
++                continue
++            out.append(ResolutionContentCandidate(
++                act="clarify", kind="proof-alternatives", source_id=f"proof:{conclusion}",
++                focus_surface=conclusion, alternatives=alternatives, existing_question="",
++                source_units=tuple(f"proof-step:{x}" for x in alternatives),
++            ))
++    return tuple(out)
++
++
++def native_resolution_sources(
++    structure: Mapping[str, object], existing_questions: Sequence[str] = (),
++) -> tuple[tuple[ResolutionContentCandidate, ...], tuple[ResolutionContentCandidate, ...]]:
++    """Validate execution-eligible ambiguity content; never choose an act/alternative.
++
++    M4C3D admits explicit reference and explicit parser-side event-role candidate
++    sets. Diagnostic ambiguity labels remain ineligible. QUD/proposition/proof
++    inventory is formed separately and therefore does not silently grant clarify
++    eligibility.
++    """
++    clarifications = _reference_resolution_candidates(structure) + _event_role_resolution_candidates(structure)
+     questions = tuple(q for q in existing_questions if isinstance(q, str) and q.strip())
+-    return _clarification_candidates({"ambiguities": valid}), _ask_candidates(questions)
++    return clarifications, _ask_candidates(questions)
+ 
+ 
+ def resolution_content_units(candidates, *, action, source_event_id):
+@@ -166,11 +304,29 @@ def resolution_content_units(candidates, *, action, source_event_id):
+     has no act-selection, truth, reference-resolution or execution authority.
+     """
+     from noeron.cognition.models import NativeResolutionContent
+-    return [NativeResolutionContent(
+-        act=action, source_event_id=source_event_id, source_id=c.source_id,
++    kind_map={
++        'reference-clarification':'reference-alternatives',
++        'event-role-clarification':'event-role-alternatives',
++        'existing-native-question':'existing-native-question',
++    }
++    allowed={
++        'reference-alternatives','event-role-alternatives','qud-alternatives',
++        'proposition-alternatives','proof-alternatives','existing-native-question',
++    }
++    out=[]
++    for c in candidates:
++        if c.act != action:
++            continue
++        kind=kind_map.get(c.kind,c.kind)
++        if kind not in allowed:
++            continue
++        out.append(NativeResolutionContent(
++        act=action, kind=kind,
++        source_event_id=source_event_id, source_id=c.source_id,
+         focus_surface=c.focus_surface, alternatives=list(c.alternatives),
+         existing_question=c.existing_question, source_units=list(c.source_units),
+-    ) for c in candidates if c.act == action]
++        ))
++    return out
+ 
+ 
+ def build_resolution_content(
+diff --git a/src/noeron/development.py b/src/noeron/development.py
+index 523b0688aee361f49eb21f57e48a1b2f6a0baf25..1a0e89bb714f01402f8eec5968aa64676abc8f54 100644
+--- a/src/noeron/development.py
++++ b/src/noeron/development.py
+@@ -501,14 +501,15 @@ class NativeLanguageFaculty:
+             for unit in thought.resolution_content:
+                 if unit.source_event_id != thought.mathematical_provenance.source_event_id:
+                     continue
+-                if unit.act == 'clarify' and unit.focus_surface.strip() and len(unit.alternatives) >= 2:
++                if unit.act == 'clarify' and len(unit.alternatives) >= 2:
+                     if any(not x.strip() for x in unit.alternatives) or len(set(unit.alternatives)) != len(unit.alternatives):
+                         continue
+-                    # Punctuation only: every content token already exists in the
+-                    # unresolved reference field. This is a schematic native form,
+-                    # not a fluent authored clarification or a resolved assertion.
+-                    clauses.append(unit.focus_surface.strip()+': '+' / '.join(unit.alternatives)+'?')
+-                    frames.append('native-resolution-reference-alternatives')
++                    # Punctuation only: option strings were already admitted from
++                    # typed current-turn parser/query/proposition/proof fields. This
++                    # exposes an unresolved set; it neither asserts nor selects one.
++                    prefix=(unit.focus_surface.strip()+': ') if unit.focus_surface.strip() else ''
++                    clauses.append(prefix+' / '.join(unit.alternatives)+'?')
++                    frames.append('native-resolution-'+unit.kind)
+                 elif unit.act == 'ask' and unit.existing_question.strip():
+                     text=unit.existing_question.strip()
+                     clauses.append(text if text.endswith('?') else text+'?')
+diff --git a/src/noeron/language_dialogue.py b/src/noeron/language_dialogue.py
+index f0f1599a1007bf3865b45802bbc74810722c63ec..098259a7c4f3eea013db78a9dcabe4e57318d567 100644
+--- a/src/noeron/language_dialogue.py
++++ b/src/noeron/language_dialogue.py
+@@ -121,6 +121,12 @@ def _event_candidates(sentence: str) -> list[dict]:
+                 "predicate_surface": verb, "predicate_lemma": lemma(verb), "voice": "active-surface",
+                 "roles": {"agent": subj.strip(), "recipient_or_theme": middle.strip(), "theme_or_patient": final.strip()},
+                 "ambiguity": "ditransitive-role-order-candidate",
++                "role_alternatives": [
++                    {"role_slot": "recipient_or_theme", "surface": middle.strip(),
++                     "candidates": ["recipient", "theme"], "authority": "grammatical-event-role-candidate-only"},
++                    {"role_slot": "theme_or_patient", "surface": final.strip(),
++                     "candidates": ["theme", "patient"], "authority": "grammatical-event-role-candidate-only"},
++                ],
+                 "authority": "candidate-only",
+             })
+ 
+@@ -143,14 +149,22 @@ def _event_candidates(sentence: str) -> list[dict]:
+             # Detect transparent obliques without claiming attachment truth.
+             pm = re.search(r"\b(with|in|on|at|by|from|to|near|under|above|behind|beside|inside)\b\s+(.+)$", obj)
+             ambiguity = ""
++            role_alternatives = []
+             if pm:
+                 role["oblique_candidate"] = pm.group(2).strip()
+                 role["oblique_relation"] = pm.group(1)
+                 if pm.group(1) == "with":
+                     ambiguity = "instrument-or-comitative-or-attachment"
++                    role_alternatives = [{
++                        "role_slot": "oblique_relation", "surface": pm.group(2).strip(),
++                        "relation_surface": "with",
++                        "candidates": ["instrument", "comitative", "attachment"],
++                        "authority": "grammatical-event-role-candidate-only",
++                    }]
+             rows.append({
+                 "predicate_surface": verb, "predicate_lemma": lemma(verb), "voice": "active-surface",
+-                "roles": role, "ambiguity": ambiguity, "authority": "candidate-only",
++                "roles": role, "ambiguity": ambiguity, "role_alternatives": role_alternatives,
++                "authority": "candidate-only",
+             })
+     return rows
+ 
+@@ -205,15 +219,37 @@ def analyze_dialogue_structure(
+     sentences = [s.strip() for s in _SENTENCE_RE.split(text.strip()) if s.strip()]
+     rows = []
+     events = []
++    token_cursor = 0
+     for i, sentence in enumerate(sentences):
+         ev = _event_candidates(sentence)
+-        events.extend({"sentence_index": i, **x} for x in ev)
++        events.extend({"sentence_index": i, "event_index": j, **x} for j, x in enumerate(ev))
++        sentence_tokens = words(sentence)
+         rows.append({
+             "index": i,
+             "text": sentence,
+             "question_family": _question_family(sentence),
++            "token_start": token_cursor,
++            "token_end": token_cursor + len(sentence_tokens),
+             "events": ev,
+         })
++        token_cursor += len(sentence_tokens)
++
++    # Attach occurrence-local sentence provenance after sentence token spans exist.
++    for ref in refs:
++        index = ref.get("token_index")
++        if type(index) is int:
++            for row in rows:
++                if row["token_start"] <= index < row["token_end"]:
++                    ref["sentence_index"] = row["index"]
++                    ref["id"] = f"reference-token-{index}"
++                    break
++    for ambiguity in ref_ambiguities:
++        index = ambiguity.get("token_index")
++        if type(index) is int:
++            for ref in refs:
++                if ref.get("token_index") == index and ref.get("surface") == ambiguity.get("surface"):
++                    ambiguity.update({k: ref[k] for k in ("sentence_index", "id") if k in ref})
++                    break
+ 
+     unknown = []
+     for w in _content_words(text):
+@@ -230,6 +266,24 @@ def analyze_dialogue_structure(
+             ambiguities.append({"kind": "event-role", "sentence_index": e["sentence_index"], "alternatives": e["ambiguity"], "authority": "alternatives-preserved"})
+ 
+     qfamilies = [x["question_family"] for x in rows if x["question_family"]]
++    qud_candidates = [
++        {"source_id": f"question-sentence-{x['index']}", "sentence_index": x["index"],
++         "surface": x["text"], "question_family": x["question_family"],
++         "authority": "current-turn-question-surface-only"}
++        for x in rows if x["question_family"]
++    ]
++    event_role_alternatives = []
++    for event in events:
++        for slot_index, raw in enumerate(list(event.get("role_alternatives") or [])):
++            if not isinstance(raw, Mapping):
++                continue
++            event_role_alternatives.append({
++                **dict(raw),
++                "source_id": f"event-role-{event['sentence_index']}-{event['event_index']}-{slot_index}",
++                "sentence_index": event["sentence_index"], "event_index": event["event_index"],
++                "predicate_surface": event.get("predicate_surface", ""),
++                "status": "ambiguous-alternatives-preserved",
++            })
+     deictic = [{"surface": w, "status": "deictic-anchor-required" if w not in {"now"} else "current-turn-anchor", "authority": "context-candidate-only"} for w in toks if w in _DEICTIC]
+     morphology = [{"surface": w, "lemma": lemma(w)} for w in toks]
+     composition = analyze_surface_composition(text)
+@@ -244,11 +298,13 @@ def analyze_dialogue_structure(
+         "morphology": morphology,
+         "sentences": rows,
+         "event_candidates": events,
++        "event_role_alternatives": event_role_alternatives,
+         "reference_candidates": refs,
+         "deixis_candidates": deictic,
+         "ambiguities": ambiguities,
+         "lexical_gaps": unknown,
+         "question_families": qfamilies,
++        "qud_candidates": qud_candidates,
+         "speech_act_affordances": list(SPEECH_ACT_AFFORDANCES),
+         "speech_act_selection_authority": False,
+         "semantic_truth_authority": False,
+diff --git a/src/noeron/orchestrator.py b/src/noeron/orchestrator.py
+index e2418b843f8b933ce8de68f1c238a167dad55953..b70c34e4bdd525f240c661372458610ebd02f23b 100644
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@ -43,7 +43,7 @@ from noeron.english_egress import ENGLISH_EGRESS_VERSION, realize_native_thought
+ from noeron.conversation_premises import BoundedConversationalPremiseContext
+ from noeron.conversation_bridge import admit_live_current_turn, native_trace_from_math_state
+ from noeron.conversation_actions import RESOLUTION_AFFORDANCES, resolution_affordances, choose_resolution_act, observe_resolution_transition
+-from noeron.conversation_resolution import build_operator_resolution_calibration, native_resolution_sources, resolution_content_units
++from noeron.conversation_resolution import build_operator_resolution_calibration, native_resolution_sources, native_current_turn_alternative_sources, resolution_content_units
+ from noeron.source_identity import identify_source, provenance_digest
+ from noeron.stratification import ReclusterEntry, build_recluster_plan
+ from noeron.llm import LanguageEngine
+@@ -1099,6 +1099,7 @@ class Noeron:
+             and isinstance(current_structure,dict)
+             and current_structure.get('text_sha256')==hashlib.sha256(event.content.encode('utf-8')).hexdigest())
+         has_answer=bool(reasoning.answer_candidates or thought.propositions or thought.statement.strip())
++        alternative_inventory=native_current_turn_alternative_sources(current_structure,reasoning) if bound else ()
+         clarifications,questions=native_resolution_sources(current_structure,thought.question_candidates) if bound and not has_answer else ((),())
+         eligibility=resolution_affordances(
+             query_kind=str(reasoning.logical_query.kind or '') if bound and not has_answer else '',
+@@ -1169,10 +1170,23 @@ class Noeron:
+             'executed':False,'transport_authority':False,'execution_authority':False,
+             'semantic_truth_authority':False,'answer_authority':False,
+             'relationship_authority':False,'cognitive_memory_authority':False,
++            'alternative_inventory_count':len(alternative_inventory),
++            'alternative_inventory_kinds':[c.kind for c in alternative_inventory],
++            'alternative_inventory_changes_eligibility':False,
+         }
+         if bound and not has_answer and audit.get('native_choice_claim'):
+             action=audit.get('action')
+-            candidates=clarifications if action=='clarify' else questions if action=='ask' else ()
++            if action=='clarify':
++                eligible_ids={c.source_id for c in clarifications}
++                # Inventory enriches an already-native-selected clarification only
++                # after independently execution-eligible ambiguity content exists.
++                # It never grants eligibility or speech-act choice.
++                candidates=tuple(c for c in alternative_inventory
++                    if c.source_id in eligible_ids or c.kind == 'qud-alternatives')
++                if not candidates:
++                    candidates=clarifications
++            else:
++                candidates=questions if action=='ask' else ()
+             units=resolution_content_units(candidates,action=action,source_event_id=event.id)
+             if units:
+                 resolution=NativeThought(
