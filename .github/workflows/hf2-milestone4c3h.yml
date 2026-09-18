@@ -25,6 +25,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Publish observable CI-start marker
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/evidence/_ci
+          cat > docs/evidence/_ci/HF2_M4C3H_STARTED.txt <<EOF
+          milestone=M4C3H
+          status=STARTED
+          run_id=$GITHUB_RUN_ID
+          run_attempt=$GITHUB_RUN_ATTEMPT
+          source_commit=$GITHUB_SHA
+          source_branch=$GITHUB_REF_NAME
+          verification_only=true
+          ordinary_0015_published=false
+          live_runtime_touched=false
+          canonical_db_touched=false
+          certification_claim=false
+          EOF
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add docs/evidence/_ci/HF2_M4C3H_STARTED.txt
+          git commit -m "ci: mark M4C3H verification started [skip ci]"
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
