@@ -1,3 +1,57 @@
+CURRENT ENGINEERING STATE — M4C3O DESIGN / M4C3N LATEST VERIFIED — 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+LATEST VERIFIED MILESTONE
+M4C3N root:
+abab8d3943b071c0d1bea024ef0dafa8e5888c9c
+M4C3N is verification-only green.
+Published runtime remains exact HF1 + ordinary patches 0001 -> 0018.
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NEXT BOUNDED MILESTONE
+M4C3O: transparent clause-shape hygiene for language_dialogue event-candidate inventory.
+
+Design:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3O_DESIGN_20260919.txt
+Design commit:
+63f053c41fa652e8731abc74f045b7d2eaf41fd2
+Git blob:
+320386bb4bdc0b8bb21c30e1323189609066b3b1
+Drive ID:
+1iaW1M6Z1G7jpj4LjGKU35vOYvZMKpWgw9lruwiHxdN4
+GitHub/Drive normalized equality:
+VERIFIED
+
+WHY M4C3O EXISTS
+Disposable read-only inspection of the immutable M4C3N exact-post0018 source archive reproduced a structural candidate bug in src/noeron/language_dialogue.py.
+
+Examples:
+- "The lamp is on." fabricates a ditransitive event candidate with agent=the and predicate_surface=lamp, plus a false generic SVO candidate, alongside the correct copular candidate.
+- "The teacher opened the door." similarly treats the determiner as the subject and teacher as the apparent verb.
+- "Teacher opened the door." fabricates a ditransitive ambiguity because the direct-object determiner "the" is treated as a standalone middle argument.
+- "Is lamp on?" can fabricate an active-declarative event candidate from copular inversion.
+- passive "The book was placed by Mira." remains clean.
+- genuine double-object "Teacher gave Omar the book." must retain structural alternatives rather than being semantically resolved.
+
+M4C3O PRINCIPLE
+Fix only demonstrably malformed grammatical candidate inventory.
+Do not weaken proof/ambiguity gates.
+Do not add semantic verb tables, lexical ranking, canned clarification, parser-derived native choice, truth authority, preference or relationship authority.
+
+START STATE
+M4C3O is design / verification-first only.
+No 0019 intent or ordinary patch is authorized merely by numbering.
+If a runtime correction is developed, it must pass exact post0018 baseline + focused candidate + complete candidate + fresh exact-HF1 replay + source parity + separate published-chain CI before publication.
+
+Read the M4C3O design continuation before editing.
+The full M4C3N seal and all earlier history follow below.
+
+
+
 LATEST VERIFIED CHECKPOINT — M4C3N / VERIFICATION-ONLY GREEN — 2026-09-18 UTC
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
