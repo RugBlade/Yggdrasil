@@ -123,7 +123,7 @@ Final verified M4C3E continuation Drive ID:
 Final M4C3E manifest Drive ID:
 1qDuoF1EwWVVNqAMi6m2nc7iGnvTtAbuT
 Drive text-mirror verification:
-- continuation export normalizes to the exact GitHub text after removing UTF-8 BOM, converting CRLF to LF, and collapsing the exporter-added third newline at section boundaries;
+- continuation export normalizes to the exact GitHub text after removing UTF-8 BOM, converting CRLF to LF, collapsing the exporter-added third newline at section boundaries, and restoring the final newline;
 - manifest export normalizes to the exact GitHub JSON after removing UTF-8 BOM, converting CRLF to LF, and restoring the final newline;
 - because the Google Docs text export bridge rewrites line formatting, raw byte equality is NOT claimed for these two text files.
 Existing root continuation Drive ID, update in place:
