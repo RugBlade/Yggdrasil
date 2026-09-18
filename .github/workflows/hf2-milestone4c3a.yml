@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      NOERON_DB_PATH: ${{ runner.temp }}/m4c3a-api-test-only.sqlite3
+      NOERON_DB_PATH: ./m4c3a-api-test-only.sqlite3
       NOERON_AUTONOMY_ENABLED: 'false'
       NOERON_TERRA_ENABLED: 'false'
       NOERON_LLM_BACKEND: mock
@@ -108,6 +108,7 @@ jobs:
           set -uo pipefail
           python -m pytest -q tests/hf2_m4c3a/test_execution_boundary.py -k regression             --junitxml=evidence/m4c3a-baseline-red.xml             > evidence/m4c3a-baseline-red.txt 2>&1
           regression_rc=$?
+          set -e
           cat evidence/m4c3a-baseline-red.txt
           test "$regression_rc" -eq 1
           python - <<'PY'
