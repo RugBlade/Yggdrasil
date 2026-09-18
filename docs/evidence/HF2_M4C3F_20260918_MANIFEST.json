@@ -7,7 +7,7 @@
   "repository": "RugBlade/Yggdrasil",
   "branch": "stage8B/v0.8.2-conversation-completion-hf2",
   "pre_documentation_head": "2b357b8b46ce8979831982150b5a900c950de2ad",
-  "dedicated_continuation_commit": "d7470a6e51ae0dcfd6db66eabb91f871d70ee8fb",
+  "dedicated_continuation_commit": "264f946f26ee18911a6a3015eabd856d5ae51c26",
   "candidate_source_commit": "f6be278a2523222ccffe9c6baa72cc136ef39163",
   "candidate_receipt_commit": "30f05d00538ae10ed482a9d0d980f43ff13ace8a",
   "runtime_publication_commit": "0cc14f810904f196395c906707cf4edff37c4d03",
@@ -132,12 +132,18 @@
     "verified_continuation_raw_byte_equal": false,
     "verified_continuation_normalized_content_equal": true,
     "verified_continuation_normalization": "strip UTF-8 BOM; CRLF/CR to LF; collapse each >=3 LF paragraph run to two LF; ignore trailing LF",
-    "root_continuation_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1"
+    "root_continuation_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+    "verified_manifest_id": "1IAqQ2hekNSHr1w6x-NLeb7AnFr00Ukyi",
+    "verified_manifest_raw_byte_equal": false,
+    "verified_manifest_normalized_content_equal": true,
+    "verified_manifest_normalization": "strip UTF-8 BOM; CRLF/CR to LF; collapse each >=3 LF paragraph run to two LF; ignore trailing LF"
   },
   "documentation": {
     "continuation_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3F_20260918.txt",
-    "continuation_git_blob": "2941fd8e8dde283105e057785ddf4aa7555371be",
-    "continuation_commit": "d7470a6e51ae0dcfd6db66eabb91f871d70ee8fb"
+    "continuation_git_blob": "acc2b545b2dfc93f436c601e117849e6de9d32c8",
+    "continuation_commit": "264f946f26ee18911a6a3015eabd856d5ae51c26",
+    "continuation_initial_commit": "d7470a6e51ae0dcfd6db66eabb91f871d70ee8fb",
+    "manifest_drive_id": "1IAqQ2hekNSHr1w6x-NLeb7AnFr00Ukyi"
   },
   "scope": "Local no-content execution receipt semantics for genuinely native-selected defer/remain-silent while preserving zero transport/peer-uptake claims and later consequence-learning gates.",
   "limits": [
@@ -147,5 +153,6 @@
     "Native audio and other non-HTTP content receipt adapters remain unimplemented.",
     "Existing determiner-form parser ambiguity remains visible/proof-gated."
   ],
-  "next": "M4C3G: true same-database restart/recovery verification for pending clarify/ask and defer/remain-silent execution receipts, including at-most-once later consequence consumption, without publishing 0014 unless candidate and fresh replay are green."
+  "next": "M4C3G: true same-database restart/recovery verification for pending clarify/ask and defer/remain-silent execution receipts, including at-most-once later consequence consumption, without publishing 0014 unless candidate and fresh replay are green.",
+  "dedicated_continuation_initial_commit": "d7470a6e51ae0dcfd6db66eabb91f871d70ee8fb"
 }
