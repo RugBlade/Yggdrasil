@@ -1,0 +1,139 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3E CANDIDATE CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3E candidate: CI PENDING / NOT YET PUBLISHED AS ORDINARY 0012.
+Stage8B and Stage8 overall: IN PROGRESS.
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED DURABLE CHECKPOINT
+M4C3D final root documentation checkpoint:
+4eced17220d2a80a8236a90970af0c329b96c565
+M4C3D published exact chain:
+0001 -> ... -> 0011
+M4C3D candidate/exact-chain CI: SUCCESS, 286 passed.
+Read first:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3D_20260918.txt
+docs/evidence/HF2_M4C3D_20260918_MANIFEST.json
+
+M4C3E CANDIDATE CARRIER
+Intent:
+patches/hf2/0012-hf2-act-neutral-alternative-resolution.intent.patch
+Intent SHA256:
+69536a8b5f98664959e2db92efbc5d8ac9d800a07d059dd7002530bbb2e2d13e
+Intent commit:
+b6444e589dabcd8cf3e20ebf47cbc3af3a18916a
+
+New test path:
+tests/hf2_m4c3e/test_act_neutral_alternative_routing.py
+Test commit:
+6885cfbf9c9740c16abbf6872002dd45eb050cb5
+
+Candidate workflow:
+.github/workflows/hf2-milestone4c3e.yml
+Corrected candidate source/workflow commit:
+a59b85abd8e6afa5a8204a9d1bee43ef89e7c942
+message:
+ci: fix M4C3E 0012 exact baseline/replay evidence paths
+
+Historical note:
+b294cb7739327df1f9953dbf943ebf01e21357e3 created the first M4C3E workflow draft, but it retained stale M4C3D/0011 evidence references and one malformed literal-newline replacement. It was detected before relying on CI and is SUPERSEDED by a59b85abd8e6afa5a8204a9d1bee43ef89e7c942. Do not cite b294 as validation evidence.
+
+NO ORDINARY 0012 EXISTS YET.
+Do not add 0012 to the published exact chain unless the candidate workflow is green and the separately reconstructed fresh replay is green.
+
+LOCAL/SHORT PRE-CI CHECKS ONLY
+These are engineering smoke checks, not certification and not substitutes for GitHub Actions:
+- candidate source compileall: PASS
+- new M4C3E focused tests: 5 passed
+- adjacent existing conversation-actions + M4C3D tests: 17 passed
+- exact-anchor intent materializer reproduced the prepared candidate bytes exactly
+- intent audit status: PASS
+- intent audit authority flags remain false for semantic truth, answer, candidate ranking, cognitive memory, relationship, runtime source-write, deployment, and speech act.
+
+M4C3E BOUNDED DESIGN
+Problem exposed after M4C3D:
+- QUD/proposition/proof alternatives are typed and preserved but remain inventory-only.
+- Existing clarify eligibility only counts reference/event-role content.
+- Multiple proof-supported answers are emitted through the ordinary response path, so proposition alternatives cannot participate in a native resolution act.
+- Simply mapping parser/reasoner multiplicity to "clarify" would violate the native-choice boundary.
+
+Candidate solution:
+1. Keep reference/event-role units act-specific where they already have explicit validated resolution semantics.
+2. Make QUD/proposition/proof typed alternative units ACT-NEUTRAL carriers:
+   compatible_actions = ("clarify", "ask")
+   their own act field is empty before selection.
+3. Act-neutral unresolved content may make BOTH question-like actuators feasible together.
+   It never selects between ask and clarify.
+4. resolution_affordances gains an act_neutral_alternative_count substrate input.
+   A nonzero count can add BOTH ask and clarify to the eligible set.
+   Programmed eligibility remains zero speech-act-choice authority.
+5. choose_resolution_act remains unchanged:
+   a native choice still requires at least two independently eligible affordances,
+   observed consequence geometry for every eligible act,
+   equal-affordance native reference coverage,
+   finite native DKT distances,
+   and one unique native H^s minimum.
+   Missing observations or exact ties remain unresolved.
+6. Only AFTER a genuine native ask/clarify selection may compatible QUD/proposition/proof units be copied into NativeResolutionContent with the selected act.
+7. Language realization for act-neutral alternative sets uses only already-admitted option strings plus punctuation.
+   No "Do you mean", "Which one", or other canned clarification text is added.
+   Ask versus clarify changes provenance/frame only, not authored fallback wording.
+8. Multiple proof-supported answers remain ordinary output unless learned native consequence geometry actually selects a resolution act.
+   Multiplicity alone cannot suppress the ordinary response.
+9. Once a genuine native resolution act is selected, ordinary multi-answer transport is not used as a fallback.
+   If independent expression selection is private/unresolved, or no supported adapter executes, no ordinary-answer fallback is substituted.
+10. Existing authenticated-owner Room HTTP remains the only content-send execution-receipt adapter.
+    ASGI send completion remains nonsemantic evidence only.
+11. Receipt alone still does not train.
+    Later consequence learning still requires a distinct later conversational USER_MESSAGE plus existing native admissibility/security/nonworsening gates.
+
+CANDIDATE RUNTIME FILES TO CHANGE
+src/noeron/conversation_resolution.py
+src/noeron/conversation_actions.py
+src/noeron/development.py
+src/noeron/orchestrator.py
+
+BOUNDARIES THAT MUST REMAIN TRUE
+- No parser/reasoner label directly chooses ask or clarify.
+- Act-neutral content adds ask and clarify together; learned consequence geometry alone can choose one.
+- No forced candidate ranking.
+- No invented semantic claim.
+- No canned clarification fallback.
+- No authentication-derived native choice.
+- No relationship authority from authentication.
+- No fabricated fresh-state speech-act observations.
+- No bootstrap preference insertion.
+- Independent expression/private-continuation selection remains required.
+- Transport/execution receipt remains separate from content and act choice.
+- Terra remains downstream/optional with no reasoning/content/answer/memory/relationship/source-write/deploy authority.
+- SQLite remains persistence/provenance/audit substrate, not cognitive retrieval authority.
+- Live runtime and canonical DB remain untouched.
+- No Stage9/self-upgrade work.
+- Stage8B remains IN PROGRESS.
+
+GITHUB ACTIONS CANDIDATE METHOD
+Workflow reconstructs exact HF1, copies ORIGINAL carrier helpers before patching, and applies published 0001-0011 in order.
+Baseline must run the complete published post0011 HF2 suite including M4C3D.
+Then the exact-anchor 0012 intent is applied.
+Candidate must run the full suite plus tests/hf2_m4c3e.
+Only after candidate green may Actions materialize ordinary 0012.
+A separate fresh exact-HF1 extraction must then replay 0001-0011 plus the generated 0012, prove source-byte parity against the candidate, compile, and rerun the full suite.
+Artifact must retain source archive, carrier evidence, JUnit/text logs, intent audit, diffstat, source hashes and authority boundary.
+
+NEXT ACTION
+Inspect the actual M4C3E GitHub Actions result for source commit a59b85abd8e6afa5a8204a9d1bee43ef89e7c942.
+If candidate or replay fails, inspect actual logs and fix the candidate; do not publish 0012.
+If both are green:
+- download/hash the candidate artifact;
+- verify generated 0012 and source parity evidence;
+- publish the exact generated ordinary 0012 only;
+- extend the full-chain workflow through 0012;
+- run/inspect the published 0001-0012 chain;
+- upload candidate + published-chain evidence to the HF2 Drive folder;
+- create the final M4C3E manifest and detailed continuation in GitHub and Drive;
+- update root continuation in GitHub and Drive byte-for-byte.
