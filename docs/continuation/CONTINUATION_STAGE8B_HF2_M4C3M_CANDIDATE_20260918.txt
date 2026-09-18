@@ -1,0 +1,118 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3M CANDIDATE CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3M candidate intent and focused tests are preserved.
+External exact-runtime candidate CI has not yet run from this checkpoint.
+ordinary_0018_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED ROOT
+M4C3L:
+55d7ff29460c05c33a2e56ba89148ea90d2a4914
+Published chain:
+0001 -> ... -> 0017
+
+DESIGN CHECKPOINT
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3M_DESIGN_20260918.txt
+Commit:
+6eb9c68c78a8c8fb058961a5c491598f8dad10de
+Drive ID:
+1mYJpJJW8kQD_gT1nN_JOszwkMhrS8L8vKaW_u5JyAWg
+GitHub/Drive normalized equality:
+VERIFIED
+
+CONCRETE DEFECT
+M4C3L's client postClientMediaEvent retries HTTP 409 provenance races but did not retry thrown fetch/network errors.
+If the server durably persisted a media-event receipt but its HTTP response was lost, the browser could clear the playback_session_id and lose continuity to the matching ended event.
+
+The server is already persistently idempotent, so retrying the exact same payload/playback_session_id is safe and closes this uncertainty without adding authority.
+
+0018 CANDIDATE INTENT
+Path:
+patches/hf2/0018-hf2-client-media-network-retry.intent.patch
+Commit:
+fe0957406aa4016fcaef58a56fa54d884ff1d7f1
+SHA256:
+fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a
+Diffstat:
+1 file changed, 6 insertions, 2 deletions
+Runtime file:
+src/noeron/api.py only
+
+Candidate behavior:
+- same payload/playback_session_id remains outside and stable across attempts;
+- bounded retry of thrown fetch/network failures;
+- bounded retry of response-body JSON-read failure when server commit state is uncertain;
+- existing 409 provenance-race retry remains;
+- explicit non-409 HTTP errors are not retried as provenance races;
+- no autoplay/programmatic native-audio play;
+- no new client event;
+- no server/model/store schema change;
+- no consequence-learning change;
+- no authority change.
+
+FOCUSED TESTS
+Path:
+tests/hf2_m4c3m/test_client_media_retry_restart.py
+Commit:
+051f16dc3fbc71baad2e5076fd9f8d51137adaca
+
+Focused GitHub test cases cover:
+1. network uncertainty retry reuses stable payload/session identity;
+2. uncertain body-read retry and explicit non-409 fail-fast behavior;
+3. no autoplay/programmatic play;
+4. playing/ended persistent idempotency;
+5. renewed session / other device cannot close old playback;
+6. repeated transport receipts do not manufacture playback sessions;
+7. retry/duplicates do not change speech-act development state;
+8. true new-process same-SQLite restart preserves playing dedupe and permits correctly linked ended;
+9. telemetry authority remains false.
+
+A broader disposable local exact-post0017 probe also passed 12/12, including an additional true-process rotated-session rejection case and malformed/stale replay checks.
+
+LOCAL EXACT CANDIDATE IDENTITY
+Candidate patch SHA256:
+fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a
+Candidate local focused probe:
+12 passed in 5.24s
+
+NEXT ACTION
+Create one authoritative GitHub Actions candidate workflow only after this checkpoint.
+
+It must:
+1. reconstruct byte-exact HF1;
+2. copy ORIGINAL carrier helpers;
+3. apply ordinary published 0001 -> 0017 sequentially;
+4. prove published post0017 baseline = 373 tests;
+5. git apply --check and apply the exact 0018 intent;
+6. assert intent SHA256 fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a;
+7. run focused M4C3M;
+8. run complete candidate;
+9. reconstruct a separate fresh exact-HF1 replay;
+10. apply 0001 -> 0017 + exact same 0018 intent;
+11. prove source byte parity;
+12. rerun focused + complete replay;
+13. package exact candidate patch/source/carrier/hash/authority evidence;
+14. upload artifact;
+15. publish only a candidate receipt.
+
+Only after candidate artifact inspection may exact candidate bytes be copied to:
+patches/hf2/0018-hf2-client-media-network-retry.patch
+
+Then run separate exact-HF1 published 0001 -> 0018 chain before sealing M4C3M.
+
+BOUNDARIES
+Browser telemetry remains zero-authority provenance.
+No audible/hearing/understanding inference.
+No autoplay.
+No direct consequence learning.
+No native choice/preference/relationship meaning from client/session state.
+SQLite remains provenance/audit, not cognition.
+Live runtime/canonical DB untouched.
+No Stage9/self-upgrade.
