@@ -1,0 +1,201 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3O CANDIDATE CHECKPOINT
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3N remains the latest fully verified milestone.
+M4C3O has a stabilized candidate intent and focused regression suite.
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+Stage8B and Stage8 remain IN PROGRESS.
+
+PREVIOUS VERIFIED ROOT
+M4C3N:
+abab8d3943b071c0d1bea024ef0dafa8e5888c9c
+
+Published runtime remains:
+exact HF1 + ordinary patches 0001 -> 0018
+
+M4C3O DESIGN
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3O_DESIGN_20260919.txt
+
+Commit:
+63f053c41fa652e8731abc74f045b7d2eaf41fd2
+
+Git blob:
+320386bb4bdc0b8bb21c30e1323189609066b3b1
+
+Drive ID:
+1iaW1M6Z1G7jpj4LjGKU35vOYvZMKpWgw9lruwiHxdN4
+
+GitHub/Drive normalized equality:
+VERIFIED
+
+EXACT BASE
+The candidate was developed against the immutable exact-post0018 source recovered from the green M4C3N artifact.
+
+Exact post0018 source archive SHA256:
+d8a3622b80fcd478cb20923c5483d282edef9ba8c5798d7004228fdb0a6a5642
+
+Published 0018 SHA256:
+fe9dfe42c9fb2bbf22484f07742a2c9c72d01643d3b77f306fdf9de18a09489a
+
+CONCRETE DEFECT
+src/noeron/language_dialogue.py overgenerated grammatical event candidates.
+
+Examples reproduced on exact post0018:
+- "The lamp is on." fabricated a ditransitive candidate agent=the / predicate=lamp plus a false generic SVO candidate, while also producing the correct copular candidate.
+- "The teacher opened the door." treated determiner "the" as the subject and "teacher" as the apparent verb.
+- "Teacher opened the door." fabricated a ditransitive ambiguity because direct-object determiner "the" was treated as a standalone middle argument.
+- "Is lamp on?" could fabricate an active-declarative candidate from copular inversion.
+- genuine passive and genuine double-object controls must remain intact.
+
+The existing proof parser already proves:
+"The lamp is on. Is the lamp on?"
+as the exact proposition lamp::is::on with a unique proof-supported answer.
+Therefore M4C3O repairs only upstream event-candidate inventory; it does not weaken proof/ambiguity gating.
+
+0019 CANDIDATE INTENT
+Path:
+patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.intent.patch
+
+Commit:
+0bcce1b0ede7a651460f02d6ebb720e864b0c869
+
+Git blob:
+15b189a47701ffe1870dcb5ca147ed0d205d7621
+
+Exact local/GitHub ASCII byte count:
+3597
+
+SHA256:
+da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401
+
+Diffstat:
+1 file changed, 32 insertions, 16 deletions
+
+Runtime file:
+src/noeron/language_dialogue.py only
+
+ordinary_0019_published=false
+
+CANDIDATE MECHANISM
+1. Preserve passive detection first.
+2. Recognize transparent copular declaratives before broad active patterns can reinterpret a determiner-led subject.
+3. For bounded active parsing only, normalize a transparent determiner + single-head subject noun phrase.
+4. Prevent a determiner-led middle constituent from manufacturing a ditransitive role-alternative row.
+5. Prevent auxiliary/modal/question-initial inversion from becoming a fake generic active declarative solely by token order.
+6. Preserve genuine double-object structural ambiguity.
+7. Preserve existing oblique ambiguity.
+8. Keep every event candidate candidate-only with zero semantic/truth/choice authority.
+
+No semantic verb-class table was added.
+No lexical candidate ranking was added.
+No LLM inference was added.
+No canned clarification was added.
+No native speech-act choice was derived from parser labels.
+
+FOCUSED M4C3O TESTS
+Path:
+tests/hf2_m4c3o/test_clause_shape_event_candidate_hygiene.py
+
+Commit:
+e80c35817704c527f2cf3d8f2d5e33164c4b7139
+
+Git blob:
+689765c69ab9319dc7f1a68c039d0a9236f9f954
+
+Exact local/GitHub byte count:
+4903
+
+Local SHA256:
+9c315d289aa3041179b2d3cb3c6151fed7180a9deea90ebc65e15a713d59a684
+
+Focused test count:
+9
+
+Disposable exact-post0018 local result:
+9 passed in 0.53s
+
+Focused coverage:
+1. determiner copular has only transparent copular candidate;
+2. known lamp turn retains proof support without dialogue ambiguity;
+3. determiner-led active subject does not become verb;
+4. direct-object determiner does not become a ditransitive argument;
+5. genuine double-object alternatives survive both with and without a determiner subject;
+6. passive surface remains unchanged;
+7. auxiliary-initial copular question does not fake an active declarative;
+8. existing oblique ambiguity remains preserved;
+9. full Noeron runtime lamp turn removes fabricated ambiguity while all authority fields remain false.
+
+DISPOSABLE RUNTIME PROBE
+Against exact post0018 + candidate:
+authenticated-owner input:
+"The lamp is on. Is the lamp on?"
+
+Observed:
+native_text = "lamp is on."
+english_text = "Lamp is on."
+outward text remains empty under the unchanged communication policy
+ambiguity_count = 0
+event_role_alternatives = []
+semantic_truth_authority = false
+answer_authority = false
+speech_act_selection_authority = false
+cognitive_memory_authority = false
+relationship_authority = false
+source_write_authority = false
+deployment_authority = false
+
+This verifies the candidate removes a fabricated grammar ambiguity without forcing outward expression or granting parser authority.
+
+NEXT ACTION — AUTHORITATIVE CANDIDATE CI
+Create one M4C3O workflow and then freeze branch writes.
+
+Required gates:
+1. reconstruct byte-exact HF1;
+2. copy ORIGINAL carrier helper modules;
+3. apply ordinary published 0001 -> 0018 sequentially;
+4. run complete unchanged post0018 baseline first;
+5. verify exact intent SHA256 da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401;
+6. git apply --check + apply candidate;
+7. compile;
+8. run focused M4C3O tests;
+9. run complete HF2 + M4C3O candidate;
+10. reconstruct a separate fresh exact-HF1 replay;
+11. apply 0001 -> 0018 + exact same candidate;
+12. prove runtime source-byte parity;
+13. rerun focused + complete replay;
+14. package source/hash/authority evidence;
+15. upload artifact;
+16. publish a green candidate receipt only.
+
+Expected counts from current suite shape:
+baseline approximately 382;
+focused M4C3O 9;
+candidate/replay approximately 391.
+Do not rely on expected counts; inspect actual logs.
+
+PUBLICATION RULE
+Only after substantive candidate gates and artifact inspection are green may exact candidate bytes become:
+patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.patch
+
+Then run a separate exact-HF1 published 0001 -> 0019 chain before sealing M4C3O.
+
+BOUNDARIES
+- Canonical path remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Parser/event candidate inventory has zero semantic-truth, answer, speech-act-choice, preference, relationship, cognitive-memory, source-write, or deployment authority.
+- Remove ambiguity only when a grammatical candidate is demonstrably malformed.
+- Genuine alternatives remain alternatives.
+- Proof/ambiguity gating remains intact.
+- Native content, speech-act choice, expression/private continuation, execution evidence and later consequence learning remain distinct.
+- SQLite remains persistence/provenance/audit, not cognition.
+- Terra remains optional/downstream.
+- Original native utterance remains primary; English/decoder remains observational/downstream.
+- No autoplay, microphone/camera expansion, or hearing inference.
+- Live runtime and canonical DB remain untouched.
+- No Stage9/self-upgrade.
