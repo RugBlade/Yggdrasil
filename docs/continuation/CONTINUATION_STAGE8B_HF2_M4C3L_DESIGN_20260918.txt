@@ -1,0 +1,221 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3L DESIGN CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3L: DESIGN / SOURCE-INSPECTION CHECKPOINT.
+Stage8B and Stage8: IN PROGRESS.
+Published runtime remains exact HF1 + ordinary patches 0001 -> 0016.
+ordinary_0017_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED CHECKPOINT
+M4C3K root:
+a8849170ee0405f5c5a722715162469a5b0c49c9
+M4C3K is externally green and verification-only.
+M4C3K proved the existing post0016 presentation path safe under the tested true-process crash/restart windows and therefore did NOT create 0017.
+
+INSPECTION SOURCE
+M4C3L source inspection is grounded in the exact post0016 runtime archive preserved by authoritative M4C3K artifact 10561969151, not an assumed carrier-tree runtime.
+M4C3K source archive SHA256:
+1b430d6b7a5489a0a9b73100935e807d6dae37f4f0131a35341b523267eded20
+Published patch chain:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011 -> 0012 -> 0013 -> 0014 -> 0015 -> 0016
+
+FILES INSPECTED IN EXACT POST0016 SOURCE
+- src/noeron/api.py
+- src/noeron/auth.py
+- src/noeron/memory.py
+- src/noeron/room.py
+- src/noeron/room_models.py
+
+CURRENT CLIENT / TRANSPORT BEHAVIOR
+1. The private Room client creates HTMLAudioElement nodes for native presentations with controls=true and src=/room/files/{artifact_id}.
+2. There is no autoplay attribute and no programmatic play() call for native presentation audio.
+3. There is currently no client listener or endpoint for media-element play/playing/ended telemetry.
+4. Assigning the audio src may trigger browser metadata/range HTTP traffic before intentional playback; therefore NativeAudioTransportReceipt correctly cannot mean client playback.
+5. GET /room/files/{artifact_id} requires current Room authentication and only creates NativeAudioTransportReceipt after the server-side ASGI response-send boundary.
+6. NativeAudioTransportReceipt explicitly keeps playback_confirmed=false, peer_delivery_confirmed=false, peer_heard_confirmed=false, peer_understanding_confirmed=false and peer_reply_causation_confirmed=false.
+7. The Room already has an authenticated initiative acknowledgement endpoint whose meaning is explicitly delivery/display metadata only with no cognitive authority. That is a useful precedent for zero-authority client telemetry.
+
+AUTHENTICATION / SESSION SUBSTRATE INSPECTED
+- Private Room access is constrained to local/private-tunnel transport.
+- Normal Room authentication uses a current Ed25519 owner-device session.
+- Signed login challenges are single-use.
+- Device sessions are revocable and carry stable device identity/fingerprint provenance.
+- Room session cookies are HttpOnly, SameSite=Strict and scoped to /room.
+- The WebSocket revalidates the authenticated session.
+- Authentication grants objective owner/device authority only and zero native-choice/preference/relationship meaning.
+
+BROWSER EVENT SEMANTICS USED FOR DESIGN
+- HTMLMediaElement play is too weak for this receipt vocabulary: it primarily reflects the element leaving the paused state.
+- HTMLMediaElement playing is a better narrow browser-side signal that the media element has actually started/resumed playback.
+- HTMLMediaElement ended is a browser-side signal that the media element reached its end.
+- None of play, playing or ended proves audible speaker output, human hearing/listening, understanding or reply causation.
+
+CONCRETE RUNTIME DEFECT FOUND
+Current Room render(s) begins by clearing the generic view with:
+view.innerHTML=''
+
+It then recreates every native-presentation audio node on every changed Room snapshot.
+
+This is not merely cosmetic:
+- completing an audio GET creates NativeAudioTransportReceipt and a Room journal entry;
+- that changes the Room snapshot digest;
+- the WebSocket sends a new snapshot;
+- render(s) destroys and recreates the existing audio element;
+- replacement can interrupt an in-progress playback;
+- adding playback telemetry POSTs without fixing reconciliation would create additional snapshot changes and could worsen this interruption.
+
+Therefore M4C3L has a concrete runtime problem worth correcting. A candidate runtime change is justified, subject to the established exact-baseline/candidate/fresh-replay publication pipeline.
+
+PROPOSED M4C3L RUNTIME SCOPE
+
+A. STABLE KEYED AUDIO-ELEMENT RECONCILIATION
+- Separate native presentations from the generic rebuilt Room view.
+- Reconcile presentation DOM nodes by NativePresentationRecord.id.
+- Reuse the same HTMLAudioElement while that presentation remains present.
+- Append genuinely new presentation nodes.
+- Remove only presentations no longer present.
+- Do not invoke play() automatically.
+- Do not set autoplay.
+- Snapshot updates caused by transport/telemetry receipts must not replace a currently existing audio element.
+
+B. DISTINCT AUTHENTICATED CLIENT MEDIA TELEMETRY
+Introduce a typed zero-authority record whose name makes its scope explicit, e.g.
+NativeAudioClientPlaybackTelemetryReceipt.
+
+It records authenticated browser media-element telemetry, not human hearing.
+
+Proposed identity/provenance:
+- receipt id / created_at;
+- presentation_id;
+- audio_artifact_id;
+- native_text_sha256;
+- audio_sha256;
+- exact linked NativeAudioTransportReceipt id;
+- owner_device_id;
+- owner_device_fingerprint;
+- SHA256 of the exact current Room session token, never the raw token;
+- client playback_session_id UUID;
+- event = playing | ended;
+- current_time_seconds;
+- duration_seconds when available;
+- muted;
+- volume;
+- playback_rate;
+- status = authenticated-room-client-media-event.
+
+Explicit authority flags remain false:
+- audible_output_confirmed=false;
+- peer_delivery_confirmed=false;
+- peer_heard_confirmed=false;
+- peer_understanding_confirmed=false;
+- peer_reply_causation_confirmed=false;
+- cognitive_authority=false;
+- semantic_truth_authority=false;
+- answer_authority=false;
+- speech_act_choice_authority=false;
+- preference_label_authority=false;
+- relationship_authority=false;
+- source_write_authority=false;
+- deployment_authority=false.
+
+Do NOT overload the older playback_confirmed field with true. The new receipt should say that an authenticated client media-element event was received, not that audible playback or hearing was established.
+
+C. SERVER ADMISSION / SEQUENCING
+A bounded endpoint may be added under the exact presentation, for example:
+POST /room/native/presentations/{presentation_id}/client-playback
+
+The endpoint must:
+- require the normal current Ed25519 Room session and permitted transport;
+- bind telemetry to authenticated device id/fingerprint and the exact session-token hash;
+- accept only the narrow request schema and never client-submitted authority flags;
+- verify presentation -> audio artifact identity and hashes;
+- require an existing matching NativeAudioTransportReceipt before accepting playing;
+- require prior accepted playing with the same presentation/artifact/device/session/playback_session_id before accepting ended;
+- reject cross-device or renewed-session ended claims for an older playback session;
+- make exact duplicate submissions idempotent;
+- never mark a speech act executed;
+- never directly train speech-act or expression consequence geometry;
+- never create cognitive memory or relationship meaning.
+
+D. PERSISTENT DEDUPLICATION
+Use a dedicated SQLite audit/provenance table, not Noeron cognitive state.
+A persistent dedupe identity should include at least:
+presentation_id + audio_artifact_id + owner_device_id + session_hash + playback_session_id + event.
+
+Exact duplicate telemetry must return/reuse the previously stored record rather than create a second semantic event.
+
+E. CLIENT EVENT POLICY
+- Do not use play as the receipt event.
+- Record only the first playing event for a client playback_session_id.
+- Record ended only after that accepted playing event.
+- Generate a client playback_session_id at first playing and retain it through ended.
+- Pause/resume must not manufacture multiple first-playing records for the same session.
+- Reset the client playback session after ended.
+- No autoplay or programmatic play().
+
+WHY TRANSPORT RECEIPT IS REQUIRED FIRST
+The browser cannot produce a meaningful media-element playing event for the exact protected Room artifact without having obtained media bytes, but the server must not trust that implication informally.
+Requiring an existing exact NativeAudioTransportReceipt gives the new client record an explicit durable server-side transport predecessor while preserving the semantic distinction:
+transport receipt != client media event != audible speaker output != human hearing != understanding != later conversational consequence.
+
+PROPOSED PERSISTENCE
+Add a dedicated native_audio_client_playback_receipts table and typed append/read methods.
+This table is audit/provenance only.
+It must not be read as semantic memory, answer state, preference, relationship state or native-choice geometry.
+
+TEST PLAN BEFORE PUBLICATION
+At minimum:
+1. typed telemetry record has zero cognitive/audible/hearing authority;
+2. no playing telemetry without exact presentation/artifact;
+3. no playing telemetry without a matching server NativeAudioTransportReceipt;
+4. exact playing accepted with authenticated device/session provenance;
+5. duplicate playing is persistent-idempotent;
+6. ended requires prior playing same presentation/artifact/device/session/playback_session_id;
+7. ended from another device or renewed session fails closed;
+8. mismatched artifact/hash/provenance fails closed;
+9. telemetry changes no speech-act action or transition observations;
+10. telemetry does not clear/consume pending execution state;
+11. request schema has no hearing/understanding/preference/native-choice input fields;
+12. Room snapshot exposes only sanitized client-event provenance and keeps audible/hearing/etc false;
+13. legacy/missing/revoked/nonlocal Room authentication cannot submit telemetry;
+14. Room HTML contains no autoplay/programmatic native-audio play;
+15. client uses playing + ended, not play, for telemetry;
+16. keyed presentation reconciliation preserves an existing audio element across unrelated snapshot changes;
+17. telemetry-caused snapshot changes do not replace the same presentation audio element.
+
+PUBLICATION METHOD
+- First create an intent-only 0017 candidate against exact post0016 bytes.
+- Add focused M4C3L tests.
+- Do a short disposable focused probe only.
+- Add the GitHub Actions candidate workflow only after intent/tests stabilize, to avoid parallel-run receipt races.
+- External CI must prove exact post0016 baseline, focused candidate, complete candidate, separate fresh exact-HF1 replay, source byte parity, hashes and authority boundary.
+- Materialize generated 0017 only after candidate green.
+- Inspect artifact bytes before ordinary publication.
+- Then run separate published exact-HF1 0001->0017 chain CI.
+- Mirror all evidence and continuation material to Drive.
+- live runtime and canonical DB remain untouched.
+
+NON-NEGOTIABLE BOUNDARIES
+- Canonical cognition remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Client media telemetry has zero native-choice, preference, relationship, semantic-truth or cognitive-memory authority.
+- Client media telemetry cannot itself be speech-act consequence-learning evidence.
+- Native speech-act execution still depends on ResolutionExecutionReceipt, not playback telemetry.
+- Native presentation, server HTTP transport, authenticated client media telemetry, audible output, human hearing, understanding, and later conversational outcome remain separate layers.
+- Original native utterance remains primary.
+- English/decoder remains observational/downstream.
+- No autoplay.
+- No generic client-submitted authority endpoint.
+- No Stage9/self-upgrade.
+- No live runtime/canonical DB writes.
+
+NEXT ACTION
+Implement the exact-post0016 candidate in a disposable reconstruction and generate:
+patches/hf2/0017-hf2-authenticated-client-playback-telemetry.intent.patch
+plus focused tests.
+Do not publish ordinary 0017 before external green verification.
