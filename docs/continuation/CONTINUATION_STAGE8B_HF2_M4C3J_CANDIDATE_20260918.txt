@@ -1,0 +1,226 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3J CANDIDATE CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3I: SEALED / PUBLISHED 0015.
+M4C3J: POST-RECEIPT NATIVE-AUDIO PRESENTATION CANDIDATE — EXTERNAL CI PENDING.
+ordinary_0016_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+BASELINE
+M4C3I final root checkpoint:
+06b7987bc80ad27dc0acfc8246d88092b44701b9
+Published patch chain:
+0001 -> 0015
+0015:
+patches/hf2/0015-hf2-native-audio-transport-receipt.patch
+0015 SHA256:
+54f3099a4b2fe1af521f1584cd5da2839c46a55d9e93843dd2cad1aa01c6e54a
+Published exact-chain-through-0015:
+run 35371612919 / job 105686665117 / SUCCESS / 337 passed, 2 warnings.
+
+DESIGN CHECKPOINT
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3J_DESIGN_20260918.txt
+Commit:
+6c61dcf77a5853268c7000d83f1dc8edf596e14f
+Drive ID:
+1BNEQ9dTaL_JPiEkXqP8TKAheSs86_jxYt1c_S1yspsc
+GitHub/Drive normalized-content equality:
+VERIFIED
+
+DESIGN CONCLUSION
+ResolutionExecutionReceipt remains the one and only execution receipt for native-selected clarify/ask.
+A resolution native-audio presentation may be attempted only AFTER that receipt has been durably recorded.
+NativePresentationRecord is downstream presentation provenance, not a second speech-act execution.
+NativeAudioTransportReceipt remains later audio HTTP transport provenance, not playback/hearing and not speech-act execution.
+
+0016 INTENT
+Path:
+patches/hf2/0016-hf2-resolution-native-audio-presentation.intent.patch
+Intent commit:
+2410c1714d86e368a7d3d4375180027af3869e2d
+SHA256:
+5956c1aabdd510dfdbfdafaafe0dcf990def9c8e589f0c9de4251a87387bea5d
+Disposable exact-post0015 diffstat:
+4 files changed, 44 insertions, 8 deletions.
+Runtime files:
+- src/noeron/api.py
+- src/noeron/orchestrator.py
+- src/noeron/room.py
+- src/noeron/room_models.py
+
+FOCUSED TESTS
+Path:
+tests/hf2_m4c3j/test_resolution_native_audio_presentation.py
+Test commit:
+81688c7e3131c29d8f968c6fba6710ce3678cb9b
+SHA256:
+fc6eaf67dcf0fd7b3f8c16464a4ad33fd0f5f64ff506d0b35938e539bb30d1d0
+Focused cases:
+10
+
+CANDIDATE WORKFLOW
+Path:
+.github/workflows/hf2-milestone4c3j.yml
+Workflow/source commit:
+5de63fe9684500c11b771303dbdcfb07eb7507f8
+
+DISPOSABLE LOCAL DEVELOPMENT EVIDENCE
+Exact verified post0015 source archive used:
+m4c3i-exact-post0015-source.tar.gz
+SHA256:
+36609b9a9ac7a74cd79d5f7208902e018988c254420656377d383b09a8be7e33
+
+Candidate compileall:
+PASS
+Focused M4C3J:
+10 passed in 1.14s
+Sensitive historical M4C3C + M4C3I:
+60 passed in 5.66s
+
+These local results are development evidence only.
+They are not publication or certification evidence.
+
+CANDIDATE MECHANISM
+
+1. ResolutionExecutionReceipt stays primary
+The existing trusted terminal POST /room/message JSON send remains the clarify/ask execution boundary.
+No presentation object or audio fetch can replace that receipt.
+
+2. Private exact native text stays process-local
+_ResolutionRoomResponse receives the exact native utterance privately.
+It is not added as an outward fallback, client acknowledgement or new authority surface.
+
+3. Completion provenance returned by the trusted runtime
+After durable complete_resolution_dispatch success, the in-process adapter receives zero-authority identity fields:
+- receipt id;
+- event id;
+- action;
+- channel;
+- native-text SHA256.
+
+This does not expose new semantic or native-choice authority.
+
+4. Post-receipt presentation only
+The adapter attempts native presentation only when:
+- receipt_recorded=true;
+- the exact private native text is still present;
+- current Room embodiment configuration has a voice profile;
+- sha256(private native text) matches the durable ResolutionExecutionReceipt native-text SHA.
+
+No presentation is attempted before the trusted send/receipt boundary.
+
+5. Independent native voice choice preserved
+present_native_utterance still runs its existing native voice vs text-only consequence selection.
+If no configuration/voice exists or voice choice resolves to text-only/unresolved:
+- the already-valid clarify/ask execution remains valid;
+- no audio presentation is created;
+- no speech-act state is altered.
+
+6. Explicit receipt-to-presentation provenance
+NativePresentationRecord gains optional zero-authority fields:
+source_resolution_receipt_id
+source_resolution_event_id
+source_resolution_action
+source_resolution_execution_confirmed
+
+For ordinary presentations they remain empty/false.
+For resolution-derived presentations they can be populated only with a complete valid link whose native-text SHA matches the exact utterance.
+
+7. Downstream failure isolation
+If native voice rendering/presentation throws after the ResolutionExecutionReceipt is durable:
+- the receipt remains valid;
+- speech-act/expression pending state is not rolled back;
+- no second execution is invented;
+- the presentation error is logged as downstream failure.
+
+8. Immediate response remains truthful
+The response body cannot claim a post-send presentation already exists.
+For a resolution dispatch:
+presentation_id remains null
+native_presentation_created remains false
+native_presentation_deferred_until_execution_receipt=true
+
+Authoritative later presentation state remains /room/state.
+
+9. Audio transport remains separate
+If a linked presentation later gets fetched:
+NativeAudioTransportReceipt records only server-side audio HTTP send completion.
+It does not mark a second speech-act outcome and does not train.
+
+LOCAL FOCUSED CASES
+1. successful resolution send creates presentation only after durable execution receipt;
+2. terminal text-send failure creates neither receipt nor resolution presentation;
+3. no native voice configuration leaves valid text execution and no presentation;
+4. native voice text-only choice leaves valid execution and no audio;
+5. downstream presentation failure cannot erase durable receipt;
+6. private native-text hash mismatch blocks linked presentation;
+7. incomplete/mismatched resolution presentation provenance fails closed;
+8. ordinary presentation retains empty resolution-execution provenance;
+9. resolution audio fetch remains transport-only and does not double-train;
+10. completion return provenance is identity/audit only.
+
+AUTHORITY BOUNDARY
+resolution_execution_receipt_remains_primary=true
+native_audio_presentation_is_second_execution=false
+native_audio_presentation_trains_speech_act=false
+audio_transport_receipt_trains_speech_act=false
+playback_confirmed=false
+peer_delivery_confirmed=false
+peer_heard_confirmed=false
+peer_understanding_confirmed=false
+peer_reply_causation_confirmed=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NON-NEGOTIABLE ARCHITECTURE
+- Canonical Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra path unchanged.
+- Native speech-act choice, independent expression choice and native voice choice remain distinct.
+- Original native utterance remains primary.
+- English/decoder remains downstream observational realization.
+- Authentication/channel/device availability grants no native preference/relationship/choice authority.
+- No canned resolution content.
+- No parser label becomes speech-act or voice choice.
+- No duplicate consequence learning across text/audio.
+- No audio fetch becomes playback/hearing evidence.
+- SQLite remains persistence/provenance/audit, not cognitive retrieval.
+- Terra remains optional/downstream.
+- No Stage9/self-upgrade.
+
+EXTERNAL CI PUBLICATION RULE
+The M4C3J workflow must:
+1. reconstruct byte-exact HF1;
+2. copy ORIGINAL carrier helpers before patches;
+3. apply published 0001 through 0015 sequentially;
+4. prove exact post0015 baseline: expected 337 tests;
+5. apply 0016 intent;
+6. compile;
+7. run focused M4C3J: expected 10 tests;
+8. run complete candidate suite: expected 347 tests;
+9. materialize candidate 0016 only after candidate green;
+10. independently reconstruct fresh exact HF1;
+11. apply 0001-0015 + generated 0016;
+12. prove candidate/replay source-byte parity;
+13. run fresh replay focused 10 and complete 347;
+14. preserve source/carrier archives, hashes and authority boundary;
+15. upload actual evidence;
+16. write green CI receipt only if all gates succeed.
+
+Even if candidate CI is green:
+ordinary patches/hf2/0016-hf2-resolution-native-audio-presentation.patch remains unpublished until the actual logs/artifact/generated patch bytes are inspected.
+
+NEXT
+Inspect the GitHub Actions run sourced from:
+5de63fe9684500c11b771303dbdcfb07eb7507f8
+
+If any baseline/focused/candidate/replay/parity gate fails:
+repair the candidate and keep ordinary 0016 unpublished.
+
+If all gates are green:
+download/inspect the actual artifact, verify generated 0016 SHA/source parity, mirror candidate evidence to Drive, publish only the exact generated 0016 bytes, then extend the separate published exact-HF1 chain through 0016 before sealing M4C3J.
