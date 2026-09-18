@@ -1,0 +1,87 @@
+diff --git a/src/noeron/cognition/models.py b/src/noeron/cognition/models.py
+index 4d6b40ec60305a09ae8c7979c496d7461d4b211f..fb5069f91606bcbcd5b80d91742465b37e9cfb15 100644
+--- a/src/noeron/cognition/models.py
++++ b/src/noeron/cognition/models.py
+@@ -270,6 +270,14 @@ class SpeechActDevelopmentState(BaseModel):
+     action_post_knots: dict[str,KnotState] = Field(default_factory=dict)
+     action_observations: dict[str,int] = Field(default_factory=dict)
+     transition_observations: int = 0
++    pending_action: str = ''
++    pending_pre_knot: KnotState | None = None
++    pending_pre_residual: float | None = None
++    pending_event_id: UUID | None = None
++    pending_decision_layer: str = ''
++    pending_origin: str = ''
++    operator_calibration_observations: int = 0
++    last_outcome_audit: dict[str,object] = Field(default_factory=dict)
+     last_context_knot: KnotState | None = None
+     last_context_signature: str = ''
+     last_eligible_actions: list[str] = Field(default_factory=list)
+diff --git a/src/noeron/orchestrator.py b/src/noeron/orchestrator.py
+index 5f8fd288e94008eba228a984396c46e5abd06844..cf88fcca377d6954dd83c881fc53a4cd4f52a269 100644
+--- a/src/noeron/orchestrator.py
++++ b/src/noeron/orchestrator.py
+@@ -41,7 +41,7 @@ from noeron.language_dialogue import CONVERSATION_VERSION, DIALOGUE_VERSION, PRO
+ from noeron.english_egress import ENGLISH_EGRESS_VERSION, realize_native_thought
+ from noeron.conversation_premises import BoundedConversationalPremiseContext
+ from noeron.conversation_bridge import admit_live_current_turn, native_trace_from_math_state
+-from noeron.conversation_actions import resolution_affordances, choose_resolution_act
++from noeron.conversation_actions import resolution_affordances, choose_resolution_act, observe_resolution_transition
+ from noeron.source_identity import identify_source, provenance_digest
+ from noeron.stratification import ReclusterEntry, build_recluster_plan
+ from noeron.llm import LanguageEngine
+@@ -918,6 +918,46 @@ class Noeron:
+ 
+ 
+ 
++    def _resolve_pending_speech_act_outcome(self,result,event):
++        """Learn only from a previously executed resolution act and later post-state."""
++        st=self.state.cognition.speech_act_development
++        if not st.pending_action or st.pending_pre_knot is None or st.pending_pre_residual is None:
++            return None
++        post_residual=self._communication_consistency_residual(result.state)
++        admissible=bool(result.state.dkt.security_admissible) and self._nonworsening(st.pending_pre_residual,post_residual)
++        out=observe_resolution_transition(
++            st,st.pending_action,st.pending_pre_knot,result.state.dkt.core_knot,
++            admissible=admissible,
++            mean_fn=InitiativePolicy._mean,
++            source=f'observed-environment-response:{event.source};pending-origin={st.pending_origin};decision-layer={st.pending_decision_layer}',
++        )
++        st.last_outcome_audit=dict(out)
++        st.pending_action='';st.pending_pre_knot=None;st.pending_pre_residual=None
++        st.pending_event_id=None;st.pending_decision_layer='';st.pending_origin=''
++        return out
++
++    def _mark_speech_act_pending(self,action:str,event_id=None,decision_layer:str='',origin:str=''):
++        """Record pre-state only after a speech-act actuator has actually executed.
++
++        This helper is deliberately not called by the observational M4B selector.
++        Future native execution or explicit authenticated calibration may call it
++        only after the named act is actually carried out.
++        """
++        if action not in RESOLUTION_AFFORDANCES:
++            raise ValueError(f'invalid resolution speech act: {action}')
++        st=self.state.cognition.speech_act_development
++        st.pending_action=action
++        st.pending_pre_knot=self.state.math_kernel.dkt.core_knot.model_copy(deep=True)
++        st.pending_pre_residual=self._communication_consistency_residual(self.state.math_kernel)
++        st.pending_event_id=event_id
++        st.pending_decision_layer=str(decision_layer or '')
++        st.pending_origin=str(origin or '')
++        return {
++            'pending':True,'action':action,'decision_layer':st.pending_decision_layer,
++            'origin':st.pending_origin,'native_choice_claim':False,
++            'preference_label_authority':False,'relationship_authority':False,
++        }
++
+     def _resolution_speech_act_selection(self,thought,result):
+         """Observe/select unresolved-response act without changing answer content.
+ 
+@@ -1526,6 +1566,7 @@ class Noeron:
+             # trains communication geometry.
+             self._resolve_pending_expression_outcome(result,event)
+             self._resolve_pending_realization_outcome(result,event)
++            self._resolve_pending_speech_act_outcome(result,event)
+             self._observe_owner_relation(event,result)
+             self.state.math_kernel=result.state; self.state.logical_entropy=result.state.rl.entropy_normalized; self.state.active_strata={target:1.0}; self.state.conversational_turn+=1; self.state.last_event_id=event.id
+             # HF2 current-turn audit is produced from the exact admitted input and
