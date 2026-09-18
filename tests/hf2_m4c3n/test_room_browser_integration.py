@@ -339,8 +339,20 @@ def test_reload_and_renewed_authenticated_session_cannot_close_old_playback(tmp_
             assert [r.event for r in store.native_audio_client_playback_receipts(100)] == ["playing"]
 
             token_b = _renew_session(auth, "m4c3n-browser-device", private)
-            parts_b = _browser(base, token_b)
-            page_b = parts_b[-1]
+            browser = parts_a[1]
+            context_b = browser.new_context()
+            context_b.add_cookies(
+                [{
+                    "name": api._ROOM_COOKIE,
+                    "value": token_b,
+                    "url": base + "/room",
+                    "httpOnly": True,
+                    "sameSite": "Strict",
+                }]
+            )
+            page_b = context_b.new_page()
+            page_b.goto(base + "/room", wait_until="domcontentloaded")
+            page_b.wait_for_selector("audio", state="attached", timeout=10_000)
             try:
                 result = page_b.evaluate(
                     """async ({pid,aid,sid}) => {
@@ -356,7 +368,7 @@ def test_reload_and_renewed_authenticated_session_cannot_close_old_playback(tmp_
                 assert "prior playing" in str(result["body"])
                 assert [r.event for r in store.native_audio_client_playback_receipts(100)] == ["playing"]
             finally:
-                _close_browser(parts_b)
+                context_b.close()
         finally:
             _close_browser(parts_a)
 
