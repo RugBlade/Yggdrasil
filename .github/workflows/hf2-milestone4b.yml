@@ -97,7 +97,7 @@ jobs:
           set -euo pipefail
           TARGET="patches/hf2/0005-hf2-native-resolution-state-audit.patch"
           cp 0005-generated.patch "$TARGET"
-          if git diff --quiet -- "$TARGET"; then
+          if git ls-files --error-unmatch "$TARGET" >/dev/null 2>&1 && git diff --quiet -- "$TARGET"; then
             echo "generated_0005_already_current=true"
             exit 0
           fi
