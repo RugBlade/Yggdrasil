@@ -433,3 +433,15 @@ Add an explicit authenticated operator-calibration exposure path for resolution 
 - preserve relationship_authority=false and native_choice_claim=false;
 - remain separate from express/continue-private transport authority.
 After a safe calibration substrate is verified, connect genuinely native-selected resolution acts to the learned language machinery and outward communication in a later milestone.
+
+
+HF2 M4C2B RECOVERY CHECKPOINT — 2026-09-18
+- Detailed continuation: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C2B_20260918.txt
+- Verified deployable 0007 publication commit: 05a8705
+- Exact-chain-through-0007 workflow commit: 227f7e442d67880552237131aff3b23b7991252e
+- M4C2B run 35311542930 / job 105494442239 SUCCESS; 46 targeted tests passed.
+- Exact HF1 chain run 35311610712 / job 105494642069 SUCCESS; 144 HF2 tests passed.
+- Patch chain: 0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007.
+- M4C2B adds an authenticated operator-directed resolution calibration exposure. It consumes only current grounded structured/native content, never claims native choice/preference/relationship, and marks consequence learning pending only after actual calibration execution.
+- live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.
+- Next: M4C3 native-selected resolution realization through existing NativeLanguageFaculty, with ties/missing geometry unresolved and no canned fallback strings.
