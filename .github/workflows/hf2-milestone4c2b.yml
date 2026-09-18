@@ -1,0 +1,107 @@
+name: HF2 Milestone 4C2B - owner resolution calibration
+
+on:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'src/noeron/conversation_resolution.py'
+      - 'patches/hf2/0007-hf2-owner-resolution-calibration.intent.patch'
+      - 'tests/test_v082_hf2_resolution_calibration.py'
+      - 'tests/test_v082_hf2_m4c2b_runtime.py'
+      - '.github/workflows/hf2-milestone4c2b.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  exact-hf1-m4c2b:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Reconstruct exact post-0006 runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          FIX="$RUNNER_TEMP/ygg-hf1-post0006"
+          echo "FIX=$FIX" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py --extract-dir "$FIX" --extract-all --evidence m4c2b-hf1-identity.json
+          for f in conversation_premises.py conversation_bridge.py conversation_reasoning.py conversation_proof.py conversation_runtime_gate.py conversation_actions.py conversation_resolution.py; do
+            cp "src/noeron/$f" "$FIX/src/noeron/$f"
+          done
+          cd "$FIX"
+          git init -q
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add .
+          git commit -qm "exact HF1 plus HF2 carrier helpers"
+          for p in 0001-hf2-inference-core.patch 0002-hf2-current-turn-runtime-bridge.patch 0003-hf2-native-bounded-dialogue-reasoning.patch 0004-hf2-proof-provenance-ambiguity-runtime-gate.patch 0005-hf2-native-resolution-state-audit.patch 0006-hf2-speech-act-consequence-learning.patch; do
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git diff --check
+          done
+          git add .
+          git commit -qm "exact post-0006 HF2 runtime"
+
+      - name: Materialize 0007 intent
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/materialize_hf2_intent_patch.py             --root "$FIX"             --intent patches/hf2/0007-hf2-owner-resolution-calibration.intent.patch             --audit m4c2b-0007-materialization-audit.json
+          cd "$FIX"
+          git diff --check
+          git diff --binary --full-index > "$GITHUB_WORKSPACE/0007-generated.patch"
+          test -s "$GITHUB_WORKSPACE/0007-generated.patch"
+
+      - name: Prove generated 0007 applies and compile
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FIX"
+          git reset --hard -q HEAD
+          git apply --check "$GITHUB_WORKSPACE/0007-generated.patch"
+          git apply "$GITHUB_WORKSPACE/0007-generated.patch"
+          git diff --check
+          python -m compileall -q             src/noeron/api.py src/noeron/orchestrator.py             src/noeron/conversation_resolution.py
+
+      - name: Install exact runtime dependencies
+        run: python -m pip install --disable-pip-version-check -e "$FIX[dev]"
+
+      - name: Run M4C2B tests against exact patched runtime
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+        run: |
+          python -m pytest -q             tests/test_v082_hf2_resolution_calibration.py             tests/test_v082_hf2_m4c2b_runtime.py             tests/test_v082_hf2_conversation_actions.py             tests/test_v082_hf2_speech_act_learning.py             tests/test_v082_hf2_m4c2a_runtime.py             tests/test_v082_hf2_conversation_resolution.py             | tee m4c2b-runtime-tests.txt
+
+      - name: Publish verified deployable 0007
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET="patches/hf2/0007-hf2-owner-resolution-calibration.patch"
+          cp 0007-generated.patch "$TARGET"
+          if git ls-files --error-unmatch "$TARGET" >/dev/null 2>&1 && git diff --quiet -- "$TARGET"; then
+            echo "generated_0007_already_current=true"
+            exit 0
+          fi
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add "$TARGET"
+          git commit -m "Materialize deployable HF2 patch 0007 from verified intent"
+          git push origin HEAD:stage8B/v0.8.2-conversation-completion-hf2
+
+      - name: Upload M4C2B evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-m4c2b-owner-resolution-calibration
+          path: |
+            0007-generated.patch
+            m4c2b-0007-materialization-audit.json
+            m4c2b-runtime-tests.txt
+            m4c2b-hf1-identity.json
+          if-no-files-found: error
