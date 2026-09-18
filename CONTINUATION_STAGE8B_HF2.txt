@@ -1,3 +1,9 @@
+LATEST UPDATE — M4C3A execution-boundary correction is in CI preparation.
+Read docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3A_20260918.txt first.
+The M4C2B tests passed, but their "actual execution" claim was not behavioral proof.
+0008 is not published yet; native resolution transport remains disconnected.
+live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.
+
 YGGDRASIL CONTINUATION NOTE — STAGE 8B HF2
 Updated: 2026-09-17
 Repository: RugBlade/Yggdrasil

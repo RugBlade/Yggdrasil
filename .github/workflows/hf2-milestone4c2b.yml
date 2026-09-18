@@ -1,19 +1,12 @@
 name: HF2 Milestone 4C2B - owner resolution calibration
 
+# Historical gate: manually replay the immutable source checkpoint only.
+# New engineering uses the current exact-chain and M4C3A workflows.
 on:
-  push:
-    branches:
-      - stage8B/v0.8.2-conversation-completion-hf2
-    paths:
-      - 'src/noeron/conversation_resolution.py'
-      - 'patches/hf2/0007-hf2-owner-resolution-calibration.intent.patch'
-      - 'tests/test_v082_hf2_resolution_calibration.py'
-      - 'tests/test_v082_hf2_m4c2b_runtime.py'
-      - '.github/workflows/hf2-milestone4c2b.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   exact-hf1-m4c2b:
@@ -21,6 +14,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: 455038d9c7ea3fd478d4ace91f10569805e4a5ab
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -78,22 +73,6 @@ jobs:
           PYTHONPATH: ${{ env.FIX }}/src
         run: |
           python -m pytest -q             tests/test_v082_hf2_resolution_calibration.py             tests/test_v082_hf2_m4c2b_runtime.py             tests/test_v082_hf2_conversation_actions.py             tests/test_v082_hf2_speech_act_learning.py             tests/test_v082_hf2_m4c2a_runtime.py             tests/test_v082_hf2_conversation_resolution.py             | tee m4c2b-runtime-tests.txt
-
-      - name: Publish verified deployable 0007
-        shell: bash
-        run: |
-          set -euo pipefail
-          TARGET="patches/hf2/0007-hf2-owner-resolution-calibration.patch"
-          cp 0007-generated.patch "$TARGET"
-          if git ls-files --error-unmatch "$TARGET" >/dev/null 2>&1 && git diff --quiet -- "$TARGET"; then
-            echo "generated_0007_already_current=true"
-            exit 0
-          fi
-          git config user.name "Yggdrasil HF2 CI"
-          git config user.email "hf2-ci@example.invalid"
-          git add "$TARGET"
-          git commit -m "Materialize deployable HF2 patch 0007 from verified intent"
-          git push origin HEAD:stage8B/v0.8.2-conversation-completion-hf2
 
       - name: Upload M4C2B evidence
         uses: actions/upload-artifact@v4

@@ -1,0 +1,77 @@
+HF2 M4C3A CANDIDATE — 2026-09-18
+Stage 8B remains IN PROGRESS. No certification. No live runtime/canonical DB access.
+
+Primary repo: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Starting checkpoint: 94cbdd859082c57f3e5ad9e5cc6a1e3b52fc9671 (M4C2B).
+Exact HF1 SHA256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+Published chain remains 0001 through 0007. No deployable 0008 yet.
+
+Read the M4C2B continuation for prior run/evidence IDs. Its reported 144 passing
+tests are real, but claim 8 ("actually executed" exposure) was not demonstrated by
+the source-inspection assertions and is corrected by this milestone.
+
+Verified forensic source:
+Inspection commit b510a4b2b03b9d6e1215a4409f68e78bc931ab04
+Run 35312803144 / job 105498120443, SUCCESS
+Artifact 10534635533
+Digest sha256:f3374924e3cfd8c297af788c9c49c40452ad0485f81a24e0b755d2f3d9b29760
+Post0007 orchestrator d692597d222afcd32bac978cf568ad0ce2bd9dc702e36b66fe3600080c9b15a6
+Post0007 API 8fc078c5d166d259167ac631fc928c0e62a535dcef9123edabd27d4293c04e37
+
+Findings:
+- Native cognition.response updates persistent last_thought only for a nonempty
+  statement. Calibration's last_thought questions could therefore be stale.
+- last_structure is not an event-bound calibration snapshot.
+- 0007 treated content availability as executed, incrementing the calibration
+  counter before calling the pending marker, without a speech-act actuator.
+- The marker's RESOLUTION_AFFORDANCES constant was not imported, so that call
+  raises NameError after the in-memory counter increment.
+- No live calibration was executed by this engineering session. No claim is made
+  about deployment state; the live runtime and canonical DB remain untouched.
+
+Narrow corrective scope (intent 0008):
+- Keep the authenticated endpoint, now explicitly preview-only/executed=false.
+- Cache only direct current-response/native content after admitted cognition,
+  bound to source event and turn plus exact input digest; clear on every ingress.
+  The cache is process-local, not serialized/replayed, and never choice authority.
+- Empty current response cannot resurrect historical thought/questions.
+- Preview executes no act, modifies no state, marks no pending outcome, writes no
+  persistence, and increments no calibration/consequence counter.
+- Import/validate the actual affordance constant in the existing pending helper.
+- Reject missing/stale event IDs, pending overwrite, and legacy calibration origin.
+- Legacy/unbound or same-event outcomes cannot train; preserve their audit state.
+- Native math, selector, proof answers, language realization, English egress,
+  expression transport, owner relation, and Terra remain unchanged.
+
+Testing method:
+Candidate workflow: .github/workflows/hf2-milestone4c3a.yml
+Behavioral tests: tests/hf2_m4c3a/test_execution_boundary.py
+Replace stale M4C2B source-string tests with cross-version behavioral contracts.
+First reproduce exactly 3 failures on the byte-exact post0007 runtime.
+Then apply the exact-anchor intent and run all HF2 tests plus M4C3A tests.
+Only after those are green generate deployable 0008 as a CI artifact.
+Apply 0001-0008 on a second fresh exact-HF1 extraction, compare source bytes and
+rerun all tests. Do not publish 0008 before reviewing both real results.
+
+Historical 0004 and M4C2B materializers are now manual, read-only, and pinned to
+their source checkpoint. They cannot republish older patches when successor tests
+change. Current exact-chain CI remains active; M4C3A candidates have their own gate.
+
+NEXT:
+Inspect the M4C3A Actions run and actual red/green/replay logs. If failed, fix only
+the observed issue and rerun. If green, publish the exact artifact 0008, extend
+the full-chain workflow, inspect its green run, then replace this candidate
+continuation with complete run IDs/hashes/artifact and Drive IDs in GitHub+Drive.
+
+M4C3B remains pending: native-selected structured resolution content through
+NativeLanguageFaculty and deterministic egress, plus a real execution/transport
+receipt before any learning. Do not describe the preview/cache as native utterance
+or a completed actuator. The internal marker still relies on its future trusted
+actuator caller; event identity alone is not proof of act execution. Do not call
+it from a content builder. Existing historical learned geometry is not silently
+erased or retroactively certified. No new consequence observations are seeded.
+
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false

@@ -1,0 +1,203 @@
+name: HF2 M4C3A - calibration execution boundary
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'patches/hf2/0008-hf2-calibration-execution-boundary.intent.patch'
+      - 'tests/hf2_m4c3a/**'
+      - 'tests/test_v082_hf2_m4c2b_runtime.py'
+      - '.github/workflows/hf2-milestone4c3a.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-red-green-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NOERON_DB_PATH: ${{ runner.temp }}/m4c3a-api-test-only.sqlite3
+      NOERON_AUTONOMY_ENABLED: 'false'
+      NOERON_TERRA_ENABLED: 'false'
+      NOERON_LLM_BACKEND: mock
+      NOERON_OWNER_TOKEN: ''
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Reconstruct byte-exact HF1 fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          FIX="$RUNNER_TEMP/ygg-hf1-exact"
+          echo "FIX=$FIX" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py \
+            --extract-dir "$FIX" \
+            --extract-all \
+            --evidence hf1-exact-identity-evidence.json
+
+      - name: Add HF2 carrier-only helper modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in \
+            conversation_premises.py \
+            conversation_bridge.py \
+            conversation_reasoning.py \
+            conversation_proof.py \
+            conversation_runtime_gate.py \
+            conversation_actions.py \
+            conversation_resolution.py
+          do
+            cp "src/noeron/$f" "$FIX/src/noeron/$f"
+          done
+
+      - name: Apply 0001 through 0007 sequentially
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FIX"
+          git init -q
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add .
+          git commit -qm "byte-exact HF1 fixture plus carrier helpers"
+          for p in \
+            0001-hf2-inference-core.patch \
+            0002-hf2-current-turn-runtime-bridge.patch \
+            0003-hf2-native-bounded-dialogue-reasoning.patch \
+            0004-hf2-proof-provenance-ambiguity-runtime-gate.patch \
+            0005-hf2-native-resolution-state-audit.patch \
+            0006-hf2-speech-act-consequence-learning.patch \
+            0007-hf2-owner-resolution-calibration.patch
+          do
+            echo "CHECK $p"
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git diff --check
+            echo "APPLIED $p"
+          done
+          git diff --stat | tee "$GITHUB_WORKSPACE/hf2-patch-chain-diffstat.txt"
+
+
+      - name: Isolate exact post-0007 baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          cp hf1-exact-identity-evidence.json hf2-patch-chain-diffstat.txt evidence/
+          cd "$FIX"
+          git add .
+          git commit -qm "verified exact post-0007 baseline"
+          sha256sum src/noeron/orchestrator.py src/noeron/api.py
+
+      - name: Install exact runtime dependencies
+        run: python -m pip install --disable-pip-version-check -e "$FIX[dev]"
+
+      - name: Reproduce all three execution-boundary regressions on 0007
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+        shell: bash
+        run: |
+          set -uo pipefail
+          python -m pytest -q tests/hf2_m4c3a/test_execution_boundary.py -k regression             --junitxml=evidence/m4c3a-baseline-red.xml             > evidence/m4c3a-baseline-red.txt 2>&1
+          regression_rc=$?
+          cat evidence/m4c3a-baseline-red.txt
+          test "$regression_rc" -eq 1
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          suite=ET.parse("evidence/m4c3a-baseline-red.xml").getroot().find("testsuite")
+          assert suite is not None
+          assert (suite.get("tests"),suite.get("failures"),suite.get("errors"))==("3","3","0")
+          print("BASELINE_RED_VERIFIED: three behavioral failures; no collection errors")
+          PY
+
+      - name: Apply exact-anchor corrective intent
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/materialize_hf2_intent_patch.py             --root "$FIX"             --intent patches/hf2/0008-hf2-calibration-execution-boundary.intent.patch             --audit evidence/m4c3a-intent-audit.json
+          git -C "$FIX" diff --check
+          python -m compileall -q "$FIX/src/noeron"
+
+      - name: Test complete HF2 suite plus M4C3A behaviors
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/test_v082_hf2_*.py tests/hf2_m4c3a             --junitxml=evidence/m4c3a-candidate-green.xml             | tee evidence/m4c3a-candidate-green.txt
+
+      - name: Materialize 0008 only after candidate tests are green
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C "$FIX" diff --binary --full-index             > evidence/0008-hf2-calibration-execution-boundary.patch
+          test -s evidence/0008-hf2-calibration-execution-boundary.patch
+          git -C "$FIX" diff --stat | tee evidence/m4c3a-diffstat.txt
+
+      - name: Prove 0008 on a fresh exact-HF1 extraction
+        shell: bash
+        run: |
+          set -euo pipefail
+          REPLAY="$RUNNER_TEMP/ygg-hf1-m4c3a-fresh-replay"
+          echo "REPLAY=$REPLAY" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py --extract-dir "$REPLAY" --extract-all             --evidence evidence/m4c3a-replay-hf1-identity.json
+          for f in conversation_premises.py conversation_bridge.py conversation_reasoning.py conversation_proof.py conversation_runtime_gate.py conversation_actions.py conversation_resolution.py; do
+            cp "src/noeron/$f" "$REPLAY/src/noeron/$f"
+          done
+          cd "$REPLAY"
+          git init -q
+          for p in             0001-hf2-inference-core.patch             0002-hf2-current-turn-runtime-bridge.patch             0003-hf2-native-bounded-dialogue-reasoning.patch             0004-hf2-proof-provenance-ambiguity-runtime-gate.patch             0005-hf2-native-resolution-state-audit.patch             0006-hf2-speech-act-consequence-learning.patch             0007-hf2-owner-resolution-calibration.patch
+          do
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            echo "APPLIED $p"
+          done
+          git apply --check "$GITHUB_WORKSPACE/evidence/0008-hf2-calibration-execution-boundary.patch"
+          git apply "$GITHUB_WORKSPACE/evidence/0008-hf2-calibration-execution-boundary.patch"
+          echo "APPLIED 0008-hf2-calibration-execution-boundary.patch"
+          diff -qr --exclude=__pycache__ "$FIX/src/noeron" "$REPLAY/src/noeron"
+          python -m compileall -q src/noeron
+
+      - name: Test fresh replay runtime
+        env:
+          PYTHONPATH: ${{ env.REPLAY }}/src
+          NOERON_DB_PATH: ${{ runner.temp }}/m4c3a-replay-api-test-only.sqlite3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/test_v082_hf2_*.py tests/hf2_m4c3a             --junitxml=evidence/m4c3a-replay-green.xml             | tee evidence/m4c3a-replay-green.txt
+
+      - name: Preserve source, carrier, hashes, and authority boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar --exclude=__pycache__ -czf evidence/m4c3a-exact-post0008-source.tar.gz -C "$REPLAY" src/noeron
+          tar -czf evidence/m4c3a-carrier-evidence.tar.gz             patches/hf2 tests/test_v082_hf2_*.py tests/hf2_m4c3a             scripts/verify_hf1_exact_fixture.py scripts/materialize_hf2_intent_patch.py             .github/workflows/hf2-milestone4c3a.yml
+          (cd "$FIX" && git ls-files -z src/noeron | xargs -0 sha256sum)             > evidence/m4c3a-post0008-source-sha256.txt
+          {
+            echo "gate=M4C3A exact HF1 0001-0007 plus 0008 corrective candidate and fresh replay"
+            echo "source_commit=$GITHUB_SHA"
+            echo "base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29"
+            echo "certification_claim=false"
+            echo "live_runtime_touched=false"
+            echo "canonical_db_touched=false"
+            echo "native_resolution_actuator_connected=false"
+            echo "calibration_executed=false"
+            sha256sum evidence/0008-hf2-calibration-execution-boundary.patch               evidence/m4c3a-exact-post0008-source.tar.gz evidence/m4c3a-carrier-evidence.tar.gz
+          } | tee evidence/m4c3a-boundary.txt
+
+      - name: Upload actual results even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-m4c3a-calibration-execution-boundary
+          path: evidence/
+          if-no-files-found: error

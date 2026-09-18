@@ -1,60 +1,66 @@
-import inspect
+"""Behavioral contracts that remain valid across 0007 and its corrective successor."""
+from threading import RLock
+from types import SimpleNamespace
+from unittest.mock import Mock
 
+import pytest
 from fastapi.testclient import TestClient
 
 from noeron.api import app
+from noeron.models import NoeronState
 from noeron.orchestrator import Noeron
 
 
-def test_runtime_calibration_requires_authenticated_owner_at_api_boundary():
-    routes={getattr(r,"path",""):r for r in app.routes}
-    assert "/owner/resolution/calibrate" in routes
-    src=inspect.getsource(routes["/owner/resolution/calibrate"].endpoint)
-    assert "_require_owner" in src
-    assert "owner_authenticated=True" in src
+def shell():
+    runtime=Noeron.__new__(Noeron)
+    runtime.state=NoeronState()
+    runtime._lock=RLock()
+    runtime.store=SimpleNamespace(append_state=Mock())
+    runtime.security=SimpleNamespace(checkpoint=Mock())
+    return runtime
 
 
-def test_runtime_calibration_is_explicitly_not_native_choice_or_relationship():
-    src=inspect.getsource(Noeron.operator_resolution_calibration)
-    assert "operator-directed-calibration-not-native-choice" in src
-    assert "'native_choice_claim':False" in src
-    assert "'relationship_authority':False" in src
-    assert "'preference_label_authority':False" in src
-    assert "'content_authority':False" in src
-    assert "'transport_authority':False" in src
+@pytest.mark.parametrize("action", ["clarify", "ask", "defer", "remain-silent"])
+def test_direct_calibration_requires_authenticated_owner_without_mutation(action):
+    runtime=shell()
+    before=runtime.state.model_dump()
+    with pytest.raises(ValueError, match="authenticated owner"):
+        runtime.operator_resolution_calibration(action)
+    assert runtime.state.model_dump()==before
+    runtime.store.append_state.assert_not_called()
+    runtime.security.checkpoint.assert_not_called()
 
 
-def test_runtime_uses_only_current_structured_and_native_question_content():
-    src=inspect.getsource(Noeron.operator_resolution_calibration)
-    assert "lang.dialogue,'last_structure'" in src
-    assert "last_thought" in src
-    assert "question_candidates" in src
-    assert "build_operator_resolution_calibration" in src
+@pytest.mark.parametrize("action", ["answer", "express", ""])
+def test_unknown_calibration_act_is_rejected_without_mutation(action):
+    runtime=shell()
+    before=runtime.state.model_dump()
+    with pytest.raises(ValueError, match="unsupported resolution calibration action"):
+        runtime.operator_resolution_calibration(action, owner_authenticated=True)
+    assert runtime.state.model_dump()==before
 
 
-def test_runtime_marks_pending_only_after_exposure_executed():
-    src=inspect.getsource(Noeron.operator_resolution_calibration)
-    executable=src.index("if not exposure.executable")
-    mark=src.index("_mark_speech_act_pending")
-    assert executable < mark
-    assert "actually produced its grounded/nonsemantic result" in src
+@pytest.mark.parametrize("action", ["clarify", "ask", "defer", "remain-silent"])
+def test_pending_calibration_is_not_overwritten(action):
+    runtime=shell()
+    runtime.state.cognition.speech_act_development.pending_action="ask"
+    before=runtime.state.model_dump()
+    out=runtime.operator_resolution_calibration(action, owner_authenticated=True)
+    assert out["executed"] is False
+    assert "pending-outcome-already-exists" in out["status"]
+    assert out["native_choice_claim"] is False
+    assert runtime.state.model_dump()==before
 
 
-def test_runtime_refuses_to_overwrite_an_unresolved_pending_outcome():
-    src=inspect.getsource(Noeron.operator_resolution_calibration)
-    assert "if st.pending_action" in src
-    assert "pending-outcome-already-exists" in src
+def test_absent_native_question_never_authors_calibration_fallback():
+    runtime=shell()
+    before=runtime.state.model_dump()
+    out=runtime.operator_resolution_calibration("ask", owner_authenticated=True)
+    assert out["executed"] is False
+    assert out["candidates"]==[]
+    assert runtime.state.model_dump()==before
 
 
-def test_calibration_counter_is_audit_only_and_selector_remains_unchanged():
-    calibration=inspect.getsource(Noeron.operator_resolution_calibration)
-    selector=inspect.getsource(Noeron._resolution_speech_act_selection)
-    assert "operator_calibration_observations" in calibration
-    assert "operator_calibration_observations" not in selector
-    assert "_mark_speech_act_pending" not in selector
-
-
-def test_route_rejects_unauthenticated_request():
-    client=TestClient(app)
-    response=client.post("/owner/resolution/calibrate",json={"action":"defer"})
+def test_real_route_rejects_unauthenticated_request():
+    response=TestClient(app).post("/owner/resolution/calibrate", json={"action":"defer"})
     assert response.status_code in {401,503}

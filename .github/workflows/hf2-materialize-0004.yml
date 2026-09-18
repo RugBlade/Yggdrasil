@@ -1,24 +1,12 @@
 name: HF2 Materialize Patch 0004
 
+# Historical gate: manually replay the immutable source checkpoint only.
+# New engineering uses the current exact-chain and M4C3A workflows.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - stage8B/v0.8.2-conversation-completion-hf2
-    paths:
-      - 'patches/hf2/0001-hf2-inference-core.patch'
-      - 'patches/hf2/0002-hf2-current-turn-runtime-bridge.patch'
-      - 'patches/hf2/0003-hf2-native-bounded-dialogue-reasoning.patch'
-      - 'patches/hf2/0004-hf2-proof-provenance-ambiguity-runtime-gate.intent.patch'
-      - 'scripts/materialize_hf2_intent_patch.py'
-      - 'scripts/verify_hf1_exact_fixture.py'
-      - 'fixtures/hf1_exact/**'
-      - 'src/noeron/conversation_*.py'
-      - 'tests/test_v082_hf2_*.py'
-      - '.github/workflows/hf2-materialize-0004.yml'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   materialize-and-verify:
@@ -26,6 +14,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: b510a4b2b03b9d6e1215a4409f68e78bc931ab04
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -95,22 +85,6 @@ jobs:
             tests/test_v082_hf2_runtime_proof_gate.py \
             tests/test_v082_hf2_reasoning.py \
             | tee 0004-runtime-tests.txt
-
-      - name: Commit verified generated 0004 patch
-        shell: bash
-        run: |
-          set -euo pipefail
-          TARGET="patches/hf2/0004-hf2-proof-provenance-ambiguity-runtime-gate.patch"
-          cp 0004-generated.patch "$TARGET"
-          if git diff --quiet -- "$TARGET"; then
-            echo "generated_0004_already_current=true"
-            exit 0
-          fi
-          git config user.name "Yggdrasil HF2 CI"
-          git config user.email "hf2-ci@example.invalid"
-          git add "$TARGET"
-          git commit -m "Materialize deployable HF2 patch 0004 from verified intent"
-          git push origin HEAD:stage8B/v0.8.2-conversation-completion-hf2
 
       - name: Upload generated patch and evidence
         uses: actions/upload-artifact@v4
