@@ -105,6 +105,7 @@ jobs:
           PYTHONPATH: ${{ env.FIX }}/src
         shell: bash
         run: |
+          set +e
           set -uo pipefail
           python -m pytest -q tests/hf2_m4c3a/test_execution_boundary.py -k regression             --junitxml=evidence/m4c3a-baseline-red.xml             > evidence/m4c3a-baseline-red.txt 2>&1
           regression_rc=$?
