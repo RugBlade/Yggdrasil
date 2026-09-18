@@ -22,6 +22,31 @@ canonical_db_touched=false
 m4c3o_candidate_runtime_bytes_touched=false
 certification_claim=false
 
+M4C3O ORDINARY 0019 PUBLISHED — EXACT-CHAIN VERIFICATION PENDING — 2026-09-19 Asia/Qatar
+Publication commit:
+b722ed7f624db3cab3d76764703a192099549938
+Published path:
+patches/hf2/0019-hf2-clause-shape-event-candidate-hygiene.patch
+Intent Git blob:
+15b189a47701ffe1870dcb5ca147ed0d205d7621
+Published Git blob:
+15b189a47701ffe1870dcb5ca147ed0d205d7621
+Intent/published byte identity:
+VERIFIED
+SHA256:
+da146a6bb5e53ed06dbb00203b062a5e392e0afbc286e067f35d3ec05e7da401
+
+ordinary_0019_published=true
+published_exact_chain_0019_green=false
+m4c3o_sealed=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NEXT:
+run a separate exact-HF1 published chain 0001 -> 0019 before sealing M4C3O.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9.
+
 M4C3O AUTHORITATIVE CANDIDATE RUN 2 — GREEN / PUBLICATION ELIGIBLE — 2026-09-19 Asia/Qatar
 Candidate source commit:
 2980a89dad35cd32ef93dbca84972c0ab48b31c2
