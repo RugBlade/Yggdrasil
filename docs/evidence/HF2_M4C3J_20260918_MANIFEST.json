@@ -1,0 +1,188 @@
+{
+  "schema": "yggdrasil-hf2-milestone-evidence-v1",
+  "milestone": "M4C3J",
+  "date": "2026-09-18",
+  "status": "PUBLISHED_AND_EXTERNALLY_VERIFIED",
+  "stage8b_status": "IN PROGRESS",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "previous_verified_root_checkpoint": "06b7987bc80ad27dc0acfc8246d88092b44701b9",
+  "pre_final_documentation_head": "f4fe32841420ebca6f11ceaf91ca8ae51f1ebd03",
+  "published_runtime_patch_chain": "0001-0016",
+  "ordinary_0016_published": true,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "hf1_zip_sha256": "79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29",
+  "patch0016": {
+    "intent_path": "patches/hf2/0016-hf2-resolution-native-audio-presentation.intent.patch",
+    "published_path": "patches/hf2/0016-hf2-resolution-native-audio-presentation.patch",
+    "publication_commit": "34a35dec3d0fece055a39c209340fe8b568219ce",
+    "git_blob": "3d04a8644c4d941d7737675fbe5b7d0a576ecade",
+    "sha256": "bc0096d5a63993bad891ac58116efc73567322b6ae9c4da92317d638d05c8a15",
+    "diffstat": "4 files changed, 57 insertions, 8 deletions",
+    "runtime_files": [
+      "src/noeron/api.py",
+      "src/noeron/orchestrator.py",
+      "src/noeron/room.py",
+      "src/noeron/room_models.py"
+    ],
+    "intent_and_published_git_blob_equal": true,
+    "candidate_generated_sha_equal": true
+  },
+  "engineering": {
+    "design_checkpoint_commit": "6c61dcf77a5853268c7000d83f1dc8edf596e14f",
+    "initial_intent_commit": "2410c1714d86e368a7d3d4375180027af3869e2d",
+    "hardened_intent_commit": "ee6a33ced54a5bc1d9a957c214a02c071f99a718",
+    "initial_test_commit": "81688c7e3131c29d8f968c6fba6710ce3678cb9b",
+    "hardened_test_commit": "832b0a0f4c6fafd002a36ef709bfc0a5b443d936",
+    "candidate_workflow_source": "5de63fe9684500c11b771303dbdcfb07eb7507f8",
+    "canonical_candidate_receipt_repair_commit": "b6d2ae3bdeaec1df56679a4a2c1811f59039084f",
+    "ordinary_publication_commit": "34a35dec3d0fece055a39c209340fe8b568219ce",
+    "published_chain_workflow_source": "2be2e50c575bdd9fdf3b1f8bb61a1c6f2ae1fcde",
+    "published_chain_green_receipt_commit": "13d7985b306de13b8be152972892261be2df5681",
+    "published_chain_template_fix_commit": "220128c82639875e63ee5ee449321292a26195ee",
+    "published_chain_receipt_metadata_correction_commit": "f4fe32841420ebca6f11ceaf91ca8ae51f1ebd03"
+  },
+  "candidate_ci": {
+    "run_id": 35374349689,
+    "job_id": 105695397933,
+    "source_commit": "832b0a0f4c6fafd002a36ef709bfc0a5b443d936",
+    "workflow_run_conclusion": "failure",
+    "substantive_runtime_gates_green": true,
+    "receipt_publication_failure_only": true,
+    "receipt_publication_failure_reason": "add/add rebase conflict against superseded run 35374056066",
+    "baseline": {
+      "tests": 337,
+      "warnings": 2,
+      "seconds": 182.39
+    },
+    "focused": {
+      "tests": 10,
+      "seconds": 6.71
+    },
+    "complete_candidate": {
+      "tests": 347,
+      "warnings": 2,
+      "seconds": 189.06
+    },
+    "fresh_replay_focused": {
+      "tests": 10,
+      "seconds": 11.59
+    },
+    "fresh_replay_complete": {
+      "tests": 347,
+      "warnings": 2,
+      "seconds": 192.53
+    },
+    "source_byte_parity": true,
+    "patch0016_sha256": "bc0096d5a63993bad891ac58116efc73567322b6ae9c4da92317d638d05c8a15",
+    "source_archive_sha256": "1a8ca0623403fb5ea2cc19e502a891899dd547dc74f8bd1c50e2ac5aeb2ebaee",
+    "carrier_archive_sha256": "9f37bcefa0ae80b2883d22426baf4a4512b55623c053d919b0f6778265ff1403",
+    "artifact_id": 10560520101,
+    "artifact_name": "hf2-m4c3j-resolution-native-audio-presentation",
+    "artifact_bytes": 1003346,
+    "artifact_sha256": "4f72d1309d9a1c213d26137526eca563fda3a2a9bcaaf7801e8ed77fbf0ba666",
+    "canonical_receipt_path": "docs/evidence/_ci/HF2_M4C3J_CANDIDATE_RESULT.txt",
+    "canonical_receipt_git_blob": "6ef69defb1149498a2e617907306daa01689b9d0",
+    "superseded_receipt_path": "docs/evidence/_ci/HF2_M4C3J_CANDIDATE_RESULT_SUPERSEDED_35374056066.txt"
+  },
+  "published_chain_ci": {
+    "run_id": 35378622815,
+    "job_id": 105709222245,
+    "conclusion": "success",
+    "source_commit": "2be2e50c575bdd9fdf3b1f8bb61a1c6f2ae1fcde",
+    "patch_chain": "0001-0016",
+    "tests": 347,
+    "warnings": 2,
+    "seconds": 87.39,
+    "patch0016_sha256": "bc0096d5a63993bad891ac58116efc73567322b6ae9c4da92317d638d05c8a15",
+    "artifact_id": 10560792557,
+    "artifact_name": "hf2-exact-hf1-patch-chain-evidence",
+    "artifact_bytes": 11052,
+    "artifact_sha256": "d789b1b2b93aa647fab6d0c636fcbd7e6ee395e27b2b5a5dff838d06eee21a29",
+    "receipt_path": "docs/evidence/_ci/HF2_EXACT_CHAIN_0016_RESULT.txt",
+    "receipt_git_blob": "57a1f888ef9686a5dbe2507ab621362002ae1607",
+    "receipt_metadata_correction": {
+      "workflow_template_commit": "220128c82639875e63ee5ee449321292a26195ee",
+      "receipt_commit": "f4fe32841420ebca6f11ceaf91ca8ae51f1ebd03",
+      "change": "documentation-only: patch_chain label extended through 0016 and patch0015_sha256 key corrected to patch0016_sha256",
+      "runtime_changed": false,
+      "patch_changed": false,
+      "tests_changed": false,
+      "artifact_changed": false,
+      "duplicate_ci_run_triggered": false
+    }
+  },
+  "mechanism": {
+    "resolution_execution_receipt_remains_primary": true,
+    "native_audio_presentation_is_second_execution": false,
+    "presentation_after_durable_resolution_receipt_only": true,
+    "native_voice_choice_remains_independent": true,
+    "exact_native_text_hash_link_required": true,
+    "current_and_persisted_receipt_match_required": true,
+    "audio_transport_receipt_trains_speech_act": false,
+    "sqlite_use": "integrity/provenance validation only"
+  },
+  "authority": {
+    "playback_confirmed": false,
+    "peer_delivery_confirmed": false,
+    "peer_heard_confirmed": false,
+    "peer_understanding_confirmed": false,
+    "peer_reply_causation_confirmed": false,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "preference_label_authority": false,
+    "cognitive_memory_authority": false,
+    "relationship_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false
+  },
+  "drive": {
+    "folder_id": "16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO",
+    "design_continuation_id": "1BNEQ9dTaL_JPiEkXqP8TKAheSs86_jxYt1c_S1yspsc",
+    "candidate_continuation_id": "1qvxrcdxVLGlm1BjlvzTqf5_gEgCvbTiVDaPBQmsbj5w",
+    "candidate_zip": {
+      "id": "1H_rcUaDtCeYr92zrS8GV-Aybvp52EjJ5",
+      "name": "HF2_M4C3J_RESOLUTION_NATIVE_AUDIO_PRESENTATION_20260918.zip",
+      "sha256": "4f72d1309d9a1c213d26137526eca563fda3a2a9bcaaf7801e8ed77fbf0ba666",
+      "github_byte_equal": true
+    },
+    "published_chain_zip": {
+      "id": "1LnsPBLEkeTvi5qpFnKpWF5_6BOCPwCn6",
+      "name": "HF2_EXACT_HF1_PATCH_CHAIN_0001_0016_EVIDENCE_20260918.zip",
+      "sha256": "d789b1b2b93aa647fab6d0c636fcbd7e6ee395e27b2b5a5dff838d06eee21a29",
+      "github_byte_equal": true
+    },
+    "verified_continuation_id": "1Y1iCbL6GKH5KHnxPlKX4rLFuviy4nSsRo0vmsbf7QpM",
+    "verified_continuation_normalized_equal": true,
+    "root_continuation_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1"
+  },
+  "documentation": {
+    "continuation_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3J_20260918.txt",
+    "continuation_commit": "616dd92ef954a4921402a4943b76c1bcc3395745",
+    "continuation_git_blob": "e1e31c4ea3626c5c2e63fb68d38f566d22a2705c"
+  },
+  "limitations": [
+    "Server-side audio HTTP transport does not establish browser playback, speaker rendering, human hearing, understanding, or reply causation.",
+    "Crash timing between durable ResolutionExecutionReceipt and downstream NativePresentationRecord durability has not yet been fault-injection verified.",
+    "No automatic restart replay of a missed downstream audio presentation is designed or claimed.",
+    "Presentation idempotency across crash/restart boundaries is not yet explicitly verified.",
+    "Existing determiner-form parser ambiguity remains visible/proof-gated.",
+    "Broad Stage8B conversational completion and any new LOCAL/LIVE certification remain unclaimed."
+  ],
+  "next": {
+    "milestone": "M4C3K",
+    "task": "Verification-first crash/restart/idempotency semantics for post-receipt native presentation.",
+    "constraints": [
+      "never duplicate speech-act execution or consequence learning",
+      "never infer no text execution from missing audio presentation",
+      "no automatic presentation replay unless separately designed and idempotent",
+      "no playback/hearing/delivery/understanding claims",
+      "native voice choice remains independent",
+      "SQLite remains provenance/integrity substrate, not cognitive memory",
+      "live runtime/canonical DB remain untouched",
+      "publish future 0017 only if verification exposes a real defect and the full external pipeline is green"
+    ]
+  }
+}
