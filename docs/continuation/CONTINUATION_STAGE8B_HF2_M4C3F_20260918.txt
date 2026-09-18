@@ -1,0 +1,299 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3F VERIFIED CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3F: PUBLISHED AND EXTERNALLY VERIFIED.
+Stage8B and Stage8 overall: IN PROGRESS.
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+READ THIS FIRST
+Continue from the exact HF1 published patch chain:
+0001 -> 0002 -> 0003 -> 0004 -> 0005 -> 0006 -> 0007 -> 0008 -> 0009 -> 0010 -> 0011 -> 0012 -> 0013.
+
+Latest ordinary patch:
+patches/hf2/0013-hf2-local-noncontent-execution-receipt.patch
+SHA256:
+9f9429c4deb011c3366625739385422e63157fe0002f9c0fc41701fd59158e8f
+Git blob:
+ff80d79595d2f710ac3bcc7034a0cd1e8c2035e5
+Diffstat:
+2 files changed, 134 insertions, 13 deletions.
+Runtime files changed:
+- src/noeron/cognition/models.py
+- src/noeron/orchestrator.py
+
+PREVIOUS VERIFIED CHECKPOINT
+M4C3E final root checkpoint:
+71f2ef43681c688210a4adc46f3208f1b30334dd
+M4C3E published exact-chain run:
+35339074903 / job 105580597314 / SUCCESS / 291 passed.
+Read:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3E_20260918.txt
+docs/evidence/HF2_M4C3E_20260918_MANIFEST.json
+
+M4C3F CARRIER AND COMMITS
+Intent:
+patches/hf2/0013-hf2-local-noncontent-execution-receipt.intent.patch
+Intent SHA256:
+60ed36ebae64529083985e5a811d1f66932208ee4695c365646d9c77668fca2d
+Intent Git blob:
+fe41d99fa0eaf99655b5d319dc90ef0b34e970e4
+Intent commit:
+36dd5f774a875cb746e29bbe1a506cc3d5a8536f
+
+Focused tests:
+tests/hf2_m4c3f/test_noncontent_execution_receipt.py
+Test Git blob:
+dd9350ce827a859cff352cc6f27fe414fe96e158
+Test commit:
+83dbad40affdc1c26360626d99d050bbf6a581a3
+
+Candidate workflow:
+.github/workflows/hf2-milestone4c3f.yml
+Initial workflow commit:
+d01b1e176d66275085487e4f5e887047b7cfaf9c
+Corrected provenance workflow commit:
+14eeb02ed1fd7a0edaecea2208d6b9d9c523b29c
+Final race-safe candidate workflow/source commit:
+f6be278a2523222ccffe9c6baa72cc136ef39163
+The final workflow rebases its CI receipt commit onto the live branch before push, preventing a non-fast-forward receipt loss if documentation changes land while CI is running.
+
+Candidate green receipt commit:
+30f05d00538ae10ed482a9d0d980f43ff13ace8a
+
+Ordinary 0013 publication commit:
+0cc14f810904f196395c906707cf4edff37c4d03
+message:
+hf2: publish green 0013 local non-content execution receipt
+
+Exact-chain-through-0013 workflow commit:
+86010c3316461be3a5f2385a5dec284ac92cf2f6
+message:
+ci: extend exact HF1 chain through green 0013
+
+Exact-chain green receipt commit / pre-documentation HEAD:
+2b357b8b46ce8979831982150b5a900c950de2ad
+message:
+ci: record green HF2 exact chain through 0013 [skip ci]
+
+M4C3F CANDIDATE VALIDATION
+GitHub Actions run:
+35346309224
+Job:
+105603590397
+Source commit:
+f6be278a2523222ccffe9c6baa72cc136ef39163
+Conclusion:
+SUCCESS
+
+Exact published post-0012 baseline:
+291 passed, 2 warnings in 21.04s.
+Candidate after exact-anchor 0013 intent:
+306 passed, 2 warnings in 22.11s.
+Separate fresh exact-HF1 replay through generated 0013:
+306 passed, 2 warnings in 21.75s.
+Candidate/replay source parity:
+PASS.
+Ordinary 0013 materialized only after candidate green:
+true.
+
+Candidate artifact:
+ID 10547386396
+Name: hf2-m4c3f-local-noncontent-execution-receipt
+Bytes: 905629
+ZIP SHA256:
+c155321ec916dc5ccc35dc9366c3dad5c7a845a733b1a64e6d37b37c60516829
+
+Generated 0013 SHA256:
+9f9429c4deb011c3366625739385422e63157fe0002f9c0fc41701fd59158e8f
+Exact post-0013 source archive SHA256:
+9deee754411b52fc6c94adddbd55f00fc3e671829730a8f9747274a834d96e04
+Carrier evidence archive SHA256:
+a023e798f5a90bbb055d4737bc056f9d0a5703291ca577bc13009e775017fdf6
+Intent audit:
+PASS.
+Intent authority flags remain false for semantic truth, answer, candidate ranking, cognitive memory, relationship, source-write runtime, deployment, and speech-act selection.
+
+PUBLISHED EXACT-HF1 0001-0013 VALIDATION
+GitHub Actions run:
+35354898382
+Job:
+105631741124
+Source commit:
+86010c3316461be3a5f2385a5dec284ac92cf2f6
+Conclusion:
+SUCCESS.
+
+Actual job/log evidence inspected:
+- reconstructed byte-exact HF1;
+- copied ORIGINAL carrier helpers before applying patches;
+- applied 0001 through 0013 sequentially with git apply --check and git apply;
+- compiled patched runtime;
+- included tests/hf2_m4c3f in the complete HF2 suite;
+- 306 passed, 2 warnings in 21.95s;
+- recorded patch0013 SHA256 exactly 9f9429c4deb011c3366625739385422e63157fe0002f9c0fc41701fd59158e8f;
+- live_runtime_touched=false;
+- canonical_db_touched=false;
+- certification_claim=false.
+
+Published-chain artifact:
+ID 10551511188
+Name: hf2-exact-hf1-patch-chain-evidence
+Bytes: 9721
+ZIP SHA256:
+a624f100c21b1c79a1a70909dbce10d2ad8fcd56f1d7c489f00ac28b1c3e6edd
+
+POST-0013 EXACT-RUNTIME HASHES RECORDED BY PUBLISHED CHAIN
+src/noeron/inference.py:
+9c55bb6753d12649aa8706e6e4d73d4dfab96606b3c6ed4eaddacc582df976a7
+src/noeron/models.py:
+a91dfaeb3e11a3a5109044183c931ca50409931844d3b467f07b92632d3780b7
+src/noeron/orchestrator.py:
+7cbc6fce619a15bd5122cc5b96db85066c465aff81af97fe76b14203342b7cbe
+src/noeron/api.py:
+115584fb3f1908b931040063a4d607f2cb6bf9a1ddeaf3500f5a9c34cc76681d
+src/noeron/math/models.py:
+eef4d3e87ee61da7797e69d773accf4aaa598d2c00139ee851e1e6bb7b6da455
+src/noeron/reasoning.py:
+f8b32e87be66e1c53402fbf701c81fd69553907f76187f2cc5856e290cd0d9dc
+src/noeron/math/kernel.py:
+68602443e01b5a855e9d6d09593d5f7466fdbf2db4cf77f22e55a02f04174287
+src/noeron/cognition/models.py:
+786231e57f3f906f8941dca5386f2c92a16aa23c8605995e8a83e60f1dd809b0
+src/noeron/conversation_actions.py:
+1e9b36b9f693ef9848417a52d3cc18ea09b5c0f151a8c5fea830a3a7520a07f5
+src/noeron/conversation_resolution.py:
+ea1ead068b8c68bd34d5d852a2918634ae272c692e37831a77f1a1bb63057191
+src/noeron/development.py:
+dc38d2663953f7bf6ee2158178eb3883500c9fc5452de2648f094613bbc1d57c
+src/noeron/english_egress.py:
+dc8d5456304cac3fca9cb17a48de2da079315ba6b3988cbb609bdf07f4c70c83
+
+GOOGLE DRIVE EVIDENCE
+HF2 folder ID:
+16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+
+Candidate evidence ZIP:
+HF2_M4C3F_LOCAL_NONCONTENT_EXECUTION_RECEIPT_20260918.zip
+Drive ID:
+1L2TvMv8E9Wx9IKbPhYPV7QWIVQ92-kXS
+Raw readback SHA256:
+c155321ec916dc5ccc35dc9366c3dad5c7a845a733b1a64e6d37b37c60516829
+GitHub artifact/Drive raw-byte equality:
+VERIFIED.
+
+Published-chain evidence ZIP:
+HF2_EXACT_HF1_PATCH_CHAIN_0001_0013_EVIDENCE_20260918.zip
+Drive ID:
+1gpgVQ3CDhzKNSBZXnV4RdX7rJ93Pwn6Q
+Raw readback SHA256:
+a624f100c21b1c79a1a70909dbce10d2ad8fcd56f1d7c489f00ac28b1c3e6edd
+GitHub artifact/Drive raw-byte equality:
+VERIFIED.
+
+Historical candidate continuation Drive ID:
+1l7lF09oVAtjhQhqHwRMlSIfI2L6xeUF8
+Root continuation Drive ID to update in place after this dedicated checkpoint is coherent:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+
+WHAT M4C3F IMPLEMENTS
+1. Adds a receipt type distinct from the clarify/ask ASGI transport receipt:
+   NonContentResolutionExecutionReceipt.
+2. It is valid only for genuinely native-selected defer/remain-silent.
+3. channel=local-runtime-noncontent.
+4. status=local-noncontent-action-committed.
+5. defer effect:
+   defer-current-turn-resolution.
+6. remain-silent effect:
+   close-current-turn-without-outward-realization.
+7. The receipt records only local runtime execution provenance: current event, turn, selected action, effect, pre-knot digest, pre-residual, completion time.
+8. It hard-codes false for:
+   content_emitted,
+   outward_transport_performed,
+   peer_delivery_confirmed,
+   peer_read_confirmed,
+   peer_understanding_confirmed,
+   peer_reply_causation_confirmed.
+9. No empty message is emitted merely to manufacture a receipt.
+10. The independent expression selector is not invoked for this non-content action and no expression pending state is created.
+11. A client/serialized imitation cannot mark execution; the mark requires the identical in-process receipt capability during the trusted local transaction.
+12. Owner-command/operator-override/endogenous/nonconversational events cannot be converted into native non-content execution through this path.
+13. The receipt itself never trains speech-act consequence geometry.
+14. Later learning still requires a distinct later nonempty conversational USER_MESSAGE, correct temporal ordering, matching pre-knot/pre-residual provenance, native security admissibility, and the existing nonworsening residual gate.
+15. Persistence failure rolls back speech-act state and the security checkpoint.
+16. Existing clarify/ask authenticated-owner Room HTTP transport and ASGI send-completion semantics are unchanged.
+
+RECEIPT MEANING
+For defer, the local runtime commits the selected decision not to outwardly resolve the current turn now. This is not a scheduled future task and creates no promise of a later message.
+
+For remain-silent, the local runtime commits the selected no-outward-realization action for the current turn.
+
+Neither effect is evidence that any peer received, displayed, read, understood, or replied to anything. No content was sent.
+
+BOUNDARIES THAT REMAIN TRUE
+- Canonical causal path remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Speech-act selection still comes only from learned native consequence geometry.
+- Parser/reasoner labels and receipt machinery have zero native-choice authority.
+- Missing observations, incomplete native reference geometry, infrastructure-forced single affordances, and exact ties remain unresolved.
+- No canned ask/clarification/defer content.
+- No empty-message receipt fabrication.
+- No authentication-derived native preference or relationship authority.
+- No owner command presented as Yggdrasil preference.
+- No fabricated consequence observation.
+- No bootstrap preference insertion.
+- Operator calibration remains explicitly non-native provenance and is not execution.
+- Native content formation, native speech-act selection, expression/private-continuation selection, execution receipt, and later consequence learning remain distinct.
+- Terra remains optional/downstream with no reasoning/content/answer/memory/relationship/source-write/deployment authority.
+- SQLite remains persistence/provenance/audit substrate, not cognitive authority.
+- live runtime and canonical DB remain untouched.
+- Stage8B remains IN PROGRESS.
+- No Stage9/self-upgrade.
+
+KNOWN REMAINING LIMITATIONS
+- The M4C3F tests prove model serialization and same-process persistence surfaces, but they do not yet prove a true process restart from the same SQLite database with a pending content or non-content execution receipt.
+- Process-crash timing during persistence is not certified.
+- Native audio and other non-HTTP content receipt adapters remain unimplemented.
+- Generic/fluent native clarification remains intentionally bounded to grounded current-turn content; no canned prose should be introduced.
+- Existing determiner-form parser overgeneration such as "The lamp is on. Is the lamp on?" remains visible/proof-gated.
+- Stage8B conversation/language completion has not been claimed.
+
+RECONSTRUCTION RULE
+1. Reconstruct:
+   fixtures/hf1_exact/noeron_starter_v0.8.2_stage8B_h6obs_hf1.zip
+2. Verify HF1 SHA256:
+   79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+3. Copy ORIGINAL carrier helpers before applying patches:
+   conversation_premises.py
+   conversation_bridge.py
+   conversation_reasoning.py
+   conversation_proof.py
+   conversation_runtime_gate.py
+   conversation_actions.py
+   conversation_resolution.py
+4. Apply 0001 through 0013 strictly in order.
+5. Never overwrite patched conversation helpers with original/posterior carrier copies after patching.
+6. Run tests/test_v082_hf2_*.py plus:
+   tests/hf2_m4c3a
+   tests/hf2_m4c3b
+   tests/hf2_m4c3c
+   tests/hf2_m4c3d
+   tests/hf2_m4c3e
+   tests/hf2_m4c3f
+7. Publish any later ordinary patch only after candidate CI and a separate fresh exact-HF1 replay are green.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3G
+Add a true same-database restart/recovery verification for pending resolution execution state before expanding further communication adapters.
+
+The next candidate should determine whether, after an actually completed clarify/ask ASGI receipt or defer/remain-silent local receipt is durably persisted:
+- a brand-new Noeron process/runtime instance pointed at the same isolated SQLite database reconstructs the pending execution receipt and linked pre-state correctly;
+- it does not create a duplicate execution or duplicate consequence observation;
+- a later admissible conversational USER_MESSAGE can consume the persisted pending outcome at most once;
+- malformed/stale/replayed receipt state remains non-learnable;
+- restart does not turn audit/provenance persistence into cognitive-memory, truth, relationship, preference, or source-write authority;
+- live runtime and canonical DB remain untouched.
+
+Do this as a separate small candidate. Do not call model_validate_json or a same-process object roundtrip a process restart test. Do not publish 0014 unless exact baseline + candidate + fresh exact-HF1 replay are green.
