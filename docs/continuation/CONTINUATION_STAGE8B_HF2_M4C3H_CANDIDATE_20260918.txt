@@ -151,3 +151,36 @@ sorted by path. The existing diff -qr source-byte parity gate remains unchanged.
 NEXT
 Use only the M4C3H run sourced from bc60d33d5d386e819236f973a6bbe5c3adcc9348
 (or a later explicitly documented correction) as external verification evidence.
+
+
+OBSERVABLE AUTHORITATIVE RUN
+The corrected hash-manifest workflow commit bc60d33d5d386e819236f973a6bbe5c3adcc9348
+was further improved only for CI observability.
+
+Final authoritative workflow/source commit:
+f1956d61d8e5cff29cdcad74056ae48f93437d7d
+Change:
+publish docs/evidence/_ci/HF2_M4C3H_STARTED.txt at the beginning of the Actions job.
+The marker path is outside this workflow's push-path filter, so it cannot recursively retrigger.
+The final green receipt still uses pull --rebase before push.
+
+Authoritative Actions run:
+35367927674
+Job:
+105674765518
+Start marker confirms:
+verification_only=true
+ordinary_0015_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+Observed external progress at this checkpoint:
+- exact HF1 reconstruction + carrier helper copy: PASS
+- published 0001 through 0014 sequential application: PASS
+- dependency install: PASS
+- published post-0014 320-test baseline: PASS
+- seven M4C3H hard-exit focused cases: PASS
+- complete M4C3H-inclusive suite: still running at this documentation checkpoint
+
+Use only run 35367927674, or a later explicitly documented replacement, as M4C3H verification evidence.
