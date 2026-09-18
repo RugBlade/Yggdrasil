@@ -1,0 +1,305 @@
+name: HF2 M4C3I - native audio transport receipt
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'patches/hf2/0015-hf2-native-audio-transport-receipt.intent.patch'
+      - 'tests/hf2_m4c3i/**'
+      - '.github/workflows/hf2-milestone4c3i.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  exact-baseline-candidate-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NOERON_DB_PATH: ./m4c3i-api-test-only.sqlite3
+      NOERON_AUTONOMY_ENABLED: 'false'
+      NOERON_TERRA_ENABLED: 'false'
+      NOERON_LLM_BACKEND: mock
+      NOERON_OWNER_TOKEN: ''
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Reconstruct byte-exact HF1 fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          FIX="$RUNNER_TEMP/ygg-hf1-exact"
+          echo "FIX=$FIX" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py \
+            --extract-dir "$FIX" \
+            --extract-all \
+            --evidence hf1-exact-identity-evidence.json
+
+      - name: Add HF2 carrier-only helper modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in \
+            conversation_premises.py \
+            conversation_bridge.py \
+            conversation_reasoning.py \
+            conversation_proof.py \
+            conversation_runtime_gate.py \
+            conversation_actions.py \
+            conversation_resolution.py
+          do
+            cp "src/noeron/$f" "$FIX/src/noeron/$f"
+          done
+
+      - name: Apply published 0001 through 0014 sequentially
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FIX"
+          git init -q
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add .
+          git commit -qm "byte-exact HF1 fixture plus carrier helpers"
+          for p in \
+            0001-hf2-inference-core.patch \
+            0002-hf2-current-turn-runtime-bridge.patch \
+            0003-hf2-native-bounded-dialogue-reasoning.patch \
+            0004-hf2-proof-provenance-ambiguity-runtime-gate.patch \
+            0005-hf2-native-resolution-state-audit.patch \
+            0006-hf2-speech-act-consequence-learning.patch \
+            0007-hf2-owner-resolution-calibration.patch \
+            0008-hf2-calibration-execution-boundary.patch \
+            0009-hf2-native-resolution-content.patch \
+            0010-hf2-native-resolution-transport-receipt.patch \
+            0011-hf2-typed-current-turn-alternative-content.patch \
+            0012-hf2-act-neutral-alternative-resolution.patch \
+            0013-hf2-local-noncontent-execution-receipt.patch \
+            0014-hf2-same-db-restart-recovery.patch
+          do
+            echo "CHECK $p"
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git diff --check
+            echo "APPLIED $p"
+          done
+          git diff --stat | tee "$GITHUB_WORKSPACE/hf2-patch-chain-diffstat.txt"
+
+      - name: Isolate exact post-0014 baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          cp hf1-exact-identity-evidence.json hf2-patch-chain-diffstat.txt evidence/
+          cd "$FIX"
+          git add .
+          git commit -qm "verified exact post-0014 baseline"
+
+      - name: Install exact runtime dependencies
+        run: python -m pip install --disable-pip-version-check -e "$FIX[dev]"
+
+      - name: Verify published post0014 baseline before candidate
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q \
+            tests/test_v082_hf2_*.py \
+            tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d \
+            tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h \
+            --junitxml=evidence/m4c3i-baseline.xml | tee evidence/m4c3i-baseline.txt
+
+      - name: Apply native-audio transport receipt candidate intent
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FIX"
+          git apply --check "$GITHUB_WORKSPACE/patches/hf2/0015-hf2-native-audio-transport-receipt.intent.patch"
+          git apply "$GITHUB_WORKSPACE/patches/hf2/0015-hf2-native-audio-transport-receipt.intent.patch"
+          git diff --check
+          python -m compileall -q src/noeron
+
+      - name: Run focused M4C3I audio transport tests
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/hf2_m4c3i \
+            --junitxml=evidence/m4c3i-focused.xml | tee evidence/m4c3i-focused.txt
+
+      - name: Test complete HF2 suite plus M4C3I
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q \
+            tests/test_v082_hf2_*.py \
+            tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d \
+            tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h tests/hf2_m4c3i \
+            --junitxml=evidence/m4c3i-candidate-green.xml | tee evidence/m4c3i-candidate-green.txt
+
+      - name: Materialize 0015 only after candidate tests are green
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C "$FIX" diff --binary --full-index > evidence/0015-hf2-native-audio-transport-receipt.patch
+          test -s evidence/0015-hf2-native-audio-transport-receipt.patch
+          git -C "$FIX" diff --stat | tee evidence/m4c3i-diffstat.txt
+
+      - name: Prove 0015 on a fresh exact-HF1 extraction
+        shell: bash
+        run: |
+          set -euo pipefail
+          REPLAY="$RUNNER_TEMP/ygg-hf1-m4c3i-fresh-replay"
+          echo "REPLAY=$REPLAY" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py \
+            --extract-dir "$REPLAY" --extract-all \
+            --evidence evidence/m4c3i-replay-hf1-identity.json
+          for f in conversation_premises.py conversation_bridge.py conversation_reasoning.py conversation_proof.py conversation_runtime_gate.py conversation_actions.py conversation_resolution.py; do
+            cp "src/noeron/$f" "$REPLAY/src/noeron/$f"
+          done
+          cd "$REPLAY"
+          git init -q
+          for p in \
+            0001-hf2-inference-core.patch \
+            0002-hf2-current-turn-runtime-bridge.patch \
+            0003-hf2-native-bounded-dialogue-reasoning.patch \
+            0004-hf2-proof-provenance-ambiguity-runtime-gate.patch \
+            0005-hf2-native-resolution-state-audit.patch \
+            0006-hf2-speech-act-consequence-learning.patch \
+            0007-hf2-owner-resolution-calibration.patch \
+            0008-hf2-calibration-execution-boundary.patch \
+            0009-hf2-native-resolution-content.patch \
+            0010-hf2-native-resolution-transport-receipt.patch \
+            0011-hf2-typed-current-turn-alternative-content.patch \
+            0012-hf2-act-neutral-alternative-resolution.patch \
+            0013-hf2-local-noncontent-execution-receipt.patch \
+            0014-hf2-same-db-restart-recovery.patch
+          do
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            echo "APPLIED $p"
+          done
+          git apply --check "$GITHUB_WORKSPACE/evidence/0015-hf2-native-audio-transport-receipt.patch"
+          git apply "$GITHUB_WORKSPACE/evidence/0015-hf2-native-audio-transport-receipt.patch"
+          echo "APPLIED 0015-hf2-native-audio-transport-receipt.patch"
+          diff -qr --exclude=__pycache__ "$FIX/src/noeron" "$REPLAY/src/noeron"
+          python -m compileall -q src/noeron
+
+      - name: Test fresh replay runtime
+        env:
+          PYTHONPATH: ${{ env.REPLAY }}/src
+          NOERON_DB_PATH: ${{ runner.temp }}/m4c3i-replay-api-test-only.sqlite3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/hf2_m4c3i \
+            --junitxml=evidence/m4c3i-replay-focused.xml | tee evidence/m4c3i-replay-focused.txt
+          python -m pytest -q \
+            tests/test_v082_hf2_*.py \
+            tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d \
+            tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h tests/hf2_m4c3i \
+            --junitxml=evidence/m4c3i-replay-green.xml | tee evidence/m4c3i-replay-green.txt
+
+      - name: Preserve source, carrier, hashes, and authority boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar --exclude=__pycache__ -czf evidence/m4c3i-exact-post0015-source.tar.gz -C "$REPLAY" src/noeron
+          tar -czf evidence/m4c3i-carrier-evidence.tar.gz \
+            patches/hf2 src/noeron/conversation_*.py tests/test_v082_hf2_*.py \
+            tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d \
+            tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h tests/hf2_m4c3i \
+            scripts/verify_hf1_exact_fixture.py \
+            .github/workflows/hf2-milestone4c3i.yml
+          (cd "$FIX" && find src/noeron -type f -name '*.py' -print0 | sort -z | xargs -0 sha256sum) > evidence/m4c3i-post0015-source-sha256.txt
+          (cd "$REPLAY" && find src/noeron -type f -name '*.py' -print0 | sort -z | xargs -0 sha256sum) > evidence/m4c3i-replay-source-sha256.txt
+          diff -u evidence/m4c3i-post0015-source-sha256.txt evidence/m4c3i-replay-source-sha256.txt
+          {
+            echo "gate=M4C3I exact HF1 0001-0014 plus 0015 native-audio transport receipt candidate and fresh replay"
+            echo "source_commit=$GITHUB_SHA"
+            echo "base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29"
+            echo "ordinary_0015_published=false"
+            echo "certification_claim=false"
+            echo "live_runtime_touched=false"
+            echo "canonical_db_touched=false"
+            echo "audio_transport_receipt_semantic_truth_authority=false"
+            echo "audio_transport_receipt_speech_act_choice_authority=false"
+            echo "audio_transport_receipt_cognitive_memory_authority=false"
+            echo "audio_transport_receipt_relationship_authority=false"
+            echo "playback_confirmed=false"
+            echo "peer_delivery_confirmed=false"
+            echo "peer_heard_confirmed=false"
+            echo "peer_understanding_confirmed=false"
+            echo "peer_reply_causation_confirmed=false"
+            sha256sum evidence/0015-hf2-native-audio-transport-receipt.patch \
+              evidence/m4c3i-exact-post0015-source.tar.gz evidence/m4c3i-carrier-evidence.tar.gz
+          } | tee evidence/m4c3i-boundary.txt
+
+      - name: Upload actual results even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-m4c3i-native-audio-transport-receipt
+          path: evidence/
+          if-no-files-found: error
+
+      - name: Publish green CI receipt
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/evidence/_ci
+          PATCH_SHA="$(sha256sum evidence/0015-hf2-native-audio-transport-receipt.patch | awk '{print $1}')"
+          SOURCE_SHA="$(sha256sum evidence/m4c3i-exact-post0015-source.tar.gz | awk '{print $1}')"
+          CARRIER_SHA="$(sha256sum evidence/m4c3i-carrier-evidence.tar.gz | awk '{print $1}')"
+          BASELINE_SUMMARY="$(tail -n 1 evidence/m4c3i-baseline.txt)"
+          FOCUSED_SUMMARY="$(tail -n 1 evidence/m4c3i-focused.txt)"
+          CANDIDATE_SUMMARY="$(tail -n 1 evidence/m4c3i-candidate-green.txt)"
+          REPLAY_FOCUSED_SUMMARY="$(tail -n 1 evidence/m4c3i-replay-focused.txt)"
+          REPLAY_SUMMARY="$(tail -n 1 evidence/m4c3i-replay-green.txt)"
+          cat > docs/evidence/_ci/HF2_M4C3I_CANDIDATE_RESULT.txt <<EOF
+          milestone=M4C3I
+          status=GREEN
+          run_id=$GITHUB_RUN_ID
+          run_attempt=$GITHUB_RUN_ATTEMPT
+          workflow_ref=$GITHUB_WORKFLOW_REF
+          source_commit=$GITHUB_SHA
+          source_branch=$GITHUB_REF_NAME
+          job_name=exact-baseline-candidate-replay
+          base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+          patch0015_sha256=$PATCH_SHA
+          source_archive_sha256=$SOURCE_SHA
+          carrier_archive_sha256=$CARRIER_SHA
+          baseline_summary=$BASELINE_SUMMARY
+          focused_summary=$FOCUSED_SUMMARY
+          candidate_summary=$CANDIDATE_SUMMARY
+          replay_focused_summary=$REPLAY_FOCUSED_SUMMARY
+          replay_summary=$REPLAY_SUMMARY
+          source_byte_parity=true
+          playback_confirmed=false
+          peer_delivery_confirmed=false
+          peer_heard_confirmed=false
+          peer_understanding_confirmed=false
+          peer_reply_causation_confirmed=false
+          certification_claim=false
+          live_runtime_touched=false
+          canonical_db_touched=false
+          ordinary_0015_published=false
+          EOF
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add docs/evidence/_ci/HF2_M4C3I_CANDIDATE_RESULT.txt
+          git commit -m "ci: record green M4C3I candidate receipt [skip ci]"
+          git fetch origin "$GITHUB_REF_NAME"
+          git rebase "origin/$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
