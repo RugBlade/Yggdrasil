@@ -1,0 +1,149 @@
+name: HF2 Exact HF1 Patch Chain
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'fixtures/hf1_exact/**'
+      - 'patches/hf2/0001-hf2-inference-core.patch'
+      - 'patches/hf2/0002-hf2-current-turn-runtime-bridge.patch'
+      - 'patches/hf2/0003-hf2-native-bounded-dialogue-reasoning.patch'
+      - 'patches/hf2/0004-hf2-proof-provenance-ambiguity-runtime-gate.patch'
+      - 'src/noeron/conversation_*.py'
+      - 'tests/test_v082_hf2_*.py'
+      - 'scripts/verify_hf1_exact_fixture.py'
+      - '.github/workflows/hf2-exact-hf1-patch-chain.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-hf1-patch-chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Reconstruct byte-exact HF1 fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          FIX="$RUNNER_TEMP/ygg-hf1-exact"
+          echo "FIX=$FIX" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py \
+            --extract-dir "$FIX" \
+            --evidence hf1-exact-identity-evidence.json
+
+      - name: Add HF2 carrier-only helper modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in \
+            conversation_premises.py \
+            conversation_bridge.py \
+            conversation_reasoning.py \
+            conversation_proof.py \
+            conversation_runtime_gate.py
+          do
+            cp "src/noeron/$f" "$FIX/src/noeron/$f"
+          done
+
+      - name: Apply 0001 through 0004 sequentially
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FIX"
+          git init -q
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add .
+          git commit -qm "byte-exact HF1 fixture plus carrier helpers"
+          for p in \
+            0001-hf2-inference-core.patch \
+            0002-hf2-current-turn-runtime-bridge.patch \
+            0003-hf2-native-bounded-dialogue-reasoning.patch \
+            0004-hf2-proof-provenance-ambiguity-runtime-gate.patch
+          do
+            echo "CHECK $p"
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git diff --check
+            echo "APPLIED $p"
+          done
+          git diff --stat | tee "$GITHUB_WORKSPACE/hf2-patch-chain-diffstat.txt"
+
+      - name: Compile patched runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m compileall -q \
+            "$FIX/src/noeron/inference.py" \
+            "$FIX/src/noeron/models.py" \
+            "$FIX/src/noeron/orchestrator.py" \
+            "$FIX/src/noeron/api.py" \
+            "$FIX/src/noeron/math/models.py" \
+            "$FIX/src/noeron/reasoning.py" \
+            "$FIX/src/noeron/math/kernel.py" \
+            "$FIX/src/noeron/conversation_premises.py" \
+            "$FIX/src/noeron/conversation_bridge.py" \
+            "$FIX/src/noeron/conversation_reasoning.py" \
+            "$FIX/src/noeron/conversation_proof.py" \
+            "$FIX/src/noeron/conversation_runtime_gate.py"
+
+      - name: Install exact-HF1 runtime dependencies
+        run: python -m pip install --disable-pip-version-check -e "$FIX[dev]"
+
+      - name: Run HF2 runtime-targeted tests against patched HF1 tree
+        shell: bash
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+        run: |
+          set -euo pipefail
+          python -m pytest -q \
+            tests/test_v082_hf2_conversation_premises.py \
+            tests/test_v082_hf2_conversation_bridge.py \
+            tests/test_v082_hf2_native_geometry_trace.py \
+            tests/test_v082_hf2_conversation_reasoning.py \
+            tests/test_v082_hf2_ambiguity_policy.py \
+            tests/test_v082_hf2_conversation_proof.py \
+            tests/test_v082_hf2_runtime_proof_gate.py \
+            tests/test_v082_hf2_reasoning.py \
+            | tee hf2-patched-runtime-tests.txt
+
+      - name: Record patched runtime hashes and authority boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "gate=HF2 exact HF1 patch chain 0001-0004"
+            echo "certification_claim=false"
+            echo "live_runtime_touched=false"
+            echo "canonical_db_touched=false"
+            echo "base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29"
+            echo "patch_chain=0001,0002,0003,0004"
+            sha256sum \
+              "$FIX/src/noeron/inference.py" \
+              "$FIX/src/noeron/models.py" \
+              "$FIX/src/noeron/orchestrator.py" \
+              "$FIX/src/noeron/api.py" \
+              "$FIX/src/noeron/math/models.py" \
+              "$FIX/src/noeron/reasoning.py" \
+              "$FIX/src/noeron/math/kernel.py"
+          } | tee hf2-exact-hf1-patch-chain-evidence.txt
+
+      - name: Upload patch-chain evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-exact-hf1-patch-chain-evidence
+          path: |
+            hf1-exact-identity-evidence.json
+            hf2-patch-chain-diffstat.txt
+            hf2-patched-runtime-tests.txt
+            hf2-exact-hf1-patch-chain-evidence.txt
+          if-no-files-found: error
