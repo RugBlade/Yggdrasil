@@ -28,7 +28,7 @@ jobs:
           import os
           from pathlib import Path
           root=Path(os.environ["RUNNER_TEMP"])/"hf1-inspect"
-          needles=("class NativeProposition","class NativeThought","class NativeUtterance","def response(","def _native_realize(")
+          needles=("class NativeProposition","class NativeThought","class NativeUtterance","def response(","def _native_realize(","class InitiativePolicy","def _observe_communication","def _resolve_pending","initiative_development","pending_expression")
           for p in sorted((root/"src/noeron").rglob("*.py")):
               text=p.read_text(encoding="utf-8")
               lines=text.splitlines()
