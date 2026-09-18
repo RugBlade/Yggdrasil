@@ -52,7 +52,8 @@ jobs:
             conversation_reasoning.py \
             conversation_proof.py \
             conversation_runtime_gate.py \
-            conversation_actions.py
+            conversation_actions.py \
+            conversation_resolution.py
           do
             cp "src/noeron/$f" "$FIX/src/noeron/$f"
           done
@@ -100,7 +101,8 @@ jobs:
             "$FIX/src/noeron/conversation_reasoning.py" \
             "$FIX/src/noeron/conversation_proof.py" \
             "$FIX/src/noeron/conversation_runtime_gate.py" \
-            "$FIX/src/noeron/conversation_actions.py"
+            "$FIX/src/noeron/conversation_actions.py" \
+            "$FIX/src/noeron/conversation_resolution.py"
 
       - name: Install exact-HF1 runtime dependencies
         run: python -m pip install --disable-pip-version-check -e "$FIX[dev]"
