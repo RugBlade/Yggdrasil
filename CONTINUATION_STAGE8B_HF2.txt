@@ -339,3 +339,37 @@ Build native resolution-content formation without canned fallback strings:
 - English remains observational egress only;
 - no owner/auth/transport state may be reinterpreted as preference or relationship;
 - gate against exact HF1 with 0001->0005 first, materialize a separate 0006 only after exact source tests are green.
+
+
+HF2 MILESTONE 4C1 CHECKPOINT — 2026-09-18
+
+Status: GREEN engineering carrier checkpoint. Stage 8B remains IN PROGRESS. No local/live certification claim.
+
+GitHub:
+- branch: stage8B/v0.8.2-conversation-completion-hf2
+- structured-content implementation commit: bbc8b170ab325901c65fbbf70416c7f7b288b83b
+- exact-HF1 helper inclusion commit: 7f2e3a0678b66b08cd8a67b5285101c111cdd2f9
+- dedicated M4C1 run: 35309694958 — SUCCESS
+- dedicated M4C1 tests: 12 passed
+- exact HF1 full-chain run: 35309719097 / job 105489040190 — SUCCESS
+- exact HF1 complete HF2 tests: 119 passed in 0.90s
+- exact-chain evidence artifact id: 10533540185
+- exact-chain artifact digest: sha256:9274fa2a629ac8a3e8dd9a054d852bffb075799bad63af29a295f0affaed50a5
+- exact HF1 base ZIP sha256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+- patch chain remains 0001 -> 0002 -> 0003 -> 0004 -> 0005
+- live_runtime_touched=false
+- canonical_db_touched=false
+- certification_claim=false
+
+M4C1 mechanism:
+1. Added src/noeron/conversation_resolution.py as a carrier-only structured resolution-content layer.
+2. It runs only after an upstream speech-act consequence selector carries a genuine native_choice_claim.
+3. Clarification content preserves the unresolved focus and every alternative as structured units. It does NOT choose an alternative.
+4. M4C1 does not author a new natural-language clarification sentence. This corrects the earlier experimental draft that attempted deterministic English clarification phrasing; that draft was replaced before checkpointing.
+5. Ask may only pass through already-existing native question content. No fallback question is manufactured.
+6. Defer and remain-silent author no semantic content.
+7. The layer has zero semantic-truth, answer, speech-act-selection, candidate-ranking, ambiguity-resolution, reference-resolution, surface-authorship, cognitive-memory, relationship, owner-preference, Terra, source-write, or deployment authority.
+8. English remains an observational egress concern; M4C1 does not declare English grammar to be Yggdrasil's native language.
+
+NEXT SMALL MILESTONE — 4C2
+Inspect the exact HF1 NativeLanguageFaculty/native realization path, then connect the structured M4C1 content field to the existing native-language machinery without adding canned English/native fallback strings. The native speech act must already have been selected by consequence geometry. Preserve exact ties/unresolved states and keep ordinary proof-supported answer flow unchanged. Before any outward coupling, add/verify a prospective observed-consequence learning path for speech acts so the selector is not permanently empty or secretly bootstrapped by authored preferences.
