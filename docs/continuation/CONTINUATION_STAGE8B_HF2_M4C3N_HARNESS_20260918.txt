@@ -1,0 +1,135 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3N HARNESS CORRECTION CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3N remains verification-only and NOT sealed.
+No runtime defect has been demonstrated.
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PREVIOUS VERIFIED ROOT
+M4C3M:
+dfb437ad3f256c3f5728592d76f5e4ffc8a7b89b
+Published runtime remains exact HF1 + ordinary 0001 -> 0018.
+
+M4C3N DESIGN
+GitHub:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_DESIGN_20260918.txt
+Commit:
+f37cf8e33528d1e92cf51ff0b1de64e79d698bd4
+Drive ID:
+1VGlvEErKFhyiqUzykq58MFsiyr1cLJMKYHD5O2Ec_KA
+Normalized equality:
+VERIFIED
+
+INITIAL BROWSER TESTS
+Path:
+tests/hf2_m4c3n/test_room_browser_integration.py
+Commit:
+90bb5969b46c48f8dc9379e4d8c6a0c178e92610
+
+Initial browser workflow:
+.github/workflows/hf2-milestone4c3n.yml
+Commit/source:
+3bcb4b8a2cf9d48bc893e8231825e275144c6134
+
+INITIAL AUTHORITATIVE BROWSER ATTEMPT
+Run:
+35393517368
+Job:
+105757027348
+
+Exact post0018 reconstruction:
+PASS
+
+Published 0001 -> 0018 sequential apply/check:
+PASS
+
+Published post0018 baseline before browser tooling:
+PASS
+
+Playwright:
+1.55.0
+
+Chromium:
+140.0.7339.16
+Playwright build:
+1187
+
+Focused browser result:
+5 passed, 3 failed in 54.76s
+
+THE THREE FAILURES ARE HARNESS FAILURES, NOT RUNTIME FAILURES
+All three failures have the identical cause:
+Playwright page.wait_for_function() with a string predicate internally evaluates JavaScript using eval().
+The private Room CSP intentionally forbids unsafe-eval:
+script-src 'self' 'unsafe-inline'
+
+Chromium therefore raised:
+EvalError: Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the Content Security Policy.
+
+Failed tests:
+- stable audio element / lifecycle;
+- network uncertainty retry;
+- renewed-session playback closure rejection.
+
+Each failed before evaluating the intended application invariant.
+No assertion demonstrated incorrect Room runtime behavior.
+
+Five real Chromium cases DID pass, including the four explicit 401/403/422/500 fail-fast/no-retry cases and product no-autoplay/programmatic-play enforcement.
+
+HARNESS CORRECTION
+Replace ONLY the CSP-incompatible page.wait_for_function() waits with a Python-side bounded polling helper that repeatedly uses page.eval_on_selector('audio', function).
+eval_on_selector already executed successfully in the same real Chromium/CSP environment and does not require the page to allow unsafe-eval.
+
+The correction must not:
+- modify exact post0018 runtime source;
+- weaken the Room CSP;
+- add unsafe-eval;
+- change application JavaScript;
+- change auth/session semantics;
+- change telemetry authority;
+- create 0019.
+
+DIAGNOSTIC ARTIFACT
+GitHub artifact:
+ID 10566712372
+Name:
+hf2-m4c3n-real-browser-room-verification
+Bytes:
+14058
+SHA256:
+fa51b4f5f71bae0fa9849f6f58a46436b959d47ed27e018fcd039f4023f42a10
+
+Drive mirror:
+HF2_M4C3N_FAILED_HARNESS_35393517368_20260918.zip
+Drive ID:
+1WqXpUaHUhd7_Rv7aLhM-fGDsjJ5eGT5G
+SHA256:
+fa51b4f5f71bae0fa9849f6f58a46436b959d47ed27e018fcd039f4023f42a10
+GitHub/Drive raw equality:
+VERIFIED
+
+NEXT ACTION
+1. correct only the three wait sites via a bounded Python polling helper;
+2. rerun M4C3N from exact HF1 + 0001 -> 0018;
+3. require baseline 382 green before browser testing;
+4. require all 8 focused Chromium tests green;
+5. run complete HF2 + M4C3N;
+6. reconstruct fresh exact-HF1 replay and prove source parity;
+7. rerun browser focused + complete on replay;
+8. if all green and no runtime defect, seal M4C3N verification-only with no 0019;
+9. if a genuine browser/runtime defect appears after harness correction, preserve evidence and only then design bounded 0019.
+
+AUTHORITY BOUNDARIES REMAIN
+Browser media telemetry is not speaker output.
+Browser media telemetry is not human hearing/listening.
+Browser media telemetry is not understanding or reply causation.
+Authentication grants no preference/relationship/native-choice meaning.
+No speech-act consequence learning from client media events.
+SQLite remains provenance/audit/integrity, not cognition.
+No Stage9/self-upgrade.
