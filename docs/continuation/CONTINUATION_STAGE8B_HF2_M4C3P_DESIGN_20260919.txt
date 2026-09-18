@@ -1,0 +1,164 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3P DESIGN / EXACT-POST0019 QUD-PROOF INVENTORY
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Parent verified root: 35fe0533c4a602684fdcf475ab83e597cfeb6be8
+
+GLOBAL ROADMAP
+Stage 8 spans 8A–8M. Current work remains Stage 8B.
+Do not begin Stage 8C–8M, including Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9.
+
+BASELINE AUTHORITY
+M4C3O remains sealed and externally green.
+Published runtime reconstruction is exact HF1 + ordinary patches 0001 -> 0019.
+ordinary_0019_published=true
+published_exact_chain_0019_green=true
+m4c3o_sealed=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+M4C3P MODE
+design_verification_first=true
+ordinary_0020_published=false
+runtime_candidate_created=false
+No 0020 is authorized by numbering alone.
+
+AUTHORITATIVE INSPECTION SOURCE
+Published-chain GitHub artifact:
+ID 10570859646
+Name hf2-m4c3o-exact-hf1-published-0019
+ZIP SHA256 a2fec75ae391a8b8b5ceb7540240480218d4ce06f90cdf62e4c4e03f94950cf4
+Contained exact post0019 source archive:
+m4c3o-exact-post0019-published-source.tar.gz
+SHA256 76112e7baba6e6368b600e384585a4cef38a64ea498040394dc8643fa8f3f73e
+This immutable source archive, not the unpatched repository carrier source, was used for inspection.
+
+BOUNDED REPRODUCIBLE INVENTORY
+
+A. PROOF/QUD PATHS THAT ALREADY WORK AND MUST NOT REGRESS
+1. Same-turn explicit yes/no:
+   Input: "The lamp is on. Is the lamp on?"
+   Query: exact-proposition(lamp,is,on)
+   Proof gate: proof-gate-all-candidates-auditable
+   Native answer: "lamp is on."
+
+2. Prior-turn explicit yes/no:
+   Turn 1: "The lamp is on."
+   Turn 2: "Is the lamp on?"
+   Query: exact-proposition(lamp,is,on)
+   Proof gate: proof-gate-all-candidates-auditable
+   Native answer: "lamp is on."
+
+3. Prior-turn object WH:
+   Turn 1: "Mira opened the door."
+   Turn 2: "What did Mira open?"
+   Query: relation-from-subject(mira,open)
+   Proof gate: proof-gate-all-candidates-auditable
+   Native answer: "mira opened door."
+
+4. Prior-turn subject WH:
+   Turn 1: "Mira opened the door."
+   Turn 2: "Who opened the door?"
+   Query: relation-to-object(opened,door)
+   Proof gate: proof-gate-all-candidates-auditable
+   Native answer: "mira opened door."
+
+5. WHY with genuine derivation, same turn:
+   Input: "If the lamp is on, the room is bright. The lamp is on. Why is the room bright?"
+   Query: why-proposition(room,is,bright)
+   Proof gate: proof-gate-why-support-auditable
+   Native support includes the antecedent plus structured implication.
+   Event truth is not used as its own explanation.
+
+6. WHY with genuine derivation, prior turn:
+   Turn 1: "If the lamp is on, the room is bright. The lamp is on."
+   Turn 2: "Why is the room bright?"
+   Query: why-proposition(room,is,bright)
+   Proof gate: proof-gate-why-support-auditable
+   Native support remains available across bounded dialogue.
+
+These observations show that M4C3P is NOT a generic WHY/proof-gate failure.
+
+B. CONCRETE DEFECT DEMONSTRATED ON EXACT POST0019
+The transparent proposition parser treats a copular predicate complement as if it were a grammatical direct object when updating bounded discourse context.
+
+Example 1:
+"The lamp is on. Is it on?"
+Current propositions:
+lamp::is::on
+Current query:
+exact-proposition(on,is,on)
+Current reference audit:
+it -> on as query-subject
+Current discourse state:
+last_subject=lamp
+last_direct_object=on
+This is structurally malformed: "on" is the copular predicate complement, not a direct object/referent supplied by that clause.
+
+Example 2:
+"The lamp is on. Why is it on?"
+Current query:
+why-proposition(on,is,on)
+Proof gate then sees no valid explanatory candidates for the malformed target.
+
+Example 3:
+"The lamp is red. What color is it?"
+Current query subject:
+red
+Current reference audit:
+it -> red
+Again, the predicate complement is being used as a direct-object discourse antecedent.
+
+Control:
+"The book is on the table. Where is it?"
+Current parser correctly resolves it -> book because the typed spatial-copular frame records table as an oblique, not a direct object.
+
+ROOT CAUSE
+In src/noeron/inference.py, the generic copular relation path calls grammatical discourse mention tracking with the predicate complement in the direct-object slot. Object pronouns then prefer last_direct_object over last_subject.
+The failure therefore occurs BEFORE proof auditing and BEFORE native speech-act selection.
+
+DEFECT CLASSIFICATION
+concrete_runtime_defect=true
+surface=bounded grammatical discourse reference / QUD proposition composition
+truth_authority_added=false
+answer_authority_added=false
+semantic_ranking_required=false
+llm_inference_required=false
+proof_gate_change_required=false
+
+CANDIDATE 0020 BOUNDARY
+A future candidate may fix only the grammatical discourse-role bookkeeping that lets copular predicate complements masquerade as direct objects.
+It must not:
+- add semantic verb classes or lexical salience ranking;
+- choose between genuine reference alternatives by hidden preference;
+- grant parser truth or answer authority;
+- weaken proof/ambiguity gating;
+- add canned clarification;
+- change speech-act consequence geometry;
+- add cognitive-memory retrieval authority;
+- touch Terra selection;
+- touch Room audio/browser telemetry;
+- touch live runtime or canonical DB;
+- begin Stage 8C–8M or Stage 9.
+
+FOCUSED CANDIDATE CONTRACT — REQUIRED
+At minimum verify:
+1. "The lamp is on. Is it on?" targets lamp::is::on and remains proof-auditable.
+2. "The lamp is on. Why is it on?" targets why-proposition(lamp,is,on); direct event truth still does NOT become its own explanation.
+3. "The lamp is red. What color is it?" uses lamp as query subject rather than red.
+4. Prior transitive direct-object behavior remains intact:
+   "Mira opened the door. Is it open?" must not be silently re-bound by a broad rule without explicit test evidence.
+5. Typed spatial copular behavior remains intact:
+   "The book is on the table. Where is it?" retains book as query subject.
+6. Existing explicit yes/no, WH and derived-WHY controls above remain green.
+7. all authority flags remain false.
+8. parser ambiguity/proof gates remain unchanged.
+
+NEXT ACTION
+Materialize a minimal 0020 intent candidate against exact post0019 only if the focused contract can be stated without semantic ranking.
+Run focused tests locally/disposably first.
+Then checkpoint candidate bytes and focused tests.
+Only after that create authoritative external CI:
+published post0019 baseline -> focused candidate -> complete candidate -> fresh exact-HF1 replay -> source parity -> artifact inspection.
+Do not publish ordinary 0020 before all candidate gates are green.
