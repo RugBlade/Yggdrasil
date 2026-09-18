@@ -1,0 +1,131 @@
+{
+  "schema": "yggdrasil-hf2-milestone-evidence-v1",
+  "milestone": "M4C3K",
+  "date": "2026-09-18",
+  "status": "EXTERNALLY_VERIFIED_VERIFICATION_ONLY",
+  "stage8b_status": "IN PROGRESS",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "previous_verified_root_checkpoint": "ad07f49288d0e2b523f03b8bb595ac807ddc9dd6",
+  "published_runtime_patch_chain": "0001-0016",
+  "ordinary_0017_published": false,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "hf1_zip_sha256": "79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29",
+  "engineering": {
+    "test_path": "tests/hf2_m4c3k/test_post_receipt_presentation_crash_idempotency.py",
+    "test_commit": "1e74d4e3471df7076391498ba42bd71e1ed62d73",
+    "workflow_path": ".github/workflows/hf2-milestone4c3k.yml",
+    "workflow_source_commit": "ca605f283c4a8f7396b719904f43d9b66a02e597",
+    "green_receipt_commit": "f70e1bae2426a4427d5d472c35ea42adc84fd7c1",
+    "green_receipt_path": "docs/evidence/_ci/HF2_M4C3K_VERIFICATION_RESULT.txt",
+    "green_receipt_git_blob": "47985ff64a8e0b023238f315cafd06309677b3ea",
+    "runtime_patch_created": false,
+    "runtime_patch0017_created": false
+  },
+  "ci": {
+    "run_id": 35379927914,
+    "job_id": 105713421712,
+    "source_commit": "ca605f283c4a8f7396b719904f43d9b66a02e597",
+    "conclusion": "success",
+    "baseline": {
+      "tests": 347,
+      "warnings": 2,
+      "seconds": 109.31
+    },
+    "focused": {
+      "tests": 9,
+      "seconds": 53.3
+    },
+    "complete": {
+      "tests": 356,
+      "warnings": 2,
+      "seconds": 160.28
+    },
+    "replay_focused": {
+      "tests": 9,
+      "seconds": 52.44
+    },
+    "replay_complete": {
+      "tests": 356,
+      "warnings": 2,
+      "seconds": 159.43
+    },
+    "source_byte_parity": true,
+    "source_archive_sha256": "1b430d6b7a5489a0a9b73100935e807d6dae37f4f0131a35341b523267eded20",
+    "carrier_archive_sha256": "805770c45eccd4f142c3a1d06e2b4d243d62fcdc3c5aa4c3b4ab24dc9f924a8f",
+    "artifact_id": 10561969151,
+    "artifact_name": "hf2-m4c3k-post-receipt-presentation-crash-verification",
+    "artifact_bytes": 1013797,
+    "artifact_sha256": "bdbe8f6d14eb27542250678e62650c44ceaa428bb166a63b1eb2f57bdffb66da"
+  },
+  "verification": {
+    "hard_exit_subprocess_tests": true,
+    "receipt_before_presentation_restart_no_replay": true,
+    "voice_before_artifact_restart_no_fabricated_presentation": true,
+    "artifact_before_presentation_restart_no_promotion": true,
+    "presentation_before_fetch_restart_no_duplicate": true,
+    "speech_act_learning_at_most_once": true,
+    "audio_fetch_after_restart_transport_only": true,
+    "orphan_audio_artifact_is_inert_provenance_only": true,
+    "automatic_presentation_replay_designed": false
+  },
+  "authority": {
+    "resolution_execution_receipt_remains_primary": true,
+    "native_audio_presentation_is_second_execution": false,
+    "native_audio_presentation_trains_speech_act": false,
+    "audio_transport_receipt_trains_speech_act": false,
+    "playback_confirmed": false,
+    "peer_delivery_confirmed": false,
+    "peer_heard_confirmed": false,
+    "peer_understanding_confirmed": false,
+    "peer_reply_causation_confirmed": false,
+    "restart_choice_authority": false,
+    "restart_preference_authority": false,
+    "restart_relationship_authority": false,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false
+  },
+  "drive": {
+    "folder_id": "16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO",
+    "verification_zip": {
+      "id": "1LSr-aNM3YieZz-ak0ZMB-JJPMgPZyUkM",
+      "name": "HF2_M4C3K_POST_RECEIPT_PRESENTATION_CRASH_VERIFICATION_20260918.zip",
+      "sha256": "bdbe8f6d14eb27542250678e62650c44ceaa428bb166a63b1eb2f57bdffb66da",
+      "github_byte_equal": true
+    },
+    "continuation_id": "1jsfSQpUxQC9KWNoxxwKb4CtfXmKCpbWUD_NOrnYFmhs",
+    "continuation_normalized_equal": true,
+    "root_continuation_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1"
+  },
+  "documentation": {
+    "continuation_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3K_20260918.txt",
+    "continuation_commit": "875a79efeca25bcd77e4448f52e5f3ed977cbd13",
+    "continuation_git_blob": "7d9a6d2364706bbfe10edb272252c381169ce187"
+  },
+  "limitations": [
+    "The tests do not prove arbitrary kernel/filesystem/power-loss behavior.",
+    "No browser media-element playback is proven.",
+    "No sound-output, human-hearing, understanding, or reply-causation claim is made.",
+    "No automatic presentation replay after restart is designed or claimed.",
+    "An orphaned audio artifact may survive the artifact-before-presentation crash window as inert nonsemantic storage residue.",
+    "Broad Stage8B conversational completion and any new LOCAL/LIVE certification remain unclaimed."
+  ],
+  "next": {
+    "milestone": "M4C3L",
+    "task": "Design/verification-only inspection of authenticated private-Room client playback acknowledgement semantics.",
+    "constraints": [
+      "keep server transport, client playback telemetry, sound output, human hearing, understanding, and conversational consequence distinct",
+      "client telemetry must not directly train speech-act consequence geometry",
+      "no preference/relationship/native-choice authority from client events",
+      "no autoplay",
+      "private authenticated owner/device session binding and anti-replay only",
+      "live runtime/canonical DB remain untouched",
+      "publish future 0017 only if a concrete runtime change is necessary and full external validation is green"
+    ]
+  }
+}
