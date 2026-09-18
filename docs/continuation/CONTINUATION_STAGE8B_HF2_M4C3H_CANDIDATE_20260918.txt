@@ -130,3 +130,24 @@ Inspect the actual Actions run sourced from 556e8249824d5bb293a61d8acb1a18210834
 Do not infer success from local probes.
 If external CI is green and no runtime defect appears, seal M4C3H as verification-only with NO 0015.
 If CI exposes a genuine crash-integrity defect, stop verification-only sealing and create a separate 0015 candidate through the established intent -> candidate -> fresh replay -> publication pipeline.
+
+
+WORKFLOW EVIDENCE CORRECTION
+Initial workflow commit:
+556e8249824d5bb293a61d8acb1a182108349f2f
+Status:
+SUPERSEDED BEFORE ACCEPTING ANY CI RESULT.
+Reason:
+the fresh replay tree is intentionally untracked after git init, so using git ls-files to build
+the replay SHA manifest would have produced an empty manifest and failed the evidence parity
+step even when runtime source parity was correct.
+
+Corrected authoritative workflow/source commit:
+bc60d33d5d386e819236f973a6bbe5c3adcc9348
+Correction:
+both FIX and REPLAY source manifests now deterministically hash find src/noeron -type f -name '*.py'
+sorted by path. The existing diff -qr source-byte parity gate remains unchanged.
+
+NEXT
+Use only the M4C3H run sourced from bc60d33d5d386e819236f973a6bbe5c3adcc9348
+(or a later explicitly documented correction) as external verification evidence.
