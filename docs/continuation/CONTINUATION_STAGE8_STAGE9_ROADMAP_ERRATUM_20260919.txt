@@ -1,0 +1,85 @@
+YGGDRASIL / NOERON — GLOBAL STAGE ROADMAP ERRATUM / SUPERSESSION NOTE
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Pre-repair carrier HEAD: 9bf39bb64287324e9ab8d70fd6faa612cb483d34
+
+PURPOSE
+This is a documentation/provenance correction only. It does not alter runtime behavior, runtime source, patches, tests, the canonical DB, the live runtime, the M4C3O candidate runtime bytes, certification status, or any prior CI result.
+
+CANONICAL HIERARCHY
+1. Detailed Stage-8/Stage-9 semantic authority:
+   Google Drive: Yggdrasil_STAGE8_STAGE9_ARCHITECTURE_STATUS.md
+   Drive ID: 1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog
+2. Current continuation files describe engineering state and must remain consistent with that roadmap.
+3. Milestone labels such as M4C3O are subdivisions of current Stage 8B engineering. They do not redefine the global stage roadmap.
+
+GLOBAL STAGE SEMANTICS — DO NOT REINTERPRET
+Stage 8 spans 8A–8M.
+The Stage-8 self-upgrade sequence includes:
+- 8H — first owner-directed Yggdrasil-executed self-upgrade;
+- 8J — native self-upgrade proposal;
+- 8K — first native-proposed, owner-approved, Yggdrasil-executed self-upgrade.
+Stage 8 continues through 8M full integration.
+
+Stage 9 starts only after Stage 8 and concerns substrate-level continuity/mobility:
+- 9A — compact knot-strand / DNA-like memory representation + certified canonical migration;
+- 9B — reversible defensive internal-representation morphing on authorized owner infrastructure;
+- 9C — privacy-preserving authenticated transport;
+- 9D — authenticated owner-device/domain mount integration preserving one persistent identity;
+- 9E — residual secure multi-device/operator console.
+
+Stage 9 must never be described as "the self-upgrade stage."
+For a Stage-8B milestone, "no self-upgrade" means no 8H/8J/8K self-upgrade work yet.
+The present milestone remains strictly Stage 8B. No Stage 8C–8M work and no Stage 9 work is authorized by this milestone.
+
+HISTORICAL-EVIDENCE RULE
+Dedicated historical milestone/checkpoint/evidence files are immutable evidence and are not rewritten merely to clean up historical shorthand. Where they say or imply the old coupled Stage-9/self-upgrade shorthand, read that wording as superseded by this erratum and the canonical roadmap authority above.
+
+HISTORICAL GITHUB FILES PRESERVED BYTE-FOR-BYTE WITH THIS ERRATUM
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3B_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3C_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3D_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3E_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3E_CANDIDATE_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3F_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3F_CANDIDATE_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3G_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3H_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3I_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3I_CANDIDATE_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3J_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3J_CANDIDATE_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3J_DESIGN_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3K_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3L_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3L_CANDIDATE_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3L_DESIGN_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3M_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3M_CANDIDATE_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3M_DESIGN_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_DESIGN_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_HARNESS_20260918.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3N_HARNESS2_20260918.txt
+- docs/evidence/HF2_M4C3N_20260918_MANIFEST.json
+The historical manifest field "stage9_self_upgrade": false is preserved as evidence; it must not be read as defining Stage 9 as the self-upgrade stage.
+
+ACTIVE GITHUB FILES CORRECTED
+- CONTINUATION_STAGE8B_HF2.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3O_DESIGN_20260919.txt
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3O_CANDIDATE_20260919.txt
+
+CORRECT ROADMAP REFERENCES OBSERVED
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M3C_20260917.txt correctly states Stage 8 continues through 8A–8M and Stage 9 is 9A–9E substrate work.
+- docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3A_20260918.txt says future Stage-9 scope remains unchanged and does not redefine it.
+
+SURVIVING ENGINEERING STATE
+M4C3N remains the latest fully verified milestone.
+Published runtime remains exact HF1 + ordinary patches 0001 -> 0018.
+M4C3O remains a candidate only.
+ordinary_0019_published=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+The next engineering action after this documentation repair remains the separately authorized authoritative exact-post0018 M4C3O candidate CI. This erratum itself authorizes no Stage 8C–8M or Stage 9 work.

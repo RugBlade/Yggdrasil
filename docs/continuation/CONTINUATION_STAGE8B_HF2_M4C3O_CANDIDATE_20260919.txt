@@ -198,4 +198,4 @@ BOUNDARIES
 - Original native utterance remains primary; English/decoder remains observational/downstream.
 - No autoplay, microphone/camera expansion, or hearing inference.
 - Live runtime and canonical DB remain untouched.
-- No Stage9/self-upgrade.
+- Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9.

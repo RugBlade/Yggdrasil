@@ -1,3 +1,27 @@
+GLOBAL STAGE ROADMAP — DO NOT REINTERPRET
+Canonical semantic roadmap authority:
+Google Drive: Yggdrasil_STAGE8_STAGE9_ARCHITECTURE_STATUS.md
+Drive ID: 1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog
+GitHub synchronized roadmap copy:
+docs/roadmap/YGGDRASIL_STAGE8_STAGE9_ARCHITECTURE_STATUS_DRIVE_SYNC_20260919.md
+
+Stage 8 spans 8A–8M and contains the self-upgrade sequence, especially 8H–8K.
+Stage 9 begins only after Stage 8 and concerns compact memory migration, defensive representation, private transport, multi-device mounting and secure operator infrastructure.
+Stage 9 must never be described as "the self-upgrade stage."
+Current work remains Stage 8B; no 8C–8M or Stage-9 work is authorized by the present milestone.
+M4C3O is a subdivision of current Stage 8B engineering; M4C3O does not redefine the global stage roadmap.
+"No self-upgrade in this milestone" means no Stage-8H/8J/8K self-upgrade work yet; it does not mean Stage 9 is the self-upgrade stage.
+Historical dedicated checkpoint/evidence files that use the old coupled shorthand are preserved as historical evidence. This active continuation and the 2026-09-19 roadmap erratum supersede that shorthand semantically.
+
+ROADMAP CONSISTENCY REPAIR PROVENANCE
+pre_repair_carrier_head=9bf39bb64287324e9ab8d70fd6faa612cb483d34
+runtime_code_touched=false
+tests_touched=false
+live_runtime_touched=false
+canonical_db_touched=false
+m4c3o_candidate_runtime_bytes_touched=false
+certification_claim=false
+
 M4C3O CANDIDATE CHECKPOINT — 2026-09-19 Asia/Qatar
 M4C3N remains the latest fully verified milestone.
 Published runtime remains exact HF1 + ordinary patches 0001 -> 0018.
@@ -275,7 +299,7 @@ BOUNDARIES THAT MUST REMAIN TRUE
 - Live runtime and canonical DB remain untouched.
 - No autoplay.
 - No microphone/camera work.
-- No Stage9/self-upgrade.
+- No Stage 9 work. No Stage 8H/8J/8K self-upgrade work in this Stage-8B milestone.
 
 M4C3N DOES NOT PROVE
 - speaker hardware output;
@@ -547,7 +571,7 @@ BOUNDARIES THAT MUST REMAIN TRUE
 - Original native utterance remains primary; decoder/English remains observational/downstream.
 - Terra remains optional/downstream.
 - Live runtime and canonical DB remain untouched.
-- No Stage9/self-upgrade.
+- No Stage 9 work. No Stage 8H/8J/8K self-upgrade work in this Stage-8B milestone.
 
 KNOWN LIMITATIONS
 - Stable keyed audio DOM and telemetry lifecycle are source-contract tested, not yet verified in a real browser engine.
@@ -574,7 +598,7 @@ Verify:
 If existing runtime passes, seal M4C3N verification-only with no 0019.
 If a concrete defect exists, patch only it through exact baseline + focused candidate + complete candidate + fresh replay + separate published-chain CI.
 
-Do not broaden M4C3N into microphone/camera surveillance, speaker-output inference, human-hearing inference, generic multimodal conversation, Stage9 or self-upgrade.
+Do not broaden M4C3N into microphone/camera surveillance, speaker-output inference, human-hearing inference, generic multimodal conversation, Stage 8H/8J/8K self-upgrade work or Stage 9 work.
 
 Historical M4C3L and earlier sections follow. Their older next-task statements are superseded by M4C3N.
 
@@ -815,7 +839,7 @@ BOUNDARIES THAT MUST REMAIN TRUE
 - SQLite remains persistence/provenance/audit/integrity substrate, not cognitive retrieval.
 - Terra remains optional/downstream.
 - Live runtime and canonical DB remain untouched.
-- No Stage9/self-upgrade.
+- No Stage 9 work. No Stage 8H/8J/8K self-upgrade work in this Stage-8B milestone.
 
 KNOWN LIMITATIONS
 - playing/ended are authenticated browser media-element telemetry only.
@@ -842,7 +866,7 @@ Verify:
 
 If existing runtime passes, seal M4C3M verification-only with no 0018. If a concrete defect appears, patch only that defect through the established exact-baseline/candidate/complete/fresh-replay/separate-published-chain pipeline.
 
-Do not broaden M4C3M into hearing inference, autoplay, microphone surveillance, generic multimodal conversation, Stage9 or self-upgrade.
+Do not broaden M4C3M into hearing inference, autoplay, microphone surveillance, generic multimodal conversation, Stage 8H/8J/8K self-upgrade work or Stage 9 work.
 
 Historical M4C3K and earlier sections follow. Their older next-task statements are superseded by M4C3M.
 
@@ -1003,7 +1027,7 @@ BOUNDARIES THAT MUST REMAIN TRUE
 - SQLite remains persistence/provenance/audit/integrity substrate, not cognitive retrieval.
 - Terra remains optional/downstream.
 - Live runtime and canonical DB remain untouched.
-- No Stage9/self-upgrade.
+- No Stage 9 work. No Stage 8H/8J/8K self-upgrade work in this Stage-8B milestone.
 
 NEXT BOUNDED ENGINEERING TASK — M4C3L
 Design/verification-only inspection of explicit authenticated private-Room client playback acknowledgement semantics.
@@ -1328,7 +1352,7 @@ BOUNDARIES THAT MUST REMAIN TRUE
 - Terra remains optional/downstream.
 - Live runtime and canonical DB remain untouched.
 - Stage8B remains IN PROGRESS with no new LOCAL/LIVE certification.
-- No Stage9/self-upgrade.
+- No Stage 9 work. No Stage 8H/8J/8K self-upgrade work in this Stage-8B milestone.
 
 KNOWN LIMITATIONS
 - M4C3J does not prove browser playback, speaker rendering, human hearing/listening, understanding or response.
@@ -1361,7 +1385,7 @@ Required conclusions:
 M4C3K begins verification-only.
 Publish a future 0017 only if verification exposes a real runtime defect and the full exact-baseline/candidate/fresh-replay/published-chain pipeline is green.
 
-Do not broaden M4C3K into generic multimodal conversation, browser-hearing acknowledgement, Stage9 or self-upgrade.
+Do not broaden M4C3K into generic multimodal conversation, browser-hearing acknowledgement, Stage 8H/8J/8K self-upgrade work or Stage 9 work.
 
 Historical M4C3I and earlier sections follow. Their older next-task statements are superseded by M4C3K.
 
@@ -1551,7 +1575,7 @@ BOUNDARIES THAT MUST REMAIN TRUE
 - Terra remains optional/downstream.
 - Live runtime and canonical DB remain untouched.
 - Stage8B remains IN PROGRESS and not newly certified.
-- No Stage9/self-upgrade.
+- No Stage 9 work. No Stage 8H/8J/8K self-upgrade work in this Stage-8B milestone.
 
 KNOWN LIMITATIONS
 - Native-selected clarify/ask resolution content is still on the established separate JSON/text ResolutionExecutionReceipt path.
@@ -1577,7 +1601,7 @@ Any future bridge must preserve:
 
 Only publish future 0016 if a genuine runtime change is necessary and exact-baseline + focused candidate + complete candidate + fresh exact-HF1 replay + source parity + separate published-chain CI are green.
 
-Do not broaden M4C3J into generic multimodal conversation, Stage9 or self-upgrade.
+Do not broaden M4C3J into generic multimodal conversation, Stage 8H/8J/8K self-upgrade work or Stage 9 work.
 
 Historical M4C3H and earlier sections follow. Their older next-task statements are superseded by M4C3J.
 
@@ -1711,7 +1735,7 @@ BOUNDARIES THAT MUST REMAIN TRUE
 - SQLite remains persistence/provenance/audit substrate, not cognitive retrieval.
 - Terra remains optional/downstream.
 - Live runtime and canonical DB remain untouched.
-- No Stage9/self-upgrade.
+- No Stage 9 work. No Stage 8H/8J/8K self-upgrade work in this Stage-8B milestone.
 
 KNOWN LIMITATIONS
 - The seven explicit crash windows do not prove arbitrary OS/kernel/filesystem/power-loss behavior.
@@ -1894,7 +1918,7 @@ BOUNDARIES THAT MUST REMAIN TRUE
 - SQLite remains persistence/provenance/audit substrate, not cognition.
 - Live runtime and canonical DB remain untouched.
 - Stage8B remains IN PROGRESS and is not newly certified.
-- No Stage9/self-upgrade.
+- No Stage 9 work. No Stage 8H/8J/8K self-upgrade work in this Stage-8B milestone.
 
 KNOWN LIMITATIONS
 - Clean true process restart is verified, but abrupt termination at every receipt-persistence boundary is not.
@@ -2111,7 +2135,7 @@ BOUNDARIES THAT MUST REMAIN TRUE
 - SQLite remains persistence/provenance/audit substrate, not cognitive authority.
 - Live runtime and canonical DB remain untouched.
 - Stage8B remains IN PROGRESS and not newly certified.
-- No Stage9/self-upgrade.
+- No Stage 9 work. No Stage 8H/8J/8K self-upgrade work in this Stage-8B milestone.
 
 KNOWN LIMITATIONS
 - M4C3F proves model serialization and same-process persistence surfaces, but not a true process restart from the same SQLite database with a pending execution receipt.
@@ -2256,7 +2280,7 @@ BOUNDARIES THAT MUST REMAIN TRUE
 - Terra remains optional/downstream and gains no reasoning/content/answer/memory/relationship/source-write/deploy authority.
 - SQLite remains persistence/provenance/audit substrate, not cognitive retrieval authority.
 - Live runtime and canonical database remain untouched unless explicitly authorized later.
-- No Stage9/self-upgrade work yet.
+- No Stage 9 work yet. No Stage 8H/8J/8K self-upgrade work yet.
 - Stage8B remains IN PROGRESS and not newly certified.
 
 KNOWN REMAINING LIMITATIONS
@@ -2492,7 +2516,7 @@ RECONSTRUCTION AND NEXT SESSION
 6. Next bounded work should inspect unresolved current-turn QUD/proposition/proof alternatives and define native content units that can express them without adding semantic claims. Preserve the current separation of native content, native act selection, native expression selection, and verified execution evidence. Broader adapters or empirical bootstrapping need separate concrete design and tests.
 7. If persistence/retraction behavior is extended, add focused true same-database restart and post-receipt rejected-ingress tests for that specific change. Do not call the present serialization checks a live restart test.
 8. Continue GitHub-first: small candidate intent -> external exact-runtime green -> materialize next ordinary patch only after green -> fresh replay -> publish -> inspect actual CI -> evidence and detailed continuation in GitHub AND Drive.
-9. Do not begin self-upgrade or Stage9 ahead of genuine Stage8B language/reasoning/conversation completion. Live promotion requires separately authorized owner promotion and has not occurred.
+9. Do not begin Stage 8H/8J/8K self-upgrade work or Stage 9 work ahead of genuine Stage8B language/reasoning/conversation completion. Live promotion requires separately authorized owner promotion and has not occurred.
 
 HISTORICAL STATUS
 Stages 1-6 CERTIFIED; Stage7 LIVE CERTIFIED; Stage8A LOCAL + LIVE CERTIFIED.
