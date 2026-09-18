@@ -1,0 +1,91 @@
+diff --git a/src/noeron/inference.py b/src/noeron/inference.py
+index 9fd0d4d..76cc0dc 100644
+--- a/src/noeron/inference.py
++++ b/src/noeron/inference.py
+@@ -144,7 +144,21 @@ def _resolved_or_literal(text: str, ctx: dict[str, str], audit: dict, *, role: s
+     return raw
+ 
+ 
+-def _mention(ctx: dict[str, str], audit: dict, *, subject: str = '', direct: str = '', oblique: str = '') -> None:
++def _mention(
++    ctx: dict[str, str],
++    audit: dict,
++    *,
++    subject: str = '',
++    direct: str = '',
++    oblique: str = '',
++    predicate_complement: str = '',
++    reset_direct: bool = False,
++) -> None:
++    if reset_direct:
++        # last_direct_object is clause-local grammatical context.  A newer clause
++        # that has no direct object must not leave an older/transitively unrelated
++        # direct object as the preferred antecedent for later object pronouns.
++        ctx['last_direct_object'] = ''
+     if subject:
+         ctx['last_subject'] = subject
+         audit['mentions'].append({'entity': subject, 'role': 'subject'})
+@@ -154,6 +168,10 @@ def _mention(ctx: dict[str, str], audit: dict, *, subject: str = '', direct: str
+     if oblique:
+         ctx['last_oblique_object'] = oblique
+         audit['mentions'].append({'entity': oblique, 'role': 'oblique-object'})
++    if predicate_complement:
++        # A copular predicative complement is a mention, but it is not a direct
++        # object and therefore must not become object-pronoun focus by role.
++        audit['mentions'].append({'entity': predicate_complement, 'role': 'predicate-complement'})
+ 
+ 
+ def parse_surface_logic_detailed(
+@@ -398,7 +416,7 @@ def parse_surface_logic_detailed(
+                     polarity=(not bool(neg)), source='current-irg', confidence=1.0,
+                     modifiers=['copular-spatial'],
+                 ))
+-            _mention(ctx, audit, subject=subj, oblique=obj)
++            _mention(ctx, audit, subject=subj, oblique=obj, reset_direct=True)
+             continue
+ 
+         # Explicit atomic negation.
+@@ -408,7 +426,7 @@ def parse_surface_logic_detailed(
+             obj = _entity(m.group(2))
+             if subj:
+                 propositions.append(LogicalProposition(subject=subj, relation='is', object=obj, polarity=False, source='current-irg', confidence=1.0))
+-            _mention(ctx, audit, subject=subj, direct=(obj if subj else ''))
++            _mention(ctx, audit, subject=subj, predicate_complement=(obj if subj else ''), reset_direct=True)
+             continue
+ 
+         # ----------------------- relative modification ---------------------
+@@ -421,7 +439,7 @@ def parse_surface_logic_detailed(
+             if actor_e:
+                 propositions.append(LogicalProposition(subject=actor_e, relation=_relation(verb), object=head_e, source='current-irg', confidence=1.0, modifiers=[f'relative:{head_e}']))
+             propositions.append(LogicalProposition(subject=head_e, relation='is', object=pred_e, source='current-irg', confidence=1.0, modifiers=([f'relative-source:{actor_e}:{_relation(verb)}'] if actor_e else ['relative-subject-unresolved'])))
+-            _mention(ctx,audit,subject=head_e,direct=pred_e)
++            _mention(ctx,audit,subject=head_e,predicate_complement=pred_e,reset_direct=True)
+             continue
+ 
+         # -------------------------- conjunction ----------------------------
+@@ -435,7 +453,7 @@ def parse_surface_logic_detailed(
+                     LogicalProposition(subject=subj,relation='is',object=o1,source='current-irg',confidence=1.0,modifiers=['conjunct:1']),
+                     LogicalProposition(subject=subj,relation='is',object=o2,source='current-irg',confidence=1.0,modifiers=['conjunct:2']),
+                 ])
+-            _mention(ctx,audit,subject=subj,direct=(o2 if subj else ''))
++            _mention(ctx,audit,subject=subj,predicate_complement=(o2 if subj else ''),reset_direct=True)
+             continue
+ 
+         # -------------------------- action frames --------------------------
+@@ -499,10 +517,14 @@ def parse_surface_logic_detailed(
+             else:
+                 subj0, obj0 = m.groups()
+             subj=_resolve_surface(subj0,ctx,audit,role='subject') or (_entity(subj0) if _entity(subj0) not in _PRONOUNS else '')
+-            obj=_resolve_surface(obj0,ctx,audit,role='direct-object') or (_entity(obj0) if _entity(obj0) not in _PRONOUNS else '')
++            object_role=('predicate-complement' if rel == 'is' else 'direct-object')
++            obj=_resolve_surface(obj0,ctx,audit,role=object_role) or (_entity(obj0) if _entity(obj0) not in _PRONOUNS else '')
+             if subj and obj:
+                 propositions.append(LogicalProposition(subject=subj, relation=rel, object=obj, source='current-irg', confidence=1.0))
+-            _mention(ctx,audit,subject=subj,direct=obj)
++            if rel == 'is':
++                _mention(ctx,audit,subject=subj,predicate_complement=obj,reset_direct=True)
++            else:
++                _mention(ctx,audit,subject=subj,direct=obj)
+             matched = True
+             break
+         if matched:
