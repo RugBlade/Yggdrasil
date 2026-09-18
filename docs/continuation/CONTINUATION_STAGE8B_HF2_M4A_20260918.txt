@@ -1,0 +1,36 @@
+HF2 MILESTONE 4A CHECKPOINT — 2026-09-18
+
+Status: GREEN engineering carrier checkpoint. Stage 8B remains IN PROGRESS. No local/live certification claim.
+
+GitHub:
+- branch: stage8B/v0.8.2-conversation-completion-hf2
+- M4A implementation commit: 9bcb491766490bfc23d6de1b302245d9bf925117
+- exact-HF1 gate follow-up commit: 9780c03affa042c7ef913f1ccf2a5e1c28fad79d
+- M4A Actions run: 35307946353 / job 105483900109 — SUCCESS
+- selector tests: 9 passed in 0.03s
+- authority/no-canned-content scan: PASS
+- exact-HF1 full HF2 gate run: 35307995140 / job 105484037075 — SUCCESS
+- exact-HF1 complete HF2 test count after adding M4A: 97 passed in 0.43s
+- exact HF1 base ZIP sha256: 79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+- exact patch chain remains 0001 -> 0002 -> 0003 -> 0004
+- live_runtime_touched=false
+- canonical_db_touched=false
+
+New carrier:
+- src/noeron/conversation_actions.py
+- tests/test_v082_hf2_conversation_actions.py
+- .github/workflows/hf2-milestone4a.yml
+
+M4A mechanism:
+1. Programmed resolution affordances are bounded to clarify / ask / defer / remain-silent. They are actuator possibilities only, never preferences.
+2. Ambiguity does NOT directly choose clarify. Clarify is only eligible when unresolved ambiguity exists AND native question content already exists.
+3. remain-silent is an affordance, not a default fallback.
+4. A single eligible affordance cannot be reported as Yggdrasil's choice, because infrastructure would have forced it.
+5. Missing learned consequence geometry for any eligible act leaves selection unresolved.
+6. Exact native-geometry ties remain unresolved.
+7. A native-choice claim is allowed only when at least two eligible acts have observed consequence geometry and one predicted post-state has a unique minimum under the injected native geometry.
+8. The selector generates no utterance text and has no semantic-truth, answer, content-generation, cognitive-memory, relationship, source-write or deployment authority.
+9. Runtime integration must inject the already-computed post-closure native state from Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT and the actual DKT transport/distance/tie machinery. The carrier does not imitate those mechanisms.
+
+NEXT SMALL MILESTONE — 4B
+Add persistent-but-nonsemantic speech-act consequence-development state and exact-HF1 runtime integration. Preserve existing express/continue-private communication policy separately. Resolution-act machinery should run only when the proof/ambiguity state actually requires a resolution act; ordinary proof-supported answer flow must not be silently reclassified. Do not fabricate initial consequence observations. Add only operator/calibration provenance if needed; calibration must never be called native choice or owner preference. Then gate against exact HF1 and checkpoint again before adding natural clarification/deference utterance generation.
