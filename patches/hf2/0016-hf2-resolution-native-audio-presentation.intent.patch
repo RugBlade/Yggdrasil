@@ -72,10 +72,10 @@ index 4f28a2b3660fc6d4ba620d04559ec14c9deaedb9..3d1f69736c9d439babae56926b65062f
      def _conversation_transport(self,thought,utterance,event,*,nonconversational_observation:bool=False,native_resolution:bool=False):
          """Gate outward conversation by native communication consequence.
 diff --git a/src/noeron/room.py b/src/noeron/room.py
-index 66baed11ff147f00c45529f907a7d8b4eeb36dd9..d3d297cde692fb9c70f99818693e5fc127475c88 100644
+index 66baed11ff147f00c45529f907a7d8b4eeb36dd9..07842f52bb0b21e24fd20280dd94170b816d5bb6 100644
 --- a/src/noeron/room.py
 +++ b/src/noeron/room.py
-@@ -522,14 +522,23 @@ class RoomController:
+@@ -522,14 +522,36 @@ class RoomController:
          return rec
  
      # ---------------- native voice + observational decoder ---------------
@@ -92,6 +92,19 @@ index 66baed11ff147f00c45529f907a7d8b4eeb36dd9..d3d297cde692fb9c70f99818693e5fc1
 +                    or source_resolution_action not in {'clarify','ask'}
 +                    or source_resolution_native_text_sha256!=text_hash):
 +                raise ValueError('resolution presentation provenance is incomplete or native-text mismatched')
++            current=self.noeron.state.cognition.speech_act_development.pending_execution_receipt
++            persisted_state=self.store.latest_state()
++            persisted=(persisted_state.cognition.speech_act_development.pending_execution_receipt if persisted_state else None)
++            def matches(receipt):
++                return bool(receipt is not None
++                    and str(getattr(receipt,'receipt_id',''))==str(source_resolution_receipt_id)
++                    and str(getattr(receipt,'event_id',''))==str(source_resolution_event_id)
++                    and getattr(receipt,'action',None)==source_resolution_action
++                    and getattr(receipt,'channel',None)=='authenticated-owner-room-http'
++                    and getattr(receipt,'status',None)=='asgi-response-body-sent'
++                    and getattr(receipt,'native_text_sha256',None)==text_hash)
++            if not matches(current) or not matches(persisted):
++                raise ValueError('resolution presentation provenance lacks matching durable execution receipt')
          st=self.noeron.state.room
          config=st.embodiment_configuration
          if config is None or config.voice_profile is None:
@@ -101,7 +114,7 @@ index 66baed11ff147f00c45529f907a7d8b4eeb36dd9..d3d297cde692fb9c70f99818693e5fc1
          text_only=[{'name':'stage7-text-only','role':'stage7-realization-affordance','value':0.0}]
          vp=list(config.voice_profile.model_dump().values())
          voice=[{'name':f'stage7-native-voice-{i}','role':'stage7-realization-affordance','value':_clip01(v)} for i,v in enumerate(vp)]
-@@ -554,12 +563,20 @@ class RoomController:
+@@ -554,12 +576,20 @@ class RoomController:
              audio_artifact_id=artifact.id,audio_sha256=artifact.sha256,decoded_text=decoded,
              decoder_ran_after_native_utterance=decoder_ran,decoder_cognitive_authority=False,
              decoder_realization_authority=False,voice_native_choice_claim=True,voice_decision_id=rec.id,
