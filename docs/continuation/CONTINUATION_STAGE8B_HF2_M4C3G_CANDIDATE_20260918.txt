@@ -129,7 +129,17 @@ Do not create patches/hf2/0014-hf2-same-db-restart-recovery.patch until:
 7. the fresh replay complete suite is green;
 8. an actual CI receipt/artifact is inspected.
 
+CANDIDATE WORKFLOW
+Path:
+.github/workflows/hf2-milestone4c3g.yml
+Workflow/source commit:
+90558197a644f04ff747c3cca7a356b979af0337
+The workflow uses a 20-minute bounded job because its 14 focused cases create genuine
+new Python processes. It does not touch live runtime or canonical DB.
+
 NEXT
-Create the bounded M4C3G GitHub Actions candidate workflow. Keep ordinary 0014 unpublished.
-After the workflow source commit, update this candidate continuation with that exact commit
-and mirror it to the Stage8/HF2 Google Drive folder.
+Inspect the actual M4C3G Actions result/receipt for
+90558197a644f04ff747c3cca7a356b979af0337.
+If any gate fails, repair the candidate and keep ordinary 0014 unpublished.
+If baseline + focused + candidate + separate fresh replay are all green, inspect the actual
+artifact and publish only the generated 0014 bytes, then extend the exact published chain.
