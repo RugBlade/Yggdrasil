@@ -1,0 +1,371 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3L VERIFIED CHECKPOINT
+Date: 2026-09-18 UTC
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3L: PUBLISHED AND EXTERNALLY VERIFIED AT THE RUNTIME/ARTIFACT LEVEL.
+Stage8B and Stage8 remain IN PROGRESS.
+Published runtime is exact HF1 + ordinary patches 0001 -> 0017.
+ordinary_0017_published=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+READ THIS FIRST
+M4C3L fixes a concrete private-Room client defect and adds narrowly scoped authenticated browser media-element telemetry.
+
+The exact post0016 Room client rebuilt every native-presentation audio element on changed Room snapshots.
+A completed audio GET creates transport/journal provenance and changes the snapshot digest, so the next WebSocket snapshot could destroy/recreate the in-progress audio element.
+M4C3L introduces stable keyed presentation/audio DOM reconciliation so unrelated snapshot updates do not replace the same presentation's audio element.
+
+M4C3L also adds authenticated client media-element telemetry for playing and ended.
+This telemetry is NOT:
+- proof of audible speaker output;
+- proof that a human heard/listened;
+- peer-delivery confirmation;
+- understanding confirmation;
+- reply-causation evidence;
+- speech-act execution;
+- speech-act consequence-learning evidence;
+- native choice/preference/relationship/cognitive-memory authority.
+
+The browser/client layer remains distinct from:
+NativePresentationRecord -> server NativeAudioTransportReceipt -> authenticated client media telemetry -> actual speaker output -> human hearing -> understanding -> later conversational outcome.
+
+PREVIOUS VERIFIED CHECKPOINT
+M4C3K root:
+a8849170ee0405f5c5a722715162469a5b0c49c9
+M4C3K was verification-only and left the published runtime at 0016.
+
+M4C3L DESIGN / CANDIDATE CHECKPOINTS
+Design continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3L_DESIGN_20260918.txt
+Design commit:
+26581a8fa2b1f3bbe64236898b7cc1a440602989
+Design Drive ID:
+1UmSg7urhZIadtxQ6EEZE48n_azC5cVz8jhVzKAXm0FM
+
+Exact candidate-byte materializer:
+scripts/materialize_hf2_m4c3l_0017_intent.py
+Commit:
+4d7c00524f95258e85c6d92c8c37b05a1ec967e1
+
+Focused M4C3L tests:
+tests/hf2_m4c3l/test_authenticated_client_playback_telemetry.py
+Commit:
+37b71073bc1e8dd1c25f6d326da212fc5d7fff6c
+
+Candidate continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3L_CANDIDATE_20260918.txt
+Commit:
+74e482f79cc0c38f3729ebbf2f8f8fb115fa4a3f
+Candidate continuation Drive ID:
+1Vde9Dv63fKBYzG9rhr0RB5o4ynupDITp9FQOuRD3AZU
+
+AUTHORITATIVE CANDIDATE CI
+Workflow:
+.github/workflows/hf2-milestone4c3l.yml
+Workflow/source commit:
+d89664bc51f8dd3be744301ec390ab8375ceff9f
+Run:
+35383948748
+Job:
+105726332606
+Conclusion:
+SUCCESS
+
+Exact published post0016 baseline:
+356 passed, 2 warnings in 169.24s
+
+Focused M4C3L:
+17 passed in 1.73s
+
+Complete candidate:
+373 passed, 2 warnings in 169.45s
+
+Fresh exact-HF1 replay focused:
+17 passed in 1.70s
+
+Fresh exact-HF1 replay complete:
+373 passed, 2 warnings in 169.40s
+
+Primary/replay source-byte parity:
+true
+
+Candidate green receipt:
+docs/evidence/_ci/HF2_M4C3L_CANDIDATE_RESULT.txt
+Receipt commit:
+f64734102f66a669fc31da603601fb3316b2d6d2
+Receipt Git blob:
+7ba65db4bd902fe21e5d951697a2f40b5ba5a2d7
+
+PATCH 0017
+Published:
+patches/hf2/0017-hf2-authenticated-client-playback-telemetry.patch
+Publication commit:
+328e2ffdee5b1c99acdc5976c94bee42432ad489
+Git blob:
+b351d73d8f60cfe392024e00e97060def8f60247
+SHA256:
+8aa84fe086d090fabb84b7289aa9c8d7080eeabe5cd3a446b73f3c330b0bd40a
+
+Diffstat:
+4 files changed, 239 insertions, 5 deletions
+
+Runtime files:
+- src/noeron/api.py
+- src/noeron/memory.py
+- src/noeron/room.py
+- src/noeron/room_models.py
+
+Publication-only workflow:
+.github/workflows/hf2-m4c3l-publish-0017.yml
+Workflow/source commit:
+e75f5b75081bd71db06f8c36f598f6feb650fd5c
+Run:
+35387877951
+Job:
+105738944512
+Conclusion:
+SUCCESS
+
+Publication receipt:
+docs/evidence/_ci/HF2_M4C3L_PUBLICATION_RESULT.txt
+Git blob:
+ffba5c55fec5fbed00cb6ffd935bdbd25e2202d7
+
+The publication workflow reconstructed exact post0016, regenerated the frozen candidate bytes, printed:
+patch_sha256=8aa84fe086d090fabb84b7289aa9c8d7080eeabe5cd3a446b73f3c330b0bd40a
+and rechecked the same SHA after copying to the ordinary 0017 path before push.
+
+CANDIDATE ARTIFACT
+GitHub Actions artifact:
+ID 10563920802
+Name:
+hf2-m4c3l-authenticated-client-playback-telemetry
+Bytes:
+1067039
+ZIP SHA256:
+2ae66948e39d3c2826d832ff91687d5d443db6172f2f716f697f2592e036ee4a
+
+Generated candidate patch inside artifact:
+SHA256 8aa84fe086d090fabb84b7289aa9c8d7080eeabe5cd3a446b73f3c330b0bd40a
+
+Candidate exact-post0017 source archive SHA256:
+01be65af0634177dda9e3dabbec7d41c2fb2361de1e967352be6ae27d3442626
+
+Candidate carrier archive SHA256:
+4238a8363b88781e97240a41c2f79c3e2e681456ad7361da7d0910802c574b86
+
+Drive candidate ZIP:
+HF2_M4C3L_AUTHENTICATED_CLIENT_PLAYBACK_TELEMETRY_20260918.zip
+Drive ID:
+1-mfZxVlNyo5PuxhEjZWdtGHKPaP2vL6z
+SHA256:
+2ae66948e39d3c2826d832ff91687d5d443db6172f2f716f697f2592e036ee4a
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+PUBLISHED EXACT-HF1 CHAIN THROUGH 0017
+Workflow source commit:
+513044cd0db2d32654ffb68ef8b65b991636a288
+Run:
+35388025960
+Job:
+105739442824
+
+Substantive gates:
+- exact byte HF1 reconstruction: PASS
+- ORIGINAL carrier helpers copied before patching: PASS
+- 0001 through 0017 each passed git apply --check and applied sequentially: PASS
+- patched runtime compilation: PASS
+- exact dependency install: PASS
+- complete HF2 suite including M4C3K and M4C3L: 373 passed, 2 warnings in 162.64s
+- runtime hash / authority-boundary evidence generation: PASS
+- artifact upload: PASS
+
+Run-level conclusion:
+FAILURE ONLY AT FINAL RECEIPT-PUBLICATION STEP.
+
+The failure was a documentation/template defect:
+the workflow correctly generated docs/evidence/_ci/HF2_EXACT_CHAIN_0017_RESULT.txt but the git-add command still targeted HF2_EXACT_CHAIN_0016_RESULT.txt.
+Therefore Git reported no staged file and the final receipt commit did not occur.
+No runtime/test/compile/apply/hash/artifact gate failed.
+
+A second metadata typo in the same workflow caused the artifact's textual boundary line to print:
+patch_chain=...,0016,0017,0017
+Actual apply logs show every patch 0001 through 0017 applied exactly once, and the artifact separately records the correct 0017 SHA.
+
+Reusable workflow template repaired documentation-only:
+5d7657699ae2ed763cfface7c6586047c2140abd
+No duplicate 373-test run was triggered.
+
+Canonical exact-chain 0017 receipt repaired transparently from inspected immutable run logs/artifact:
+docs/evidence/_ci/HF2_EXACT_CHAIN_0017_RESULT.txt
+Commit:
+41dfb2b9fe4e0586aa04c840b209a76c90a72d1d
+It explicitly states that the original receipt-publication step failed and that substantive chain gates were green.
+
+PUBLISHED-CHAIN ARTIFACT
+GitHub Actions artifact:
+ID 10564522878
+Name:
+hf2-exact-hf1-patch-chain-evidence
+Bytes:
+11866
+ZIP SHA256:
+c168e855c4054ab2f6ac99d846e73e308c7f1a93284cb8041d905a9d7525dad2
+
+Drive published-chain ZIP:
+HF2_EXACT_HF1_PATCH_CHAIN_0001_0017_EVIDENCE_20260918.zip
+Drive ID:
+1DRrScF0ykH-kJkrE7NCSOQWuq4rHJKLM
+SHA256:
+c168e855c4054ab2f6ac99d846e73e308c7f1a93284cb8041d905a9d7525dad2
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+WHAT 0017 ADDS
+
+1. STABLE KEYED NATIVE-PRESENTATION DOM
+The Room no longer puts native-presentation audio elements in the generic view that is rebuilt on every snapshot.
+Native presentation nodes are keyed by NativePresentationRecord.id.
+The same presentation/artifact reuses the same HTMLAudioElement across unrelated snapshot updates.
+This prevents a transport/journal/telemetry snapshot update from itself destroying the active media element.
+No autoplay and no programmatic native-audio play() were introduced.
+
+2. AUTHENTICATED CLIENT MEDIA-ELEMENT TELEMETRY
+A dedicated typed NativeAudioClientPlaybackTelemetryReceipt persists only authenticated private-Room browser media-element telemetry.
+Events are narrowly:
+- playing
+- ended
+
+The play event is deliberately not used as the telemetry receipt event.
+
+3. DURABLE PROVENANCE ORDER
+playing requires:
+- exact NativePresentationRecord;
+- exact audio artifact;
+- matching native text/audio hashes;
+- genuine native voice presentation provenance;
+- already-durable matching NativeAudioTransportReceipt;
+- current private Room authentication;
+- current Ed25519 owner-device session.
+
+ended additionally requires:
+- prior accepted playing;
+- same presentation;
+- same artifact;
+- same owner device;
+- exact same Room session-token SHA256;
+- same client playback_session_id.
+
+4. PERSISTENT IDEMPOTENCY
+SQLite contains a dedicated audit/provenance table.
+The persistent dedupe identity includes presentation, artifact, owner device, exact session hash, playback session and event.
+Duplicate logical submissions reuse the existing receipt instead of creating duplicate semantic events/journal rows.
+
+5. SECURITY / SESSION BINDING
+Raw Room session tokens are never persisted by this telemetry.
+The receipt stores only the SHA256 identity of the exact authenticated session.
+Legacy bootstrap cannot submit this telemetry.
+Nonprivate transport cannot submit it.
+Cross-device or renewed-session ended cannot complete an older playback session.
+
+6. ZERO COGNITIVE AUTHORITY
+The typed receipt hard-fixes the following to false:
+audible_output_confirmed
+peer_delivery_confirmed
+peer_heard_confirmed
+peer_understanding_confirmed
+peer_reply_causation_confirmed
+semantic_truth_authority
+answer_authority
+speech_act_choice_authority
+preference_label_authority
+cognitive_memory_authority
+relationship_authority
+source_write_authority
+deployment_authority
+
+The client request schema does not contain fields that can submit hearing, understanding, preference, relationship or native-choice claims.
+
+7. NO CONSEQUENCE LEARNING
+Client playback telemetry does not:
+- execute a speech act;
+- clear pending speech-act execution state;
+- update speech-act action observations;
+- update speech-act transition observations;
+- train expression/private-continuation policy;
+- create cognitive memory.
+
+Later conversational outcome remains separate.
+
+8. SANITIZED PRIVATE ROOM SNAPSHOT
+The Room snapshot may expose the owner device id and browser event identity for private audit.
+It does not expose the private session SHA or device fingerprint.
+Audible/hearing/understanding/native-choice/preference/relationship authority remains false.
+
+FOCUSED M4C3L COVERAGE — 17 TESTS
+- typed false-authority enforcement;
+- presentation/artifact/transport prerequisites;
+- playing persistence;
+- persistent duplicate-playing idempotency;
+- ended requires prior playing;
+- same-device/exact-session ended binding;
+- duplicate-ended idempotency;
+- ended keeps the original playing transport link after later audio fetch;
+- request schema has no hearing/authority claims;
+- no autoplay;
+- client uses playing/ended, not play;
+- keyed presentation reconciliation source contract;
+- bounded 409 retry only for the transport/telemetry provenance race;
+- snapshot omits private session hash;
+- invalid event/session provenance fails closed;
+- telemetry journal is zero-authority and deduplicated;
+- real Ed25519 Room session accepted while legacy bootstrap and nonprivate transport are rejected.
+
+NON-NEGOTIABLE ARCHITECTURE
+- Canonical cognition remains Environment -> IRG -> DKT -> regional EGR -> RL/Frenet -> DKT -> native cognition/action -> optional Terra.
+- Native content, speech-act selection, expression/private-continuation selection, native voice selection, presentation, server transport, client telemetry and later consequence learning remain separate.
+- Original native utterance remains primary.
+- Decoder/English remains observational/downstream.
+- Authentication grants objective owner/device authority only and zero preference/familiarity/relationship meaning.
+- Browser/media/device events grant no native-choice authority.
+- SQLite remains persistence/provenance/audit/integrity substrate, not cognitive retrieval authority.
+- Terra remains optional/downstream.
+- Live runtime and canonical DB remain untouched.
+- Stage8B remains IN PROGRESS.
+- No Stage9/self-upgrade.
+
+KNOWN LIMITATIONS
+- playing / ended report authenticated browser media-element state only.
+- They do not establish speaker hardware output.
+- They do not establish audible sound at the user's location.
+- They do not establish human hearing/listening or attention.
+- They do not establish understanding or causal relation to a later reply.
+- Browser/crash timing around client telemetry POST itself has not yet received true-process fault-injection coverage.
+- The client-side keyed-DOM behavior is source-contract tested, not full browser-engine integration tested.
+- The existing determiner-form parser ambiguity remains visible/proof-gated.
+- Broad conversational completion and new LOCAL/LIVE certification remain unclaimed.
+
+NEXT BOUNDED ENGINEERING TASK — M4C3M
+Verification-first inspection of M4C3L client telemetry under retry/reload/crash and session rotation.
+
+Begin verification-only. Do not create 0018 unless a concrete runtime defect is demonstrated.
+
+Bounded verification targets:
+1. browser retries the same playing or ended after network uncertainty -> persistent idempotency returns the same receipt;
+2. page reload after playing but before ended does not permit a new session/device to falsely close the old playback session;
+3. renewed Ed25519 Room session cannot submit ended for a prior session-hash-bound playback;
+4. server process restart preserves telemetry dedupe and same-session sequencing from SQLite without turning telemetry into cognitive state;
+5. telemetry POST failure/retry never changes speech-act consequence observations;
+6. snapshot updates during active playback preserve the keyed audio element by contract;
+7. transport-range requests and repeated transport receipts cannot be misinterpreted as additional browser playback sessions;
+8. malformed/stale replay receipts stay non-authoritative.
+
+If verification finds only safe existing behavior, M4C3M should seal verification-only with no 0018.
+If a real defect exists, patch only that defect and use the established exact-baseline + focused candidate + complete candidate + fresh exact-HF1 replay + separate published-chain pipeline.
+
+Do not broaden M4C3M into human-hearing inference, autoplay, microphone surveillance, generic multimodal conversation, Stage9 or self-upgrade.
