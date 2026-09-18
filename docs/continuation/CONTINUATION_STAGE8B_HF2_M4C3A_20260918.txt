@@ -75,3 +75,17 @@ erased or retroactively certified. No new consequence observations are seeded.
 live_runtime_touched=false
 canonical_db_touched=false
 certification_claim=false
+
+CI ATTEMPTS / NEWLY OBSERVED LIMITATION:
+- 35313660077: workflow rejected before job creation; job-level runner.temp
+  expression removed (workflow-only fix 291b0fab2fbc208bcde9ddb87337bafdc0cc062e).
+- 35313764318 / 105500947661: reproduced three intended red regressions, but the
+  shell inherited errexit and stopped early. Fixed explicit set +e then restored
+  set -e in 1bd6a45f671746a37bea056dde7d450e32ddc17b.
+- 35315175525 / 105505169086: baseline-red check and intent application passed;
+  187 tests passed and one proof-fixture assertion failed. No 0008 materialized.
+- Existing dialogue parser overgenerates an event-role ambiguity for
+  "The lamp is on. Is the lamp on?". The unscoped proof gate then blocks the
+  answer. The repair does not touch that parser/gate. The test now distinguishes
+  an ambiguity-free ordinary proof fixture from that visible unresolved case.
+  This is a remaining Stage8B parser/proof limitation, not completed language.

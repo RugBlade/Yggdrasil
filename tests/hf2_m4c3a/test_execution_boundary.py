@@ -301,8 +301,10 @@ def test_real_proof_supported_answer_is_not_reclassified_by_preview(isolated_run
     n=isolated_runtime
     event=CognitiveEvent(
         kind=EventKind.USER_MESSAGE,source="isolated-test",
-        content="The lamp is on. Is the lamp on?",
+        content="Lamp is on. Is lamp on?",
     )
+    structure=n.language.dialogue_structure(event.content,n.state.cognition.language)
+    assert structure["ambiguities"]==[]  # fixture must actually be proof-eligible
     reply=n.ingest(event)
     assert n.state.math_kernel.reasoning.answer_candidates
     assert reply.speech_act_audit["requires_resolution"] is False
@@ -336,3 +338,28 @@ def test_authenticated_http_route_returns_preview_not_execution(runtime,monkeypa
     assert runtime.state.model_dump()==before
     runtime.store.append_state.assert_not_called()
     runtime.security.checkpoint.assert_not_called()
+
+
+def test_current_unscoped_grammar_ambiguity_stays_visible_and_unresolved(isolated_runtime):
+    # Existing dialogue-parser limitation, observed during M4C3A: the determiner
+    # form below overgenerates an event-role ambiguity. Do not bypass its native
+    # proof gate or claim the resulting empty response is a selected resolution.
+    # A later parser/proof milestone must resolve this limitation explicitly.
+    n=isolated_runtime
+    event=CognitiveEvent(
+        kind=EventKind.USER_MESSAGE,source="isolated-test",
+        content="The lamp is on. Is the lamp on?",
+    )
+    structure=n.language.dialogue_structure(event.content,n.state.cognition.language)
+    assert any(a["kind"]=="event-role" for a in structure["ambiguities"])
+    reply=n.ingest(event)
+    reasoning=n.state.math_kernel.reasoning
+    assert reasoning.answer_candidates==[]
+    assert reasoning.proof_gate_blocked_candidate_count>0
+    assert reasoning.proof_gate_unscoped_ambiguity_count>0
+    assert reply.speech_act_audit["native_choice_claim"] is False
+    assert reply.speech_act_audit["action"] is None
+    before=n.state.model_dump()
+    preview=n.operator_resolution_calibration("defer",owner_authenticated=True)
+    assert preview["executed"] is False
+    assert n.state.model_dump()==before
