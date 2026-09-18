@@ -1,0 +1,297 @@
+diff --git a/src/noeron/api.py b/src/noeron/api.py
+index 68f43b9..4c8650c 100644
+--- a/src/noeron/api.py
++++ b/src/noeron/api.py
+@@ -543,6 +543,7 @@ def _room_auth(request:Request):
+ def _room_snapshot():
+     mode=noeron.state.room.presentation_mode
+     arts=store.room_artifacts(100)
++    audio_receipts=store.native_audio_transport_receipts(100)
+     pres=[]
+     for p in store.native_presentations(100):
+         row={'id':str(p.id),'created_at':p.created_at.isoformat(),'source':p.source,'native_text_sha256':p.native_text_sha256,
+@@ -558,6 +559,7 @@ def _room_snapshot():
+             'history':[x.model_dump(mode='json') for x in store.room_journal(200)],
+             'artifacts':[{'id':str(a.id),'created_at':a.created_at.isoformat(),'direction':a.direction,'filename':a.filename,'media_type':a.media_type,'size':a.size,'sha256':a.sha256,'cognitive_authority':False,'publication_native_choice_claim':a.publication_native_choice_claim} for a in arts],
+             'native_presentations':pres,
++            'native_audio_transport_receipts':[{'id':str(r.id),'created_at':r.created_at.isoformat(),'presentation_id':str(r.presentation_id),'audio_artifact_id':str(r.audio_artifact_id),'audio_sha256':r.audio_sha256,'status':r.status,'http_status':r.http_status,'response_bytes':r.response_bytes,'content_range':r.content_range,'pathsend_used':r.pathsend_used,'complete_artifact_single_response':r.complete_artifact_single_response,'playback_confirmed':False,'peer_delivery_confirmed':False,'peer_heard_confirmed':False,'peer_understanding_confirmed':False,'peer_reply_causation_confirmed':False,'cognitive_authority':False,'speech_act_choice_authority':False,'relationship_authority':False} for r in audio_receipts],
+             'internal_utterance_observation':noeron.owner_internal_utterance_observation(),
+             'publication_candidates':noeron.room.publication_candidates(),
+             'pending_initiatives':[m.model_dump(mode='json') for m in store.pending_initiatives(50)],
+@@ -706,6 +708,45 @@ def room_state(request:Request):
+ def room_history(request:Request):
+     _room_auth(request);return {'history':[x.model_dump(mode='json') for x in store.room_journal(500)],'cognitive_authority':False}
+ 
++class _NativeAudioRoomResponse(FileResponse):
++    """Trusted server-side receipt at the native-audio ASGI send boundary.
++
++    A completed send is not playback, hearing, understanding, delivery to a person, or
++    reply causation.  Range responses are recorded as range responses rather than being
++    promoted to a full-artifact claim.
++    """
++    def __init__(self,*args,room,transport_token,artifact_size:int,**kwargs):
++        super().__init__(*args,**kwargs)
++        self._room=room;self._transport_token=transport_token;self._artifact_size=int(artifact_size)
++
++    async def __call__(self,scope,receive,send):
++        status=None;response_bytes=0;content_range='';terminal=False;pathsend_used=False
++        async def sent(message):
++            nonlocal status,response_bytes,content_range,terminal,pathsend_used
++            await send(message)
++            typ=message.get('type')
++            if typ=='http.response.start':
++                status=int(message.get('status') or 0)
++                for k,v in message.get('headers',[]):
++                    if bytes(k).lower()==b'content-range':content_range=bytes(v).decode('latin-1')
++            elif typ=='http.response.body':
++                response_bytes+=len(message.get('body',b''))
++                if not message.get('more_body',False):terminal=True
++            elif typ=='http.response.pathsend':
++                pathsend_used=True;response_bytes=self._artifact_size;terminal=True
++        try:
++            await super().__call__(scope,receive,sent)
++            if (scope.get('type')!='http' or scope.get('method','').upper()!='GET'
++                    or not str(scope.get('path') or '').startswith('/room/files/')
++                    or status not in {200,206} or not terminal):
++                self._room.abandon_native_audio_transport(self._transport_token);return
++            await run_in_threadpool(self._room.complete_native_audio_transport,self._transport_token,
++                http_status=status,response_bytes=response_bytes,content_range=content_range,pathsend_used=pathsend_used)
++        except BaseException:
++            self._room.abandon_native_audio_transport(self._transport_token)
++            raise
++
++
+ class _ResolutionRoomResponse(JSONResponse):
+     """Receipt at the adapter's ASGI send boundary, not peer delivery/read.
+ 
+@@ -773,7 +814,15 @@ def room_file_download(artifact_id:str,request:Request):
+     if rec is None:raise HTTPException(status_code=404,detail='Room artifact not found.')
+     try:p=noeron.room.verified_artifact_path(rec)
+     except (ValueError,OSError) as e:raise HTTPException(status_code=409,detail='Room artifact failed private-path/integrity verification.') from e
+-    return FileResponse(p,media_type=rec.media_type,filename=rec.filename,headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'})
++    presentation=(store.native_presentation_for_audio_artifact(artifact_id)
++        if rec.direction=='noeron-to-owner' and rec.media_type.startswith('audio/') else None)
++    if presentation is not None:
++        token=noeron.room.prepare_native_audio_transport(presentation,rec)
++        if token is not None:
++            return _NativeAudioRoomResponse(p,media_type=rec.media_type,filename=rec.filename,
++                headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'},
++                room=noeron.room,transport_token=token,artifact_size=rec.size)
++    return FileResponse(p,media_type=rec.media_type,filename=rec.filename,headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'})
+ 
+ @app.post('/room/files/{artifact_id}/consider')
+ def room_file_consider(artifact_id:str,request:Request):
+diff --git a/src/noeron/memory.py b/src/noeron/memory.py
+index fec534c..d3d26dd 100644
+--- a/src/noeron/memory.py
++++ b/src/noeron/memory.py
+@@ -5,7 +5,10 @@ from pathlib import Path
+ from threading import RLock
+ from noeron.cognition.models import KnotMemory, NativeThought
+ from noeron.models import CognitiveEvent, InitiativeMessage, NoeronState
+-from noeron.room_models import RoomJournalEntry, RoomArtifactRecord, NativePresentationRecord
++from noeron.room_models import (
++    RoomJournalEntry, RoomArtifactRecord, NativePresentationRecord,
++    NativeAudioTransportReceipt,
++)
+ from noeron.learning_models import (
+     SemanticKnotPrototype, LearningSourceRecord, NoeronSemanticStratumRecord,
+     IsotopyComponentRecord, StratifiedLearningMemory, ReasoningConceptRecord,
+@@ -41,6 +44,7 @@ class LocalEventStore:
+                 'CREATE TABLE IF NOT EXISTS room_journal (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, payload TEXT NOT NULL)',
+                 'CREATE TABLE IF NOT EXISTS room_artifacts (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, payload TEXT NOT NULL)',
+                 'CREATE TABLE IF NOT EXISTS native_presentations (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, payload TEXT NOT NULL)',
++                'CREATE TABLE IF NOT EXISTS native_audio_transport_receipts (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, payload TEXT NOT NULL)',
+             ]:
+                 self._connection.execute(sql)
+             self._connection.commit()
+@@ -359,6 +363,33 @@ class LocalEventStore:
+             except Exception: pass
+         return out
+ 
++    def native_presentation(self, presentation_id:str):
++        with self._lock: row=self._connection.execute('SELECT payload FROM native_presentations WHERE id=?',(str(presentation_id),)).fetchone()
++        return NativePresentationRecord.model_validate_json(row[0]) if row else None
++
++    def native_presentation_for_audio_artifact(self, artifact_id:str):
++        aid=str(artifact_id or '')
++        if not aid:return None
++        with self._lock: rows=self._connection.execute('SELECT payload FROM native_presentations ORDER BY created_at DESC').fetchall()
++        for r in rows:
++            try: rec=NativePresentationRecord.model_validate_json(r[0])
++            except Exception: continue
++            if rec.audio_artifact_id is not None and str(rec.audio_artifact_id)==aid:
++                return rec
++        return None
++
++    def append_native_audio_transport_receipt(self, rec:NativeAudioTransportReceipt):
++        with self._lock:
++            self._connection.execute('INSERT OR IGNORE INTO native_audio_transport_receipts VALUES (?,?,?)',(str(rec.id),rec.created_at.isoformat(),rec.model_dump_json())); self._connection.commit()
++
++    def native_audio_transport_receipts(self, limit:int=100):
++        with self._lock: rows=self._connection.execute('SELECT payload FROM native_audio_transport_receipts ORDER BY created_at DESC LIMIT ?',(max(1,min(int(limit),500)),)).fetchall()
++        out=[]
++        for r in reversed(rows):
++            try: out.append(NativeAudioTransportReceipt.model_validate_json(r[0]))
++            except Exception: pass
++        return out
++
+     # ------------------------------------------------------------------
+     # v0.6.5 higher-order reasoning concepts
+     # ------------------------------------------------------------------
+diff --git a/src/noeron/room.py b/src/noeron/room.py
+index 082059e..66baed1 100644
+--- a/src/noeron/room.py
++++ b/src/noeron/room.py
+@@ -5,6 +5,7 @@ from datetime import datetime, timezone
+ from hashlib import sha256
+ from pathlib import Path
+ from typing import Iterable
++from threading import RLock
+ from uuid import UUID, uuid5, NAMESPACE_URL
+ import json
+ import math
+@@ -16,7 +17,7 @@ from noeron.consequence import native_state_consistency_residual
+ from noeron.math.linalg import numerically_tied
+ from noeron.models import CognitiveEvent, EventKind
+ from noeron.room_models import (
+-    NativePresentationRecord, NativeRoomDecision, NativeVoiceProfile,
++    NativeAudioTransportReceipt, NativePresentationRecord, NativeRoomDecision, NativeVoiceProfile,
+     RendererConfiguration, RoomArtifactRecord, RoomJournalEntry,
+ )
+ from noeron.speech import run_local_decoder
+@@ -96,6 +97,8 @@ class RoomController:
+         self.native_decoder_executable = native_decoder_executable or ''
+         self.asr_executable = asr_executable or ''
+         self.max_payload_bytes = int(max_payload_bytes)
++        self._native_audio_transport_lock = RLock()
++        self._native_audio_transports: dict[int, dict[str, object]] = {}
+         if self.max_payload_bytes < 1_048_576 or self.max_payload_bytes > 1_073_741_824:
+             raise ValueError('Room max payload must be between 1 MiB and 1 GiB')
+         self.root = Path(db_path).resolve().parent / 'room-private'
+@@ -561,6 +564,81 @@ class RoomController:
+         self.store.append_state(self.noeron.state)
+         return presentation
+ 
++    def prepare_native_audio_transport(self, presentation: NativePresentationRecord, artifact: RoomArtifactRecord):
++        """Create one process-local capability for a native audio HTTP response.
++
++        Artifact existence/publication is not transport execution.  Only the trusted
++        ASGI adapter may later consume this capability after its send boundary.
++        """
++        if (presentation.audio_artifact_id is None
++                or presentation.audio_artifact_id != artifact.id
++                or presentation.audio_sha256 != artifact.sha256
++                or artifact.direction != 'noeron-to-owner'
++                or not artifact.media_type.startswith('audio/')
++                or not presentation.voice_native_choice_claim):
++            return None
++        token=object()
++        record={
++            'token':token,'presentation_id':presentation.id,'artifact_id':artifact.id,
++            'native_text_sha256':presentation.native_text_sha256,'audio_sha256':artifact.sha256,
++            'audio_size':int(artifact.size),
++        }
++        with self._native_audio_transport_lock:
++            self._native_audio_transports[id(token)]=record
++        return token
++
++    def abandon_native_audio_transport(self, token):
++        if token is None:return
++        with self._native_audio_transport_lock:
++            current=self._native_audio_transports.get(id(token))
++            if current is not None and current.get('token') is token:
++                self._native_audio_transports.pop(id(token),None)
++
++    def complete_native_audio_transport(self, token, *, http_status:int, response_bytes:int, content_range:str='', pathsend_used:bool=False):
++        """Persist nonsemantic ASGI audio-send evidence for one prepared response.
++
++        Completion proves only that the server-side ASGI send call(s) returned for the
++        response.  It never claims browser playback, peer hearing, understanding, or
++        reply causation, and it never trains native speech-act/communication geometry.
++        """
++        if token is None:return None
++        with self._native_audio_transport_lock:
++            current=self._native_audio_transports.get(id(token))
++            if current is None or current.get('token') is not token:return None
++            self._native_audio_transports.pop(id(token),None)
++        presentation=self.store.native_presentation(str(current['presentation_id']))
++        artifact=self.store.room_artifact(str(current['artifact_id']))
++        if (presentation is None or artifact is None
++                or presentation.audio_artifact_id != artifact.id
++                or presentation.audio_sha256 != artifact.sha256
++                or presentation.native_text_sha256 != current['native_text_sha256']
++                or artifact.sha256 != current['audio_sha256']
++                or int(artifact.size) != int(current['audio_size'])
++                or artifact.direction != 'noeron-to-owner'
++                or not artifact.media_type.startswith('audio/')
++                or int(http_status) not in {200,206}
++                or int(response_bytes) < 0):
++            return None
++        receipt=NativeAudioTransportReceipt(
++            presentation_id=presentation.id,audio_artifact_id=artifact.id,
++            native_text_sha256=presentation.native_text_sha256,audio_sha256=artifact.sha256,
++            audio_size=int(artifact.size),http_status=int(http_status),response_bytes=int(response_bytes),
++            content_range=str(content_range or ''),pathsend_used=bool(pathsend_used),
++            complete_artifact_single_response=(int(http_status)==200 and int(response_bytes)==int(artifact.size)),
++        )
++        self.store.append_native_audio_transport_receipt(receipt)
++        self.append_journal('native-audio-transport-receipt',{
++            'receipt_id':str(receipt.id),'presentation_id':str(presentation.id),
++            'audio_artifact_id':str(artifact.id),'audio_sha256':artifact.sha256,
++            'http_status':receipt.http_status,'response_bytes':receipt.response_bytes,
++            'content_range':receipt.content_range,'pathsend_used':receipt.pathsend_used,
++            'complete_artifact_single_response':receipt.complete_artifact_single_response,
++            'playback_confirmed':False,'peer_delivery_confirmed':False,'peer_heard_confirmed':False,
++            'peer_understanding_confirmed':False,'peer_reply_causation_confirmed':False,
++            'cognitive_authority':False,'speech_act_choice_authority':False,'relationship_authority':False,
++        })
++        return receipt
++
+     def decode_attended_microphone(self, wav: bytes) -> str:
+         if not self.asr_executable:
+             raise ValueError('private local ASR is not configured')
+diff --git a/src/noeron/room_models.py b/src/noeron/room_models.py
+index c3b9289..0096e22 100644
+--- a/src/noeron/room_models.py
++++ b/src/noeron/room_models.py
+@@ -109,3 +109,39 @@ class NativePresentationRecord(BaseModel):
+     decoder_realization_authority: bool = False
+     voice_native_choice_claim: bool = False
+     voice_decision_id: UUID | None = None
++
++
++class NativeAudioTransportReceipt(BaseModel):
++    """Nonsemantic proof that one authenticated audio HTTP response send completed.
++
++    This is transport/provenance only.  It is not evidence of browser playback,
++    hearing, understanding, reply causation, native choice, preference, relationship,
++    cognitive memory, semantic truth, source-write authority, or deployment authority.
++    """
++    id: UUID = Field(default_factory=uuid4)
++    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
++    presentation_id: UUID
++    audio_artifact_id: UUID
++    native_text_sha256: str
++    audio_sha256: str
++    audio_size: int = Field(ge=0)
++    channel: Literal['authenticated-owner-room-audio-http'] = 'authenticated-owner-room-audio-http'
++    status: Literal['asgi-audio-response-sent'] = 'asgi-audio-response-sent'
++    http_status: int
++    response_bytes: int = Field(ge=0)
++    content_range: str = ''
++    pathsend_used: bool = False
++    complete_artifact_single_response: bool = False
++    playback_confirmed: bool = False
++    peer_delivery_confirmed: bool = False
++    peer_heard_confirmed: bool = False
++    peer_understanding_confirmed: bool = False
++    peer_reply_causation_confirmed: bool = False
++    semantic_truth_authority: bool = False
++    answer_authority: bool = False
++    speech_act_choice_authority: bool = False
++    preference_label_authority: bool = False
++    cognitive_memory_authority: bool = False
++    relationship_authority: bool = False
++    source_write_authority: bool = False
++    deployment_authority: bool = False
