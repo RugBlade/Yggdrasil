@@ -1,0 +1,310 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — FINAL M4C3Q DURABLE CONTINUATION
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+PURPOSE
+This is the final durable M4C3Q continuation, distinct from the earlier engineering seal checkpoint.
+It preserves the sealed engineering evidence exactly and records cross-carrier closure before the next bounded Stage-8B milestone is selected.
+
+PROVIDER RECOVERY / SEAL RECONCILIATION
+Initial sealed GitHub HEAD recovered for this reconciliation:
+f39233dbd061a6a18c20f7d7121140fbb66f5e41
+No newer GitHub commits existed before reconciliation began.
+
+Seal checkpoint:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3Q_SEAL_CHECKPOINT_20260919.txt
+Git blob:
+a33abe015c631113489208db47c8f61b74cf883c
+Drive ID:
+1zeFRPuAcxmZwHF3cPGngMJjfV27Ny1-YKTTIOF_3u-A
+GitHub/Drive normalized equality:
+VERIFIED
+
+Standing root:
+CONTINUATION_STAGE8B_HF2.txt
+GitHub sealed-root blob at recovered seal:
+aab445130eb62c4b97f8ce969abbb281f5c9338e
+Standing Drive root ID:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+GitHub/Drive normalized equality after reconciliation:
+VERIFIED
+
+Published-chain artifact Drive readback remained:
+Drive ID 1-np4jigwS9TBBl0rBz0OA8OZhYuv1_Ty
+Bytes 677959
+SHA256 996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f
+GitHub/Drive raw equality VERIFIED.
+
+FINAL DOCUMENTATION STATUS
+m4c3q_final_continuation_created=true
+m4c3q_final_manifest_created=false
+next_milestone_selection_pending_after_final_seal_closure=true
+
+The complete engineering seal evidence follows verbatim.
+
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3Q SEALED ENGINEERING CHECKPOINT
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+GLOBAL ROADMAP
+Stage 8 spans 8A–8M.
+Stage-8 self-upgrade work belongs especially to 8H–8K.
+Current work remains strictly Stage 8B.
+Do not begin Stage 8C–8M or Stage 9 from this milestone.
+
+PARENT
+Previous sealed milestone:
+M4C3P
+Root:
+e4ac1067f7bf0dc6f0a62217b19d92d4d00698ec
+Published reconstruction before M4C3Q:
+exact HF1 + ordinary patches 0001 -> 0020.
+
+FINAL ENGINEERING STATUS
+M4C3Q is PUBLISHED AND EXTERNALLY VERIFIED at engineering source / CI / artifact level.
+Published reconstruction:
+exact HF1 + ordinary patches 0001 -> 0021.
+ordinary_0021_published=true
+published_exact_chain_0021_green=true
+m4c3q_sealed=true
+stage8b_complete=false
+broad_conversational_completion_claim=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+next_milestone_selection_pending_post_seal=true
+
+DESIGN
+Path:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3Q_DESIGN_20260919.txt
+Active tightened design commit:
+9bdb8dcd69f39283948a3c5a7d861971b7160619
+Git blob:
+0981633b7278e41c6ce0b672bbedd0ec70dc8d38
+Drive ID:
+1IRcVEbo0O_ORd_QQyUX9RMR-btDIQEN5hJg0wr0KjIY
+
+CANDIDATE 0021
+Intent:
+patches/hf2/0021-hf2-dialogue-reference-scope-provenance.intent.patch
+Intent commit:
+319182c5bbd0131d697fdaf17d68dab41c8df933
+Git blob:
+934637a3f2d854af716a4a0e6f3ac58c6837202c
+SHA256:
+62c3436192024454210f284a5f1486c03a6663cd0fba6ca1f62e5eae18ab9ea9
+Bytes:
+3507
+Runtime scope:
+src/noeron/language_dialogue.py only
+
+Focused tests:
+tests/hf2_m4c3q/test_dialogue_reference_scope_provenance.py
+Commit:
+a2fcb8ef9a0ce0693117613d3bbbd63550e6e3b1
+Git blob:
+ac40f1db9b37a501370a49d32a9d11e877a50d3e
+Focused count:
+12
+
+HISTORICAL CANDIDATE RUN 1 — FAILED / NON-AUTHORIZING
+Run:
+35445791400
+Job:
+105904362878
+Source:
+36663f37179b7bfba2614ab22ec67bf8256d51ae
+Result:
+FAILURE
+Baseline:
+400 passed, 2 warnings
+Focused:
+12 passed
+Complete:
+411 passed, 1 failed, 2 warnings
+Only failure:
+tests/hf2_m4c3p/test_copular_discourse_focus_hygiene.py::test_runtime_keeps_separate_dialogue_ambiguity_gate_after_target_fix
+Meaning:
+stale historical M4C3P assertion against a limitation explicitly targeted by M4C3Q.
+Candidate runtime bytes unchanged.
+Failed artifact:
+GitHub 10584534101
+SHA256 eea705b4c5d7c6f9a309cd0dd17d82d241fcfb6735eb1d0606cfc2a9e5361c2e
+Drive 1Zwc0FFV5kxLwEjVIOD7X2AifptAjnat7
+Raw equality VERIFIED.
+Failed continuation Drive ID:
+1vQjcu-uJneXXLvR94gz57ETlyQehlGY2fUq_XOYMF0I
+
+FORWARD-COMPATIBILITY REPAIR
+Commit:
+b97f4ba3e6caca93991e3d45b652c0551df91330
+Changed only historical M4C3P test contract and M4C3Q workflow.
+Frozen 0021 candidate bytes unchanged.
+
+AUTHORITATIVE CANDIDATE RUN 2 — GREEN
+Workflow:
+.github/workflows/hf2-milestone4c3q.yml
+Source:
+b97f4ba3e6caca93991e3d45b652c0551df91330
+Run:
+35446387163
+Job:
+105905924739
+Conclusion:
+SUCCESS
+Published post0020 baseline:
+400 passed, 2 warnings in 184.39s
+Focused M4C3Q:
+12 passed in 2.20s
+Complete primary candidate:
+412 passed, 2 warnings in 162.73s
+Fresh exact-HF1 replay focused:
+12 passed in 2.06s
+Fresh replay complete:
+412 passed, 2 warnings in 155.43s
+Source-byte parity:
+VERIFIED
+Candidate source archive SHA256:
+d90f4b64c0843c54e5d31815516c648091c30133b73e306993da31773a4a7a78
+Carrier archive SHA256:
+48982f8d079be063c7bbc4af01eab765aa1e7e593f9b8a4ccf6073c45884de60
+
+Candidate receipt:
+docs/evidence/_ci/HF2_M4C3Q_CANDIDATE_RESULT.txt
+Receipt commit:
+3cdd279ab12cf8b764fc8f77ffa8ffe98df88396
+Receipt Git blob:
+8ed4535ce7f969c47f6c4fe0319d06707ab5ef7e
+
+GREEN CANDIDATE ARTIFACT
+GitHub ID:
+10585855240
+Name:
+hf2-m4c3q-dialogue-reference-scope-provenance
+Bytes:
+1102721
+SHA256:
+4a24f1bfc94921d0fc350e61ca98428d296061eb966bcb86f1b2a7386af27212
+Drive ID:
+18uyzlqK9b8tv-NXnguGVNoEIiXhsfquU
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+ORDINARY 0021 PUBLICATION
+Published:
+patches/hf2/0021-hf2-dialogue-reference-scope-provenance.patch
+Publication commit:
+31870a9e59fc7beb4549f9cbe3f41a25bb83bcc3
+Published Git blob:
+934637a3f2d854af716a4a0e6f3ac58c6837202c
+Intent/published blob equality:
+VERIFIED
+SHA256:
+62c3436192024454210f284a5f1486c03a6663cd0fba6ca1f62e5eae18ab9ea9
+Bytes:
+3507
+
+PUBLISHED EXACT-HF1 CHAIN THROUGH 0021
+Workflow:
+.github/workflows/hf2-m4c3q-published-chain.yml
+Source:
+aacabb590c963d8630f4c72802f12693f61f23b9
+Run:
+35448750669
+Job:
+105912125537
+Conclusion:
+SUCCESS
+Verified:
+- byte-exact HF1 reconstruction;
+- ORIGINAL carrier helper injection;
+- exact 0021 intent/published identity;
+- 0001 -> 0021 sequential apply/check;
+- post0021 compile;
+- complete HF2 through M4C3Q: 412 passed, 2 warnings in 187.60s;
+- exact source/hash/authority evidence;
+- artifact upload;
+- green receipt publication.
+Published source archive SHA256:
+cdc054a9af9f941f90b82eb5df814c54471203aa486cfea0aeb3e3348ca52d0d
+
+Published-chain receipt:
+docs/evidence/_ci/HF2_EXACT_CHAIN_0021_RESULT.txt
+Receipt commit:
+8f7a2407a1e8c4f91bac791039008e357b8df3da
+Receipt Git blob:
+1b0b17ced5707645acdfcb8b538ab47581b578e0
+
+PUBLISHED-CHAIN ARTIFACT
+GitHub ID:
+10585938051
+Name:
+hf2-m4c3q-exact-hf1-published-0021
+Bytes:
+677959
+SHA256:
+996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f
+Drive ID:
+1-np4jigwS9TBBl0rBz0OA8OZhYuv1_Ty
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+WHAT M4C3Q CLOSES
+- same-ingress reference analysis can use transparently extracted mentions from prior sentences in the same ingress;
+- the current sentence cannot self-resolve from mentions extracted later in itself;
+- transparently prepositional attribute_or_identity surfaces no longer become nominal antecedents;
+- attribute_or_identity is not categorically removed;
+- nominal/unknown copular complements remain candidate material;
+- genuine multiple admissible references remain alternatives;
+- existing proof/ambiguity gates remain authoritative.
+
+AUTHORITY BOUNDARY
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+POST-SEAL RULE
+Do not rerun M4C3Q because a ChatGPT/UI state becomes stale.
+Do not create 0022 merely to continue numbering.
+Select the next bounded Stage-8B milestone only after this seal checkpoint is mirrored and verified on Drive.
+
+
+FINAL DURABLE CONTINUATION CLOSURE
+M4C3Q remains the latest sealed/verified Stage-8B milestone.
+ordinary_0021_published=true
+published_exact_chain_0021_green=true
+m4c3q_sealed=true
+stage8b_complete=false
+broad_conversational_completion_claim=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+Do not begin Stage 8C–8M or Stage 9 from this continuation.
+Do not create ordinary 0022 merely to continue numbering.
+The next bounded Stage-8B milestone must be selected only after final continuation + final manifest + standing-root cross-carrier closure are all verified, and only from exact published post0021 behavior/evidence.
