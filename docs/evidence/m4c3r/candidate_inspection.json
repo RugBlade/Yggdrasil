@@ -1,0 +1,198 @@
+{
+  "status": "COMPLETE_GREEN_EVIDENCE_INSPECTED",
+  "run_id": 35475508613,
+  "job_id": 105983960073,
+  "source_commit": "cc173d3d2ffcaa9803fb42b1635c9bd0be7aceec",
+  "artifact_sha256": "015f2c29afc210c1c809637270b00e58cc4421ee97c4d1cf37463342d5221a7f",
+  "artifact_bytes": 1132148,
+  "counts": {
+    "baseline": {
+      "passed": 412,
+      "failed": 0,
+      "skipped": 0,
+      "summary": "412 passed, 2 warnings in 174.79s (0:02:54)"
+    },
+    "focused": {
+      "passed": 39,
+      "failed": 0,
+      "skipped": 0,
+      "summary": "39 passed in 9.63s"
+    },
+    "complete": {
+      "passed": 451,
+      "failed": 0,
+      "skipped": 0,
+      "summary": "451 passed, 2 warnings in 183.56s (0:03:03)"
+    },
+    "replay-focused": {
+      "passed": 39,
+      "failed": 0,
+      "skipped": 0,
+      "summary": "39 passed in 9.49s"
+    },
+    "replay-complete": {
+      "passed": 451,
+      "failed": 0,
+      "skipped": 0,
+      "summary": "451 passed, 2 warnings in 184.08s (0:03:04)"
+    }
+  },
+  "receipt": {
+    "milestone": "M4C3R",
+    "status": "GREEN",
+    "run_id": "35475508613",
+    "run_attempt": "1",
+    "workflow_ref": "RugBlade/Yggdrasil/.github/workflows/hf2-milestone4c3r.yml@refs/heads/stage8B/v0.8.2-conversation-completion-hf2",
+    "source_commit": "cc173d3d2ffcaa9803fb42b1635c9bd0be7aceec",
+    "source_branch": "stage8B/v0.8.2-conversation-completion-hf2",
+    "job_name": "exact-post0021-candidate-replay",
+    "base_zip_sha256": "79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29",
+    "published_patch_chain": "0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016,0017,0018,0019,0020,0021",
+    "patch0022_sha256": "d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5",
+    "patch0022_bytes": "2387",
+    "source_archive_sha256": "e3ac18ce369f1e46d6ac984f17f59380d03b11c79e696654c8b231a0faac42fc",
+    "carrier_archive_sha256": "a602800b5db714732f8888290c8b923555764a871defd44a01b9af3ae887d6c9",
+    "baseline_summary": "412 passed, 2 warnings in 174.79s (0:02:54)",
+    "focused_summary": "39 passed in 9.63s",
+    "candidate_summary": "451 passed, 2 warnings in 183.56s (0:03:03)",
+    "replay_focused_summary": "39 passed in 9.49s",
+    "replay_summary": "451 passed, 2 warnings in 184.08s (0:03:04)",
+    "source_byte_parity": "true",
+    "candidate_runtime_scope": "src/noeron/development.py",
+    "same_ingress_prior_sentence_scope": "true",
+    "current_sentence_self_reference_from_later_mentions": "false",
+    "prepositional_complement_nominal_candidate": "false",
+    "categorical_predicate_complement_removal": "false",
+    "genuine_reference_alternatives_preserved": "true",
+    "semantic_truth_authority": "false",
+    "answer_authority": "false",
+    "speech_act_choice_authority": "false",
+    "preference_authority": "false",
+    "relationship_authority": "false",
+    "cognitive_memory_authority": "false",
+    "source_write_authority": "false",
+    "deployment_authority": "false",
+    "proof_ambiguity_gate_weakened": "false",
+    "semantic_verb_class_table_added": "false",
+    "lexical_candidate_ranking_added": "false",
+    "lexical_pos_inference_added": "false",
+    "llm_inference_added": "false",
+    "canned_clarification_added": "false",
+    "autoplay_added": "false",
+    "microphone_camera_expansion": "false",
+    "human_hearing_inference": "false",
+    "stage8b_only": "true",
+    "certification_claim": "false",
+    "live_runtime_touched": "false",
+    "canonical_db_touched": "false",
+    "ordinary_0022_published": "false"
+  },
+  "source_file_count": 58,
+  "changed_runtime_files": [
+    "src/noeron/development.py"
+  ],
+  "source_byte_parity": true,
+  "exact_frozen_intent_bytes": true,
+  "source_matches_local_frozen_candidate": true,
+  "source_archive_sha256": "e3ac18ce369f1e46d6ac984f17f59380d03b11c79e696654c8b231a0faac42fc",
+  "carrier_archive_sha256": "a602800b5db714732f8888290c8b923555764a871defd44a01b9af3ae887d6c9",
+  "members": {
+    "0022-hf2-resolution-source-correspondence.generated.patch": {
+      "bytes": 2387,
+      "sha256": "d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5"
+    },
+    "HF2_M4C3R_CANDIDATE_RESULT.txt": {
+      "bytes": 2050,
+      "sha256": "a7d0f1b2e1aa678dbab4f8cf7174ec73985b0fd690e52cec472d58d1ec2f4442"
+    },
+    "m4c3r-baseline.txt": {
+      "bytes": 1567,
+      "sha256": "cabd856fb2a5bcdceac4b90e24924d9ced8b51e8db1b27ce94766123a5fd5217"
+    },
+    "m4c3r-baseline.xml": {
+      "bytes": 64946,
+      "sha256": "ace97f3181194067080390cf2797690d8ced8321e12fb50dd932e7678037d9bb"
+    },
+    "m4c3r-boundary.txt": {
+      "bytes": 1587,
+      "sha256": "ce0f1999a660de1d961bdc71358c07b02471ff8d1b6f44af4fce0596b1c1db75"
+    },
+    "m4c3r-candidate-diffstat.txt": {
+      "bytes": 89,
+      "sha256": "116ff7d624551e93148e7194fd6964aa369c0316db9ba1eaa2ca236cadbb667c"
+    },
+    "m4c3r-candidate-source-sha256.txt": {
+      "bytes": 5016,
+      "sha256": "50cbc85f807a843854d99f84918ad04fb0fa12c1a14e9b8affead80172adf0bb"
+    },
+    "m4c3r-carrier-evidence.tar.gz": {
+      "bytes": 422268,
+      "sha256": "a602800b5db714732f8888290c8b923555764a871defd44a01b9af3ae887d6c9"
+    },
+    "m4c3r-complete.txt": {
+      "bytes": 1647,
+      "sha256": "760c6c8ac4f1429c7be891b9ab8e04e27bd4bbe68767bf2217d012c4f3dcde23"
+    },
+    "m4c3r-complete.xml": {
+      "bytes": 71740,
+      "sha256": "f698aebc95ebaa60a8ad5b5d864875c2b85678684d05ba9e6c44c03482757599"
+    },
+    "m4c3r-exact-post0022-candidate-source.tar.gz": {
+      "bytes": 663402,
+      "sha256": "e3ac18ce369f1e46d6ac984f17f59380d03b11c79e696654c8b231a0faac42fc"
+    },
+    "m4c3r-focused.txt": {
+      "bytes": 188,
+      "sha256": "c17faf4de9f98c6ac2ac167ae25ee5c44a9f6b9340b4b0fc1e452200651e0c4e"
+    },
+    "m4c3r-focused.xml": {
+      "bytes": 7044,
+      "sha256": "70c2c0fef9e7733b832b88f359ef2a9f4df5e76129d270b1f2593568fe8c15d3"
+    },
+    "m4c3r-generated-patch-sha256.txt": {
+      "bytes": 133,
+      "sha256": "0deba2c148cdeedb25626e652ca483f438b4b075b1aeb15a517b53c4c14a7b7a"
+    },
+    "m4c3r-hf1-identity.json": {
+      "bytes": 1849,
+      "sha256": "c2bb419a343cf6cd21385ef5cdc81acf7fdec37945060f65ece316e087da1756"
+    },
+    "m4c3r-intent-identity.txt": {
+      "bytes": 95,
+      "sha256": "120cad21ea97199ba858da6a06b858b30d8e0b65bb5be3bffa2ab7ff7f8d36b7"
+    },
+    "m4c3r-post0021-identity.json": {
+      "bytes": 6102,
+      "sha256": "4c7eb99821213f29c807a5356e9fea0a5cf4bad7917be949813b93d7a0333fc3"
+    },
+    "m4c3r-replay-complete.txt": {
+      "bytes": 1654,
+      "sha256": "591f43f0757a5d9a1625fbce4578130781b75897c8ee969565d1198263068e43"
+    },
+    "m4c3r-replay-complete.xml": {
+      "bytes": 71740,
+      "sha256": "16b20eb41fe840b6cb95db6346f6e9788f99f2ed59cd27cd45fba46c46daaf28"
+    },
+    "m4c3r-replay-focused.txt": {
+      "bytes": 195,
+      "sha256": "0487ab2481a35aff4452c4878b9da0b0ba5dbf925843f856b0a633f9fb1ad5df"
+    },
+    "m4c3r-replay-focused.xml": {
+      "bytes": 7044,
+      "sha256": "1447eb02694800403058f5a83f3b946c255cc16be3bcc9b7d1c46a60a2eca197"
+    },
+    "m4c3r-replay-hf1-identity.json": {
+      "bytes": 1849,
+      "sha256": "c2bb419a343cf6cd21385ef5cdc81acf7fdec37945060f65ece316e087da1756"
+    },
+    "m4c3r-replay-source-sha256.txt": {
+      "bytes": 5016,
+      "sha256": "50cbc85f807a843854d99f84918ad04fb0fa12c1a14e9b8affead80172adf0bb"
+    }
+  },
+  "artifact_id": 10594495484,
+  "artifact_drive_id": "1pFWswszGSZcQoniPZ9TB4j7HZENas84x",
+  "github_drive_raw_equality": true,
+  "inspection_before_publication": true,
+  "inspection_observed_head": "4d2977b17c01089a3762217bb7818569f3692da3"
+}
