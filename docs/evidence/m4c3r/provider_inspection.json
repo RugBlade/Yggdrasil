@@ -1,0 +1,74 @@
+{
+  "inspected_at": "2026-09-19T17:23:37.063749+00:00",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "starting_head": "14db100ae2c69798ce8654dbb548b46e21534512",
+  "parent": "cdc3200eb98f7760541c5e460db4828f53d09cae",
+  "newer_provider_commits": false,
+  "active_runs": [],
+  "queued_runs": [],
+  "provider_session_visibility": "No active or queued workflow and no advancing Git/Drive state were observed; other ChatGPT session existence is not exposed by providers. Recheck HEAD before branch updates.",
+  "documentation_pairs": {
+    "root": {
+      "drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+      "git_blob": "382563855103d6de05a7dc77ada8917f79bc700c",
+      "git_sha256": "bcf6d72d4b5ea9c64efa3e4d367bacb6f4341bf1b8b8f454661d4c941087320a",
+      "drive_sha256": "d1663604addf7886abc5f649d5ca728e3f00be214b730fd6a10e0ce707605c0a",
+      "git_bytes": 192055,
+      "drive_bytes": 197171,
+      "normalized_sha256": "d8fc8974ef722e2935e512c0726ee49cedcef2394d00b92c760c480e2280372f",
+      "normalized_equal": true
+    },
+    "design": {
+      "drive_id": "1rKJeR9r47u9_VEnUBJqmRvpvciFlyo_kbOVzFqyh4Es",
+      "git_blob": "bd2cfb369e6c7f07fa4f1c2e599ead7716277baf",
+      "git_sha256": "7774106455d1b5608bf2071da89f11f54ce390430777858c60247af73a6691c7",
+      "drive_sha256": "be960032e170811176b84b6199d17b9fa2a4d1e30364f2e0f2e566c9672ca34c",
+      "git_bytes": 10039,
+      "drive_bytes": 10325,
+      "normalized_sha256": "abc2cfb7d95f280f1689a60802f2102ff1268cb207f0d57e75d8bba7ad88b09c",
+      "normalized_equal": true
+    },
+    "q_cont": {
+      "drive_id": "1y0s128q4LRvqt15VglqCTltRA231MkFDYD75ijjzpqU",
+      "git_blob": "55c87983855eb2122ac8b6d2fedf3551d54174d2",
+      "git_sha256": "04374019791d149d1838cdfdf2ee0c51e932bffa6b85acc994eca53161325c36",
+      "drive_sha256": "d960d7304fd248264829c6595329cb99ff86235fce8d3168fc814107f2e268da",
+      "git_bytes": 9245,
+      "drive_bytes": 9614,
+      "normalized_sha256": "de0457716a80e5d2c9c59d8047285fe6964f98133586d0db81d4ca0be84d2816",
+      "normalized_equal": true
+    },
+    "q_manifest": {
+      "drive_id": "19SuR0D2BS0HFNBPhNu_lwlQfxukpT_qte_lpYJrGtDU",
+      "git_blob": "b3290613880ea9ad81bd48a70b112fe477b4f895",
+      "git_sha256": "dcf148f2413299e1cc216eaefa700bea5d0239026031f193ede6a3d1a2481ed3",
+      "drive_sha256": "c5e0692e8ecce95ce856c843a908bf0cf0e34965d20c2803d8340968486c0201",
+      "git_bytes": 7422,
+      "drive_bytes": 7604,
+      "normalized_sha256": "8cd3fc4c35e1b00269422071fa3247763d452c3331743f5d8c1be3b96c2364a6",
+      "normalized_equal": true
+    }
+  },
+  "normalization": "UTF-8 BOM removal; CRLF/CR to LF; trailing whitespace removed; blank lines removed. No nonblank text reordered.",
+  "roadmap": {
+    "drive_id": "1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog",
+    "sha256": "bebb169641d4b2b270fffc1c8af4b92b53158acc25dbc480eb35ada4891452b2",
+    "git_synchronized_body_equal": true,
+    "stage8": "8A-8M",
+    "current_stage": "8B",
+    "self_upgrade": "Stage 8, especially 8H-8K"
+  },
+  "published_artifact": {
+    "github_id": 10585938051,
+    "drive_id": "1-np4jigwS9TBBl0rBz0OA8OZhYuv1_Ty",
+    "bytes": 677959,
+    "sha256": "996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f",
+    "github_drive_raw_equal": true
+  },
+  "m4c3q_sealed": true,
+  "historical_final_manifest_created_false_superseded_by": "bbc4f4b89526dfd1749e1c39f9edf53fb4d74d0d",
+  "no_0022_or_candidate_artifacts_at_start": true,
+  "historical_workflow_triggers_checked": 36,
+  "historical_workflows_triggered_by_planned_paths": false
+}

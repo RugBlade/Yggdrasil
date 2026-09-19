@@ -1,3 +1,44 @@
+M4C3R DISPOSABLE VERIFICATION — LOCAL DECISION CHECKPOINT / EXTERNAL VERIFICATION PENDING
+Date: 2026-09-19 UTC / Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Exact inspected provider HEAD before this documentation/workflow commit: 14db100ae2c69798ce8654dbb548b46e21534512
+No newer provider work or active/queued workflows observed at inspection.
+Current stage/milestone: Stage 8B / M4C3R transparent resolution-source correspondence hygiene.
+Latest sealed milestone: M4C3Q; published exact HF1 + ordinary 0001 -> 0021 unchanged.
+
+20 disposable checks PASS (17 controls, 3 defect reproductions); source archive cdc054a9af9f941f90b82eb5df814c54471203aa486cfea0aeb3e3348ca52d0d from artifact 10585938051. All 58 source files unchanged.
+Reference and event-role duplicate surfaces reproduced. Blank/incomplete/tied geometry remains unresolved; consequence fixture selects clarify or ask with no inventory choice authority. Owner calibration remains operator-directed.
+A minimal realization-only correction is warranted. No correction or candidate has been written.
+The 20 PASS checks characterize existing behavior; the three defect checks intentionally prove redundant output, not a fixed runtime.
+
+Milestone continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3R_VERIFICATION_20260919.txt
+Drive ID: 19oS1-HX1gjx3fPjnzPAQdb6scsviSK-Q
+Local evidence bundle Drive ID: 1BetsfRXglXnbrmA_zufNCr9ZKQenR_Xe
+ZIP SHA256: 4963f1d49b93dbbc3c322778d3b2911a9dcb953e8294687db15c9efc6d432352; bytes 17683.
+Provider inspection, local JSON/log and reproducible harness: docs/evidence/m4c3r/.
+
+Next: inspect the new .github/workflows/hf2-m4c3r-disposable-verification.yml run; preserve authoritative external evidence; update this root and milestone continuation in both providers with exact run/source/job/artifact identities.
+The workflow only downloads the immutable sealed artifact and characterizes it. It has read-only repository permissions and is not a candidate workflow or a reconstruction of M4C3Q.
+Run IDs pending the commit's workflow event; no indefinite polling. No 0022 creation before this decision checkpoint is durable and reported.
+
+m4c3q_sealed=true
+m4c3r_sealed=false
+runtime_correction_required=true
+runtime_candidate_created=false
+ordinary_0022_published=false
+stage8b_complete=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+
+Proposed future runtime scope: NativeLanguageFaculty.realize in src/noeron/development.py only. Match explicit derivative QUD provenance to a render-eligible primary in the same event/act and content set, require equal alternatives and no independent contribution; retain all internal units/provenance. Keep sole ask QUDs and every independent source. Full proposal and all authority invariants are in the milestone continuation.
+Stage 8 remains 8A-8M; current work Stage 8B; self-upgrade Stage 8 especially 8H-8K. No Stage 8C-8M or Stage 9 work. Roadmap unchanged.
+
+Historical blocks below remain immutable chronology. This block supersedes only their next-action status.
+
 NEXT BOUNDED STAGE-8B MILESTONE SELECTED — M4C3R DESIGN / VERIFICATION FIRST — 2026-09-19 Asia/Qatar
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2

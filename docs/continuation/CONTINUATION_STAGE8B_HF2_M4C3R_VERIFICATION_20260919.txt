@@ -1,0 +1,139 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3R DISPOSABLE VERIFICATION CHECKPOINT
+Date: 2026-09-19 UTC / Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Phase: verification evidence; no 0022 candidate
+
+PROVIDER START
+Exact observed GitHub HEAD: 14db100ae2c69798ce8654dbb548b46e21534512
+Parent: cdc3200eb98f7760541c5e460db4828f53d09cae
+No newer commit, active workflow, queued workflow, or later Stage8/HF2 Drive modification was observed.
+Other ChatGPT sessions are not enumerable through the providers; HEAD is rechecked before each branch update and only non-forced fast-forward writes are used.
+M4C3Q remains sealed; the final continuation's older m4c3q_final_manifest_created=false is superseded by manifest commit bbc4f4b89526dfd1749e1c39f9edf53fb4d74d0d.
+No M4C3Q historical gate was rerun. All 37 existing workflow triggers were inspected to avoid accidental historical reruns.
+
+DOCUMENT EQUALITY
+Standing root, M4C3R design, final M4C3Q continuation and final M4C3Q manifest: GitHub/Drive normalized equality VERIFIED.
+Normalization: remove UTF-8 BOM; CRLF/CR to LF; remove trailing whitespace and empty lines; preserve ordered nonblank text.
+Exact Git blob / SHA256 / bytes / Drive identities are in docs/evidence/m4c3r/provider_inspection.json.
+M4C3R design: cdc3200eb98f7760541c5e460db4828f53d09cae; blob bd2cfb369e6c7f07fa4f1c2e599ead7716277baf; Drive 1rKJeR9r47u9_VEnUBJqmRvpvciFlyo_kbOVzFqyh4Es.
+Roadmap Drive 1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog inspected; synchronized Git body matches. No roadmap alteration.
+
+IMMUTABLE SOURCE
+GitHub artifact 10585938051; Drive 1-np4jigwS9TBBl0rBz0OA8OZhYuv1_Ty.
+ZIP bytes: 677959
+ZIP SHA256: 996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f
+GitHub/Drive raw-byte equality VERIFIED anew.
+Contained m4c3q-exact-post0021-published-source.tar.gz:
+bytes 662992; SHA256 cdc054a9af9f941f90b82eb5df814c54471203aa486cfea0aeb3e3348ca52d0d.
+Published source commit aacabb590c963d8630f4c72802f12693f61f23b9.
+Sealed published run 35448750669; job 105912125537; existing result 412 passed, 2 warnings in 187.60s.
+Source extracted only from this artifact. No carrier runtime source imported.
+All 54 published Python hashes verified; all 58 source files byte-unchanged after disposable verification.
+
+LOCAL DISPOSABLE RESULTS
+20 checks PASS / 0 FAIL: 17 controls + 3 defect reproductions.
+01 blank consequence geometry: silent; no ask/clarify; native_choice_claim=false.
+02 labeled consequence fixture: native selector legitimately selects clarify, learned-deliberative.
+03 reference defect reproduced: she: sara / mira? Did she leave?: sara / mira?
+04 event-role defect reproduced: two independent role sources and their two linked QUD wrappers; each pair duplicates its own option set.
+05 two independent references with identical focus/alternatives keep distinct source IDs and primary clauses.
+06 QUD with no present primary remains visible under ask and clarify.
+07 proposition alternatives preserve both exact canonical options under ask and clarify.
+08 proof alternatives preserve exact serialized proof steps under ask and clarify.
+09a changing only consequence geometry selects ask; its sole QUD remains visible because clarify-only primary is absent.
+09b exact geometry ties produce no choice or resolution content.
+09c incomplete consequence geometry produces no choice.
+10 authenticated calibration stays operator-directed-calibration-not-native-choice; unauthenticated calibration is rejected.
+11 all alternatives and incoming order preserved; no ranking introduced.
+12 typed content authority flags false; realization leaves full typed inventory unchanged.
+13 independent event-role sources with identical wording/options remain two clauses.
+14 mismatched source IDs remain distinct.
+15 different alternative sets remain distinct.
+16 absent link, multiple source links, and independent provenance remain surfaced.
+17 wrong-event primary cannot cover a valid current-event QUD.
+18 historical M4C3D redundant string confirmed without editing historical tests.
+
+INTERPRETATION
+The PASS values for checks 03, 04 and 18 mean the existing defect was reproduced. They do not mean a correction passed.
+The 17 controls characterize unchanged post0021. A future candidate must prove them again plus the corrected surface.
+Consequence geometry is a clearly labeled disposable synthetic test fixture passed through the existing observation/selector machinery. This is not evidence of live Yggdrasil learning or a broad cognition certification.
+All content/eligibility authority flags remain false. The native selector's existing audit intentionally owns speech_act_selection=true; content inventory and operator calibration do not acquire that responsibility.
+
+DECISION / PROPOSED MINIMAL SCOPE
+A runtime correction is demonstrably necessary to satisfy source-once surface realization.
+Proposed runtime scope: src/noeron/development.py, NativeLanguageFaculty.realize resolution-content correspondence only.
+Preserve complete thought.resolution_content and all source_units; no inventory deletion.
+Suppress only a qud-alternatives surface clause when one explicit unresolved-source link names a primary reference/event-role unit in the SAME realization inventory, event and selected act; that primary is itself render-eligible; alternatives are exactly ordered-equal or set-equal; and provenance carries no independent source/option contribution.
+If correspondence is incomplete, conflicting, independently sourced, or primary is absent/ineligible, preserve the QUD.
+Recognize existing structural wrapper provenance only (qud, one unresolved-source, candidate entries); unknown extra source provenance must conservatively keep the clause.
+Do not merge primary sources, proposition/proof alternatives, different IDs or distinct option sets. Preserve primary alternative order and independent ambiguity multiplicity.
+The learned ask path often has no primary in its content set; it must keep the sole QUD even when an upstream clarify inventory had a matching primary.
+No selector, parser, eligibility, learning, owner calibration, transport, memory, DB, Room, or authority change is proposed.
+Future focused tests must include all controls above and forward-compatibly update only the historical redundant surface/frame assertion after an unchanged post0021 baseline has run. Do not change candidate bytes to retain a duplicate historical string.
+No candidate correction has been implemented or verified.
+
+DURABLE LOCAL EVIDENCE
+Harness: docs/evidence/m4c3r/verify_post0021.py
+SHA256 3128ae9ff1bb1337735a6a779e75384e064483009db755b05c6cfe13ec20bb18; bytes 24272.
+Results: docs/evidence/m4c3r/local_verification.json
+SHA256 5a0a8917caa2c581e1da87061c46090618f4d232267fe6ecca63c058dc962855; bytes 29044.
+Local evidence bundle: HF2_M4C3R_DISPOSABLE_LOCAL_20260919.zip
+Drive ID 1BetsfRXglXnbrmA_zufNCr9ZKQenR_Xe
+SHA256 4963f1d49b93dbbc3c322778d3b2911a9dcb953e8294687db15c9efc6d432352; bytes 17683.
+
+EXTERNAL VERIFICATION
+Workflow: .github/workflows/hf2-m4c3r-disposable-verification.yml
+This is a disposable verification workflow, not .github/workflows/hf2-milestone4c3r.yml and not a candidate workflow.
+It downloads immutable artifact 10585938051, verifies the ZIP and source hashes, runs only the 20 characterization checks, checks source-byte stability, and uploads evidence.
+It has contents:read/actions:read and cannot mutate the branch. Existing sealed gates are not rerun.
+At this local checkpoint the new external run has not yet been dispatched. Its source/run/job/artifact IDs and complete results must be recorded in the end-of-run supplement below after provider inspection.
+
+STATUS / NEXT
+m4c3q_sealed=true
+m4c3r_sealed=false
+ordinary_0021_published=true
+published_exact_chain_0021_green=true
+runtime_correction_required=true
+runtime_candidate_created=false
+ordinary_0022_published=false
+candidate_green=false
+published_exact_chain_0022_green=false
+stage8b_complete=false
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+Next: inspect the bounded external disposable verification run and preserve its complete evidence, then record the design decision. Do not create 0022 within this first decision-checkpoint run.
+No local runtime sources or canonical database changed. Disposable DBs use TemporaryDirectory only and are removed. No temporary provider workflow deletion is required; keep the narrowly triggered verification workflow as reproducible evidence.
+Blocker at local checkpoint: external verification pending. No observed GitHub/Drive semantic divergence.
+
+ROADMAP
+Stage 8 spans 8A-8M. Current work remains Stage 8B. Self-upgrade belongs to Stage 8, especially 8H-8K. Do not begin 8C-8M or Stage 9. Stage 9 is not the self-upgrade stage.
+
+AUTHORITY / AUTONOMY INVARIANTS
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+Programmed substrate and transparent provenance do not manufacture native choice. No fixed semantic selection, canned clarification, ranking, preference, relationship or cognitive-memory authority is introduced.

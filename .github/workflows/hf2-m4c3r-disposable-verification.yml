@@ -1,0 +1,66 @@
+name: HF2 M4C3R - disposable sealed post0021 verification
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'docs/evidence/m4c3r/verify_post0021.py'
+      - '.github/workflows/hf2-m4c3r-disposable-verification.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: hf2-m4c3r-disposable-post0021
+  cancel-in-progress: false
+
+jobs:
+  verify-immutable-post0021:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      NOERON_AUTONOMY_ENABLED: 'false'
+      NOERON_TERRA_ENABLED: 'false'
+      NOERON_LLM_BACKEND: mock
+      NOERON_OWNER_TOKEN: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated verification dependencies
+        run: python -m pip install --disable-pip-version-check pydantic==2.13.5 httpx==0.28.1 Pillow==12.3.0
+      - name: Fetch immutable sealed M4C3Q artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api repos/RugBlade/Yggdrasil/actions/artifacts/10585938051/zip > "$RUNNER_TEMP/m4c3q-published.zip"
+      - name: Verify identities and run disposable characterization only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/m4c3r-disposable
+          python docs/evidence/m4c3r/verify_post0021.py \
+            --artifact "$RUNNER_TEMP/m4c3q-published.zip" \
+            --output evidence/m4c3r-disposable \
+            | tee evidence/m4c3r-disposable/verification.log
+          cp docs/evidence/m4c3r/verify_post0021.py evidence/m4c3r-disposable/
+          cp .github/workflows/hf2-m4c3r-disposable-verification.yml evidence/m4c3r-disposable/
+          python -m pip freeze > evidence/m4c3r-disposable/dependencies.txt
+          sha256sum evidence/m4c3r-disposable/* > evidence/m4c3r-disposable.sha256
+          git diff --exit-code
+      - name: Preserve verification evidence without writing the branch
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-m4c3r-disposable-post0021-verification
+          path: |
+            evidence/m4c3r-disposable/
+            evidence/m4c3r-disposable.sha256
+          if-no-files-found: error
