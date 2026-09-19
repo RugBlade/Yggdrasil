@@ -1,0 +1,347 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — FINAL M4C3P PUBLISHED / EXTERNALLY VERIFIED CONTINUATION
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+GLOBAL ROADMAP — DO NOT REINTERPRET
+Canonical roadmap authority remains Yggdrasil_STAGE8_STAGE9_ARCHITECTURE_STATUS.md.
+Stage 8 spans 8A–8M.
+Stage-8 self-upgrade work belongs especially to 8H–8K.
+Current work remains strictly Stage 8B.
+Do not begin Stage 8C–8M or Stage 9 from this milestone.
+
+PROVIDER RECOVERY
+Observed initial provider HEAD before sealing:
+6cea5816dfb87193167f874f1cd377da950d46f4
+Message:
+ci: record green HF2 exact chain through 0020 [skip ci]
+Commits after that observed HEAD:
+ZERO before seal work began.
+Candidate and published-chain CI were already green and were not rerun.
+
+PARENT SEALED MILESTONE
+M4C3O root:
+35fe0533c4a602684fdcf475ab83e597cfeb6be8
+M4C3O published reconstruction:
+exact HF1 + ordinary 0001 -> 0019.
+
+FINAL M4C3P STATUS
+M4C3P is PUBLISHED AND EXTERNALLY VERIFIED at engineering source / CI / artifact level.
+Published runtime reconstruction:
+exact HF1 + ordinary patches 0001 -> 0020.
+ordinary_0020_published=true
+published_exact_chain_0020_green=true
+m4c3p_sealed=true
+stage8b_complete=false
+broad_conversational_completion_claim=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+DESIGN
+Path:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3P_DESIGN_20260919.txt
+Commit:
+56c2c06e63c3dbc002106c855f9ff29374e0822b
+Git blob:
+1eb6df682ede30b51bbe686912acd8b42f3381a4
+Drive ID:
+1ipy8Iy6YohCMOMMWJGQaqPfLUNK0LKMgM95Vh55x6us
+
+EXACT POST0019 INSPECTION SOURCE
+M4C3O published-chain artifact GitHub ID:
+10570859646
+Artifact SHA256:
+a2fec75ae391a8b8b5ceb7540240480218d4ce06f90cdf62e4c4e03f94950cf4
+Contained exact post0019 source archive SHA256:
+76112e7baba6e6368b600e384585a4cef38a64ea498040394dc8643fa8f3f73e
+
+CONCRETE M4C3P DEFECT
+The bounded proposition/QUD parser treated copular predicate complements as if they were grammatical direct-object discourse focus and could preserve a stale transitive direct-object focus across a newer copular/no-direct-object clause.
+Demonstrated malformed behavior before candidate included:
+- "The lamp is on. Is it on?" -> exact-proposition(on,is,on);
+- "The lamp is on. Why is it on?" -> why-proposition(on,is,on);
+- "The lamp is red. What color is it?" -> property query subject red;
+- a newer copular clause could leave an older transitive direct object as later object-pronoun focus.
+
+The failure occurred before proof auditing and before native speech-act selection.
+
+PATCH 0020
+Intent:
+patches/hf2/0020-hf2-copular-discourse-focus-hygiene.intent.patch
+Published:
+patches/hf2/0020-hf2-copular-discourse-focus-hygiene.patch
+Intent commit:
+805cf302b00868267b9c760fd7cccaad1486491a
+Publication commit:
+975c3d42c6818e4679efd65bd0a5b62ff5cf6eb1
+Intent Git blob:
+0de9145e8a8bc4f8e8c6c506b9f4ebd4e3765950
+Published Git blob:
+0de9145e8a8bc4f8e8c6c506b9f4ebd4e3765950
+Intent/published blob equality:
+VERIFIED
+SHA256:
+ffa2cfae51d8258e17661605f2b5bc496eadd78169a342dbb7f283dcfa4c6b60
+Bytes:
+5090
+Runtime scope:
+src/noeron/inference.py only.
+
+FOCUSED TESTS
+Path:
+tests/hf2_m4c3p/test_copular_discourse_focus_hygiene.py
+Commit:
+614deb86c1bbb66051b99b04729002ebb8cc2d15
+Git blob:
+fa39fdc8b329a07aa9c31ea0cc5efdcd6a36c1c8
+
+CANDIDATE CHECKPOINT
+Path:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3P_CANDIDATE_20260919.txt
+Commit:
+3c2d3841c40a2df0aa58d98864f08aad24649407
+Git blob:
+d817ef7f8d661aa7b6226fa06c7eb65852be28e0
+Drive ID:
+1eKotJXIF-Op7QkMngFY7U8k_XV3ER5ye9cAhxuUD4Ik
+
+AUTHORITATIVE CANDIDATE
+Workflow:
+.github/workflows/hf2-milestone4c3p.yml
+Workflow/source commit:
+dd6d85bc1d4bab7eaac9e498fcc7a479c8f1f41f
+Run:
+35407518625
+Job:
+105800236369
+Conclusion:
+SUCCESS
+
+Actual candidate results:
+- unchanged published post0019 baseline: 391 passed, 2 warnings in 168.38s;
+- focused M4C3P: 9 passed in 5.45s;
+- complete primary candidate: 400 passed, 2 warnings in 171.67s;
+- fresh exact-HF1 replay focused: 9 passed in 5.44s;
+- fresh replay complete: 400 passed, 2 warnings in 171.52s;
+- source-byte parity: VERIFIED.
+
+Candidate post0020 source archive SHA256:
+65ee975dc973fe84a5af3287639b3801a49c8faf36abe1d409b3deee91c06dd0
+Candidate carrier archive SHA256:
+28c294f818aac6e7d92f466e6ca89d1e97b8d7d7d6d8fdf00e495b9b77240a56
+
+Candidate receipt:
+docs/evidence/_ci/HF2_M4C3P_CANDIDATE_RESULT.txt
+Receipt commit:
+4a1cda2397a1df76041251afe8780e9571193dae
+Receipt Git blob:
+bac6872330e8fee521eae6241e97ff7c4b41dd7e
+
+CANDIDATE ARTIFACT
+GitHub artifact ID:
+10572513727
+Name:
+hf2-m4c3p-copular-discourse-focus-hygiene
+Bytes:
+1091639
+SHA256:
+050ad16010b8c120d1898ea4e31107ea6f4eb46084152cdad2a498732845070d
+Drive mirror:
+HF2_M4C3P_GREEN_CANDIDATE_35407518625_20260919.zip
+Drive ID:
+1FbxU8woazdEEmZRg8wQvLLOKC0zyiAoa
+Drive bytes:
+1091639
+Drive SHA256:
+050ad16010b8c120d1898ea4e31107ea6f4eb46084152cdad2a498732845070d
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+GREEN CANDIDATE CHECKPOINT
+Path:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3P_CANDIDATE_GREEN_20260919.txt
+Commit:
+6b7e6317fe0b66e600b2fa3c83e2289f2a5a4d64
+Git blob:
+bee96ff87e21e1f39023a5ac5b56ddbede75861f
+Drive ID:
+1TKLfs59vtzEpTuDPl5R1pBpm4v53sLv8xy5_U_o52Ms
+
+ORDINARY 0020 PUBLICATION
+Publication commit:
+975c3d42c6818e4679efd65bd0a5b62ff5cf6eb1
+Publication-pending-chain checkpoint commit:
+abc97232c94159762c097af322653f7f60ebc63b
+Publication-pending continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3P_PUBLICATION_PENDING_CHAIN_20260919.txt
+Git blob:
+90e6897f971a7550b529b38f335e7ab8d4b1ea9d
+Drive ID:
+1xC6ooepjA_rH3AaIQq5kjHKOr9Gimo-dXzwBcQLHrk4
+
+PUBLISHED EXACT-HF1 CHAIN THROUGH 0020
+Workflow:
+.github/workflows/hf2-m4c3p-published-chain.yml
+Workflow/source commit:
+ad76af6fb1703a82313ff5dac2f2f5f0e746926b
+Run:
+35408285798
+Job:
+105802493909
+Conclusion:
+SUCCESS
+
+Verified published-chain gates:
+- byte-exact HF1 reconstruction: PASS;
+- ORIGINAL carrier helpers copied before patch replay: PASS;
+- ordinary 0020 intent/published byte identity: PASS;
+- ordinary 0020 exact SHA256 and 5090-byte length: PASS;
+- patches 0001 through 0020 sequential git apply --check + apply: PASS;
+- post0020 runtime compile: PASS;
+- complete HF2 through M4C3P: 400 passed, 2 warnings in 171.84s;
+- exact source/hash/authority evidence: PASS;
+- artifact upload: PASS;
+- green receipt publication: PASS.
+
+Published post0020 source archive SHA256:
+a346184eda46e0f7788cf00aafc71b31bd15a13fc9f2b451be6db640d791b0d2
+
+Published-chain receipt:
+docs/evidence/_ci/HF2_EXACT_CHAIN_0020_RESULT.txt
+Receipt commit / pre-seal provider HEAD:
+6cea5816dfb87193167f874f1cd377da950d46f4
+Receipt Git blob:
+b2cac3617191f82696a983f4113ee732a1af1f52
+
+PUBLISHED-CHAIN ARTIFACT
+GitHub artifact ID:
+10573373112
+Name:
+hf2-m4c3p-exact-hf1-published-0020
+Bytes:
+677106
+SHA256:
+ba581c4f004a2aab8c95c67c17654a4df536ce0a3307a5565d9741ffaeaa4e4c
+Drive mirror:
+HF2_M4C3P_EXACT_HF1_PUBLISHED_0020_35408285798_20260919.zip
+Drive ID:
+1DDslu4Rv-LG2d7cl0uptbBJPl5JEPztD
+Drive bytes:
+677106
+Drive SHA256:
+ba581c4f004a2aab8c95c67c17654a4df536ce0a3307a5565d9741ffaeaa4e4c
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+SEAL CHECKPOINT
+Documentation-only seal commit:
+f91631d1cdfa5a5b455df7e85baccebf14e99e1b
+Seal checkpoint continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3P_SEAL_CHECKPOINT_20260919.txt
+Git blob:
+0a3a8f2400d6a46bf0cbda621ab8b2716701bdbc
+Drive ID:
+1l_vW5APFkuisePoAsjxwQn67Uj18Gx45Xf1CduLVzEg
+Seal checkpoint manifest commit:
+af95c0423cf1a06d4953947fb541732248578eed
+Seal checkpoint manifest:
+docs/evidence/HF2_M4C3P_SEAL_CHECKPOINT_20260919.json
+Git blob:
+4a43e990938e39c807542e09658689364afffeb2
+Drive ID:
+13fshf25ZOIjRbpVBCFc6h2soiO71oJnkYPUSuX46xrc
+Standing Drive root ID:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Seal checkpoint root GitHub/Drive normalized equality:
+VERIFIED
+
+WHAT M4C3P CLOSES
+- generic copular predicate complements no longer occupy the direct-object discourse slot;
+- a newer no-direct-object copular clause clears stale direct-object focus;
+- typed spatial copular clauses preserve oblique context without stale direct-object focus;
+- ordinary transitive direct-object tracking remains intact;
+- malformed QUD targets such as on::is::on are corrected to the grammatical subject target;
+- genuine derived-WHY proof support remains auditable;
+- the independent language_dialogue unresolved-reference ambiguity gate remains intact.
+
+WHAT M4C3P DOES NOT CLOSE
+- language_dialogue same-ingress reference candidates are not built from prior sentence mentions inside the same ingress;
+- across turns, neutral referent inventory may preserve both a copular theme and predicate complement as alternatives;
+- therefore corrected logical/QUD targets can still remain proof-gated by unresolved dialogue reference ambiguity;
+- generic/fluent clarification remains incomplete;
+- broad conversational completion remains unclaimed;
+- no LOCAL/LIVE certification is claimed.
+
+POST-SEAL EXACT-POST0020 INSPECTION
+Inspection source:
+published-chain artifact 10573373112
+published source archive SHA256:
+a346184eda46e0f7788cf00aafc71b31bd15a13fc9f2b451be6db640d791b0d2
+
+Observed:
+1. Same ingress "The lamp is on. Is it on?"
+   - logical query is correctly exact-proposition(lamp,is,on);
+   - language_dialogue gives "it" zero candidates because earlier-sentence mentions in the same ingress are not incorporated into reference_candidates;
+   - runtime remains proof-gated-unresolved-ambiguity and emits no answer.
+
+2. Prior turn "The lamp is on." then "Is it on?"
+   - logical query is correctly exact-proposition(lamp,is,on);
+   - recent dialogue referents include both theme "the lamp" and attribute_or_identity "on";
+   - language_dialogue returns candidates ["on","the lamp"];
+   - runtime remains proof-gated-unresolved-ambiguity and emits no answer.
+
+This inspection occurred only after the documentation/evidence seal checkpoint was mirrored and root equality verified.
+
+AUTHORITY BOUNDARY — MUST REMAIN TRUE
+copular_predicate_complement_direct_object_role=false
+stale_direct_object_across_copular_clause=false
+independent_dialogue_ambiguity_gate_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NEXT BOUNDED STAGE-8B MILESTONE — M4C3Q
+Title:
+transparent dialogue reference-candidate scope/provenance inspection
+
+Mode:
+DESIGN / VERIFICATION FIRST ONLY.
+
+Purpose:
+Inventory and reproduce the remaining mismatch between corrected logical/QUD reference binding and language_dialogue's separate grammatical reference-candidate inventory.
+
+First required cases:
+- same-ingress prior-sentence antecedent availability;
+- prior-turn copular theme versus predicate-complement alternatives;
+- ordinary transitive direct-object antecedents;
+- person/reference identity cases;
+- genuine multiple-referent ambiguity that must remain unresolved.
+
+Required question:
+Can demonstrably malformed candidates be removed using already-exposed grammatical role provenance and sentence/turn scope alone, without semantic verb classes, lexical salience ranking, hidden preference, truth authority, or answer authority?
+
+No ordinary 0021 is authorized by numbering.
+If inspection cannot prove a candidate malformed by transparent grammatical/provenance rules, preserve the ambiguity and allow the existing clarification/proof gate to remain authoritative about unresolved status.
+Any future runtime change must pass the established exact-published-baseline + focused candidate + complete candidate + fresh exact-HF1 replay + source parity + separate published-chain pipeline.
+
+RECOVERY RULE
+Do not rerun M4C3P because a UI/chat becomes stale.
+Recover from this continuation, the final manifest, receipts, artifacts and standing root.
