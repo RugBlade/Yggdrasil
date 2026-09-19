@@ -1,0 +1,261 @@
+name: HF2 M4C3R - published exact-HF1 chain through 0022
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'patches/hf2/0022-hf2-resolution-source-correspondence.patch'
+      - 'tests/hf2_m4c3r/**'
+      - '.github/workflows/hf2-m4c3r-published-chain.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: hf2-m4c3r-published-chain
+  cancel-in-progress: false
+
+jobs:
+  published-exact-hf1-chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NOERON_DB_PATH: ./m4c3r-published-chain-api-test-only.sqlite3
+      NOERON_AUTONOMY_ENABLED: 'false'
+      NOERON_TERRA_ENABLED: 'false'
+      NOERON_LLM_BACKEND: mock
+      NOERON_OWNER_TOKEN: ''
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Reconstruct byte-exact HF1 fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          FIX="$RUNNER_TEMP/ygg-hf1-m4c3r-published"
+          echo "FIX=$FIX" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py \
+            --extract-dir "$FIX" \
+            --extract-all \
+            --evidence evidence/m4c3r-published-hf1-identity.json
+
+      - name: Add ORIGINAL HF2 carrier helper modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in \
+            conversation_premises.py \
+            conversation_bridge.py \
+            conversation_reasoning.py \
+            conversation_proof.py \
+            conversation_runtime_gate.py \
+            conversation_actions.py \
+            conversation_resolution.py
+          do
+            cp "src/noeron/$f" "$FIX/src/noeron/$f"
+          done
+
+      - name: Verify ordinary 0022 frozen identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          INTENT="patches/hf2/0022-hf2-resolution-source-correspondence.intent.patch"
+          PUBLISHED="patches/hf2/0022-hf2-resolution-source-correspondence.patch"
+          cmp -s "$INTENT" "$PUBLISHED"
+          GOT="$(sha256sum "$PUBLISHED" | awk '{print $1}')"
+          test "$GOT" = "d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5"
+          BYTES="$(wc -c < "$PUBLISHED" | tr -d ' ')"
+          test "$BYTES" = "2387"
+          {
+            echo "intent_published_byte_identity=true"
+            echo "patch0022_sha256=$GOT"
+            echo "patch0022_bytes=$BYTES"
+          } | tee evidence/m4c3r-published-0022-identity.txt
+
+      - name: Apply published 0001 through 0022 sequentially
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FIX"
+          git init -q
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add .
+          git commit -qm "byte-exact HF1 fixture plus original carrier helpers"
+          for p in \
+            0001-hf2-inference-core.patch \
+            0002-hf2-current-turn-runtime-bridge.patch \
+            0003-hf2-native-bounded-dialogue-reasoning.patch \
+            0004-hf2-proof-provenance-ambiguity-runtime-gate.patch \
+            0005-hf2-native-resolution-state-audit.patch \
+            0006-hf2-speech-act-consequence-learning.patch \
+            0007-hf2-owner-resolution-calibration.patch \
+            0008-hf2-calibration-execution-boundary.patch \
+            0009-hf2-native-resolution-content.patch \
+            0010-hf2-native-resolution-transport-receipt.patch \
+            0011-hf2-typed-current-turn-alternative-content.patch \
+            0012-hf2-act-neutral-alternative-resolution.patch \
+            0013-hf2-local-noncontent-execution-receipt.patch \
+            0014-hf2-same-db-restart-recovery.patch \
+            0015-hf2-native-audio-transport-receipt.patch \
+            0016-hf2-resolution-native-audio-presentation.patch \
+            0017-hf2-authenticated-client-playback-telemetry.patch \
+            0018-hf2-client-media-network-retry.patch \
+            0019-hf2-clause-shape-event-candidate-hygiene.patch \
+            0020-hf2-copular-discourse-focus-hygiene.patch \
+            0021-hf2-dialogue-reference-scope-provenance.patch \
+            0022-hf2-resolution-source-correspondence.patch
+          do
+            echo "CHECK $p"
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git diff --check
+            echo "APPLIED $p"
+          done
+          git diff --stat | tee "$GITHUB_WORKSPACE/evidence/m4c3r-published-chain-diffstat.txt"
+
+      - name: Compile published post0022 runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m compileall -q "$FIX/src/noeron"
+
+      - name: Install exact-HF1 runtime dependencies
+        run: python -m pip install --disable-pip-version-check -e "$FIX[dev]"
+
+      - name: Run complete HF2 through M4C3R against published chain
+        shell: bash
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+          NOERON_DB_PATH: ${{ runner.temp }}/m4c3r-published-chain.sqlite3
+        run: |
+          set -euo pipefail
+          python -m pytest -q \
+            tests/test_v082_hf2_*.py \
+            tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d \
+            tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h \
+            tests/hf2_m4c3i tests/hf2_m4c3j tests/hf2_m4c3k tests/hf2_m4c3l \
+            tests/hf2_m4c3m tests/hf2_m4c3o tests/hf2_m4c3p tests/hf2_m4c3q tests/hf2_m4c3r \
+            --junitxml=evidence/m4c3r-published-chain-tests.xml \
+            | tee evidence/m4c3r-published-chain-tests.txt
+
+      - name: Preserve exact source hashes and authority boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar --exclude=__pycache__ -czf \
+            evidence/m4c3r-exact-post0022-published-source.tar.gz \
+            -C "$FIX" src/noeron
+          (cd "$FIX" && find src/noeron -type f -name '*.py' -print0 | sort -z | xargs -0 sha256sum) \
+            > evidence/m4c3r-published-source-sha256.txt
+          {
+            echo "gate=HF2 M4C3R exact HF1 published patch chain 0001-0022"
+            echo "source_commit=$GITHUB_SHA"
+            echo "base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29"
+            echo "patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016,0017,0018,0019,0020,0021,0022"
+            echo "patch0022_sha256=d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5"
+            echo "patch0022_bytes=2387"
+            echo "intent_published_byte_identity=true"
+            echo "ordinary_0022_published=true"
+            echo "candidate_runtime_scope=src/noeron/development.py"
+            echo "same_ingress_prior_sentence_scope=true"
+            echo "current_sentence_self_reference_from_later_mentions=false"
+            echo "prepositional_complement_nominal_candidate=false"
+            echo "categorical_predicate_complement_removal=false"
+            echo "genuine_reference_alternatives_preserved=true"
+            echo "semantic_truth_authority=false"
+            echo "answer_authority=false"
+            echo "speech_act_choice_authority=false"
+            echo "preference_authority=false"
+            echo "relationship_authority=false"
+            echo "cognitive_memory_authority=false"
+            echo "source_write_authority=false"
+            echo "deployment_authority=false"
+            echo "proof_ambiguity_gate_weakened=false"
+            echo "semantic_verb_class_table_added=false"
+            echo "lexical_candidate_ranking_added=false"
+            echo "lexical_pos_inference_added=false"
+            echo "llm_inference_added=false"
+            echo "canned_clarification_added=false"
+            echo "autoplay_added=false"
+            echo "microphone_camera_expansion=false"
+            echo "human_hearing_inference=false"
+            echo "stage8b_only=true"
+            echo "certification_claim=false"
+            echo "live_runtime_touched=false"
+            echo "canonical_db_touched=false"
+            sha256sum evidence/m4c3r-exact-post0022-published-source.tar.gz
+          } | tee evidence/m4c3r-published-chain-boundary.txt
+
+      - name: Create green 0022 published-chain receipt for evidence inspection
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          PATCH_SHA="$(sha256sum patches/hf2/0022-hf2-resolution-source-correspondence.patch | awk '{print $1}')"
+          PATCH_BYTES="$(wc -c < patches/hf2/0022-hf2-resolution-source-correspondence.patch | tr -d ' ')"
+          SOURCE_SHA="$(sha256sum evidence/m4c3r-exact-post0022-published-source.tar.gz | awk '{print $1}')"
+          TEST_SUMMARY="$(tail -n 1 evidence/m4c3r-published-chain-tests.txt)"
+          cat > evidence/HF2_EXACT_CHAIN_0022_RESULT.txt <<EOF
+          milestone=M4C3R-published-chain
+          status=GREEN
+          run_id=$GITHUB_RUN_ID
+          run_attempt=$GITHUB_RUN_ATTEMPT
+          workflow_ref=$GITHUB_WORKFLOW_REF
+          source_commit=$GITHUB_SHA
+          source_branch=$GITHUB_REF_NAME
+          job_name=published-exact-hf1-chain
+          base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+          patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016,0017,0018,0019,0020,0021,0022
+          patch0022_sha256=$PATCH_SHA
+          patch0022_bytes=$PATCH_BYTES
+          intent_published_byte_identity=true
+          source_archive_sha256=$SOURCE_SHA
+          test_summary=$TEST_SUMMARY
+          candidate_runtime_scope=src/noeron/development.py
+          same_ingress_prior_sentence_scope=true
+          current_sentence_self_reference_from_later_mentions=false
+          prepositional_complement_nominal_candidate=false
+          categorical_predicate_complement_removal=false
+          genuine_reference_alternatives_preserved=true
+          semantic_truth_authority=false
+          answer_authority=false
+          speech_act_choice_authority=false
+          preference_authority=false
+          relationship_authority=false
+          cognitive_memory_authority=false
+          source_write_authority=false
+          deployment_authority=false
+          proof_ambiguity_gate_weakened=false
+          semantic_verb_class_table_added=false
+          lexical_candidate_ranking_added=false
+          lexical_pos_inference_added=false
+          llm_inference_added=false
+          canned_clarification_added=false
+          autoplay_added=false
+          microphone_camera_expansion=false
+          human_hearing_inference=false
+          stage8b_only=true
+          certification_claim=false
+          live_runtime_touched=false
+          canonical_db_touched=false
+          ordinary_0022_published=true
+          EOF
+
+      - name: Upload M4C3R published-chain evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-m4c3r-exact-hf1-published-0022
+          path: evidence/
+          if-no-files-found: error
+
