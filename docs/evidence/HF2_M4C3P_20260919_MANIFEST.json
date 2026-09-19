@@ -1,0 +1,172 @@
+{
+  "schema_version": "HF2-M4C3P-20260919-v1",
+  "generated_date_local": "2026-09-19 Asia/Qatar",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "roadmap": {
+    "stage8_range": "8A-8M",
+    "stage8_self_upgrade_milestones": [
+      "8H",
+      "8J",
+      "8K"
+    ],
+    "current_stage": "8B",
+    "stage8c_through_8m_authorized": false,
+    "stage9_authorized": false
+  },
+  "provider_recovery": {
+    "initial_head": "6cea5816dfb87193167f874f1cd377da950d46f4",
+    "commits_after_initial_head_before_seal": 0
+  },
+  "milestone": {
+    "id": "M4C3P",
+    "status": "PUBLISHED_AND_EXTERNALLY_VERIFIED_ENGINEERING",
+    "parent_sealed_milestone": "M4C3O",
+    "parent_root": "35fe0533c4a602684fdcf475ab83e597cfeb6be8",
+    "published_reconstruction": "exact HF1 + ordinary patches 0001 -> 0020",
+    "ordinary_0020_published": true,
+    "published_exact_chain_0020_green": true,
+    "m4c3p_sealed": true,
+    "stage8b_complete": false,
+    "broad_conversational_completion_claim": false,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "design": {
+    "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3P_DESIGN_20260919.txt",
+    "commit": "56c2c06e63c3dbc002106c855f9ff29374e0822b",
+    "git_blob": "1eb6df682ede30b51bbe686912acd8b42f3381a4",
+    "drive_id": "1ipy8Iy6YohCMOMMWJGQaqPfLUNK0LKMgM95Vh55x6us"
+  },
+  "patch0020": {
+    "intent_path": "patches/hf2/0020-hf2-copular-discourse-focus-hygiene.intent.patch",
+    "published_path": "patches/hf2/0020-hf2-copular-discourse-focus-hygiene.patch",
+    "intent_commit": "805cf302b00868267b9c760fd7cccaad1486491a",
+    "publication_commit": "975c3d42c6818e4679efd65bd0a5b62ff5cf6eb1",
+    "git_blob": "0de9145e8a8bc4f8e8c6c506b9f4ebd4e3765950",
+    "sha256": "ffa2cfae51d8258e17661605f2b5bc496eadd78169a342dbb7f283dcfa4c6b60",
+    "bytes": 5090,
+    "intent_published_blob_equality": true,
+    "runtime_scope": [
+      "src/noeron/inference.py"
+    ]
+  },
+  "focused_tests": {
+    "path": "tests/hf2_m4c3p/test_copular_discourse_focus_hygiene.py",
+    "commit": "614deb86c1bbb66051b99b04729002ebb8cc2d15",
+    "git_blob": "fa39fdc8b329a07aa9c31ea0cc5efdcd6a36c1c8"
+  },
+  "candidate": {
+    "workflow": ".github/workflows/hf2-milestone4c3p.yml",
+    "source_commit": "dd6d85bc1d4bab7eaac9e498fcc7a479c8f1f41f",
+    "run_id": 35407518625,
+    "job_id": 105800236369,
+    "result": "SUCCESS",
+    "baseline": "391 passed, 2 warnings in 168.38s (0:02:48)",
+    "focused": "9 passed in 5.45s",
+    "complete": "400 passed, 2 warnings in 171.67s (0:02:51)",
+    "replay_focused": "9 passed in 5.44s",
+    "replay_complete": "400 passed, 2 warnings in 171.52s (0:02:51)",
+    "source_byte_parity": true,
+    "source_archive_sha256": "65ee975dc973fe84a5af3287639b3801a49c8faf36abe1d409b3deee91c06dd0",
+    "carrier_archive_sha256": "28c294f818aac6e7d92f466e6ca89d1e97b8d7d7d6d8fdf00e495b9b77240a56",
+    "receipt": {
+      "path": "docs/evidence/_ci/HF2_M4C3P_CANDIDATE_RESULT.txt",
+      "commit": "4a1cda2397a1df76041251afe8780e9571193dae",
+      "git_blob": "bac6872330e8fee521eae6241e97ff7c4b41dd7e"
+    },
+    "artifact": {
+      "github_id": 10572513727,
+      "name": "hf2-m4c3p-copular-discourse-focus-hygiene",
+      "bytes": 1091639,
+      "sha256": "050ad16010b8c120d1898ea4e31107ea6f4eb46084152cdad2a498732845070d",
+      "drive_id": "1FbxU8woazdEEmZRg8wQvLLOKC0zyiAoa",
+      "github_drive_raw_byte_equality": true
+    }
+  },
+  "publication": {
+    "publication_pending_checkpoint": "abc97232c94159762c097af322653f7f60ebc63b",
+    "published_chain": {
+      "workflow": ".github/workflows/hf2-m4c3p-published-chain.yml",
+      "source_commit": "ad76af6fb1703a82313ff5dac2f2f5f0e746926b",
+      "run_id": 35408285798,
+      "job_id": 105802493909,
+      "result": "SUCCESS",
+      "test_summary": "400 passed, 2 warnings in 171.84s (0:02:51)",
+      "source_archive_sha256": "a346184eda46e0f7788cf00aafc71b31bd15a13fc9f2b451be6db640d791b0d2",
+      "receipt": {
+        "path": "docs/evidence/_ci/HF2_EXACT_CHAIN_0020_RESULT.txt",
+        "commit": "6cea5816dfb87193167f874f1cd377da950d46f4",
+        "git_blob": "b2cac3617191f82696a983f4113ee732a1af1f52"
+      },
+      "artifact": {
+        "github_id": 10573373112,
+        "name": "hf2-m4c3p-exact-hf1-published-0020",
+        "bytes": 677106,
+        "sha256": "ba581c4f004a2aab8c95c67c17654a4df536ce0a3307a5565d9741ffaeaa4e4c",
+        "drive_id": "1DDslu4Rv-LG2d7cl0uptbBJPl5JEPztD",
+        "github_drive_raw_byte_equality": true
+      }
+    }
+  },
+  "seal_checkpoint": {
+    "seal_commit": "f91631d1cdfa5a5b455df7e85baccebf14e99e1b",
+    "continuation_path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3P_SEAL_CHECKPOINT_20260919.txt",
+    "continuation_blob": "0a3a8f2400d6a46bf0cbda621ab8b2716701bdbc",
+    "continuation_drive_id": "1l_vW5APFkuisePoAsjxwQn67Uj18Gx45Xf1CduLVzEg",
+    "manifest_commit": "af95c0423cf1a06d4953947fb541732248578eed",
+    "manifest_path": "docs/evidence/HF2_M4C3P_SEAL_CHECKPOINT_20260919.json",
+    "manifest_blob": "4a43e990938e39c807542e09658689364afffeb2",
+    "manifest_drive_id": "13fshf25ZOIjRbpVBCFc6h2soiO71oJnkYPUSuX46xrc",
+    "standing_root_drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+    "root_normalized_equality": true
+  },
+  "final_continuation": {
+    "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3P_20260919.txt",
+    "commit": "7e241833a603284c9c5a86e8d682b6b8637745cc",
+    "git_blob": "9427e4d28b31ba1549c40ff4881b50d6420718af",
+    "drive_id": "1-DT8rRX_CkMzK6ouuiaY72GlGnTA1rqu4qMC-oddMqE",
+    "normalized_equality": true
+  },
+  "post_seal_inspection": {
+    "source_artifact_github_id": 10573373112,
+    "source_archive_sha256": "a346184eda46e0f7788cf00aafc71b31bd15a13fc9f2b451be6db640d791b0d2",
+    "same_ingress_reference_candidate_issue": true,
+    "prior_turn_copular_role_alternative_issue": true,
+    "logical_qud_target_correct_after_0020": true,
+    "independent_ambiguity_gate_still_blocks": true
+  },
+  "authority_boundaries": {
+    "copular_predicate_complement_direct_object_role": false,
+    "stale_direct_object_across_copular_clause": false,
+    "independent_dialogue_ambiguity_gate_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "next_bounded_milestone": {
+    "id": "M4C3Q",
+    "title": "transparent dialogue reference-candidate scope/provenance inspection",
+    "mode": "DESIGN_VERIFICATION_FIRST_ONLY",
+    "purpose": "Inventory and reproduce the remaining mismatch between corrected logical/QUD reference binding and language_dialogue reference-candidate inventory using grammatical role provenance and sentence/turn scope only.",
+    "ordinary_0021_authorized_by_numbering": false
+  }
+}
