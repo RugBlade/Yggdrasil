@@ -1,0 +1,330 @@
+{
+  "schema_version": "HF2-M4C3R-20260919-v1",
+  "generated_utc": "2026-09-19T23:40:33.095661+00:00",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "observed_head_before_manifest": "0a7d6dba8160c4332d66a25d1f897fd5c2276329",
+  "roadmap": {
+    "current_stage": "8B",
+    "stage8_range": "8A-8M",
+    "self_upgrade_location": "Stage 8, especially 8H-8K",
+    "stage8c_through_8m_authorized": false,
+    "stage9_authorized": false,
+    "roadmap_modified": false
+  },
+  "milestone": {
+    "id": "M4C3R",
+    "name": "transparent resolution-source correspondence hygiene",
+    "status": "PUBLISHED_AND_EXTERNALLY_VERIFIED_ENGINEERING",
+    "parent_sealed_milestone": "M4C3Q",
+    "parent_sealed": true,
+    "published_reconstruction": "exact HF1 + ORIGINAL carrier helpers + ordinary patches 0001 -> 0022",
+    "ordinary_0022_published": true,
+    "published_exact_chain_0022_green": true,
+    "m4c3r_sealed": true,
+    "stage8b_complete": false,
+    "broad_conversational_completion_claim": false,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "provider_start": {
+    "initial_design_handoff_head": "14db100ae2c69798ce8654dbb548b46e21534512",
+    "implementation_start_head": "4c6bd9055780bb61149301f5dc81b695c837ea21",
+    "newer_provider_work_at_start": false,
+    "active_or_queued_runs_at_start": [],
+    "root_github_drive_raw_equality": true
+  },
+  "parent_seal": {
+    "final_continuation": {
+      "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3Q_20260919.txt",
+      "commit": "84a86a865a1a88f7ae958178d806e19d1436d7d9",
+      "git_blob": "55c87983855eb2122ac8b6d2fedf3551d54174d2",
+      "drive_id": "1y0s128q4LRvqt15VglqCTltRA231MkFDYD75ijjzpqU",
+      "github_drive_normalized_equality": true
+    },
+    "manifest": {
+      "path": "docs/evidence/HF2_M4C3Q_20260919_MANIFEST.json",
+      "commit": "bbc4f4b89526dfd1749e1c39f9edf53fb4d74d0d",
+      "git_blob": "b3290613880ea9ad81bd48a70b112fe477b4f895",
+      "drive_id": "19SuR0D2BS0HFNBPhNu_lwlQfxukpT_qte_lpYJrGtDU"
+    },
+    "sealed_gate_reopened": false
+  },
+  "design": {
+    "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3R_DESIGN_20260919.txt",
+    "commit": "cdc3200eb98f7760541c5e460db4828f53d09cae",
+    "git_blob": "bd2cfb369e6c7f07fa4f1c2e599ead7716277baf",
+    "drive_id": "1rKJeR9r47u9_VEnUBJqmRvpvciFlyo_kbOVzFqyh4Es",
+    "github_drive_normalized_equality": true
+  },
+  "immutable_post0021": {
+    "artifact": {
+      "github_id": 10585938051,
+      "name": "hf2-m4c3q-exact-hf1-published-0021",
+      "bytes": 677959,
+      "sha256": "996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f",
+      "drive_id": "1-np4jigwS9TBBl0rBz0OA8OZhYuv1_Ty",
+      "github_drive_raw_equality": true
+    },
+    "source_archive_sha256": "cdc054a9af9f941f90b82eb5df814c54471203aa486cfea0aeb3e3348ca52d0d",
+    "source_archive_bytes": 662992,
+    "runtime_files": 58,
+    "python_source_files": 54
+  },
+  "disposable_verification": {
+    "source_commit": "73d1c64d54dfda7cdd1f4bf19eb3775a593ca727",
+    "run_id": 35458114343,
+    "job_id": 105936914145,
+    "passed": 20,
+    "controls": 17,
+    "defect_reproductions": 3,
+    "source_unchanged": true,
+    "runtime_correction_necessary": true,
+    "decision_checkpoint_commit": "201242ad36401cccc6d5e26f784573a85f48c82a",
+    "checkpoint_before_intent": true,
+    "artifact": {
+      "github_id": 10588731235,
+      "drive_id": "1HUK1SyxOyYoaqVncRFfQy1KEKVmNmHQR",
+      "bytes": 16347,
+      "sha256": "3b68320660c3521910522662357777a38c37644ae643ed4057064de3539fb460",
+      "github_drive_raw_equality": true
+    },
+    "continuation_drive_id": "19oS1-HX1gjx3fPjnzPAQdb6scsviSK-Q",
+    "manifest_drive_id": "13OA5J9gJjVmbe4W0Ho4wjLUnaskxkk7v"
+  },
+  "candidate_patch": {
+    "path": "patches/hf2/0022-hf2-resolution-source-correspondence.intent.patch",
+    "bytes": 2387,
+    "sha256": "d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5",
+    "blob": "c4e074a5cf53b377a4d59826737e7d25cb9b2f3f",
+    "old_source_sha256": "dc38d2663953f7bf6ee2158178eb3883500c9fc5452de2648f094613bbc1d57c",
+    "new_source_sha256": "02edff826d6f988a8e198855f3bf941b5daaba9c0e62038d8207b9486ae6d26d",
+    "scope": [
+      "src/noeron/development.py"
+    ],
+    "intent_commit": "95dabb59b7b56690ed6200f5a73000b4bb324b30",
+    "runtime_scope": [
+      "src/noeron/development.py"
+    ],
+    "method": "NativeLanguageFaculty.realize",
+    "added_lines": 22
+  },
+  "focused_tests": {
+    "path": "tests/hf2_m4c3r/test_resolution_source_correspondence.py",
+    "commit": "33e2b04c47234da3ff9d13531d049e670588c29f",
+    "git_blob": "902d06d4d500937d73bae100b94a25652fd42086",
+    "sha256": "99579283fe79f7ee3b48a80bfb34845e04e6ea76e8bc51da62ef04e2a7b04205",
+    "bytes": 13249,
+    "count": 39,
+    "all_noncollapse_and_native_choice_controls_pass": true
+  },
+  "historical_contract_update": {
+    "path": "tests/hf2_m4c3d/test_unresolved_alternative_units.py",
+    "commit": "33e2b04c47234da3ff9d13531d049e670588c29f",
+    "git_blob": "39090276dfe75fe60924ab8eaa761552eee5902a",
+    "sha256": "634cdcefbfa5180979dfd549666c49e6c096f246c099cdae73dbbb7be5f6a84f",
+    "bytes": 7051,
+    "scope": "duplicate surface/frame expectation only; two typed units and false authority retained",
+    "unchanged_baseline_carrier_commit": "4c6bd9055780bb61149301f5dc81b695c837ea21",
+    "runtime_not_changed_to_preserve_old_duplicate": true
+  },
+  "candidate": {
+    "workflow": ".github/workflows/hf2-milestone4c3r.yml",
+    "workflow_git_blob": "95040c2755a3640ec7df82d8c6905f6c1fed93e1",
+    "source_commit": "cc173d3d2ffcaa9803fb42b1635c9bd0be7aceec",
+    "run_id": 35475508613,
+    "job_id": 105983960073,
+    "conclusion": "SUCCESS",
+    "counts": {
+      "baseline": {
+        "passed": 412,
+        "failed": 0,
+        "skipped": 0,
+        "summary": "412 passed, 2 warnings in 174.79s (0:02:54)"
+      },
+      "focused": {
+        "passed": 39,
+        "failed": 0,
+        "skipped": 0,
+        "summary": "39 passed in 9.63s"
+      },
+      "complete": {
+        "passed": 451,
+        "failed": 0,
+        "skipped": 0,
+        "summary": "451 passed, 2 warnings in 183.56s (0:03:03)"
+      },
+      "replay-focused": {
+        "passed": 39,
+        "failed": 0,
+        "skipped": 0,
+        "summary": "39 passed in 9.49s"
+      },
+      "replay-complete": {
+        "passed": 451,
+        "failed": 0,
+        "skipped": 0,
+        "summary": "451 passed, 2 warnings in 184.08s (0:03:04)"
+      }
+    },
+    "source_byte_parity": true,
+    "source_archive_sha256": "e3ac18ce369f1e46d6ac984f17f59380d03b11c79e696654c8b231a0faac42fc",
+    "source_archive_bytes": 663402,
+    "carrier_archive_sha256": "a602800b5db714732f8888290c8b923555764a871defd44a01b9af3ae887d6c9",
+    "receipt": {
+      "path": "docs/evidence/_ci/HF2_M4C3R_CANDIDATE_RESULT.txt",
+      "blob": "71d6c213ee9c7abce6edacc358d041415fd649d5",
+      "sha256": "a7d0f1b2e1aa678dbab4f8cf7174ec73985b0fd690e52cec472d58d1ec2f4442",
+      "bytes": 2050,
+      "commit": "5225c34fa00b92316ad662b65b143ad991e9a872"
+    },
+    "artifact": {
+      "github_id": 10594495484,
+      "name": "hf2-m4c3r-resolution-source-correspondence",
+      "bytes": 1132148,
+      "sha256": "015f2c29afc210c1c809637270b00e58cc4421ee97c4d1cf37463342d5221a7f",
+      "drive_id": "1pFWswszGSZcQoniPZ9TB4j7HZENas84x",
+      "github_drive_raw_equality": true
+    },
+    "inspection": {
+      "path": "docs/evidence/m4c3r/candidate_inspection.json",
+      "sha256": "db070b3a68f5819dc0b6c39e9bae08e4997fee4597736f0b3a5323b36cf2b333",
+      "bytes": 7606,
+      "blob": "f007f583fa648bc9caa1d8b12386a8517df404c5",
+      "commit": "5225c34fa00b92316ad662b65b143ad991e9a872"
+    },
+    "inspection_checkpoint_before_publication": true
+  },
+  "ordinary_0022": {
+    "published_path": "patches/hf2/0022-hf2-resolution-source-correspondence.patch",
+    "publication_commit": "620ca3137ea30a9fdda6178418b7a19831ac7b37",
+    "git_blob": "c4e074a5cf53b377a4d59826737e7d25cb9b2f3f",
+    "sha256": "d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5",
+    "bytes": 2387,
+    "intent_published_blob_equality": true,
+    "intent_published_sha256_equality": true,
+    "intent_published_byte_equality": true
+  },
+  "published_chain": {
+    "workflow": ".github/workflows/hf2-m4c3r-published-chain.yml",
+    "workflow_git_blob": "a107296b4b1c19b1a95c771af957935fb6a4efff",
+    "source_commit": "4e54623e696a687586b820b5dd9a3190d1648934",
+    "run_id": 35476221835,
+    "job_id": 105985811089,
+    "conclusion": "SUCCESS",
+    "complete": "451 passed, 2 warnings in 183.94s (0:03:03)",
+    "passed": 451,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "source_archive_sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd",
+    "source_archive_bytes": 663382,
+    "source_file_count": 58,
+    "published_candidate_source_byte_equality": true,
+    "published_candidate_python_hash_equality": true,
+    "receipt": {
+      "path": "docs/evidence/_ci/HF2_EXACT_CHAIN_0022_RESULT.txt",
+      "bytes": 1784,
+      "sha256": "836f239441b65d8c88b6a3d1e03f0211041db38914e4b3ab8180e2e85cdf36d4",
+      "blob": "f57346d8538f8bd62ed9acfbecec2b0523a8ac2a",
+      "commit": "0a7d6dba8160c4332d66a25d1f897fd5c2276329"
+    },
+    "artifact": {
+      "github_id": 10594550960,
+      "name": "hf2-m4c3r-exact-hf1-published-0022",
+      "bytes": 679959,
+      "sha256": "b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0",
+      "drive_id": "1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_",
+      "github_drive_raw_equality": true
+    },
+    "inspection": {
+      "path": "docs/evidence/m4c3r/published_inspection.json",
+      "bytes": 4519,
+      "sha256": "a8083d01764f8032fadbc0725532129b579335bdd959f2fa8bd5b37031cf894a",
+      "blob": "f71e8ef1298dbc69da2ef9864dd724f95e0eacda",
+      "commit": "0a7d6dba8160c4332d66a25d1f897fd5c2276329"
+    }
+  },
+  "final_continuation": {
+    "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3R_20260919.txt",
+    "bytes": 15307,
+    "sha256": "799b87750f2958892f61fddb0280357369b9354937852be85fbebecd3737b02f",
+    "blob": "bed3d9c39da524e7f96588212504e8a984c06291",
+    "commit": "0a7d6dba8160c4332d66a25d1f897fd5c2276329",
+    "drive_id": "1KwZi_DPsWQtjmqjMww-4kN3Cju18w-jf",
+    "github_drive_raw_equality": true
+  },
+  "standing_root": {
+    "path": "CONTINUATION_STAGE8B_HF2.txt",
+    "drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+    "seal_checkpoint_commit": "0a7d6dba8160c4332d66a25d1f897fd5c2276329",
+    "seal_checkpoint_blob": "5da65f92dbe26cdf41bd168c7f6f08189640f1df",
+    "seal_checkpoint_github_drive_raw_equality": true,
+    "ending_head_resolution": "The following ending-root commit references this manifest and the work-run closure receipt; that receipt records its exact final HEAD, root blob, bytes and SHA256.",
+    "closure_drive_id": "1SuvYKaVgrdr8sozLdTYheknRrsQR53VH"
+  },
+  "backup": {
+    "frozen_candidate": {
+      "drive_id": "1kLGkuUf1gvhUgbBG9ftJmSo1Fz2fuXfK",
+      "bytes": 18986,
+      "sha256": "70183c7c511958c88f24254acaca0d3d25667a457d0713541ab200ee1e1964a6",
+      "raw_equality": true
+    },
+    "inspection_and_job_logs": {
+      "drive_id": "1bTj4giZkVT6a03o-ATNgfKOZR6yOZRaS",
+      "bytes": 44558,
+      "sha256": "d44cc2daff64f765d603cf45517cdba72739cff9893fa9f7a269e70d31d574c4",
+      "raw_equality": true
+    }
+  },
+  "authority": {
+    "same_ingress_prior_sentence_scope": true,
+    "current_sentence_self_reference_from_later_mentions": false,
+    "prepositional_complement_nominal_candidate": false,
+    "categorical_predicate_complement_removal": false,
+    "genuine_reference_alternatives_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "lexical_pos_inference_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "native_choice": {
+    "consequence_geometry_remains_required": true,
+    "owner_calibration_is_operator_directed": true,
+    "complete_typed_inventory_preserved": true,
+    "provenance_preserved": true,
+    "alternatives_preserved_without_ranking": true,
+    "blank_tied_or_incomplete_geometry_is_non_authoritative": true
+  },
+  "closure": {
+    "active_runs": [],
+    "substantive_mutations_frozen_during_runs": true,
+    "workflows_have_repository_write_permission": false,
+    "failed_candidate_or_published_runs": [],
+    "provider_divergence": false,
+    "blockers": [],
+    "cleanup_required": [],
+    "read_only_workflows_intentionally_retained": true,
+    "next_milestone_selection_pending": true,
+    "next_action": "Inspect GitHub/Drive current root, M4C3R seal and established Stage8B requirements; choose one proven remaining bounded limitation with disposable design/verification first. No new milestone, 0023 or stage transition selected.",
+    "final_live_deployment_package": "FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED"
+  }
+}
