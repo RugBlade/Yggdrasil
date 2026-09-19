@@ -1,3 +1,73 @@
+LATEST VERIFIED CHECKPOINT — M4C3P / PUBLISHED 0020 / EXTERNAL GREEN — 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+Stage8B and Stage8 remain IN PROGRESS.
+M4C3P is the latest sealed/verified Stage-8B milestone.
+Published runtime reconstruction target:
+exact HF1 + ordinary patches 0001 -> 0020.
+ordinary_0020_published=true
+published_exact_chain_0020_green=true
+m4c3p_sealed=true
+broad_conversational_completion_claim=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+next_milestone_selection_pending_post_seal=true
+
+READ THIS FIRST
+Older M4C3P candidate/publication-pending sections remain historical provenance and are superseded operationally by this seal.
+Do not rewrite historical blocks merely to make old pending flags green.
+
+Patch 0020:
+blob 0de9145e8a8bc4f8e8c6c506b9f4ebd4e3765950
+SHA256 ffa2cfae51d8258e17661605f2b5bc496eadd78169a342dbb7f283dcfa4c6b60
+bytes 5090
+publication commit 975c3d42c6818e4679efd65bd0a5b62ff5cf6eb1
+runtime scope src/noeron/inference.py only.
+
+Candidate run 35407518625 / job 105800236369: SUCCESS.
+Baseline 391 passed; focused 9 passed; complete 400 passed; replay focused 9 passed; replay complete 400 passed; source parity VERIFIED.
+Candidate artifact GitHub 10572513727 / SHA256 050ad16010b8c120d1898ea4e31107ea6f4eb46084152cdad2a498732845070d / Drive 1FbxU8woazdEEmZRg8wQvLLOKC0zyiAoa / raw equality VERIFIED.
+
+Published exact-HF1 chain run 35408285798 / job 105802493909: SUCCESS.
+Complete HF2 through M4C3P: 400 passed, 2 warnings in 171.84s.
+Published source archive SHA256 a346184eda46e0f7788cf00aafc71b31bd15a13fc9f2b451be6db640d791b0d2.
+Published-chain artifact GitHub 10573373112 / SHA256 ba581c4f004a2aab8c95c67c17654a4df536ce0a3307a5565d9741ffaeaa4e4c / Drive 1DDslu4Rv-LG2d7cl0uptbBJPl5JEPztD / raw equality VERIFIED.
+
+AUTHORITY
+The correction changes malformed grammatical discourse-role bookkeeping only.
+The independent unresolved-reference ambiguity gate remains preserved.
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+ROADMAP
+Stage 8 spans 8A–8M; Stage-8 self-upgrade belongs especially to 8H–8K.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M or Stage 9 from this milestone.
+
+NEXT
+Selection is intentionally pending until this sealed checkpoint is mirrored and verified in Drive.
+Do not create 0021 merely to continue numbering.
+
 GLOBAL STAGE ROADMAP — DO NOT REINTERPRET
 Canonical semantic roadmap authority:
 Google Drive: Yggdrasil_STAGE8_STAGE9_ARCHITECTURE_STATUS.md
