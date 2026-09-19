@@ -1,3 +1,27 @@
+M4C3R AUTHORITATIVE CANDIDATE RUN ACTIVE — FROZEN SOURCE / NO PUBLICATION
+Updated UTC: 2026-09-19T23:14:47.154910+00:00
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Exact observed HEAD before this documentation supplement: cc173d3d2ffcaa9803fb42b1635c9bd0be7aceec
+Authoritative run: 35475508613
+Job: 105983960073 / exact-post0021-candidate-replay
+Frozen workflow source commit: cc173d3d2ffcaa9803fb42b1635c9bd0be7aceec
+Workflow blob: 95040c2755a3640ec7df82d8c6905f6c1fed93e1
+Run URL: https://github.com/RugBlade/Yggdrasil/actions/runs/35475508613
+Status at inspection: in_progress; exact HF1 reconstruction, original helpers, ordinary 0001-0021 application and parity against all 58 sealed published source files have passed; unchanged 412-test post0021 baseline is running.
+Expected next gates: exact candidate hash/apply/compile -> focused39 -> complete451 -> separate fresh HF1 replay -> source parity -> focused39+complete451 -> artifact and green receipt.
+Candidate bytes frozen at SHA256 d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5 / 2387 bytes / blob c4e074a5cf53b377a4d59826737e7d25cb9b2f3f.
+Substantive branch changes remain frozen while the run executes. This is documentation only and does not change the workflow's immutable source.
+Candidate continuation Drive: 156XmDU4RD98vs4oj8OoiSalIz212kYVg
+Frozen candidate backup Drive: 1kLGkuUf1gvhUgbBG9ftJmSo1Fz2fuXfK
+Backup bytes 18986 / SHA256 70183c7c511958c88f24254acaca0d3d25667a457d0713541ab200ee1e1964a6.
+No candidate receipt or CI artifact exists yet. Candidate green=false; ordinary0022=false; published-chain0022-green=false; M4C3R sealed=false; M4C3Q remains sealed.
+Next action if this run/chat stops: inspect the exact external run and artifact; do not reconstruct or rerun milestones merely because the conversation ended. Preserve failure evidence if any; inspect every green gate before receipt/publication. Do not poll indefinitely.
+Stage 8B only; Stage 8 spans 8A-8M; self-upgrade especially 8H-8K; roadmap unchanged.
+All authority/autonomy invariants below remain in force. Live runtime=false; canonical DB touched=false; certification=false; FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED.
+
+OLDER CHECKPOINTS / FROZEN CANDIDATE DETAILS
+
 M4C3R 0022 CANDIDATE FROZEN — AUTHORITATIVE CI NEXT
 Date: 2026-09-19 UTC / Asia/Qatar
 Repository: RugBlade/Yggdrasil
