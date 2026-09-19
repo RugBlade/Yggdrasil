@@ -1,0 +1,111 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3R FROZEN 0022 CANDIDATE
+Date: 2026-09-19 UTC / Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Starting HEAD this run: 4c6bd9055780bb61149301f5dc81b695c837ea21
+Latest provider HEAD before this candidate continuation: 33e2b04c47234da3ff9d13531d049e670588c29f
+M4C3Q remains latest sealed milestone. Published reconstruction remains exact HF1 + ordinary 0001-0021.
+
+VERIFIED DECISION PARENT
+M4C3R disposable verification: run 35458114343 / job 105936914145 / source 73d1c64d54dfda7cdd1f4bf19eb3775a593ca727.
+20 PASS (17 controls + 3 defect reproductions), all 58 source files unchanged.
+Verification continuation commit 201242ad36401cccc6d5e26f784573a85f48c82a; blob d8dcea686ee6d49777bbae2048583e761ccce6f8; Drive 19oS1-HX1gjx3fPjnzPAQdb6scsviSK-Q.
+Verification manifest Drive 13OA5J9gJjVmbe4W0Ho4wjLUnaskxkk7v.
+Providers re-inspected this run: HEAD unchanged; no active or queued workflows; standing root byte-equal GitHub/Drive. No previously proven gate was rerun merely due to chat transition.
+
+FROZEN CANDIDATE
+Intent: patches/hf2/0022-hf2-resolution-source-correspondence.intent.patch
+Intent commit: 95dabb59b7b56690ed6200f5a73000b4bb324b30
+Git blob: c4e074a5cf53b377a4d59826737e7d25cb9b2f3f
+SHA256: d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5
+Bytes: 2387
+Runtime scope: src/noeron/development.py / NativeLanguageFaculty.realize only.
+Input source SHA256: dc38d2663953f7bf6ee2158178eb3883500c9fc5452de2648f094613bbc1d57c
+Candidate source SHA256: 02edff826d6f988a8e198855f3bf941b5daaba9c0e62038d8207b9486ae6d26d
+Immutable base artifact: GitHub 10585938051 / Drive 1-np4jigwS9TBBl0rBz0OA8OZhYuv1_Ty; bytes 677959; SHA256 996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f.
+Contained source tar SHA256: cdc054a9af9f941f90b82eb5df814c54471203aa486cfea0aeb3e3348ca52d0d.
+Candidate built from a fresh verified extraction of this source, not carrier runtime.
+No ordinary 0022 exists.
+
+MECHANISM
+After existing current-event, selected-act and valid-alternative eligibility checks, inspect only qud-alternatives without an existing independent question.
+Require exactly one nonempty qud marker and one nonempty unresolved-source marker; exact canonical source_id qid:sid; exact source_units consisting only of those markers and one candidate entry for each existing alternative.
+Require exactly one matching primary reference/event-role unit in this actual content inventory, with the same source_id, event and act, and the same number/set of alternatives. Because wrapper alternatives are already distinct and nonblank, equal set/cardinality proves primary alternatives render-eligible.
+Only the redundant wrapper surface clause is skipped. No typed inventory, source_units, alternative order or authority field is changed.
+Unknown/extra/incomplete provenance, conflicting primary identities, wrong event/act, distinct alternatives, proposition/proof units and QUDs without present primaries remain surfaced.
+The sole ask QUD is preserved; no clarify-only primary is injected into ask.
+
+FOCUSED TESTS / COMPATIBILITY
+Focused path: tests/hf2_m4c3r/test_resolution_source_correspondence.py
+Tests commit: 33e2b04c47234da3ff9d13531d049e670588c29f
+39 focused tests passed locally before external CI.
+Tests cover reference/event-role correction; full inventory immutability and false content authority; English correspondence; reverse inventory order; set-equivalent options; independent identical-wording references and event sources; absent-primary QUD; 13 incomplete/independent provenance cases; 5 ineligible/different-act primary cases; conflicting primary identity; proposition/proof alternatives; existing statement; blank, learned clarify/ask, tied and incomplete geometry; operator calibration.
+Historical M4C3D test changes only the redundant surface/frame expectation, retaining both typed units and zero-authority invariants. Candidate bytes were not changed to preserve the old duplicate.
+All pre-workflow commits use [skip ci] to avoid accidental historical gate reruns from this compatibility test edit.
+
+AUTHORITATIVE CANDIDATE GATES
+Workflow to create next: .github/workflows/hf2-milestone4c3r.yml
+1. Reconstruct byte-exact HF1 and inject ORIGINAL carrier helpers.
+2. Apply ordinary 0001-0021; prove source bytes match sealed published artifact.
+3. Run unchanged baseline suite from immutable carrier commit 4c6bd9055780bb61149301f5dc81b695c837ea21, including original historical duplicate assertion (expected 412 tests).
+4. Verify exact 2387-byte 0022 intent hash; git apply --check; apply; compile.
+5. Run focused M4C3R and complete HF2 candidate suite (expected 39 and 451 tests).
+6. Reconstruct separate fresh exact-HF1 replay; original helpers; ordinary 0001-0021 plus identical intent; compile; source-byte parity; focused and complete suites again.
+7. Package source, carrier, tests, hashes, results, and green candidate receipt only after all gates pass.
+The workflow is read-only on the repository. The assistant will inspect complete green evidence and then commit its receipt. No workflow rebases or writes the branch.
+Freeze substantive branch mutations while this run executes. Record exact run/source/job IDs in root after launch. Do not poll indefinitely; if needed end with both continuations updated and a recoverable pending run.
+
+PUBLICATION / SEAL
+Candidate green does not automatically publish. Inspect all evidence; only exact green intent bytes may become ordinary 0022, with Git blob/SHA256/byte equality.
+Then run a SEPARATE published exact-HF1 0001-0022 gate and mirror evidence before sealing M4C3R.
+No live runtime/canonical DB access is authorized by these engineering gates.
+
+STATUS AT CANDIDATE FREEZE
+m4c3q_sealed=true
+m4c3r_disposable_verification_green=true
+runtime_candidate_created=true
+ordinary_0022_published=false
+candidate_green=false
+published_exact_chain_0022_green=false
+m4c3r_sealed=false
+stage8b_complete=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+Active external run: not yet created at this checkpoint.
+Next action: commit the one authoritative candidate workflow, inspect its source/run/job, preserve pending continuation, then inspect results.
+Cleanup: no destructive cleanup required. Local test DBs are disposable; candidate source is scratch; authoritative reconstruction remains the intent patch plus immutable source and original helpers.
+
+ROADMAP
+Stage 8 remains 8A-8M. Current work Stage 8B; self-upgrade especially 8H-8K. Do not start 8C-8M or Stage 9; Stage 9 is not self-upgrade. Roadmap unchanged.
+
+AUTHORITY / AUTONOMY
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+Native choice remains attributable to persistent native state and IRG/DKT/EGR/RL/Frenet/reasoning/learning machinery. No authored act, semantic ranking, canned clarification, hidden preference, personality, relational meaning or cognitive-memory authority is introduced.

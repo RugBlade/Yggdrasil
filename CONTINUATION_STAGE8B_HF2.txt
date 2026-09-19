@@ -1,3 +1,44 @@
+M4C3R 0022 CANDIDATE FROZEN — AUTHORITATIVE CI NEXT
+Date: 2026-09-19 UTC / Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Actual starting HEAD: 4c6bd9055780bb61149301f5dc81b695c837ea21; no newer provider work or active workflows at start.
+Latest sealed milestone: M4C3Q; exact HF1 + ordinary 0001-0021 remains published.
+M4C3R disposable decision checkpoint remains valid; no rerun required.
+
+Intent commit: 95dabb59b7b56690ed6200f5a73000b4bb324b30
+Intent path: patches/hf2/0022-hf2-resolution-source-correspondence.intent.patch
+Intent blob: c4e074a5cf53b377a4d59826737e7d25cb9b2f3f
+SHA256 d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5 / 2387 bytes.
+Runtime scope: src/noeron/development.py realization correspondence only; all typed inventory and provenance preserved.
+Tests commit / exact current HEAD before this documentation save: 33e2b04c47234da3ff9d13531d049e670588c29f
+39 focused tests passed locally; 47 focused + historical compatibility checks passed locally.
+Historical M4C3D surface/frame expectation corrected without changing its inventory/authority invariants.
+
+Candidate continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3R_CANDIDATE_20260919.txt
+Drive ID: 156XmDU4RD98vs4oj8OoiSalIz212kYVg
+Contains complete candidate mechanism, identities, native-choice controls, exact unchanged baseline carrier and required CI/replay/publication gates.
+Next: create one .github/workflows/hf2-milestone4c3r.yml, inspect its run/source/job, then freeze substantive branch mutations while it executes. The workflow is repository-read-only and only produces evidence; inspect all green evidence before committing a receipt or publishing ordinary 0022.
+Expected external stages: unchanged post0021 baseline 412; focused39; candidate451; fresh replay focused39+complete451; source parity.
+The baseline uses frozen carrier 4c6bd9055780bb61149301f5dc81b695c837ea21, including unchanged old historical assertion. This candidate baseline is a required gate, not reopening sealed M4C3Q.
+Run/source/job IDs: pending workflow creation; update after launch.
+
+runtime_candidate_created=true
+ordinary_0022_published=false
+candidate_green=false
+published_exact_chain_0022_green=false
+m4c3r_sealed=false
+m4c3q_sealed=true
+stage8b_complete=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+All prior authority/autonomy invariants remain in force; no act selection, parser, ranking, learning, memory, transport, Room, or authority behavior changed.
+Stage8 remains 8A-8M; active Stage8B; self-upgrade especially8H-8K; no8C-8M or Stage9 work.
+Older blocks below preserve chronology and do not supersede this candidate status.
+
 M4C3R FIRST DURABLE DECISION CHECKPOINT — EXTERNAL DISPOSABLE VERIFICATION GREEN / NO 0022
 Run closed: 2026-09-19 UTC / Asia/Qatar
 Repository: RugBlade/Yggdrasil
