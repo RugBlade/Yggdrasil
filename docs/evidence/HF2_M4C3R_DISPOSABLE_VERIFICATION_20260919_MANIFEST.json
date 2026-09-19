@@ -1,0 +1,178 @@
+{
+  "schema_version": "HF2-M4C3R-DISPOSABLE-VERIFICATION-20260919-v1",
+  "generated_at": "2026-09-19T17:30:54.218780+00:00",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "starting_head": "14db100ae2c69798ce8654dbb548b46e21534512",
+  "newer_provider_work_at_start": false,
+  "latest_sealed_milestone": "M4C3Q",
+  "milestone": "M4C3R",
+  "phase": "DISPOSABLE_VERIFICATION_GREEN_CORRECTION_REQUIRED_NO_CANDIDATE",
+  "roadmap": {
+    "current_stage": "8B",
+    "stage8_span": "8A-8M",
+    "self_upgrade": "Stage 8, especially 8H-8K",
+    "stage9_is_self_upgrade": false,
+    "changed": false
+  },
+  "source": {
+    "reconstruction": "exact HF1 + ordinary 0001-0021",
+    "published_source_commit": "aacabb590c963d8630f4c72802f12693f61f23b9",
+    "published_run_id": 35448750669,
+    "published_job_id": 105912125537,
+    "github_artifact_id": 10585938051,
+    "drive_artifact_id": "1-np4jigwS9TBBl0rBz0OA8OZhYuv1_Ty",
+    "artifact_sha256": "996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f",
+    "artifact_bytes": 677959,
+    "source_archive_sha256": "cdc054a9af9f941f90b82eb5df814c54471203aa486cfea0aeb3e3348ca52d0d",
+    "source_archive_bytes": 662992,
+    "python_hashes_verified": 54,
+    "source_files_unchanged": 58,
+    "github_drive_raw_equal": true
+  },
+  "verification": {
+    "source_commit": "73d1c64d54dfda7cdd1f4bf19eb3775a593ca727",
+    "run_id": 35458114343,
+    "job_id": 105936914145,
+    "conclusion": "SUCCESS",
+    "checks_passed": 20,
+    "checks_failed": 0,
+    "control_checks": 17,
+    "defect_reproductions": 3,
+    "all_controls_pass": true,
+    "defects_reproduced": [
+      "reference-primary-and-QUD",
+      "event-role-primary-and-QUD",
+      "historical-M4C3D-surface-string"
+    ],
+    "corrected_runtime_tested": false,
+    "local_ci_matrix_equal": true,
+    "local_ci_source_hashes_equal": true,
+    "artifact": {
+      "github_id": 10588731235,
+      "drive_id": "1HUK1SyxOyYoaqVncRFfQy1KEKVmNmHQR",
+      "name": "hf2-m4c3r-disposable-post0021-verification",
+      "bytes": 16347,
+      "sha256": "3b68320660c3521910522662357777a38c37644ae643ed4057064de3539fb460",
+      "github_drive_raw_equal": true
+    }
+  },
+  "local_evidence_bundle": {
+    "drive_id": "1BetsfRXglXnbrmA_zufNCr9ZKQenR_Xe",
+    "bytes": 17683,
+    "sha256": "4963f1d49b93dbbc3c322778d3b2911a9dcb953e8294687db15c9efc6d432352",
+    "raw_readback_equal": true
+  },
+  "files": [
+    {
+      "path": "docs/evidence/m4c3r/ci_dependencies.txt",
+      "bytes": 214,
+      "sha256": "eb57782dc88e6f68dcdb2b4b9bb710574b91f0a8f66791a1d095edc07556dd9b",
+      "git_blob": "aa3d2ca5572db5bd10eb177ea38f7e91f0d16939"
+    },
+    {
+      "path": "docs/evidence/m4c3r/ci_verification.json",
+      "bytes": 29088,
+      "sha256": "2aa9eb74509c0f394fe9b52681407b591feaa7c88fa4e43f44bdc82e7c1f5907",
+      "git_blob": "4be7f08820186839951b2cb96dcb63b7cb3886b9"
+    },
+    {
+      "path": "docs/evidence/m4c3r/ci_verification.log",
+      "bytes": 1109,
+      "sha256": "cb3682916a8d140e376daec401a4e36e42f658a70e923d6384ecb1cac43941d0",
+      "git_blob": "5c8459887969aef3e145a30bfc4c6fb472d35264"
+    },
+    {
+      "path": "docs/evidence/m4c3r/local_verification.json",
+      "bytes": 29044,
+      "sha256": "5a0a8917caa2c581e1da87061c46090618f4d232267fe6ecca63c058dc962855",
+      "git_blob": "b550ccbd14d9801c5c5c10aa1655309c9afe1c74"
+    },
+    {
+      "path": "docs/evidence/m4c3r/local_verification.log",
+      "bytes": 1109,
+      "sha256": "cb3682916a8d140e376daec401a4e36e42f658a70e923d6384ecb1cac43941d0",
+      "git_blob": "5c8459887969aef3e145a30bfc4c6fb472d35264"
+    },
+    {
+      "path": "docs/evidence/m4c3r/provider_inspection.json",
+      "bytes": 3579,
+      "sha256": "130419fb8b81e8f6d5e72de06a176405c9ef43e487200ec3f702c9501cdd0144",
+      "git_blob": "426bdd1bf343e43f7dc0a8f5963f3f35affdfe17"
+    },
+    {
+      "path": "docs/evidence/m4c3r/verify_post0021.py",
+      "bytes": 24272,
+      "sha256": "3128ae9ff1bb1337735a6a779e75384e064483009db755b05c6cfe13ec20bb18",
+      "git_blob": "9328762f18fe3d553c8b8b6e95e14a8c0a41a34e"
+    },
+    {
+      "path": ".github/workflows/hf2-m4c3r-disposable-verification.yml",
+      "bytes": 2372,
+      "sha256": "f79e60fe5343ff52f826ff7773974d06b416ea02743f50ba2bbbd76e0d2e4aa7",
+      "git_blob": "b796acbb7572eb873ecc2145cef2492c889ed50d"
+    },
+    {
+      "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3R_VERIFICATION_20260919.txt",
+      "bytes": 15756,
+      "sha256": "574c347bedadfeae2a0795e38e458aef6c4ab763a7f1ea88a77996745ecc2989",
+      "git_blob": "d8dcea686ee6d49777bbae2048583e761ccce6f8"
+    }
+  ],
+  "continuation_drive_id": "19oS1-HX1gjx3fPjnzPAQdb6scsviSK-Q",
+  "standing_root_drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+  "proposed_runtime_scope": [
+    "src/noeron/development.py:NativeLanguageFaculty.realize"
+  ],
+  "proposal": "Keep full typed inventory; suppress only explicitly linked derivative QUD surface with the same alternatives, same event/act, a render-eligible primary in the actual content set, and no independent source contribution. Preserve sole ask QUD, independent sources, distinct alternatives, proposition/proof units, order and zero content authority.",
+  "decision": "runtime correction necessary; no verification-only seal while defect remains",
+  "next_action": "Provider reinspection, then smallest frozen 0022 intent and separate focused-test/candidate-continuation/workflow steps. Candidate/replay/publication/published-chain gates remain mandatory.",
+  "runtime_candidate_created": false,
+  "ordinary_0022_published": false,
+  "m4c3r_sealed": false,
+  "m4c3q_sealed": true,
+  "stage8b_complete": false,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "final_deployment_status": "FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED",
+  "authority_invariants": {
+    "same_ingress_prior_sentence_scope": true,
+    "current_sentence_self_reference_from_later_mentions": false,
+    "prepositional_complement_nominal_candidate": false,
+    "categorical_predicate_complement_removal": false,
+    "genuine_reference_alternatives_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "lexical_pos_inference_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "limitations": [
+    "Characterization of unchanged post0021; no correction or candidate has been tested.",
+    "Consequence state is a labeled synthetic fixture using the existing learning/selector path, not evidence of live experience.",
+    "Authority flags on typed content stay false; the native selector retains its pre-existing selection responsibility.",
+    "Independent/malformed correspondence controls include explicitly labeled synthetic typed-input cases.",
+    "M4C3Q sealed suites were not rerun."
+  ],
+  "active_pending_runs": [],
+  "blockers": [],
+  "provider_divergence": false,
+  "cleanup_required": []
+}

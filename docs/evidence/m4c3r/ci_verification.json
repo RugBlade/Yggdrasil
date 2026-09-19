@@ -1,0 +1,704 @@
+{
+  "artifact_bytes": 677959,
+  "artifact_id": 10585938051,
+  "artifact_sha256": "996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "checks_failed": 0,
+  "checks_passed": 20,
+  "controls_passed": true,
+  "corrected_surface_verified": false,
+  "defect_reproductions_passed": true,
+  "environment": {
+    "packages": {
+      "Pillow": "12.3.0",
+      "httpx": "0.28.1",
+      "pydantic": "2.13.5"
+    },
+    "python": "3.12.14 (main, Aug 13 2026, 02:47:42) [GCC 13.3.0]"
+  },
+  "final_deployment_status": "FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED",
+  "generated_at": "2026-09-19T17:27:00.068515+00:00",
+  "harness_source_commit": "73d1c64d54dfda7cdd1f4bf19eb3775a593ca727",
+  "limitations": [
+    "Characterization of unchanged post0021; no correction or candidate has been tested.",
+    "Consequence state is a labeled synthetic fixture using the existing learning/selector path, not evidence of live experience.",
+    "Authority flags on typed content stay false; the native selector retains its pre-existing selection responsibility.",
+    "Independent/malformed correspondence controls include explicitly labeled synthetic typed-input cases.",
+    "M4C3Q sealed suites were not rerun."
+  ],
+  "live_runtime_touched": false,
+  "m4c3q_sealed": true,
+  "m4c3r_sealed": false,
+  "ordinary_0022_published": false,
+  "published_python_hashes_verified": 54,
+  "published_source_commit": "aacabb590c963d8630f4c72802f12693f61f23b9",
+  "repository": "RugBlade/Yggdrasil",
+  "results": [
+    {
+      "category": "control",
+      "evidence": {
+        "action": null,
+        "authority": {
+          "answer": false,
+          "candidate_ranking": false,
+          "cognitive_memory": false,
+          "deployment": false,
+          "native_content_generation": false,
+          "relationship": false,
+          "semantic_truth": false,
+          "source_write": false,
+          "speech_act_selection": true
+        },
+        "candidate_distances": {},
+        "changes_outward_transport": false,
+        "content_formation": {
+          "act_neutral_alternative_count": 1,
+          "alternative_inventory_changes_eligibility": true,
+          "alternative_inventory_choice_authority": false,
+          "alternative_inventory_count": 2,
+          "alternative_inventory_kinds": [
+            "reference-alternatives",
+            "qud-alternatives"
+          ],
+          "answer_authority": false,
+          "cognitive_memory_authority": false,
+          "content_count": 0,
+          "current_turn_bound": true,
+          "executed": false,
+          "execution_authority": false,
+          "multiple_unforced_answer_set": false,
+          "native_text_present": false,
+          "ordinary_answer_present": false,
+          "ordinary_answer_preserved": false,
+          "relationship_authority": false,
+          "semantic_truth_authority": false,
+          "source_event_id": "758206c8-18a3-4ef3-a9f4-231d94d5f75c",
+          "status": "no-native-resolution-content",
+          "transport_authority": false
+        },
+        "decision_layer": "unresolved",
+        "native_choice_claim": false,
+        "native_context_source": "post-closure-DKT-after-IRG-DKT-regional-EGR-RL-Frenet-DKT",
+        "selection_basis": "observed native consequence geometry only",
+        "selection_status": "unresolved-insufficient-speech-act-consequence-geometry"
+      },
+      "id": "01_blank_geometry_silent",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "audit": {
+          "action": "clarify",
+          "authority": {
+            "answer": false,
+            "candidate_ranking": false,
+            "cognitive_memory": false,
+            "deployment": false,
+            "native_content_generation": false,
+            "relationship": false,
+            "semantic_truth": false,
+            "source_write": false,
+            "speech_act_selection": true
+          },
+          "candidate_distances": {
+            "ask": 0.4,
+            "clarify": 2.219503206716246e-18,
+            "remain-silent": 0.8
+          },
+          "changes_outward_transport": false,
+          "content_formation": {
+            "act_neutral_alternative_count": 1,
+            "alternative_inventory_changes_eligibility": true,
+            "alternative_inventory_choice_authority": false,
+            "alternative_inventory_count": 2,
+            "alternative_inventory_kinds": [
+              "reference-alternatives",
+              "qud-alternatives"
+            ],
+            "answer_authority": false,
+            "cognitive_memory_authority": false,
+            "content_count": 2,
+            "current_turn_bound": true,
+            "executed": false,
+            "execution_authority": false,
+            "multiple_unforced_answer_set": false,
+            "native_text_present": true,
+            "ordinary_answer_present": false,
+            "ordinary_answer_preserved": false,
+            "relationship_authority": false,
+            "semantic_truth_authority": false,
+            "source_event_id": "758206c8-18a3-4ef3-a9f4-231d94d5f75c",
+            "status": "native-resolution-content-realized-observationally",
+            "transport_authority": false
+          },
+          "decision_layer": "learned-deliberative",
+          "native_choice_claim": true,
+          "native_context_source": "post-closure-DKT-after-IRG-DKT-regional-EGR-RL-Frenet-DKT",
+          "selection_basis": "observed native consequence geometry only",
+          "selection_status": "native-unique-speech-act-predicted-post-state-hs-minimum"
+        },
+        "surface": "she: sara / mira? Did she leave?: sara / mira?"
+      },
+      "id": "02_native_clarify_from_consequence_fixture",
+      "status": "PASS"
+    },
+    {
+      "category": "defect-reproduction",
+      "evidence": {
+        "desired_one_clause_per_unresolved_source": false,
+        "duplicate_reproduced": true,
+        "surface": "she: sara / mira? Did she leave?: sara / mira?",
+        "units": [
+          {
+            "act": "clarify",
+            "alternatives": [
+              "sara",
+              "mira"
+            ],
+            "answer_authority": false,
+            "candidate_ranking_authority": false,
+            "existing_question": "",
+            "focus_surface": "she",
+            "kind": "reference-alternatives",
+            "reference_resolution_authority": false,
+            "semantic_truth_authority": false,
+            "source_event_id": "89380ebd-818d-46fd-aaaf-cceba0637973",
+            "source_id": "reference-token-1",
+            "source_units": [
+              "ambiguity:reference-token-1",
+              "focus:she",
+              "alternative:sara",
+              "alternative:mira"
+            ],
+            "speech_act_selection_authority": false,
+            "unresolved": true
+          },
+          {
+            "act": "clarify",
+            "alternatives": [
+              "sara",
+              "mira"
+            ],
+            "answer_authority": false,
+            "candidate_ranking_authority": false,
+            "existing_question": "",
+            "focus_surface": "Did she leave?",
+            "kind": "qud-alternatives",
+            "reference_resolution_authority": false,
+            "semantic_truth_authority": false,
+            "source_event_id": "89380ebd-818d-46fd-aaaf-cceba0637973",
+            "source_id": "question-sentence-0:reference-token-1",
+            "source_units": [
+              "qud:question-sentence-0",
+              "unresolved-source:reference-token-1",
+              "candidate:sara",
+              "candidate:mira"
+            ],
+            "speech_act_selection_authority": false,
+            "unresolved": true
+          }
+        ]
+      },
+      "id": "03_reference_derivative_duplicate_reproduced",
+      "status": "PASS"
+    },
+    {
+      "category": "defect-reproduction",
+      "evidence": {
+        "desired_one_clause_per_unresolved_source": false,
+        "duplicate_reproduced": true,
+        "sources": [
+          {
+            "act": "clarify",
+            "alternatives": [
+              "recipient",
+              "theme"
+            ],
+            "compatible_actions": [],
+            "existing_question": "",
+            "focus_surface": "give omar",
+            "kind": "event-role-alternatives",
+            "source_id": "event-role-0-0-0",
+            "source_units": [
+              "event:0:0",
+              "role-slot:recipient_or_theme",
+              "role-candidate:recipient",
+              "role-candidate:theme"
+            ]
+          },
+          {
+            "act": "clarify",
+            "alternatives": [
+              "theme",
+              "patient"
+            ],
+            "compatible_actions": [],
+            "existing_question": "",
+            "focus_surface": "book",
+            "kind": "event-role-alternatives",
+            "source_id": "event-role-0-0-1",
+            "source_units": [
+              "event:0:0",
+              "role-slot:theme_or_patient",
+              "role-candidate:theme",
+              "role-candidate:patient"
+            ]
+          },
+          {
+            "act": "",
+            "alternatives": [
+              "recipient",
+              "theme"
+            ],
+            "compatible_actions": [
+              "clarify",
+              "ask"
+            ],
+            "existing_question": "",
+            "focus_surface": "Did Mira give Omar the book?",
+            "kind": "qud-alternatives",
+            "source_id": "question-sentence-0:event-role-0-0-0",
+            "source_units": [
+              "qud:question-sentence-0",
+              "unresolved-source:event-role-0-0-0",
+              "candidate:recipient",
+              "candidate:theme"
+            ]
+          },
+          {
+            "act": "",
+            "alternatives": [
+              "theme",
+              "patient"
+            ],
+            "compatible_actions": [
+              "clarify",
+              "ask"
+            ],
+            "existing_question": "",
+            "focus_surface": "Did Mira give Omar the book?",
+            "kind": "qud-alternatives",
+            "source_id": "question-sentence-0:event-role-0-0-1",
+            "source_units": [
+              "qud:question-sentence-0",
+              "unresolved-source:event-role-0-0-1",
+              "candidate:theme",
+              "candidate:patient"
+            ]
+          }
+        ],
+        "surface": "give omar: recipient / theme? book: theme / patient? Did Mira give Omar the book?: recipient / theme? Did Mira give Omar the book?: theme / patient?"
+      },
+      "id": "04_event_role_derivative_duplicate_reproduced",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "derivative_clauses": 2,
+        "independent_source_ids": [
+          "reference-token-1",
+          "reference-token-4"
+        ],
+        "primary_clauses": 2,
+        "surface": "she: sara / mira? she: sara / mira? Did she leave?: sara / mira? Did she stay?: sara / mira?"
+      },
+      "id": "05_two_independent_references_identical_wording",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "actions": [
+          "clarify",
+          "ask"
+        ],
+        "primary_absent": true,
+        "surface": "Did she leave?: sara / mira?"
+      },
+      "id": "06_qud_without_matching_primary_surfaces",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "alternatives": [
+          "mira::is::scholar",
+          "mira::is::teacher"
+        ],
+        "kind": "proposition-alternatives",
+        "surface": "What is Mira?: mira::is::scholar / mira::is::teacher?"
+      },
+      "id": "07_proposition_alternatives_untouched",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "alternatives": [
+          "{\"conclusion\":\"b::true::true\",\"premises\":[\"a::true::true\"],\"rule\":\"r1\"}",
+          "{\"conclusion\":\"b::true::true\",\"premises\":[\"c::true::true\"],\"rule\":\"r2\"}"
+        ],
+        "kind": "proof-alternatives",
+        "surface": "b::true::true: {\"conclusion\":\"b::true::true\",\"premises\":[\"a::true::true\"],\"rule\":\"r1\"} / {\"conclusion\":\"b::true::true\",\"premises\":[\"c::true::true\"],\"rule\":\"r2\"}?"
+      },
+      "id": "08_proof_alternatives_untouched",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "audit": {
+          "action": "ask",
+          "authority": {
+            "answer": false,
+            "candidate_ranking": false,
+            "cognitive_memory": false,
+            "deployment": false,
+            "native_content_generation": false,
+            "relationship": false,
+            "semantic_truth": false,
+            "source_write": false,
+            "speech_act_selection": true
+          },
+          "candidate_distances": {
+            "ask": 2.219503206716246e-18,
+            "clarify": 0.2,
+            "remain-silent": 0.8
+          },
+          "changes_outward_transport": false,
+          "content_formation": {
+            "act_neutral_alternative_count": 1,
+            "alternative_inventory_changes_eligibility": true,
+            "alternative_inventory_choice_authority": false,
+            "alternative_inventory_count": 2,
+            "alternative_inventory_kinds": [
+              "reference-alternatives",
+              "qud-alternatives"
+            ],
+            "answer_authority": false,
+            "cognitive_memory_authority": false,
+            "content_count": 1,
+            "current_turn_bound": true,
+            "executed": false,
+            "execution_authority": false,
+            "multiple_unforced_answer_set": false,
+            "native_text_present": true,
+            "ordinary_answer_present": false,
+            "ordinary_answer_preserved": false,
+            "relationship_authority": false,
+            "semantic_truth_authority": false,
+            "source_event_id": "758206c8-18a3-4ef3-a9f4-231d94d5f75c",
+            "status": "native-resolution-content-realized-observationally",
+            "transport_authority": false
+          },
+          "decision_layer": "learned-deliberative",
+          "native_choice_claim": true,
+          "native_context_source": "post-closure-DKT-after-IRG-DKT-regional-EGR-RL-Frenet-DKT",
+          "selection_basis": "observed native consequence geometry only",
+          "selection_status": "native-unique-speech-act-predicted-post-state-hs-minimum"
+        },
+        "note": "Ask carries no clarify-only primary; its QUD must remain visible.",
+        "surface": "Did she leave?: sara / mira?"
+      },
+      "id": "09a_native_ask_geometry_preserves_sole_qud",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "action": null,
+        "authority": {
+          "answer": false,
+          "candidate_ranking": false,
+          "cognitive_memory": false,
+          "deployment": false,
+          "native_content_generation": false,
+          "relationship": false,
+          "semantic_truth": false,
+          "source_write": false,
+          "speech_act_selection": true
+        },
+        "candidate_distances": {
+          "ask": 2.219503206716246e-18,
+          "clarify": 2.219503206716246e-18,
+          "remain-silent": 2.219503206716246e-18
+        },
+        "changes_outward_transport": false,
+        "content_formation": {
+          "act_neutral_alternative_count": 1,
+          "alternative_inventory_changes_eligibility": true,
+          "alternative_inventory_choice_authority": false,
+          "alternative_inventory_count": 2,
+          "alternative_inventory_kinds": [
+            "reference-alternatives",
+            "qud-alternatives"
+          ],
+          "answer_authority": false,
+          "cognitive_memory_authority": false,
+          "content_count": 0,
+          "current_turn_bound": true,
+          "executed": false,
+          "execution_authority": false,
+          "multiple_unforced_answer_set": false,
+          "native_text_present": false,
+          "ordinary_answer_present": false,
+          "ordinary_answer_preserved": false,
+          "relationship_authority": false,
+          "semantic_truth_authority": false,
+          "source_event_id": "758206c8-18a3-4ef3-a9f4-231d94d5f75c",
+          "status": "no-native-resolution-content",
+          "transport_authority": false
+        },
+        "decision_layer": "unresolved",
+        "native_choice_claim": false,
+        "native_context_source": "post-closure-DKT-after-IRG-DKT-regional-EGR-RL-Frenet-DKT",
+        "selection_basis": "observed native consequence geometry only",
+        "selection_status": "unresolved-exact-speech-act-consequence-geometry-tie"
+      },
+      "id": "09b_tied_geometry_does_not_choose",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "action": null,
+        "authority": {
+          "answer": false,
+          "candidate_ranking": false,
+          "cognitive_memory": false,
+          "deployment": false,
+          "native_content_generation": false,
+          "relationship": false,
+          "semantic_truth": false,
+          "source_write": false,
+          "speech_act_selection": true
+        },
+        "candidate_distances": {},
+        "changes_outward_transport": false,
+        "content_formation": {
+          "act_neutral_alternative_count": 1,
+          "alternative_inventory_changes_eligibility": true,
+          "alternative_inventory_choice_authority": false,
+          "alternative_inventory_count": 2,
+          "alternative_inventory_kinds": [
+            "reference-alternatives",
+            "qud-alternatives"
+          ],
+          "answer_authority": false,
+          "cognitive_memory_authority": false,
+          "content_count": 0,
+          "current_turn_bound": true,
+          "executed": false,
+          "execution_authority": false,
+          "multiple_unforced_answer_set": false,
+          "native_text_present": false,
+          "ordinary_answer_present": false,
+          "ordinary_answer_preserved": false,
+          "relationship_authority": false,
+          "semantic_truth_authority": false,
+          "source_event_id": "758206c8-18a3-4ef3-a9f4-231d94d5f75c",
+          "status": "no-native-resolution-content",
+          "transport_authority": false
+        },
+        "decision_layer": "unresolved",
+        "native_choice_claim": false,
+        "native_context_source": "post-closure-DKT-after-IRG-DKT-regional-EGR-RL-Frenet-DKT",
+        "selection_basis": "observed native consequence geometry only",
+        "selection_status": "unresolved-insufficient-speech-act-consequence-geometry"
+      },
+      "id": "09c_incomplete_geometry_does_not_choose",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "authority": {
+          "ambiguity_resolution": false,
+          "answer": false,
+          "authentication": true,
+          "candidate_ranking": false,
+          "cognitive_memory": false,
+          "deployment": false,
+          "native_choice": false,
+          "operator_execution": true,
+          "owner_preference": false,
+          "preference_label": false,
+          "reference_resolution": false,
+          "relationship": false,
+          "semantic_truth": false,
+          "source_write": false,
+          "speech_act_selection": false,
+          "surface_authorship": false,
+          "terra": false
+        },
+        "origin": "operator-directed-calibration-not-native-choice",
+        "unauthenticated_rejected": true
+      },
+      "id": "10_owner_calibration_never_native_choice",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "order_preserved": true,
+        "ranking_added": false,
+        "surface": "she: sara / mira? Did she leave?: mira / sara?"
+      },
+      "id": "11_all_alternatives_and_source_order_preserved",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "all_content_authority_flags_false": true,
+        "inventory_unchanged_after_realization": true,
+        "selector_authority_note": "The existing native selector owns speech_act_selection=True; content and eligibility do not. This fixture does not change that division.",
+        "unit_count": 8
+      },
+      "id": "12_zero_authority_typed_inventory_is_preserved",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "ids": [
+          "event-role-0-0-0",
+          "event-role-independent"
+        ],
+        "surface": "give omar: recipient / theme? give omar: recipient / theme?"
+      },
+      "id": "13_independent_event_sources_identical_text",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "explicit_source_link_matches": false,
+        "surface": "she: sara / mira? Did she leave?: sara / mira?"
+      },
+      "id": "14_different_source_ids_do_not_collapse",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "alternative_sets_differ": true,
+        "surface": "she: sara / mira? Did she leave?: sara / omar?"
+      },
+      "id": "15_distinct_alternative_sets_do_not_collapse",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "cases": [
+          "no-explicit-link",
+          "multiple-source-links",
+          "additional-independent-provenance"
+        ],
+        "surfaces": [
+          "she: sara / mira? Did she leave?: sara / mira?",
+          "she: sara / mira? Did she leave?: sara / mira?",
+          "she: sara / mira? Did she leave?: sara / mira?"
+        ]
+      },
+      "id": "16_independent_or_unlinked_qud_provenance_survives",
+      "status": "PASS"
+    },
+    {
+      "category": "control",
+      "evidence": {
+        "ineligible_primary_cannot_cover_qud": true,
+        "surface": "Did she leave?: sara / mira?"
+      },
+      "id": "17_wrong_event_primary_cannot_hide_valid_qud",
+      "status": "PASS"
+    },
+    {
+      "category": "defect-reproduction",
+      "evidence": {
+        "historical_test_changed": false,
+        "stale_duplicate_contract_confirmed": true,
+        "surface": "she: Sara / Mira? Where is she?: Sara / Mira?"
+      },
+      "id": "18_historical_duplicate_string_confirmed",
+      "status": "PASS"
+    }
+  ],
+  "run_id": "35458114343",
+  "runtime_candidate_created": false,
+  "runtime_correction_required": true,
+  "schema": "HF2-M4C3R-DISPOSABLE-POST0021-v1",
+  "sealed_published_job_id": 105912125537,
+  "sealed_published_run_id": 35448750669,
+  "source_archive_bytes": 662992,
+  "source_archive_sha256": "cdc054a9af9f941f90b82eb5df814c54471203aa486cfea0aeb3e3348ca52d0d",
+  "source_bytes_unchanged": true,
+  "source_file_count": 58,
+  "source_files": {
+    "src/noeron/__init__.py": "2b6aec532f12ed41deded4ad2fa342b39cfdd9aa5bbdb92ba462048dc08d08db",
+    "src/noeron/api.py": "12c0b3e02d0ed581611d8dc2e2869cb3b5f315bd96c8903b46438e327ef41b72",
+    "src/noeron/auth.py": "bab636cf917a144ef779466a9561675d3e22eb8b2196373022b0da451e24ad7c",
+    "src/noeron/cognition/__init__.py": "3611cb955056626999cbe0cb59bae1c10a00cc6057c5102d241bbfb17279b383",
+    "src/noeron/cognition/kernel.py": "203c4fbb87da4650e622db065dfd6cfa25188053cc3f891413a2f8c8488bb4ff",
+    "src/noeron/cognition/models.py": "786231e57f3f906f8941dca5386f2c92a16aa23c8605995e8a83e60f1dd809b0",
+    "src/noeron/cognition/renderer.py": "a1664576ac7019632fc94330c6553318074aa4a2bbaf5d9e0922038c7bd1c2e9",
+    "src/noeron/cognition/self_model.py": "a2a79888e7d8649ad3d7e22279cd167f8d31e55fc8f6d462f6efaba7824025f7",
+    "src/noeron/config.py": "002157581330cbb9ddc63efa9a94326f93a89940911ed777ee416ac57c7b70c8",
+    "src/noeron/consequence.py": "58088c8b7a24a63d7b9079326bbc60fbd44efde9f20439bf10b977b45a4d4243",
+    "src/noeron/conversation_actions.py": "1e9b36b9f693ef9848417a52d3cc18ea09b5c0f151a8c5fea830a3a7520a07f5",
+    "src/noeron/conversation_bridge.py": "10bdcaded449a776ada9abe8b8d38523c37d747700a509835277b8b97aea2126",
+    "src/noeron/conversation_premises.py": "e05edde4432cc26fb47f7514849a45a0eb61cb5d175eb686fbbf1bbf381740e2",
+    "src/noeron/conversation_proof.py": "a95e52ba329ee2d040373ebce7c4ad863ce80d5ad4bdf26fffaefe7febe4fb05",
+    "src/noeron/conversation_reasoning.py": "5595449e6578c4413c30daab1af7105d5aaa8d1aabb14d5a4d62e6b9d4176126",
+    "src/noeron/conversation_resolution.py": "ea1ead068b8c68bd34d5d852a2918634ae272c692e37831a77f1a1bb63057191",
+    "src/noeron/conversation_runtime_gate.py": "632689426cfa5c2d3c66d742356e1345f09fe2f22cfb2011aa90674ac224bae6",
+    "src/noeron/demo.py": "842fe3c45c0b73c4f6be707afde9549d830e03cf0a32c3af12dda851403b994a",
+    "src/noeron/development.py": "dc38d2663953f7bf6ee2158178eb3883500c9fc5452de2648f094613bbc1d57c",
+    "src/noeron/engineering.py": "f5a1599aa3b764c73ef63b45b067e3fd8ef447c3101fc2044565d14794c9e624",
+    "src/noeron/english_egress.py": "dc8d5456304cac3fca9cb17a48de2da079315ba6b3988cbb609bdf07f4c70c83",
+    "src/noeron/inference.py": "73d32c9e61934c2fcbaf042ac7499b74a916df57cfca06817723020424887434",
+    "src/noeron/initiative.py": "98f7f1594b405c6808b4d1f0d5d9578910382d47453d981394bad2ff92c0aaae",
+    "src/noeron/language_composition.py": "fb6254cc85fe23d9b2c274ac1fae73ea5c69d1a9fc13935e0f30673e52b230f6",
+    "src/noeron/language_dialogue.py": "ab0baeede2185dade6dfe773af083e12b4a36bc8b0d6f735208b6caed819f4d7",
+    "src/noeron/learning.py": "cbe96baec69f0fe79b6dcd358b7188bffd5370a71cac4e7e559b3fa513d8e538",
+    "src/noeron/learning_cli.py": "17ff4439b310f4a3939da21fe19134da99664e5c9332b72fd4e45a3d4ccc3d6c",
+    "src/noeron/learning_models.py": "b48ea7b6c20bc4c01324d9afed6fed129d0717ae47045725ef49f1808a64f520",
+    "src/noeron/llm.py": "dc2f9c71cce611e30cd5f13ec8fb9bae8ccac083588f6eb0ff8a7d4662d41b2f",
+    "src/noeron/math/__init__.py": "67536ea8a3a4c9db466120450aecac79535e80b4e0d51b0b04eaab3d8b12c2a5",
+    "src/noeron/math/affect.py": "ee14fb63becf24786e909767f2c5a353fa86abed3b65832133c4192009e25500",
+    "src/noeron/math/dkt.py": "b1a7fce66aa45ec4a6f003d67b10a2c3616de90e3e88b73db564bc533ce85165",
+    "src/noeron/math/egr.py": "f71a79f87bff00120ece1ac4cfe22aaef50bc60aa8c7beb3e56bee9644e0e650",
+    "src/noeron/math/frenet.py": "a88e4915c044d926a3145576f6bf5e1609227970f843c97fe268fc4966f00bf6",
+    "src/noeron/math/irg.py": "fc168f07932be0843cbd71fd5571c37d0003bd7c38eabb9be6c1f3908e98291c",
+    "src/noeron/math/kernel.py": "68602443e01b5a855e9d6d09593d5f7466fdbf2db4cf77f22e55a02f04174287",
+    "src/noeron/math/linalg.py": "58cb91098e660358e34a7aff167a3da421924c9bb186524245b1ac2987fb3286",
+    "src/noeron/math/models.py": "eef4d3e87ee61da7797e69d773accf4aaa598d2c00139ee851e1e6bb7b6da455",
+    "src/noeron/math/rl.py": "7eb195cd43e10dd1af7c409d0e7b1a4d7a66e7bcb2a7963efc360d65c0279d04",
+    "src/noeron/memory.py": "196a8df599920d4ef0f60b8194a1dc3b60d1f7ddfef4c4b1a76e63d9bfe9a3e2",
+    "src/noeron/memory_retention.py": "aa7131a87b107c88403b0cf4a56cecaeabfa7608cfc6031429c36e0944bf69f9",
+    "src/noeron/models.py": "a91dfaeb3e11a3a5109044183c931ca50409931844d3b467f07b92632d3780b7",
+    "src/noeron/orchestrator.py": "ca4fb0e9af724fece5661ffec84a990332a6fc952e4f61063f9ca0f78effeab6",
+    "src/noeron/perception.py": "02907850f7708ccbc6b71411f616adbfa5507d078da69cc0b42fead5a8d7aa20",
+    "src/noeron/realization.py": "e63ff31241000e333c2277ec0436a2012f02fab6e50aff7e2861440a1ed6e2b2",
+    "src/noeron/reasoning.py": "f8b32e87be66e1c53402fbf701c81fd69553907f76187f2cc5856e290cd0d9dc",
+    "src/noeron/renderer.py": "8bb0a631735bbd0b5f4044714f5ee8f3a79b37910b07699c5c1a5321a79ac735",
+    "src/noeron/room.py": "82f39e4d474a953cdd0da113d18563f2072b73b8433863e602fe143fc77bf5a3",
+    "src/noeron/room_models.py": "808e96749421ce40d61472eea9f90237e69bc6551e0a428f8cc9d56e92518b3f",
+    "src/noeron/security.py": "7da83a991ad773b08149508b5a0f51205808b70ce0757336e995ad43a260404e",
+    "src/noeron/source_identity.py": "88da90d7da9c3cd71812b5e8119bd0d4d174e264a2fe208e714ff468f86aa058",
+    "src/noeron/speech.py": "8388c77e732a2d7bbfd97ef9e19a3b46245e1d596a9bfe8e17a0ec01c069d6ef",
+    "src/noeron/static/vendor/three-r185/INTEGRITY.json": "7ce38945ada4837161e1ff420da8b2c41e3ab3b54a9c34a7da0940d64766dcb0",
+    "src/noeron/static/vendor/three-r185/LICENSE": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc",
+    "src/noeron/static/vendor/three-r185/build/three.core.js": "3718df126d69c125362a03340913204470d8c50238605150e57f808840fb7759",
+    "src/noeron/static/vendor/three-r185/build/three.module.js": "bbf5ed13fe4373f5bd38b14ea8e62e9f157327da5638edc6d3863e08b167c9c7",
+    "src/noeron/stratification.py": "c5721b7a1495141d04498d2746b8ffb82ab32a9234f1c4c6dcb1d8ddc5fb0b1f",
+    "src/noeron/voice.py": "3e9beff6ea0f2e9c59484971a303b2badee249d056b6bd99cb9fce87fa33f8e3"
+  },
+  "stage8b_complete": false,
+  "starting_head": "14db100ae2c69798ce8654dbb548b46e21534512"
+}

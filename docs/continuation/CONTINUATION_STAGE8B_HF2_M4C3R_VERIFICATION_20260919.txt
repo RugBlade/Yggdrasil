@@ -1,3 +1,80 @@
+M4C3R FIRST DURABLE DECISION CHECKPOINT — EXTERNAL DISPOSABLE VERIFICATION GREEN
+2026-09-19 UTC / Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Current active stage/milestone: Stage 8B / M4C3R, verification complete; minimal correction required.
+Latest sealed milestone: M4C3Q. M4C3R is NOT sealed and no 0022 exists.
+This block supersedes pending-external-verification statements in the local checkpoint retained below.
+
+EXACT EXTERNAL EVIDENCE
+Verification source commit: 73d1c64d54dfda7cdd1f4bf19eb3775a593ca727
+Parent / actual starting HEAD: 14db100ae2c69798ce8654dbb548b46e21534512
+Exact provider HEAD observed before this evidence/documentation save: 73d1c64d54dfda7cdd1f4bf19eb3775a593ca727
+Authoritative disposable run: 35458114343
+Job: 105936914145
+Result: SUCCESS; 20 PASS, 0 FAIL (17 controls + 3 defect reproductions).
+Run URL: https://github.com/RugBlade/Yggdrasil/actions/runs/35458114343
+Completed: 2026-09-19T17:27:04Z
+No active/pending M4C3R run remains.
+GitHub artifact: 10588731235
+Name: hf2-m4c3r-disposable-post0021-verification
+Drive artifact: 1HUK1SyxOyYoaqVncRFfQy1KEKVmNmHQR
+ZIP bytes: 16347
+ZIP SHA256: 3b68320660c3521910522662357777a38c37644ae643ed4057064de3539fb460
+GitHub/Drive raw-byte equality VERIFIED by downloaded bytes.
+All five artifact member hashes verified; harness/workflow bytes match source commit.
+Complete job log inspected: all steps SUCCESS and 20 PASS lines.
+CI JSON: docs/evidence/m4c3r/ci_verification.json
+Bytes 29088; SHA256 2aa9eb74509c0f394fe9b52681407b591feaa7c88fa4e43f44bdc82e7c1f5907.
+CI log: docs/evidence/m4c3r/ci_verification.log
+Bytes 1109; SHA256 cb3682916a8d140e376daec401a4e36e42f658a70e923d6384ecb1cac43941d0.
+Harness blob: 9328762f18fe3d553c8b8b6e95e14a8c0a41a34e
+Workflow blob: b796acbb7572eb873ecc2145cef2492c889ed50d
+Provider inspection blob: 426bdd1bf343e43f7dc0a8f5963f3f35affdfe17
+Local verification JSON blob: b550ccbd14d9801c5c5c10aa1655309c9afe1c74
+Local continuation first commit: 73d1c64d54dfda7cdd1f4bf19eb3775a593ca727
+Local continuation original blob: d761479a85d475f3a2a4f2bfc27e168eb0c8231a
+This continuing verification document Drive ID: 19oS1-HX1gjx3fPjnzPAQdb6scsviSK-Q
+Final evidence manifest: docs/evidence/HF2_M4C3R_DISPOSABLE_VERIFICATION_20260919_MANIFEST.json
+Final root and evidence-commit identities are indexed in CONTINUATION_STAGE8B_HF2.txt and the Drive run closure receipt linked there. A file cannot contain its own Git commit hash; observed pre-save HEAD and immutable evidence source are labeled distinctly.
+
+DECISION GATE COMPLETE
+The full local and external matrices agree. Both reference and event-role derivative duplication are reproduced. Every baseline non-collapse/native-choice control passes. All 54 published Python hashes and all 58 source file hashes match before/after; no source change occurred.
+Runtime correction is necessary, with the exact bounded proposal in the retained DECISION / PROPOSED MINIMAL SCOPE section below.
+A verification-only seal is inappropriate while the concrete duplicate defect remains.
+No 0022 intent, ordinary patch, focused candidate test file, candidate workflow, candidate receipt, or candidate continuation has been created.
+Do not mistake this green characterization run for a corrected candidate, published-chain gate, milestone seal, Stage-8B completion, or live certification.
+
+WORK COMPLETED / REMAINING
+Completed: provider reality/equality checks; roadmap verification; immutable artifact recovery; disposable 20-check matrix; read-only external CI; evidence mirror; decision and continuation checkpoint.
+Work started but not complete: M4C3R as an engineering milestone. Correction implementation has NOT started.
+Next exact action: re-inspect branch/root/Drive and Actions for newer work; preserve this verified decision; create the smallest realization-only 0022 intent candidate from exact post0021, following the established separate candidate/test/continuation/workflow commits. Do not reconstruct or reopen sealed M4C3Q.
+Before future candidate publication: frozen candidate bytes; unchanged exact post0021 baseline; apply --check; compile; focused + complete candidate suite; fresh exact-HF1 replay with original carrier helpers and ordinary 0001-0021 plus identical candidate; source-byte parity; focused + complete replay; green artifact/receipt mirror. Freeze substantive branch changes while its authoritative run executes.
+Candidate green alone does not publish. Only after full evidence inspection may exact green intent bytes become ordinary 0022 (Git blob/SHA256/byte equality); then separate published exact-HF1 0001-0022 gate and mirrored evidence are required before sealing M4C3R.
+If future external CI is still running at end of a run, record its exact IDs/source/job and next gate in both continuations, then stop bounded polling.
+
+FINAL STATUS OF THIS RUN
+m4c3q_sealed=true
+m4c3r_disposable_verification_green=true
+runtime_correction_required=true
+runtime_candidate_created=false
+ordinary_0022_published=false
+candidate_green=false
+published_exact_chain_0022_green=false
+m4c3r_sealed=false
+stage8b_complete=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+Blockers: none for the next bounded candidate phase.
+Provider divergence: none observed; GitHub/Drive text and artifact comparisons verified.
+Temporary cleanup: disposable source/DB test directories removed; scratch downloads are reproducible; the narrowly triggered read-only verification workflow is intentionally retained as evidence, with no cleanup required. No candidate workflow exists.
+Roadmap unchanged: Stage 8=8A-8M, active Stage 8B; self-upgrade especially 8H-8K. No advancement to 8C-8M or Stage 9.
+All authority/autonomy invariants below remain in force.
+
+PRESERVED LOCAL CHECKPOINT / FULL MATRIX / PROPOSED SCOPE
+
 YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3R DISPOSABLE VERIFICATION CHECKPOINT
 Date: 2026-09-19 UTC / Asia/Qatar
 Repository: RugBlade/Yggdrasil
