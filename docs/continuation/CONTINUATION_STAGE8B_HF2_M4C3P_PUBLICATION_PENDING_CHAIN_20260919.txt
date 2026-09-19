@@ -1,0 +1,108 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3P 0020 PUBLISHED / EXACT-CHAIN PENDING
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3P ordinary 0020 is now published from the exact externally green candidate bytes.
+M4C3P is NOT sealed until a separate published exact-HF1 chain through 0020 is externally green.
+ordinary_0020_published=true
+published_exact_chain_0020_green=false
+m4c3p_sealed=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+GREEN CANDIDATE AUTHORITY
+Candidate run:
+35407518625
+Job:
+105800236369
+Source:
+dd6d85bc1d4bab7eaac9e498fcc7a479c8f1f41f
+Green receipt:
+4a1cda2397a1df76041251afe8780e9571193dae
+Receipt blob:
+bac6872330e8fee521eae6241e97ff7c4b41dd7e
+Baseline:
+391 passed, 2 warnings in 168.38s
+Focused:
+9 passed in 5.45s
+Complete:
+400 passed, 2 warnings in 171.67s
+Replay focused:
+9 passed in 5.44s
+Replay complete:
+400 passed, 2 warnings in 171.52s
+Source parity:
+VERIFIED
+
+CANDIDATE ARTIFACT
+GitHub artifact ID:
+10572513727
+Bytes:
+1091639
+ZIP SHA256:
+050ad16010b8c120d1898ea4e31107ea6f4eb46084152cdad2a498732845070d
+Downloaded hash matched provider digest.
+
+ORDINARY 0020 PUBLICATION
+Intent:
+patches/hf2/0020-hf2-copular-discourse-focus-hygiene.intent.patch
+Published:
+patches/hf2/0020-hf2-copular-discourse-focus-hygiene.patch
+Intent Git blob:
+0de9145e8a8bc4f8e8c6c506b9f4ebd4e3765950
+Published Git blob:
+0de9145e8a8bc4f8e8c6c506b9f4ebd4e3765950
+Intent/published Git blob equality:
+VERIFIED
+SHA256:
+ffa2cfae51d8258e17661605f2b5bc496eadd78169a342dbb7f283dcfa4c6b60
+Bytes:
+5090
+Publication commit:
+975c3d42c6818e4679efd65bd0a5b62ff5cf6eb1
+Runtime scope:
+src/noeron/inference.py only
+
+AUTHORITY BOUNDARY
+copular_predicate_complement_direct_object_role=false
+stale_direct_object_across_copular_clause=false
+independent_dialogue_ambiguity_gate_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NEXT
+Run a separate published exact-HF1 chain:
+- reconstruct byte-exact HF1;
+- copy ORIGINAL carrier helpers;
+- verify intent/published 0020 byte identity, SHA and bytes;
+- sequential git apply --check + apply ordinary 0001 -> 0020;
+- compile;
+- run complete HF2 through M4C3P;
+- package exact source/hash/authority evidence;
+- upload a uniquely named artifact;
+- publish a green receipt only on total success.
+
+If any published-chain gate fails, preserve failure evidence and do not seal M4C3P.
+Do not mirror final green candidate/published artifacts or seal M4C3P until the published chain is green.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M or Stage 9.
