@@ -8,6 +8,7 @@ on:
     paths:
       - 'patches/hf2/0021-hf2-dialogue-reference-scope-provenance.intent.patch'
       - 'tests/hf2_m4c3q/**'
+      - 'tests/hf2_m4c3p/test_copular_discourse_focus_hygiene.py'
       - '.github/workflows/hf2-milestone4c3q.yml'
 
 permissions:
