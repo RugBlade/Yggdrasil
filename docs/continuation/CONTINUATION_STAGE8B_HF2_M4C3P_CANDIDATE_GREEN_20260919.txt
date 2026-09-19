@@ -1,0 +1,114 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3P GREEN CANDIDATE CHECKPOINT
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3O remains the latest published/sealed milestone until ordinary 0020 passes a separate published exact-chain gate.
+M4C3P candidate is externally GREEN and publication-eligible.
+ordinary_0020_published=false
+published_exact_chain_0020_green=false
+m4c3p_sealed=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+CANDIDATE 0020
+Intent:
+patches/hf2/0020-hf2-copular-discourse-focus-hygiene.intent.patch
+Git blob:
+0de9145e8a8bc4f8e8c6c506b9f4ebd4e3765950
+SHA256:
+ffa2cfae51d8258e17661605f2b5bc496eadd78169a342dbb7f283dcfa4c6b60
+Bytes:
+5090
+Runtime scope:
+src/noeron/inference.py only
+
+AUTHORITATIVE CANDIDATE CI
+Workflow:
+.github/workflows/hf2-milestone4c3p.yml
+Source commit:
+dd6d85bc1d4bab7eaac9e498fcc7a479c8f1f41f
+Run:
+35407518625
+Job:
+105800236369
+Conclusion:
+SUCCESS
+
+Actual results:
+- unchanged published post0019 baseline: 391 passed, 2 warnings in 168.38s
+- focused M4C3P candidate: 9 passed in 5.45s
+- complete primary candidate: 400 passed, 2 warnings in 171.67s
+- fresh exact-HF1 replay focused: 9 passed in 5.44s
+- fresh replay complete: 400 passed, 2 warnings in 171.52s
+- primary/replay source-byte parity: VERIFIED
+
+Candidate post0020 source archive SHA256:
+65ee975dc973fe84a5af3287639b3801a49c8faf36abe1d409b3deee91c06dd0
+Candidate carrier archive SHA256:
+28c294f818aac6e7d92f466e6ca89d1e97b8d7d7d6d8fdf00e495b9b77240a56
+
+GREEN RECEIPT
+Path:
+docs/evidence/_ci/HF2_M4C3P_CANDIDATE_RESULT.txt
+Receipt commit:
+4a1cda2397a1df76041251afe8780e9571193dae
+Receipt Git blob:
+bac6872330e8fee521eae6241e97ff7c4b41dd7e
+
+GREEN CANDIDATE ARTIFACT
+GitHub artifact ID:
+10572513727
+Name:
+hf2-m4c3p-copular-discourse-focus-hygiene
+Bytes:
+1091639
+Provider/downloaded ZIP SHA256:
+050ad16010b8c120d1898ea4e31107ea6f4eb46084152cdad2a498732845070d
+Downloaded SHA matched provider digest exactly.
+Artifact contains the exact 5090-byte generated 0020 candidate and complete baseline/focused/complete/replay/hash evidence.
+
+WHAT THE CANDIDATE FIXES
+- copular predicate complements no longer occupy the direct-object discourse slot;
+- a newer no-direct-object copular clause clears stale direct-object focus;
+- transitive direct-object tracking remains intact;
+- corrected QUD targets such as lamp::is::on replace malformed on::is::on targets.
+
+WHAT IT DELIBERATELY DOES NOT FIX
+The separate language_dialogue reference inventory can still preserve unresolved reference ambiguity.
+The focused runtime contract verifies that this independent ambiguity still blocks answer execution.
+No proof/ambiguity gate was weakened.
+
+AUTHORITY BOUNDARY
+copular_predicate_complement_direct_object_role=false
+stale_direct_object_across_copular_clause=false
+independent_dialogue_ambiguity_gate_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NEXT
+Publish ordinary 0020 only by copying the exact green intent bytes.
+Require byte equality, Git blob equality and SHA256 ffa2cfae51d8258e17661605f2b5bc496eadd78169a342dbb7f283dcfa4c6b60.
+Then run a separate exact-HF1 published chain 0001 -> 0020.
+Do not seal M4C3P or mirror the final green candidate artifact to Drive until that published chain is externally green.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M or Stage 9.
