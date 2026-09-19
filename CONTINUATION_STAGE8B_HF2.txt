@@ -1,3 +1,120 @@
+NEXT BOUNDED STAGE-8B MILESTONE SELECTED — M4C3R DESIGN / VERIFICATION FIRST — 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+SEALED BASE
+M4C3Q remains the latest sealed/verified Stage-8B milestone.
+Published reconstruction remains exact HF1 + ordinary patches 0001 -> 0021.
+ordinary_0021_published=true
+published_exact_chain_0021_green=true
+m4c3q_sealed=true
+stage8b_complete=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+FINAL M4C3Q DURABLE DOCUMENTATION
+Final continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3Q_20260919.txt
+Commit:
+84a86a865a1a88f7ae958178d806e19d1436d7d9
+Git blob:
+55c87983855eb2122ac8b6d2fedf3551d54174d2
+Drive ID:
+1y0s128q4LRvqt15VglqCTltRA231MkFDYD75ijjzpqU
+GitHub/Drive normalized equality:
+VERIFIED
+
+Final manifest:
+docs/evidence/HF2_M4C3Q_20260919_MANIFEST.json
+Commit:
+bbc4f4b89526dfd1749e1c39f9edf53fb4d74d0d
+Git blob:
+b3290613880ea9ad81bd48a70b112fe477b4f895
+Drive ID:
+19SuR0D2BS0HFNBPhNu_lwlQfxukpT_qte_lpYJrGtDU
+GitHub/Drive normalized equality:
+VERIFIED
+
+NEXT MILESTONE
+M4C3R — transparent resolution-source correspondence hygiene.
+Mode:
+DESIGN / VERIFICATION FIRST ONLY.
+Design:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3R_DESIGN_20260919.txt
+Commit:
+cdc3200eb98f7760541c5e460db4828f53d09cae
+Git blob:
+bd2cfb369e6c7f07fa4f1c2e599ead7716277baf
+Drive ID:
+1rKJeR9r47u9_VEnUBJqmRvpvciFlyo_kbOVzFqyh4Es
+GitHub/Drive normalized equality:
+VERIFIED
+ordinary_0022_published=false
+m4c3r_runtime_candidate_created=false
+
+CONCRETE DESIGN TARGET
+Exact published post0021 inspection reproduced duplicate clarification surface only AFTER a legitimate learned/native clarify selection:
+a primary unresolved-source unit and a provenance-linked derivative QUD wrapper can carry the same alternatives and both be rendered.
+Example current surface:
+she: sara / mira? Did she leave?: sara / mira?
+
+This is a structural source-correspondence/surface duplication problem.
+Blank consequence geometry remaining silent is NOT the target and must not be converted into hard-coded clarification.
+
+M4C3R BOUNDARY
+Preserve native learned act selection.
+Preserve all alternatives.
+Preserve independent ambiguities.
+Do not rank candidates.
+Do not add canned clarification.
+Do not add semantic verb classes, lexical/POS/world-knowledge inference, truth authority, answer authority, preference or relationship authority.
+Prefer preserving internal typed/audit inventory while testing whether only a derivative duplicate QUD surface clause can be suppressed through explicit source provenance.
+
+AUTHORITY
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NEXT ACTION
+Disposable focused verification on immutable exact published post0021 only.
+Do not create intent or ordinary 0022 until a concrete minimal correction is proven necessary and all controls pass.
+If deeper verification shows no runtime correction is needed, M4C3R may remain verification-only.
+
+ROADMAP
+Stage 8 spans 8A–8M.
+Stage-8 self-upgrade belongs especially to 8H–8K.
+Current work remains strictly Stage 8B.
+Do not begin Stage 8C–8M or Stage 9.
+Do not describe Stage 9 as the self-upgrade stage.
+
+READ THIS FIRST
+The immediately following M4C3Q seal block remains historical sealed-state provenance.
+This block only selects M4C3R as the next design/verification task; it does not modify or reopen the M4C3Q seal.
+
 LATEST VERIFIED CHECKPOINT — M4C3Q / PUBLISHED 0021 / EXTERNAL GREEN — 2026-09-19 Asia/Qatar
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
