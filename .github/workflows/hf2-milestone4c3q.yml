@@ -1,0 +1,399 @@
+name: HF2 M4C3Q - dialogue reference scope provenance
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'patches/hf2/0021-hf2-dialogue-reference-scope-provenance.intent.patch'
+      - 'tests/hf2_m4c3q/**'
+      - '.github/workflows/hf2-milestone4c3q.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  exact-post0020-candidate-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      NOERON_DB_PATH: ./m4c3q-api-test-only.sqlite3
+      NOERON_AUTONOMY_ENABLED: 'false'
+      NOERON_TERRA_ENABLED: 'false'
+      NOERON_LLM_BACKEND: mock
+      NOERON_OWNER_TOKEN: ''
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Reconstruct byte-exact HF1 fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          FIX="$RUNNER_TEMP/ygg-hf1-m4c3q"
+          echo "FIX=$FIX" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py \
+            --extract-dir "$FIX" \
+            --extract-all \
+            --evidence evidence/m4c3q-hf1-identity.json
+
+      - name: Add ORIGINAL HF2 carrier helper modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in \
+            conversation_premises.py \
+            conversation_bridge.py \
+            conversation_reasoning.py \
+            conversation_proof.py \
+            conversation_runtime_gate.py \
+            conversation_actions.py \
+            conversation_resolution.py
+          do
+            cp "src/noeron/$f" "$FIX/src/noeron/$f"
+          done
+
+      - name: Apply published 0001 through 0020 sequentially
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FIX"
+          git init -q
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add .
+          git commit -qm "byte-exact HF1 fixture plus original carrier helpers"
+          for p in \
+            0001-hf2-inference-core.patch \
+            0002-hf2-current-turn-runtime-bridge.patch \
+            0003-hf2-native-bounded-dialogue-reasoning.patch \
+            0004-hf2-proof-provenance-ambiguity-runtime-gate.patch \
+            0005-hf2-native-resolution-state-audit.patch \
+            0006-hf2-speech-act-consequence-learning.patch \
+            0007-hf2-owner-resolution-calibration.patch \
+            0008-hf2-calibration-execution-boundary.patch \
+            0009-hf2-native-resolution-content.patch \
+            0010-hf2-native-resolution-transport-receipt.patch \
+            0011-hf2-typed-current-turn-alternative-content.patch \
+            0012-hf2-act-neutral-alternative-resolution.patch \
+            0013-hf2-local-noncontent-execution-receipt.patch \
+            0014-hf2-same-db-restart-recovery.patch \
+            0015-hf2-native-audio-transport-receipt.patch \
+            0016-hf2-resolution-native-audio-presentation.patch \
+            0017-hf2-authenticated-client-playback-telemetry.patch \
+            0018-hf2-client-media-network-retry.patch \
+            0019-hf2-clause-shape-event-candidate-hygiene.patch \
+            0020-hf2-copular-discourse-focus-hygiene.patch
+          do
+            echo "CHECK $p"
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git diff --check
+            echo "APPLIED $p"
+          done
+          git add .
+          git commit -qm "verified exact post0020 runtime"
+
+      - name: Install exact runtime dependencies
+        run: python -m pip install --disable-pip-version-check -e "$FIX[dev]"
+
+      - name: Verify unchanged published post0020 baseline
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+          NOERON_DB_PATH: ${{ runner.temp }}/m4c3q-baseline.sqlite3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q \
+            tests/test_v082_hf2_*.py \
+            tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d \
+            tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h \
+            tests/hf2_m4c3i tests/hf2_m4c3j tests/hf2_m4c3k tests/hf2_m4c3l \
+            tests/hf2_m4c3m tests/hf2_m4c3o tests/hf2_m4c3p \
+            --junitxml=evidence/m4c3q-baseline.xml \
+            | tee evidence/m4c3q-baseline.txt
+
+      - name: Verify and apply exact 0021 intent candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          INTENT="$GITHUB_WORKSPACE/patches/hf2/0021-hf2-dialogue-reference-scope-provenance.intent.patch"
+          GOT="$(sha256sum "$INTENT" | awk '{print $1}')"
+          test "$GOT" = "62c3436192024454210f284a5f1486c03a6663cd0fba6ca1f62e5eae18ab9ea9"
+          BYTES="$(wc -c < "$INTENT" | tr -d ' ')"
+          test "$BYTES" = "3507"
+          cd "$FIX"
+          git apply --check "$INTENT"
+          git apply "$INTENT"
+          git diff --check
+          git diff --stat | tee "$GITHUB_WORKSPACE/evidence/m4c3q-candidate-diffstat.txt"
+          python -m compileall -q src/noeron
+          {
+            echo "patch_sha256=$GOT"
+            echo "patch_bytes=$BYTES"
+          } | tee "$GITHUB_WORKSPACE/evidence/m4c3q-intent-identity.txt"
+
+      - name: Run focused M4C3Q candidate tests
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+          NOERON_DB_PATH: ${{ runner.temp }}/m4c3q-focused.sqlite3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/hf2_m4c3q \
+            --junitxml=evidence/m4c3q-focused.xml \
+            | tee evidence/m4c3q-focused.txt
+
+      - name: Run complete HF2 suite plus M4C3Q candidate
+        env:
+          PYTHONPATH: ${{ env.FIX }}/src
+          NOERON_DB_PATH: ${{ runner.temp }}/m4c3q-complete.sqlite3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q \
+            tests/test_v082_hf2_*.py \
+            tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d \
+            tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h \
+            tests/hf2_m4c3i tests/hf2_m4c3j tests/hf2_m4c3k tests/hf2_m4c3l \
+            tests/hf2_m4c3m tests/hf2_m4c3o tests/hf2_m4c3p tests/hf2_m4c3q \
+            --junitxml=evidence/m4c3q-complete.xml \
+            | tee evidence/m4c3q-complete.txt
+
+      - name: Preserve exact green candidate patch bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp \
+            patches/hf2/0021-hf2-dialogue-reference-scope-provenance.intent.patch \
+            evidence/0021-hf2-dialogue-reference-scope-provenance.generated.patch
+          sha256sum evidence/0021-hf2-dialogue-reference-scope-provenance.generated.patch \
+            | tee evidence/m4c3q-generated-patch-sha256.txt
+
+      - name: Reconstruct separate fresh exact-HF1 replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          REPLAY="$RUNNER_TEMP/ygg-hf1-m4c3q-fresh-replay"
+          echo "REPLAY=$REPLAY" >> "$GITHUB_ENV"
+          python scripts/verify_hf1_exact_fixture.py \
+            --extract-dir "$REPLAY" \
+            --extract-all \
+            --evidence evidence/m4c3q-replay-hf1-identity.json
+          for f in \
+            conversation_premises.py \
+            conversation_bridge.py \
+            conversation_reasoning.py \
+            conversation_proof.py \
+            conversation_runtime_gate.py \
+            conversation_actions.py \
+            conversation_resolution.py
+          do
+            cp "src/noeron/$f" "$REPLAY/src/noeron/$f"
+          done
+          cd "$REPLAY"
+          git init -q
+          for p in \
+            0001-hf2-inference-core.patch \
+            0002-hf2-current-turn-runtime-bridge.patch \
+            0003-hf2-native-bounded-dialogue-reasoning.patch \
+            0004-hf2-proof-provenance-ambiguity-runtime-gate.patch \
+            0005-hf2-native-resolution-state-audit.patch \
+            0006-hf2-speech-act-consequence-learning.patch \
+            0007-hf2-owner-resolution-calibration.patch \
+            0008-hf2-calibration-execution-boundary.patch \
+            0009-hf2-native-resolution-content.patch \
+            0010-hf2-native-resolution-transport-receipt.patch \
+            0011-hf2-typed-current-turn-alternative-content.patch \
+            0012-hf2-act-neutral-alternative-resolution.patch \
+            0013-hf2-local-noncontent-execution-receipt.patch \
+            0014-hf2-same-db-restart-recovery.patch \
+            0015-hf2-native-audio-transport-receipt.patch \
+            0016-hf2-resolution-native-audio-presentation.patch \
+            0017-hf2-authenticated-client-playback-telemetry.patch \
+            0018-hf2-client-media-network-retry.patch \
+            0019-hf2-clause-shape-event-candidate-hygiene.patch \
+            0020-hf2-copular-discourse-focus-hygiene.patch
+          do
+            echo "REPLAY CHECK $p"
+            git apply --check "$GITHUB_WORKSPACE/patches/hf2/$p"
+            git apply "$GITHUB_WORKSPACE/patches/hf2/$p"
+            echo "REPLAY APPLIED $p"
+          done
+          CANDIDATE="$GITHUB_WORKSPACE/evidence/0021-hf2-dialogue-reference-scope-provenance.generated.patch"
+          GOT="$(sha256sum "$CANDIDATE" | awk '{print $1}')"
+          test "$GOT" = "62c3436192024454210f284a5f1486c03a6663cd0fba6ca1f62e5eae18ab9ea9"
+          git apply --check "$CANDIDATE"
+          git apply "$CANDIDATE"
+          git diff --check
+          python -m compileall -q src/noeron
+          diff -qr --exclude=__pycache__ "$FIX/src/noeron" "$REPLAY/src/noeron"
+
+      - name: Run focused and complete M4C3Q suites on fresh replay
+        env:
+          PYTHONPATH: ${{ env.REPLAY }}/src
+          NOERON_DB_PATH: ${{ runner.temp }}/m4c3q-replay.sqlite3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/hf2_m4c3q \
+            --junitxml=evidence/m4c3q-replay-focused.xml \
+            | tee evidence/m4c3q-replay-focused.txt
+          python -m pytest -q \
+            tests/test_v082_hf2_*.py \
+            tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d \
+            tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h \
+            tests/hf2_m4c3i tests/hf2_m4c3j tests/hf2_m4c3k tests/hf2_m4c3l \
+            tests/hf2_m4c3m tests/hf2_m4c3o tests/hf2_m4c3p tests/hf2_m4c3q \
+            --junitxml=evidence/m4c3q-replay-complete.xml \
+            | tee evidence/m4c3q-replay-complete.txt
+
+      - name: Preserve source hashes and authority boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar --exclude=__pycache__ -czf \
+            evidence/m4c3q-exact-post0021-candidate-source.tar.gz \
+            -C "$REPLAY" src/noeron
+          tar -czf evidence/m4c3q-carrier-evidence.tar.gz \
+            patches/hf2 \
+            src/noeron/conversation_*.py \
+            tests/test_v082_hf2_*.py \
+            tests/hf2_m4c3a tests/hf2_m4c3b tests/hf2_m4c3c tests/hf2_m4c3d \
+            tests/hf2_m4c3e tests/hf2_m4c3f tests/hf2_m4c3g tests/hf2_m4c3h \
+            tests/hf2_m4c3i tests/hf2_m4c3j tests/hf2_m4c3k tests/hf2_m4c3l \
+            tests/hf2_m4c3m tests/hf2_m4c3o tests/hf2_m4c3p tests/hf2_m4c3q \
+            scripts/verify_hf1_exact_fixture.py \
+            .github/workflows/hf2-milestone4c3q.yml \
+            docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3Q_DESIGN_20260919.txt \
+            docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3Q_CANDIDATE_20260919.txt
+          (cd "$FIX" && find src/noeron -type f -name '*.py' -print0 | sort -z | xargs -0 sha256sum) \
+            > evidence/m4c3q-candidate-source-sha256.txt
+          (cd "$REPLAY" && find src/noeron -type f -name '*.py' -print0 | sort -z | xargs -0 sha256sum) \
+            > evidence/m4c3q-replay-source-sha256.txt
+          diff -u evidence/m4c3q-candidate-source-sha256.txt evidence/m4c3q-replay-source-sha256.txt
+          {
+            echo "gate=M4C3Q dialogue reference scope provenance"
+            echo "source_commit=$GITHUB_SHA"
+            echo "base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29"
+            echo "published_patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016,0017,0018,0019,0020"
+            echo "candidate_patch_sha256=62c3436192024454210f284a5f1486c03a6663cd0fba6ca1f62e5eae18ab9ea9"
+            echo "candidate_patch_bytes=3507"
+            echo "ordinary_0021_published=false"
+            echo "candidate_runtime_scope=src/noeron/language_dialogue.py"
+            echo "same_ingress_prior_sentence_scope=true"
+            echo "current_sentence_self_reference_from_later_mentions=false"
+            echo "prepositional_complement_nominal_candidate=false"
+            echo "categorical_predicate_complement_removal=false"
+            echo "genuine_reference_alternatives_preserved=true"
+            echo "semantic_truth_authority=false"
+            echo "answer_authority=false"
+            echo "speech_act_choice_authority=false"
+            echo "preference_authority=false"
+            echo "relationship_authority=false"
+            echo "cognitive_memory_authority=false"
+            echo "source_write_authority=false"
+            echo "deployment_authority=false"
+            echo "proof_ambiguity_gate_weakened=false"
+            echo "semantic_verb_class_table_added=false"
+            echo "lexical_candidate_ranking_added=false"
+            echo "lexical_pos_inference_added=false"
+            echo "llm_inference_added=false"
+            echo "canned_clarification_added=false"
+            echo "autoplay_added=false"
+            echo "microphone_camera_expansion=false"
+            echo "human_hearing_inference=false"
+            echo "stage8b_only=true"
+            echo "certification_claim=false"
+            echo "live_runtime_touched=false"
+            echo "canonical_db_touched=false"
+            sha256sum \
+              evidence/m4c3q-exact-post0021-candidate-source.tar.gz \
+              evidence/m4c3q-carrier-evidence.tar.gz
+          } | tee evidence/m4c3q-boundary.txt
+
+      - name: Upload M4C3Q candidate evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-m4c3q-dialogue-reference-scope-provenance
+          path: evidence/
+          if-no-files-found: error
+
+      - name: Publish green M4C3Q candidate receipt
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/evidence/_ci
+          PATCH_SHA="$(sha256sum evidence/0021-hf2-dialogue-reference-scope-provenance.generated.patch | awk '{print $1}')"
+          PATCH_BYTES="$(wc -c < evidence/0021-hf2-dialogue-reference-scope-provenance.generated.patch | tr -d ' ')"
+          SOURCE_SHA="$(sha256sum evidence/m4c3q-exact-post0021-candidate-source.tar.gz | awk '{print $1}')"
+          CARRIER_SHA="$(sha256sum evidence/m4c3q-carrier-evidence.tar.gz | awk '{print $1}')"
+          BASELINE_SUMMARY="$(tail -n 1 evidence/m4c3q-baseline.txt)"
+          FOCUSED_SUMMARY="$(tail -n 1 evidence/m4c3q-focused.txt)"
+          COMPLETE_SUMMARY="$(tail -n 1 evidence/m4c3q-complete.txt)"
+          REPLAY_FOCUSED_SUMMARY="$(tail -n 1 evidence/m4c3q-replay-focused.txt)"
+          REPLAY_COMPLETE_SUMMARY="$(tail -n 1 evidence/m4c3q-replay-complete.txt)"
+          cat > docs/evidence/_ci/HF2_M4C3Q_CANDIDATE_RESULT.txt <<EOF
+          milestone=M4C3Q
+          status=GREEN
+          run_id=$GITHUB_RUN_ID
+          run_attempt=$GITHUB_RUN_ATTEMPT
+          workflow_ref=$GITHUB_WORKFLOW_REF
+          source_commit=$GITHUB_SHA
+          source_branch=$GITHUB_REF_NAME
+          job_name=exact-post0020-candidate-replay
+          base_zip_sha256=79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29
+          published_patch_chain=0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016,0017,0018,0019,0020
+          patch0021_sha256=$PATCH_SHA
+          patch0021_bytes=$PATCH_BYTES
+          source_archive_sha256=$SOURCE_SHA
+          carrier_archive_sha256=$CARRIER_SHA
+          baseline_summary=$BASELINE_SUMMARY
+          focused_summary=$FOCUSED_SUMMARY
+          candidate_summary=$COMPLETE_SUMMARY
+          replay_focused_summary=$REPLAY_FOCUSED_SUMMARY
+          replay_summary=$REPLAY_COMPLETE_SUMMARY
+          source_byte_parity=true
+          candidate_runtime_scope=src/noeron/language_dialogue.py
+          same_ingress_prior_sentence_scope=true
+          current_sentence_self_reference_from_later_mentions=false
+          prepositional_complement_nominal_candidate=false
+          categorical_predicate_complement_removal=false
+          genuine_reference_alternatives_preserved=true
+          semantic_truth_authority=false
+          answer_authority=false
+          speech_act_choice_authority=false
+          preference_authority=false
+          relationship_authority=false
+          cognitive_memory_authority=false
+          source_write_authority=false
+          deployment_authority=false
+          proof_ambiguity_gate_weakened=false
+          semantic_verb_class_table_added=false
+          lexical_candidate_ranking_added=false
+          lexical_pos_inference_added=false
+          llm_inference_added=false
+          canned_clarification_added=false
+          autoplay_added=false
+          microphone_camera_expansion=false
+          human_hearing_inference=false
+          stage8b_only=true
+          certification_claim=false
+          live_runtime_touched=false
+          canonical_db_touched=false
+          ordinary_0021_published=false
+          EOF
+          git config user.name "Yggdrasil HF2 CI"
+          git config user.email "hf2-ci@example.invalid"
+          git add docs/evidence/_ci/HF2_M4C3Q_CANDIDATE_RESULT.txt
+          git commit -m "ci: record green M4C3Q candidate receipt [skip ci]"
+          git fetch origin "$GITHUB_REF_NAME"
+          git rebase "origin/$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
