@@ -1,0 +1,91 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3Q ORDINARY 0021 PUBLISHED / EXACT-CHAIN PENDING
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+SEALED PARENT
+M4C3P remains the latest SEALED milestone until the separate exact-HF1 published chain through 0021 is green.
+M4C3P sealed root:
+e4ac1067f7bf0dc6f0a62217b19d92d4d00698ec
+
+GREEN M4C3Q CANDIDATE
+Run 35446387163 / job 105905924739 / source b97f4ba3e6caca93991e3d45b652c0551df91330: SUCCESS.
+Baseline 400 passed, focused 12 passed, complete candidate 412 passed, replay focused 12 passed, replay complete 412 passed, source parity VERIFIED.
+Green receipt commit:
+3cdd279ab12cf8b764fc8f77ffa8ffe98df88396
+Receipt blob:
+8ed4535ce7f969c47f6c4fe0319d06707ab5ef7e
+Candidate artifact:
+GitHub 10585855240
+SHA256 4a24f1bfc94921d0fc350e61ca98428d296061eb966bcb86f1b2a7386af27212
+Drive 18uyzlqK9b8tv-NXnguGVNoEIiXhsfquU
+GitHub/Drive raw equality VERIFIED.
+
+ORDINARY 0021 PUBLICATION
+Intent:
+patches/hf2/0021-hf2-dialogue-reference-scope-provenance.intent.patch
+Published:
+patches/hf2/0021-hf2-dialogue-reference-scope-provenance.patch
+Intent Git blob:
+934637a3f2d854af716a4a0e6f3ac58c6837202c
+Published Git blob:
+934637a3f2d854af716a4a0e6f3ac58c6837202c
+Intent/published blob equality:
+VERIFIED
+SHA256:
+62c3436192024454210f284a5f1486c03a6663cd0fba6ca1f62e5eae18ab9ea9
+Bytes:
+3507
+Publication commit:
+31870a9e59fc7beb4549f9cbe3f41a25bb83bcc3
+Runtime scope:
+src/noeron/language_dialogue.py only
+
+STATUS
+ordinary_0021_published=true
+published_exact_chain_0021_green=false
+m4c3q_sealed=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+AUTHORITY BOUNDARY
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NEXT
+Run a separate exact-HF1 published-chain gate:
+- exact HF1;
+- ORIGINAL helpers;
+- verify 0021 intent/published blob/SHA/bytes;
+- sequential 0001 -> 0021 apply/check;
+- compile;
+- complete HF2 through M4C3Q;
+- exact source/hash/authority evidence;
+- unique artifact;
+- green receipt only on total success.
+Do not seal M4C3Q before that gate is green.

@@ -1,3 +1,33 @@
+M4C3Q ORDINARY 0021 PUBLISHED — EXACT-CHAIN VERIFICATION PENDING — 2026-09-19 Asia/Qatar
+Publication commit:
+31870a9e59fc7beb4549f9cbe3f41a25bb83bcc3
+Published path:
+patches/hf2/0021-hf2-dialogue-reference-scope-provenance.patch
+Intent/published Git blob:
+934637a3f2d854af716a4a0e6f3ac58c6837202c
+Intent/published blob equality:
+VERIFIED
+SHA256:
+62c3436192024454210f284a5f1486c03a6663cd0fba6ca1f62e5eae18ab9ea9
+Bytes:
+3507
+
+ordinary_0021_published=true
+published_exact_chain_0021_green=false
+m4c3q_sealed=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+READ THIS FIRST
+The green M4C3Q candidate block below remains authoritative for candidate evidence.
+Older failed-run material remains immutable historical provenance.
+This publication block does not yet seal M4C3Q.
+
+NEXT
+Run the separate exact-HF1 published chain through 0021.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M or Stage 9.
+
 M4C3Q AUTHORITATIVE CANDIDATE RUN 2 — GREEN / PUBLICATION ELIGIBLE — 2026-09-19 Asia/Qatar
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
