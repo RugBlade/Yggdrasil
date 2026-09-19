@@ -1,3 +1,79 @@
+LATEST VERIFIED CHECKPOINT — M4C3Q / PUBLISHED 0021 / EXTERNAL GREEN — 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3Q is the latest sealed/verified Stage-8B milestone.
+Published runtime reconstruction:
+exact HF1 + ordinary patches 0001 -> 0021.
+ordinary_0021_published=true
+published_exact_chain_0021_green=true
+m4c3q_sealed=true
+stage8b_complete=false
+broad_conversational_completion_claim=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+next_milestone_selection_pending_post_seal=true
+
+READ THIS FIRST
+Older M4C3Q failed-candidate, green-candidate and publication-pending blocks below remain historical provenance.
+This seal supersedes their pending/failed operational status without rewriting history.
+
+Patch 0021:
+blob 934637a3f2d854af716a4a0e6f3ac58c6837202c
+SHA256 62c3436192024454210f284a5f1486c03a6663cd0fba6ca1f62e5eae18ab9ea9
+bytes 3507
+publication commit 31870a9e59fc7beb4549f9cbe3f41a25bb83bcc3
+runtime scope src/noeron/language_dialogue.py only.
+
+Candidate run 35446387163 / job 105905924739: SUCCESS.
+Baseline 400; focused 12; complete 412; replay focused 12; replay complete 412; source parity VERIFIED.
+Candidate artifact GitHub 10585855240 / SHA256 4a24f1bfc94921d0fc350e61ca98428d296061eb966bcb86f1b2a7386af27212 / Drive 18uyzlqK9b8tv-NXnguGVNoEIiXhsfquU / raw equality VERIFIED.
+
+Published exact-HF1 chain run 35448750669 / job 105912125537: SUCCESS.
+Complete HF2 through M4C3Q: 412 passed, 2 warnings in 187.60s.
+Published source archive SHA256 cdc054a9af9f941f90b82eb5df814c54471203aa486cfea0aeb3e3348ca52d0d.
+Published-chain artifact GitHub 10585938051 / SHA256 996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f / Drive 1-np4jigwS9TBBl0rBz0OA8OZhYuv1_Ty / raw equality VERIFIED.
+
+AUTHORITY
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+ROADMAP
+Stage 8 spans 8A–8M.
+Stage-8 self-upgrade work belongs especially to 8H–8K.
+Current work remains Stage 8B.
+Do not begin Stage 8C–8M or Stage 9.
+
+NEXT
+Selection intentionally pending until this seal checkpoint is mirrored and verified on Drive.
+Do not create 0022 merely to continue numbering.
+
 M4C3Q ORDINARY 0021 PUBLISHED — EXACT-CHAIN VERIFICATION PENDING — 2026-09-19 Asia/Qatar
 Publication commit:
 31870a9e59fc7beb4549f9cbe3f41a25bb83bcc3
