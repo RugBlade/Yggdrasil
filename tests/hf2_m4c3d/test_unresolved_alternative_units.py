@@ -114,9 +114,11 @@ def test_typed_native_units_serialize_zero_authority_and_realize_only_source_opt
     thought=NativeThought(kind=NativeThoughtKind.RESPONSE,statement='',resolution_content=units,
         mathematical_provenance=MathematicalProvenance(source_event_id=event_id))
     utterance=NativeLanguageFaculty().realize(thought,LanguageFacultyState())
-    assert utterance.native_text=='she: Sara / Mira? Where is she?: Sara / Mira?'
-    assert utterance.grammar_frames==[
-        'native-resolution-reference-alternatives','native-resolution-qud-alternatives']
+    # M4C3R retains both typed units, while the proven derivative QUD surface
+    # adds no independent alternatives. Content inventory still owns no choice.
+    assert len(thought.resolution_content)==2
+    assert utterance.native_text=='she: Sara / Mira?'
+    assert utterance.grammar_frames==['native-resolution-reference-alternatives']
 
 
 def test_inventory_never_turns_diagnostic_string_or_malformed_mapping_into_options():
