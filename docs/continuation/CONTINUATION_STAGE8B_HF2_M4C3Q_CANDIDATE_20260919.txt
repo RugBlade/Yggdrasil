@@ -1,0 +1,160 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3Q CANDIDATE CHECKPOINT
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+BASE
+Latest sealed milestone remains M4C3P at root:
+e4ac1067f7bf0dc6f0a62217b19d92d4d00698ec
+Published runtime remains:
+exact HF1 + ordinary patches 0001 -> 0020.
+ordinary_0021_published=false
+m4c3q_candidate_external_green=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+ACTIVE M4C3Q DESIGN
+Path:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3Q_DESIGN_20260919.txt
+Initial design checkpoint:
+5792cd24c2f3cc9c07a0626576f7583f4b4b8451
+Active tightened design commit:
+9bdb8dcd69f39283948a3c5a7d861971b7160619
+Git blob:
+0981633b7278e41c6ce0b672bbedd0ec70dc8d38
+Drive ID:
+1IRcVEbo0O_ORd_QQyUX9RMR-btDIQEN5hJg0wr0KjIY
+GitHub/Drive normalized equality:
+VERIFIED
+
+The active design explicitly supersedes the too-broad initial idea of categorically discarding every attribute_or_identity complement.
+Only transparently prepositional complement surfaces may be excluded by this candidate.
+Nominal/unknown copular complements remain candidates.
+
+AUTHORITATIVE INSPECTION SOURCE
+M4C3P published-chain GitHub artifact:
+10573373112
+ZIP SHA256:
+ba581c4f004a2aab8c95c67c17654a4df536ce0a3307a5565d9741ffaeaa4e4c
+Exact post0020 source archive SHA256:
+a346184eda46e0f7788cf00aafc71b31bd15a13fc9f2b451be6db640d791b0d2
+
+CONCRETE DEFECTS
+1. Same-ingress scope:
+   language_dialogue computes reference candidates before sentence/event traversal, so sentence N cannot see transparent mentions from sentence < N.
+2. Transparently prepositional copular complement:
+   a recent attribute_or_identity surface beginning with an existing _PREP function word is offered as a nominal/pronominal antecedent.
+
+PRESERVED UNCERTAINTY
+- predicate nominal/unknown complements are NOT categorically removed;
+- lexical adjective/noun/person/animacy inference is NOT introduced;
+- genuine multiple nominal/person candidates remain alternatives;
+- ditransitive event-role alternatives remain intact.
+
+0021 INTENT CANDIDATE
+Path:
+patches/hf2/0021-hf2-dialogue-reference-scope-provenance.intent.patch
+Commit:
+319182c5bbd0131d697fdaf17d68dab41c8df933
+Git blob:
+934637a3f2d854af716a4a0e6f3ac58c6837202c
+SHA256:
+62c3436192024454210f284a5f1486c03a6663cd0fba6ca1f62e5eae18ab9ea9
+Bytes:
+3507
+Runtime scope:
+src/noeron/language_dialogue.py only
+Diffstat:
+1 file changed, 33 insertions, 3 deletions.
+
+CANDIDATE MECHANISM
+- adds a transparent reference-antecedent eligibility predicate;
+- rejects only attribute_or_identity surfaces whose first token is already known in _PREP;
+- changes dialogue reference analysis to left-to-right sentence scope;
+- sentence N sees prior-turn referents plus event mentions from sentences < N;
+- current sentence cannot resolve itself from mentions extracted later in itself;
+- global token_index/sentence_index provenance is preserved;
+- bounded recent-reference inventory remains capped;
+- no candidate ranking is added.
+
+FOCUSED TESTS
+Path:
+tests/hf2_m4c3q/test_dialogue_reference_scope_provenance.py
+Commit:
+a2fcb8ef9a0ce0693117613d3bbbd63550e6e3b1
+Git blob:
+ac40f1db9b37a501370a49d32a9d11e877a50d3e
+Focused count:
+12 tests.
+
+DISPOSABLE EXACT-POST0020 RESULT
+Clean exact post0020 source archive + exact candidate intent:
+12 passed in 2.07s
+git apply --check:
+PASS
+git diff --check:
+PASS
+compileall src/noeron/language_dialogue.py:
+PASS
+
+FOCUSED CONTRACT
+- same-ingress copular prior sentence -> unique "the lamp";
+- same-ingress transitive prior sentence -> unique "the door";
+- same-ingress person uncertainty remains visible;
+- prior-turn "on" copular complement excluded as transparently prepositional;
+- prior-turn "on the table" excluded as transparently prepositional;
+- nominal copular "a scholar" remains candidate;
+- prior-turn transitive control unchanged;
+- "Mira met Sara" person ambiguity remains;
+- same-ingress multiple nominal alternatives remain;
+- current sentence cannot resolve itself from its own later-extracted mentions;
+- unique corrected reference can enter the already-existing proof path;
+- genuine reference ambiguity remains nonanswering.
+
+AUTHORITY BOUNDARY
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NEXT
+Create one authoritative M4C3Q candidate CI.
+It must:
+- reconstruct byte-exact HF1;
+- copy ORIGINAL carrier helpers;
+- apply ordinary 0001 -> 0020 sequentially;
+- run unchanged published post0020 baseline;
+- verify exact 0021 intent SHA256/bytes;
+- apply/check/compile candidate;
+- run focused M4C3Q;
+- run complete candidate suite through M4C3Q;
+- fresh exact-HF1 replay 0001 -> 0020 + same candidate;
+- focused replay + complete replay;
+- prove source-byte parity;
+- package evidence/artifact;
+- publish a green receipt only on total success.
+
+Do not publish ordinary 0021 until the candidate gate is green and independently inspected.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M or Stage 9.
