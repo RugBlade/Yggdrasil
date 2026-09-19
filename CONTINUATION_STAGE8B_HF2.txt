@@ -1,3 +1,146 @@
+M4C3R FIRST DURABLE DECISION CHECKPOINT — EXTERNAL DISPOSABLE VERIFICATION GREEN / NO 0022
+Run closed: 2026-09-19 UTC / Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Active stage/substage/milestone: Stage 8 / Stage 8B / M4C3R transparent resolution-source correspondence hygiene.
+Latest sealed milestone: M4C3Q. Published source remains exact HF1 + ordinary patches 0001 -> 0021.
+
+EXACT HEAD / PROVENANCE
+Actual starting HEAD: 14db100ae2c69798ce8654dbb548b46e21534512
+No provider work newer than that handoff existed at start.
+Disposable harness/workflow source commit: 73d1c64d54dfda7cdd1f4bf19eb3775a593ca727
+Verified evidence/decision commit and exact observed HEAD immediately before this root update: 201242ad36401cccc6d5e26f784573a85f48c82a
+This root's own commit cannot be embedded in its own bytes. The final exact GitHub branch HEAD, root blob/hash/bytes and readback comparisons are recorded in the run closure receipt after this commit completes:
+HF2_M4C3R_WORK_RUN_CLOSURE_20260919.json
+Drive ID: 1ppTfOvCeJ4xorVa95StHMbjB4giFqLj8
+Receipt URL: https://drive.google.com/file/d/1ppTfOvCeJ4xorVa95StHMbjB4giFqLj8/view
+The receipt is identity/readback evidence, not authority to alter the roadmap or source.
+
+DURABLE MILESTONE CONTINUATION
+Path: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3R_VERIFICATION_20260919.txt
+Commit: 201242ad36401cccc6d5e26f784573a85f48c82a
+Git blob: d8dcea686ee6d49777bbae2048583e761ccce6f8
+SHA256: 574c347bedadfeae2a0795e38e458aef6c4ab763a7f1ea88a77996745ecc2989
+Bytes: 15756
+Drive ID: 19oS1-HX1gjx3fPjnzPAQdb6scsviSK-Q
+GitHub/Drive raw-byte equality VERIFIED.
+This supplements the unchanged original M4C3R design (blob bd2cfb369e6c7f07fa4f1c2e599ead7716277baf / Drive 1rKJeR9r47u9_VEnUBJqmRvpvciFlyo_kbOVzFqyh4Es); original design normalized equality reverified.
+
+VERIFICATION MANIFEST
+Path: docs/evidence/HF2_M4C3R_DISPOSABLE_VERIFICATION_20260919_MANIFEST.json
+Commit: 201242ad36401cccc6d5e26f784573a85f48c82a
+Git blob: 715bb0a6b0564da4b83b8795c0c95e4b4869cdb6
+SHA256: 8d54d6efc3ba2eac709977953bafcdb0bbb844d29e6be80f80ad4d56379a9e43
+Bytes: 7593
+Drive ID: 13OA5J9gJjVmbe4W0Ho4wjLUnaskxkk7v
+GitHub/Drive raw-byte equality VERIFIED.
+
+IMMUTABLE VERIFICATION INPUT
+Published M4C3Q source commit: aacabb590c963d8630f4c72802f12693f61f23b9
+Published run 35448750669 / job 105912125537; sealed 412 passed, 2 warnings; not rerun.
+GitHub artifact 10585938051 / Drive 1-np4jigwS9TBBl0rBz0OA8OZhYuv1_Ty.
+ZIP bytes 677959 / SHA256 996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f.
+Source tar bytes 662992 / SHA256 cdc054a9af9f941f90b82eb5df814c54471203aa486cfea0aeb3e3348ca52d0d.
+GitHub/Drive raw equality reverified. All 54 published Python hashes verified; all 58 source files unchanged after local and external verification.
+
+AUTHORITATIVE DISPOSABLE CI
+Workflow: .github/workflows/hf2-m4c3r-disposable-verification.yml
+Workflow blob: b796acbb7572eb873ecc2145cef2492c889ed50d
+Harness: docs/evidence/m4c3r/verify_post0021.py
+Harness blob: 9328762f18fe3d553c8b8b6e95e14a8c0a41a34e
+Harness SHA256: 3128ae9ff1bb1337735a6a779e75384e064483009db755b05c6cfe13ec20bb18
+Run: 35458114343
+Job: 105936914145
+Source: 73d1c64d54dfda7cdd1f4bf19eb3775a593ca727
+Result: SUCCESS, 20 checks PASS, 0 FAIL (17 controls + 3 defect reproductions).
+Run URL: https://github.com/RugBlade/Yggdrasil/actions/runs/35458114343
+Artifact GitHub: 10588731235
+Artifact Drive: 1HUK1SyxOyYoaqVncRFfQy1KEKVmNmHQR
+Artifact bytes: 16347
+Artifact SHA256: 3b68320660c3521910522662357777a38c37644ae643ed4057064de3539fb460
+Artifact raw-byte equality VERIFIED; all five member hashes verified.
+CI JSON: docs/evidence/m4c3r/ci_verification.json
+CI JSON SHA256: 2aa9eb74509c0f394fe9b52681407b591feaa7c88fa4e43f44bdc82e7c1f5907; bytes 29088.
+Local evidence ZIP: Drive 1BetsfRXglXnbrmA_zufNCr9ZKQenR_Xe; bytes 17683; SHA256 4963f1d49b93dbbc3c322778d3b2911a9dcb953e8294687db15c9efc6d432352; raw equality VERIFIED.
+Active/pending workflow run IDs: none at closure; recheck providers on continuation.
+Substantive branch changes were frozen through the external run. Only this new verification workflow ran; no M4C3Q or earlier historical gate reran.
+
+RESULTS / DECISION
+Reference duplication reproduced: she: sara / mira? Did she leave?: sara / mira?
+Event-role duplication reproduced: two independent role sources each render again through their explicit derivative QUD wrapper.
+All baseline non-collapse/native-choice controls PASS: blank/incomplete/tied geometry produces no choice; learned consequence fixture selects clarify or ask; sole ask QUD survives; independent references and event roles, unmatched QUDs, distinct IDs/alternatives, proposition/proof alternatives, candidate order and inventory provenance remain intact; calibration remains operator-directed; all content authority flags false.
+A native selector audit retains its existing speech_act_selection=true responsibility; that is not content-inventory, parser, calibration or authored-choice authority.
+The fixtures characterize an isolated synthetic consequence state, not live learning. Passing defect reproduction does not mean runtime correction passed.
+Runtime correction is necessary. Verification-only seal is inappropriate while the duplicate remains.
+
+EXACT NEXT ACTION / PROPOSED SCOPE BEFORE 0022
+Reinspect GitHub HEAD, root, Drive and Actions. Preserve this verified decision; then create the smallest 0022 intent against exact published post0021.
+Runtime scope proposed: NativeLanguageFaculty.realize in src/noeron/development.py only.
+Suppress a qud-alternatives surface clause only for explicit unique unresolved-source correspondence to a render-eligible primary reference/event-role unit in the actual same-event/same-act content set, with equal alternatives and no independent provenance/option contribution.
+Retain full typed resolution_content and source_units. Do not collapse independent primaries, propositions/proofs, different source IDs or distinct sets. Preserve sole ask QUDs when no primary is actually present. Unknown or conflicting provenance must retain the clause.
+Future candidate work must separately freeze/commit intent, tests, candidate continuation and authoritative workflow; run unchanged post0021 baseline, focused+complete candidate, fresh exact-HF1 replay, source parity, focused+complete replay and evidence receipt. Only inspected green bytes may then become ordinary 0022 with blob/hash/byte equality; separate published exact-HF1 chain and evidence mirror are required before M4C3R seal.
+Historical M4C3D duplicate surface/frame assertion should be forward-compatibly updated only in that future candidate test phase. No historical test was changed in this run.
+No 0022 intent/ordinary patch, tests/hf2_m4c3r/test_resolution_source_correspondence.py, .github/workflows/hf2-milestone4c3r.yml, candidate receipt or candidate continuation has been created.
+
+END-OF-RUN STATE
+Completed this run: provider/roadmap/equality inspection; immutable source recovery; local and authoritative external disposable verification; artifact/hash inspection; GitHub/Drive evidence and continuation checkpoint.
+Started but not completed: M4C3R engineering milestone. Candidate implementation has not started.
+Blockers: none for next bounded phase.
+Provider divergence: none observed after readbacks.
+Cleanup required: none. Temporary test source/DB directories removed; reproducible scratch downloads may expire. Read-only narrowly triggered verification workflow intentionally retained as evidence.
+ordinary_0021_published=true
+published_exact_chain_0021_green=true
+m4c3q_sealed=true
+m4c3r_disposable_verification_green=true
+runtime_correction_required=true
+runtime_candidate_created=false
+ordinary_0022_published=false
+candidate_green=false
+published_exact_chain_0022_green=false
+m4c3r_sealed=false
+stage8b_complete=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+
+ROADMAP / FINAL HANDOFF BOUNDARY
+Authoritative Drive roadmap 1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog re-read and matched to the Git synchronized body.
+Stage 8 remains 8A-8M; current work remains Stage 8B; self-upgrade belongs to Stage 8, especially 8H-8K. Do not begin Stage 8C-8M or Stage 9. No stage redefinition or certification claim.
+Final Noeron package, complete live-verification sheet and complete API command sheet remain not yet authorized; create them only at the established final readiness gate using canonical project formats and implemented commands.
+
+AUTHORITY / AUTONOMY
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+Native choice must remain attributable to persistent native state and intended IRG/DKT/EGR/RL/Frenet/reasoning/learning machinery. Programmed substrate/provenance cannot manufacture semantic selection, preference, personality, relationship, cognitive-memory or hold/speak authority.
+
+OLDER CHECKPOINTS BELOW ARE HISTORICAL CHRONOLOGY; THIS BLOCK IS OPERATIONALLY CURRENT.
+
 M4C3R DISPOSABLE VERIFICATION — LOCAL DECISION CHECKPOINT / EXTERNAL VERIFICATION PENDING
 Date: 2026-09-19 UTC / Asia/Qatar
 Repository: RugBlade/Yggdrasil
