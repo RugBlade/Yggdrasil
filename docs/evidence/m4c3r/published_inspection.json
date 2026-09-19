@@ -1,0 +1,106 @@
+{
+  "status": "PUBLISHED_GREEN_EVIDENCE_INSPECTED",
+  "run_id": 35476221835,
+  "job_id": 105985811089,
+  "source_commit": "4e54623e696a687586b820b5dd9a3190d1648934",
+  "artifact_sha256": "b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0",
+  "artifact_bytes": 679959,
+  "passed": 451,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "summary": "451 passed, 2 warnings in 183.94s (0:03:03)",
+  "receipt": {
+    "milestone": "M4C3R-published-chain",
+    "status": "GREEN",
+    "run_id": "35476221835",
+    "run_attempt": "1",
+    "workflow_ref": "RugBlade/Yggdrasil/.github/workflows/hf2-m4c3r-published-chain.yml@refs/heads/stage8B/v0.8.2-conversation-completion-hf2",
+    "source_commit": "4e54623e696a687586b820b5dd9a3190d1648934",
+    "source_branch": "stage8B/v0.8.2-conversation-completion-hf2",
+    "job_name": "published-exact-hf1-chain",
+    "base_zip_sha256": "79d04505988c6ed6a694e952d8fce4bd9265d1214a96baf490bb6280ecb08c29",
+    "patch_chain": "0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012,0013,0014,0015,0016,0017,0018,0019,0020,0021,0022",
+    "patch0022_sha256": "d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5",
+    "patch0022_bytes": "2387",
+    "intent_published_byte_identity": "true",
+    "source_archive_sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd",
+    "test_summary": "451 passed, 2 warnings in 183.94s (0:03:03)",
+    "candidate_runtime_scope": "src/noeron/development.py",
+    "same_ingress_prior_sentence_scope": "true",
+    "current_sentence_self_reference_from_later_mentions": "false",
+    "prepositional_complement_nominal_candidate": "false",
+    "categorical_predicate_complement_removal": "false",
+    "genuine_reference_alternatives_preserved": "true",
+    "semantic_truth_authority": "false",
+    "answer_authority": "false",
+    "speech_act_choice_authority": "false",
+    "preference_authority": "false",
+    "relationship_authority": "false",
+    "cognitive_memory_authority": "false",
+    "source_write_authority": "false",
+    "deployment_authority": "false",
+    "proof_ambiguity_gate_weakened": "false",
+    "semantic_verb_class_table_added": "false",
+    "lexical_candidate_ranking_added": "false",
+    "lexical_pos_inference_added": "false",
+    "llm_inference_added": "false",
+    "canned_clarification_added": "false",
+    "autoplay_added": "false",
+    "microphone_camera_expansion": "false",
+    "human_hearing_inference": "false",
+    "stage8b_only": "true",
+    "certification_claim": "false",
+    "live_runtime_touched": "false",
+    "canonical_db_touched": "false",
+    "ordinary_0022_published": "true"
+  },
+  "source_archive_sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd",
+  "source_file_count": 58,
+  "published_candidate_source_byte_equality": true,
+  "published_candidate_python_hash_equality": true,
+  "intent_published_byte_equality": true,
+  "authority_flags_unchanged": true,
+  "members": {
+    "HF2_EXACT_CHAIN_0022_RESULT.txt": {
+      "bytes": 1784,
+      "sha256": "836f239441b65d8c88b6a3d1e03f0211041db38914e4b3ab8180e2e85cdf36d4"
+    },
+    "m4c3r-exact-post0022-published-source.tar.gz": {
+      "bytes": 663382,
+      "sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd"
+    },
+    "m4c3r-published-0022-identity.txt": {
+      "bytes": 139,
+      "sha256": "caa9462280eddafa067b838b487ae430e7f09b49832d38ff2fe192cdc7817ba5"
+    },
+    "m4c3r-published-chain-boundary.txt": {
+      "bytes": 1513,
+      "sha256": "3bb819b4dd05857f8988251b4d58ef1086d9563ea57933c8309aef58f656c090"
+    },
+    "m4c3r-published-chain-diffstat.txt": {
+      "bytes": 857,
+      "sha256": "0610ed6842f6d811e1055ab2cf6c2930110acea62ad51e4bd902e41ae69de9a1"
+    },
+    "m4c3r-published-chain-tests.txt": {
+      "bytes": 1660,
+      "sha256": "3374b36b81c6a56e5458429f389b292c8e239fb237e1fba0ccf89e92fd806cfa"
+    },
+    "m4c3r-published-chain-tests.xml": {
+      "bytes": 71740,
+      "sha256": "41da0e70ff6e921c8316ab3edf3802367a2b0cf981076aebc782709097df641f"
+    },
+    "m4c3r-published-hf1-identity.json": {
+      "bytes": 1849,
+      "sha256": "c2bb419a343cf6cd21385ef5cdc81acf7fdec37945060f65ece316e087da1756"
+    },
+    "m4c3r-published-source-sha256.txt": {
+      "bytes": 5016,
+      "sha256": "50cbc85f807a843854d99f84918ad04fb0fa12c1a14e9b8affead80172adf0bb"
+    }
+  },
+  "artifact_id": 10594550960,
+  "artifact_drive_id": "1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_",
+  "github_drive_raw_equality": true,
+  "inspection_before_seal": true
+}

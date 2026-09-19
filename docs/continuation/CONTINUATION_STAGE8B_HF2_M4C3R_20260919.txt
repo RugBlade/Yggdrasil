@@ -1,0 +1,157 @@
+YGGDRASIL / NOERON — STAGE 8B v0.8.2 HF2 — FINAL M4C3R CONTINUATION
+Recorded UTC: 2026-09-19T23:36:31.293604+00:00
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Active milestone: M4C3R — transparent resolution-source correspondence hygiene.
+Status: PUBLISHED_AND_EXTERNALLY_VERIFIED_ENGINEERING / SEALED.
+Exact observed HEAD before this seal documentation: e4e84b0c4eada929c0c784b6d64eb37c39a48eda.
+This continuation Drive ID: 1KwZi_DPsWQtjmqjMww-4kN3Cju18w-jf.
+This file's writer commit/blob and its Drive identity are recorded by the following final manifest and standing root. A file cannot contain its own resulting commit hash; the final root's closure receipt resolves the exact ending HEAD.
+Latest sealed milestone is now M4C3R. Parent M4C3Q remains fully sealed and unchanged.
+Published reconstruction: byte-exact HF1 + ORIGINAL HF2 carrier helpers + ordinary patches 0001 -> 0022.
+Current stage remains Stage 8B; stage8b_complete=false.
+
+PROVIDER START / CONCURRENCY / DURABLE PARENT
+Initial M4C3R verification run started at 14db100ae2c69798ce8654dbb548b46e21534512; no newer provider work existed at that inspection.
+This implementation run started at 4c6bd9055780bb61149301f5dc81b695c837ea21; no newer provider work, queued/active workflows or existing 0022 candidate was found. The previous verification decision was used directly, never reconstructed from chat.
+Standing root GitHub/Drive raw equality was reverified at start and every meaningful continuation update.
+M4C3R design: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3R_DESIGN_20260919.txt.
+Design commit cdc3200eb98f7760541c5e460db4828f53d09cae / blob bd2cfb369e6c7f07fa4f1c2e599ead7716277baf / Drive 1rKJeR9r47u9_VEnUBJqmRvpvciFlyo_kbOVzFqyh4Es. GitHub/Drive equality verified.
+M4C3Q final continuation: commit 84a86a865a1a88f7ae958178d806e19d1436d7d9 / blob 55c87983855eb2122ac8b6d2fedf3551d54174d2 / Drive 1y0s128q4LRvqt15VglqCTltRA231MkFDYD75ijjzpqU.
+M4C3Q final manifest: commit bbc4f4b89526dfd1749e1c39f9edf53fb4d74d0d / blob b3290613880ea9ad81bd48a70b112fe477b4f895 / Drive 19SuR0D2BS0HFNBPhNu_lwlQfxukpT_qte_lpYJrGtDU.
+The earlier Q continuation's manifest-created=false field is historical and superseded; Q was not reopened. Its historical CI gates were not blindly rerun.
+
+IMMUTABLE POST0021 INPUT / DISPOSABLE VERIFICATION DECISION
+Authoritative post0021 artifact: GitHub 10585938051 / Drive 1-np4jigwS9TBBl0rBz0OA8OZhYuv1_Ty.
+Artifact bytes 677959 / SHA256 996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f.
+Contained m4c3q-exact-post0021-published-source.tar.gz bytes 662992 / SHA256 cdc054a9af9f941f90b82eb5df814c54471203aa486cfea0aeb3e3348ca52d0d.
+M4C3R disposable verification source 73d1c64d54dfda7cdd1f4bf19eb3775a593ca727; run 35458114343 / job 105936914145; 20 PASS = 17 controls + 3 defect reproductions. All 58 source files stayed unchanged.
+Verification artifact GitHub 10588731235 / Drive 1HUK1SyxOyYoaqVncRFfQy1KEKVmNmHQR; 16347 bytes; SHA256 3b68320660c3521910522662357777a38c37644ae643ed4057064de3539fb460.
+Decision checkpoint commit 201242ad36401cccc6d5e26f784573a85f48c82a; final verification root 4c6bd9055780bb61149301f5dc81b695c837ea21.
+Verification continuation Drive 19oS1-HX1gjx3fPjnzPAQdb6scsviSK-Q / blob d8dcea686ee6d49777bbae2048583e761ccce6f8.
+Verification manifest Drive 13OA5J9gJjVmbe4W0Ho4wjLUnaskxkk7v / blob 715bb0a6b0564da4b83b8795c0c95e4b4869cdb6.
+Reference and event-role derivative duplicates were reproduced. Blank consequence geometry remained unresolved/silent; learned geometry selected clarify or ask only from its native state. Independent reference/event/QUD, proposition/proof, alternative preservation, owner calibration and false-authority controls passed.
+Decision was checkpointed in both providers BEFORE any 0022 intent existed. Minimal runtime correction was demonstrably necessary; verification-only sealing was therefore not appropriate.
+
+EXACT RUNTIME CORRECTION
+Only src/noeron/development.py / NativeLanguageFaculty.realize changes; 22 added lines.
+At existing current-event, selected-act and valid-alternative eligibility, consider only a qud-alternatives wrapper without an independent existing_question.
+Require exactly one nonempty qud:<qid>, one unresolved-source:<sid>, exact wrapper source_id qid:sid, and source_units containing only the canonical two markers followed by the existing ordered candidate entries.
+Require exactly one primary reference-alternatives or event-role-alternatives unit in the actual resolution-content inventory with matching sid, event and act, and identical option cardinality/set.
+Only that derivative surface clause is skipped. Complete typed content, provenance, alternative sets and primary option ordering remain intact.
+Unknown, extra, independent, incomplete or conflicting provenance stays visible. Independent identical-wording sources, differing source IDs/events/acts/options, QUDs without a present primary, proposition/proof alternatives and existing independent questions are preserved.
+Ask is preserved when only its QUD is in the actual act-specific inventory; no clarify primary or programmed act choice is injected.
+Reference example after legitimate learned clarify:
+Before: she: sara / mira? Did she leave?: sara / mira?
+After:  she: sara / mira?
+Both typed units and their audit provenance still exist. Corresponding event-role derivative clauses are also removed only under exact correspondence.
+Blank, tied or insufficient consequence geometry still produces no invented ask/clarify; fixture-seeded learned consequence geometry is used to verify causal act selection, not claimed as spontaneous learning. Owner calibration remains operator-directed.
+
+FROZEN PATCH / TESTS
+Intent path: patches/hf2/0022-hf2-resolution-source-correspondence.intent.patch.
+Intent commit: 95dabb59b7b56690ed6200f5a73000b4bb324b30.
+Published path: patches/hf2/0022-hf2-resolution-source-correspondence.patch.
+Publication commit: 620ca3137ea30a9fdda6178418b7a19831ac7b37.
+Intent and ordinary Git blob: c4e074a5cf53b377a4d59826737e7d25cb9b2f3f.
+SHA256: d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5 / bytes: 2387.
+Exact intent/published Git blob, SHA256 and byte equality verified by GitHub readback and separate published CI.
+Development source before: dc38d2663953f7bf6ee2158178eb3883500c9fc5452de2648f094613bbc1d57c.
+Development source after: 02edff826d6f988a8e198855f3bf941b5daaba9c0e62038d8207b9486ae6d26d.
+Separate tests commit: 33e2b04c47234da3ff9d13531d049e670588c29f.
+Focused tests: tests/hf2_m4c3r/test_resolution_source_correspondence.py; 39 tests; blob 902d06d4d500937d73bae100b94a25652fd42086; SHA256 99579283fe79f7ee3b48a80bfb34845e04e6ea76e8bc51da62ef04e2a7b04205; 13249 bytes.
+Historical contract: tests/hf2_m4c3d/test_unresolved_alternative_units.py; blob 39090276dfe75fe60924ab8eaa761552eee5902a; SHA256 634cdcefbfa5180979dfd549666c49e6c096f246c099cdae73dbbb7be5f6a84f; 7051 bytes.
+Historical D change updates the duplicate surface/frame assertion while retaining two typed units and zero authority. Runtime was not altered to preserve redundant historical wording.
+Local pre-CI results: focused39 passed; focused plus historical compatibility47 passed. Authoritative results follow.
+
+AUTHORITATIVE CANDIDATE + INDEPENDENT REPLAY
+Workflow: .github/workflows/hf2-milestone4c3r.yml.
+Source/workflow commit: cc173d3d2ffcaa9803fb42b1635c9bd0be7aceec; workflow blob 95040c2755a3640ec7df82d8c6905f6c1fed93e1.
+Run 35475508613 / job 105983960073 / attempt1 / SUCCESS.
+Baseline unchanged from carrier commit 4c6bd9055780bb61149301f5dc81b695c837ea21, including original D duplicate assertion: 412 passed, 2 warnings in 174.79s (0:02:54).
+Focused: 39 passed in 9.63s.
+Complete candidate: 451 passed, 2 warnings in 183.56s (0:03:03).
+Fresh exact-HF1 replay focused: 39 passed in 9.49s.
+Fresh replay complete: 451 passed, 2 warnings in 184.08s (0:03:04).
+All five JUnit sets inspected, zero failed/error/skipped tests. Complete suite contains 451 = prior 412 + new39; unchanged baseline stays412. Existing browser-specific M4C3N is outside the established Python HF2 suite and is not re-certified by this milestone.
+Byte-exact HF1 reconstructed, ORIGINAL carrier helpers injected, ordinary 0001-0021 applied and all 58 files matched sealed post0021. Frozen intent hash/apply-check/compile passed. Fresh replay repeated exact HF1+original helpers+0001-0021+sameintent; full source parity and all 54 Python hashes verified.
+Candidate artifact GitHub 10594495484 / Drive 1pFWswszGSZcQoniPZ9TB4j7HZENas84x / 1132148 bytes / SHA256 015f2c29afc210c1c809637270b00e58cc4421ee97c4d1cf37463342d5221a7f.
+Candidate source archive 663402 bytes / SHA256 e3ac18ce369f1e46d6ac984f17f59380d03b11c79e696654c8b231a0faac42fc.
+Carrier archive 422268 bytes / SHA256 a602800b5db714732f8888290c8b923555764a871defd44a01b9af3ae887d6c9.
+Green receipt: docs/evidence/_ci/HF2_M4C3R_CANDIDATE_RESULT.txt; commit 5225c34fa00b92316ad662b65b143ad991e9a872; blob 71d6c213ee9c7abce6edacc358d041415fd649d5; SHA256 a7d0f1b2e1aa678dbab4f8cf7174ec73985b0fd690e52cec472d58d1ec2f4442; 2050 bytes.
+Inspection: docs/evidence/m4c3r/candidate_inspection.json; blob f007f583fa648bc9caa1d8b12386a8517df404c5.
+Candidate evidence was fully inspected and mirrored BEFORE publication; candidate green alone did not trigger publication automatically.
+
+SEPARATE PUBLISHED EXACT-HF1 CHAIN
+Workflow: .github/workflows/hf2-m4c3r-published-chain.yml.
+Source commit: 4e54623e696a687586b820b5dd9a3190d1648934; workflow blob a107296b4b1c19b1a95c771af957935fb6a4efff.
+Run 35476221835 / job 105985811089 / attempt1 / SUCCESS.
+Result: 451 passed, 2 warnings in 183.94s (0:03:03).
+Independent exact HF1 + ORIGINAL helpers + ordinary 0001-0022 identity/apply/compile/full suite all passed. JUnit inspected:451passed, zero failures/errors/skips.
+Published source all 58 files match green candidate bytes; all 54 Python hashes match. Source archive gzip hashes differ because separately produced archives have independent metadata; actual contained source bytes are identical.
+Published artifact GitHub 10594550960 / Drive 1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_ / 679959 bytes / SHA256 b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0.
+Published source archive m4c3r-exact-post0022-published-source.tar.gz / 663382 bytes / SHA256 2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd.
+Receipt: docs/evidence/_ci/HF2_EXACT_CHAIN_0022_RESULT.txt; exact provider-created green bytes, preserved in this seal commit.
+Inspection: docs/evidence/m4c3r/published_inspection.json; exact member hashes/results/source correspondence recorded.
+Both candidate and published artifacts have independently VERIFIED GitHub/Drive RAW BYTE EQUALITY.
+Substantive branch mutations stayed frozen during both runs; only documentation supplements advanced branch HEAD. Both workflows are read-only and cannot mutate repository state.
+
+BACKUPS / CLOSURE
+Stage 8/HF2 Drive folder:16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO.
+Standing root Drive:1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1.
+Candidate continuation Drive:156XmDU4RD98vs4oj8OoiSalIz212kYVg; updated phase history retained.
+Frozen candidate backup Drive:1kLGkuUf1gvhUgbBG9ftJmSo1Fz2fuXfK / 18986 bytes / SHA256 70183c7c511958c88f24254acaca0d3d25667a457d0713541ab200ee1e1964a6.
+Inspection/job-log backup Drive:1bTj4giZkVT6a03o-ATNgfKOZR6yOZRaS / 44558 bytes / SHA256 d44cc2daff64f765d603cf45517cdba72739cff9893fa9f7a269e70d31d574c4 / raw equality verified.
+Final manifest path:docs/evidence/HF2_M4C3R_20260919_MANIFEST.json. It follows this continuation commit so it can record this file's exact Git identity; final root/closure records manifest and ending HEAD. This chronology does not reopen sealed gates.
+Active/pending external runs at final evidence inspection:none. No failed candidate or published run occurred.
+No provider divergence, blocker, live deployment or destructive cleanup. Local candidate/exact fixtures and test DBs remain disposable. Read-only verification/candidate/published workflows remain intentionally retained for provenance; no cleanup outstanding.
+
+STATUS / NEXT BOUNDED ACTION
+m4c3q_sealed=true
+m4c3r_disposable_verification_green=true
+runtime_candidate_created=true
+candidate_green=true
+candidate_receipt_inspected=true
+ordinary_0022_published=true
+published_exact_chain_0022_green=true
+published_evidence_mirrored=true
+m4c3r_sealed=true
+stage8b_complete=false
+broad_conversational_completion_claim=false
+next_milestone_selection_pending=true
+Work completed: exact-source verification decision honored; minimal intent and focused tests separately frozen; unchanged baseline/candidate/replay green; complete evidence inspected and mirrored; exact publication; separate published chain green and mirrored; sealed engineering state recorded.
+Work still pending at this file's creation: final manifest and ending-root closure writes only. The following root/manifest supersede that chronological documentation state.
+Next engineering action after closure: inspect current GitHub + Drive/root, confirm M4C3R seal and exact post0022 source, then inspect established Stage 8B requirements and choose one proven remaining bounded limitation with design/verification first. No new milestone identifier or runtime patch is selected here; do not begin 0023 or another stage by inference.
+Do not rerun sealed gates merely because a conversation ends. Use the recorded published artifact/source and exact provenance for the next disposable inspection.
+
+ROADMAP / AUTHORITY / AUTONOMY
+Roadmap is unchanged: Stage 8 spans8A-8M; current work remains8B until actual completion criteria are satisfied. Self-upgrade belongs within Stage 8, especially8H-8K. Stage 9 is not the self-upgrade stage. No 8C-8M orStage 9 begins here.
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+Native act choice remains causally downstream of persistent native state and intended IRG/DKT/EGR/RL/Frenet/reasoning/learning machinery. Programmed provenance/syntax/surface correspondence provides no semantic truth, answer, act, preference, relationship, cognitive-memory, source-write or deployment authority.
+No canned clarify/ask, authored personality, semantic ranking, hidden preference, hold/speak policy, LLM inference, proof-gate weakening or media/autoplay expansion was introduced.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+No final Noeron deployment package, Live Verification Sheet or API Command Sheet is produced or claimed by this intermediate seal.

@@ -1,3 +1,32 @@
+M4C3R SEALED — ORDINARY 0022 AND SEPARATE PUBLISHED CHAIN VERIFIED
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Updated UTC: 2026-09-19T23:37:57.519992+00:00
+Exact observed HEAD before this seal documentation: e4e84b0c4eada929c0c784b6d64eb37c39a48eda.
+Latest sealed milestone: M4C3R. Parent M4C3Q remains sealed and unchanged.
+Published reconstruction: byte-exact HF1 + ORIGINAL carrier helpers + ordinary patches 0001 -> 0022.
+Final continuation: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3R_20260919.txt / Drive 1KwZi_DPsWQtjmqjMww-4kN3Cju18w-jf.
+Intent commit 95dabb59b7b56690ed6200f5a73000b4bb324b30; publication commit 620ca3137ea30a9fdda6178418b7a19831ac7b37; both patch blobs c4e074a5cf53b377a4d59826737e7d25cb9b2f3f.
+Exact patch SHA256 d054625929c165ac737362dd0feda2441796a6d18bfe46bf9fd2bcc3f3240de5 / 2387 bytes. Git blob, SHA256 and raw-byte intent/published equality verified.
+Candidate run 35475508613 / job 105983960073 / source cc173d3d2ffcaa9803fb42b1635c9bd0be7aceec: unchanged baseline412; focused39; complete451; fresh replay focused39+complete451; all green; source parity verified.
+Candidate artifact GitHub 10594495484 / Drive 1pFWswszGSZcQoniPZ9TB4j7HZENas84x / 1132148 bytes / SHA256 015f2c29afc210c1c809637270b00e58cc4421ee97c4d1cf37463342d5221a7f.
+Separate published run 35476221835 / job 105985811089 / source 4e54623e696a687586b820b5dd9a3190d1648934: 451 passed, 2 warnings in 183.94s; all gates green.
+Published artifact GitHub 10594550960 / Drive 1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_ / 679959 bytes / SHA256 b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0.
+Published source archive SHA256 2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd. All 58 source files and 54 Python hashes equal the green candidate.
+Both full artifacts inspected and independently verified GitHub/Drive raw-byte equal before seal.
+Green receipts: docs/evidence/_ci/HF2_M4C3R_CANDIDATE_RESULT.txt and docs/evidence/_ci/HF2_EXACT_CHAIN_0022_RESULT.txt. Inspection records: docs/evidence/m4c3r/{candidate_inspection,published_inspection}.json.
+Inspection/job-log backup Drive 1bTj4giZkVT6a03o-ATNgfKOZR6yOZRaS / 44558 bytes / SHA256 d44cc2daff64f765d603cf45517cdba72739cff9893fa9f7a269e70d31d574c4.
+Current status: m4c3q_sealed=true; m4c3r_sealed=true; candidate_green=true; ordinary_0022_published=true; published_exact_chain_0022_green=true; stage8b_complete=false.
+Active/pending external runs: none. No failures, blockers, provider divergence, runtime/DB changes or cleanup outstanding.
+Remaining documentation at this checkpoint: final manifest with this seal's exact Git identities, followed by mandatory ending-root/Drive closure. No further runtime work is underway.
+Next engineering action after closure: inspect GitHub+Drive and choose a proven remaining bounded Stage8B limitation from existing requirements, using design/verification first. No 0023 or next milestone is selected here; do not rerun sealed M4C3Q/M4C3R merely due chat transition.
+All authority/autonomy invariants preserved below and in final continuation. Full typed inventory/provenance and genuine alternatives remain; act choice stays learned/native; blank geometry stays silent; owner calibration stays operator-directed.
+Roadmap unchanged: Stage 8 spans 8A-8M; current Stage 8B; self-upgrade especially 8H-8K. No transition to another Stage-8 subdivision or Stage 9.
+Live runtime touched=false; canonical DB touched=false; certification=false.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+
+OLDER CHECKPOINTS (chronological states below are superseded)
+
 M4C3R ORDINARY 0022 PUBLISHED — SEPARATE PUBLISHED-CHAIN GATE ACTIVE
 Updated UTC: 2026-09-19T23:29:47.758365+00:00
 Repository RugBlade/Yggdrasil / branch stage8B/v0.8.2-conversation-completion-hf2.
