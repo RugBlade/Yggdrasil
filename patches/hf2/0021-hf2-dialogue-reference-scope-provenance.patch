@@ -1,0 +1,69 @@
+diff --git a/src/noeron/language_dialogue.py b/src/noeron/language_dialogue.py
+index ead9586..04edc3d 100644
+--- a/src/noeron/language_dialogue.py
++++ b/src/noeron/language_dialogue.py
+@@ -185,8 +185,23 @@ def _event_candidates(sentence: str) -> list[dict]:
+     return rows
+ 
+ 
++def _reference_antecedent_eligible(row: Mapping[str, object]) -> bool:
++    """Transparent grammatical filter for nominal/pronominal antecedent inventory.
++
++    The broad copular role is intentionally ``attribute_or_identity``.  We must not
++    discard that role categorically because predicate nominals can still denote an
++    entity.  We may, however, reject the narrower case where the recorded surface
++    is transparently prepositional under the already-programmed function-word
++    grammar.  This is constituent hygiene only, not lexical/POS/world knowledge.
++    """
++    role = str(row.get("role") or "")
++    surface = str(row.get("surface") or row.get("referent") or "").strip()
++    ws = words(surface)
++    return not (role == "attribute_or_identity" and ws and ws[0] in _PREP)
++
++
+ def _reference_candidates(tokens: list[str], recent_referents: Iterable[Mapping[str, object]], legacy: Mapping[str, str]) -> tuple[list[dict], list[dict]]:
+-    recent = [dict(x) for x in recent_referents if isinstance(x, Mapping)]
++    recent = [dict(x) for x in recent_referents if isinstance(x, Mapping) and _reference_antecedent_eligible(x)]
+     refs: list[dict] = []
+     ambiguities: list[dict] = []
+     for index, token in enumerate(tokens):
+@@ -231,15 +246,25 @@ def analyze_dialogue_structure(
+     legacy.setdefault("speaker", speaker)
+     legacy.setdefault("addressee", addressee)
+     toks = words(text)
+-    refs, ref_ambiguities = _reference_candidates(toks, recent_referents, legacy)
+     sentences = [s.strip() for s in _SENTENCE_RE.split(text.strip()) if s.strip()]
+     rows = []
+     events = []
++    refs: list[dict] = []
++    ref_ambiguities: list[dict] = []
++    rolling_recent = [dict(x) for x in recent_referents if isinstance(x, Mapping)]
+     token_cursor = 0
+     for i, sentence in enumerate(sentences):
++        sentence_tokens = words(sentence)
++        sentence_refs, sentence_ref_ambiguities = _reference_candidates(sentence_tokens, rolling_recent, legacy)
++        for row in sentence_refs:
++            row["token_index"] = int(row.get("token_index") or 0) + token_cursor
++        for row in sentence_ref_ambiguities:
++            row["token_index"] = int(row.get("token_index") or 0) + token_cursor
++        refs.extend(sentence_refs)
++        ref_ambiguities.extend(sentence_ref_ambiguities)
++
+         ev = _event_candidates(sentence)
+         events.extend({"sentence_index": i, "event_index": j, **x} for j, x in enumerate(ev))
+-        sentence_tokens = words(sentence)
+         rows.append({
+             "index": i,
+             "text": sentence,
+@@ -248,6 +273,11 @@ def analyze_dialogue_structure(
+             "token_end": token_cursor + len(sentence_tokens),
+             "events": ev,
+         })
++        # Only earlier sentences in the same ingress may contribute new reference
++        # candidates.  The current sentence cannot resolve its own pronouns from
++        # mentions extracted later in that same sentence.
++        rolling_recent.extend(referent_mentions({"event_candidates": ev}))
++        rolling_recent = rolling_recent[-24:]
+         token_cursor += len(sentence_tokens)
+ 
+     # Attach occurrence-local sentence provenance after sentence token spans exist.
