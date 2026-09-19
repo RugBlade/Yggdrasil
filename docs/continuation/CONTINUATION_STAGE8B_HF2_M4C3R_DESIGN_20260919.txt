@@ -1,0 +1,233 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3R DESIGN / TRANSPARENT RESOLUTION-SOURCE CORRESPONDENCE HYGIENE
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+PARENT SEALED MILESTONE
+M4C3Q is the latest sealed/verified Stage-8B milestone.
+Parent final HEAD before this design:
+bbc4f4b89526dfd1749e1c39f9edf53fb4d74d0d
+Final M4C3Q continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3Q_20260919.txt
+Commit:
+84a86a865a1a88f7ae958178d806e19d1436d7d9
+Git blob:
+55c87983855eb2122ac8b6d2fedf3551d54174d2
+Drive ID:
+1y0s128q4LRvqt15VglqCTltRA231MkFDYD75ijjzpqU
+Final M4C3Q manifest:
+docs/evidence/HF2_M4C3Q_20260919_MANIFEST.json
+Commit:
+bbc4f4b89526dfd1749e1c39f9edf53fb4d74d0d
+Git blob:
+b3290613880ea9ad81bd48a70b112fe477b4f895
+Drive ID:
+19SuR0D2BS0HFNBPhNu_lwlQfxukpT_qte_lpYJrGtDU
+
+PUBLISHED BASELINE
+Exact HF1 + ordinary patches 0001 -> 0021.
+ordinary_0021_published=true
+published_exact_chain_0021_green=true
+m4c3q_sealed=true
+stage8b_complete=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+AUTHORITATIVE INSPECTION SOURCE
+Published exact-HF1 post0021 artifact:
+GitHub artifact ID:
+10585938051
+Name:
+hf2-m4c3q-exact-hf1-published-0021
+Bytes:
+677959
+SHA256:
+996ac91d1b6bcdedc6c2eb711908817e1b1dd6b89621bbc98ed227c984a98f9f
+Drive ID:
+1-np4jigwS9TBBl0rBz0OA8OZhYuv1_Ty
+GitHub/Drive raw-byte equality:
+VERIFIED
+Contained published post0021 source archive SHA256:
+cdc054a9af9f941f90b82eb5df814c54471203aa486cfea0aeb3e3348ca52d0d
+
+M4C3R MODE
+DESIGN / VERIFICATION FIRST ONLY.
+ordinary_0022_published=false
+runtime_candidate_created=false
+No 0022 is authorized by numbering or alphabetic progression alone.
+
+IMPORTANT NON-TARGET
+On blank speech-act consequence geometry, unresolved input can remain silent with:
+unresolved-insufficient-speech-act-consequence-geometry
+This is not by itself a runtime defect.
+Existing architecture intentionally requires learned/native consequence geometry before claiming a native resolution-act choice.
+M4C3R MUST NOT:
+- hard-code clarify;
+- force ask;
+- select an act from ambiguity alone;
+- turn owner calibration into native choice;
+- create canned clarification;
+- add hidden preference or semantic ranking.
+
+CONCRETE REPRODUCIBLE DEFECT
+After a legitimate learned/native speech-act selection of clarify, exact post0021 can surface the SAME unresolved source twice:
+1. once as its primary typed unresolved-source unit;
+2. once again as a derivative QUD alternative wrapper carrying the same alternatives.
+
+Reference example:
+Prior admitted context:
+"Mira met Sara."
+Current question:
+"Did she leave?"
+
+With consequence geometry deliberately seeded so the native resolution action legitimately selects clarify:
+- action=clarify;
+- native_choice_claim=true;
+- primary content unit:
+  kind=reference-alternatives
+  source_id=reference-token-1
+  focus_surface=she
+  alternatives=(sara,mira)
+- derivative content unit:
+  kind=qud-alternatives
+  source_id=question-sentence-0:reference-token-1
+  focus_surface=Did she leave?
+  alternatives=(sara,mira)
+  source_units includes unresolved-source:reference-token-1
+
+Current exact-post0021 realization:
+she: sara / mira? Did she leave?: sara / mira?
+
+The second clause does not introduce an independent unresolved source or new alternative set.
+It is a provenance-linked wrapper around the first unresolved source.
+
+Event-role control:
+A question such as:
+"Did Mira give Omar the book?"
+can similarly expose primary event-role alternative units plus derivative qud-alternatives tied by:
+unresolved-source:<event-role-source-id>
+with identical alternatives.
+
+STRUCTURAL CAUSE
+conversation_resolution.native_current_turn_alternative_sources() first emits direct unresolved-source units such as:
+- reference-alternatives;
+- event-role-alternatives.
+It then emits qud-alternatives for question-scoped unresolved sources.
+The QUD unit records structural provenance through source_units including:
+unresolved-source:<source-id>.
+
+NativeLanguageFaculty realization currently renders every eligible resolution-content unit independently.
+Therefore a primary unresolved source and its derivative QUD wrapper may become two surface clauses even when:
+- they refer to the same unresolved source;
+- they preserve the same alternative set;
+- the wrapper contributes no independent ambiguity.
+
+WHY THIS IS BOUNDED / TRANSPARENT
+The duplicate correspondence is explicit in existing provenance:
+- primary unit source_id=<sid>;
+- QUD wrapper source_units contains unresolved-source:<sid>;
+- alternative sets are identical.
+
+No semantic interpretation is required to detect this correspondence.
+No candidate ranking is required.
+No world knowledge, lexical/POS inference, semantic verb classes, truth authority, answer authority, preference, relationship meaning or LLM inference is required.
+
+PRESERVE INTERNAL AUDITABILITY
+M4C3R should first test whether the internal typed inventory can remain fully preserved while surface realization avoids redundant derivative clauses.
+Do not delete provenance merely to shorten text unless evidence proves that inventory-level deduplication is necessary.
+Prefer a transparent realization/correspondence rule if it can preserve all typed units and audit evidence.
+
+PROVISIONAL TRANSPARENT SURFACE PRINCIPLE
+A derivative QUD surface clause may be redundant only when ALL are true:
+1. unit.kind == qud-alternatives;
+2. unit.source_units explicitly includes unresolved-source:<sid>;
+3. a primary unresolved content unit with source_id=<sid> exists in the same resolution-content set;
+4. the derivative and primary units carry the same ordered or set-equivalent alternatives;
+5. the QUD wrapper contributes no distinct independently sourced alternative set.
+
+In that exact case, realization may surface the primary unresolved-source clause and suppress only the derivative QUD duplicate clause.
+
+MUST NOT COLLAPSE
+- two independent reference ambiguities;
+- two independent event-role ambiguities;
+- QUD alternatives not derivative from an already-present primary source;
+- proposition-alternatives;
+- proof-alternatives;
+- distinct alternative sets;
+- different source IDs;
+- different ambiguity sources merely because wording overlaps.
+
+HISTORICAL FORWARD-COMPATIBILITY RISK
+Existing test:
+tests/hf2_m4c3d/test_unresolved_alternative_units.py::test_typed_native_units_serialize_zero_authority_and_realize_only_source_options
+currently freezes the redundant realization:
+she: Sara / Mira? Where is she?: Sara / Mira?
+
+If M4C3R proves the derivative QUD clause structurally redundant and a future candidate removes only that duplicate surface, update the stale historical assertion to preserve its enduring invariants:
+- typed unresolved units remain zero authority;
+- all actual alternatives remain represented;
+- native act selection remains external to content inventory;
+- no semantic resolution is manufactured.
+Do NOT change future runtime candidate bytes merely to preserve historical duplicate surface.
+
+FOCUSED VERIFICATION-FIRST CONTRACT
+Before any 0022 intent exists, disposable exact-post0021 tests should establish:
+1. blank consequence geometry still chooses no clarify/ask and remains non-authoritative;
+2. learned geometry selecting clarify is unchanged;
+3. one reference ambiguity with derivative QUD wrapper realizes one unresolved-source alternative clause, not two duplicate clauses;
+4. one event-role ambiguity with derivative QUD wrapper likewise does not duplicate the same source alternatives;
+5. two independent reference ambiguities remain two surfaced ambiguity clauses;
+6. an independent QUD alternative source with no matching primary source remains surfaced;
+7. proposition-alternatives remain untouched;
+8. proof-alternatives remain untouched;
+9. ask/clarify choice remains native learned geometry only;
+10. owner calibration remains operator-directed calibration, never native choice;
+11. all alternatives remain preserved without ranking;
+12. authority flags remain false.
+
+AUTHORITY BOUNDARY
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+NATIVE-AUTONOMY BOUNDARY
+Programmed substrate may provide mathematical laws, syntax/interfaces, bounded grammatical machinery, security/authentication boundaries and explicitly identified noncognitive/reflex mechanisms.
+Do not present fixed semantic content, canned selections, hard-coded preferences, authored personality choices, hidden response tables or deterministic semantic authority as Yggdrasil's own native cognition or decision.
+Any claimed native choice must remain causally attributable to persistent native state plus the intended IRG/DKT/EGR/RL/Frenet/reasoning/learning machinery.
+
+ROADMAP
+Stage 8 spans 8A–8M.
+Stage-8 self-upgrade belongs especially to 8H–8K.
+Current work remains strictly Stage 8B.
+Do not begin Stage 8C–8M.
+Do not begin Stage 9.
+Do not describe Stage 9 as the self-upgrade stage.
+
+NEXT ACTION
+Run only disposable focused verification on the exact published post0021 source.
+Do not create ordinary or intent 0022 until a concrete minimal correction is shown necessary and all non-target controls above are preserved.
+If no correction is needed after deeper verification, seal M4C3R verification-only with no 0022.
