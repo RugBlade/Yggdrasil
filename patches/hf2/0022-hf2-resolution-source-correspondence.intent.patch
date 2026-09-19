@@ -1,0 +1,31 @@
+--- a/src/noeron/development.py
++++ b/src/noeron/development.py
+@@ -504,6 +504,28 @@
+                 if unit.act in {'clarify','ask'} and len(unit.alternatives) >= 2:
+                     if any(not x.strip() for x in unit.alternatives) or len(set(unit.alternatives)) != len(unit.alternatives):
+                         continue
++                    # A canonical QUD wrapper can repeat one already-renderable
++                    # primary source. Suppress only that surface correspondence;
++                    # retain every typed unit and provenance field in the thought.
++                    if unit.kind == 'qud-alternatives' and not unit.existing_question:
++                        quds=[s[4:] for s in unit.source_units if s.startswith('qud:')]
++                        sources=[s[18:] for s in unit.source_units if s.startswith('unresolved-source:')]
++                        if len(quds)==len(sources)==1 and quds[0] and sources[0]:
++                            qid,sid=quds[0],sources[0]
++                            wrapper=[f'qud:{qid}',f'unresolved-source:{sid}',
++                                     *(f'candidate:{x}' for x in unit.alternatives)]
++                            primary=[p for p in thought.resolution_content
++                                if p.kind in {'reference-alternatives','event-role-alternatives'}
++                                and p.source_id==sid and p.source_event_id==unit.source_event_id
++                                and p.act==unit.act]
++                            if (unit.source_id==f'{qid}:{sid}' and unit.source_units==wrapper
++                                    and len(primary)==1
++                                    and len(primary[0].alternatives)==len(unit.alternatives)
++                                    and set(primary[0].alternatives)==set(unit.alternatives)):
++                                # The valid wrapper's distinct nonblank alternatives
++                                # prove this same-event/same-act primary is eligible.
++                                # Unknown/extra provenance never disappears here.
++                                continue
+                     # Punctuation only: option strings were already admitted from
+                     # typed current-turn parser/query/proposition/proof fields. This
+                     # exposes an unresolved set; it neither asserts nor selects one.
