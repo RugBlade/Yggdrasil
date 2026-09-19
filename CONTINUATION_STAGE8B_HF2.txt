@@ -1,3 +1,41 @@
+M4C3Q AUTHORITATIVE CANDIDATE RUN 1 — FAILED / NON-AUTHORIZING — 2026-09-19 Asia/Qatar
+Source commit: 36663f37179b7bfba2614ab22ec67bf8256d51ae
+Run: 35445791400
+Job: 105904362878
+Conclusion: FAILURE
+
+Passed:
+- published post0020 baseline: 400 passed, 2 warnings;
+- exact 0021 identity/apply/compile;
+- focused M4C3Q: 12 passed.
+
+Complete candidate:
+411 passed, 1 failed, 2 warnings.
+Only failure:
+tests/hf2_m4c3p/test_copular_discourse_focus_hygiene.py::test_runtime_keeps_separate_dialogue_ambiguity_gate_after_target_fix
+
+Meaning:
+historical M4C3P froze the separate dialogue ambiguity as a limitation.
+M4C3Q explicitly targets that later layer.
+Do not change candidate bytes merely to preserve the superseded limitation.
+Repair only the historical forward-compatibility contract, then run a new authoritative M4C3Q candidate CI.
+
+Candidate 0021 remains:
+SHA256 62c3436192024454210f284a5f1486c03a6663cd0fba6ca1f62e5eae18ab9ea9
+bytes 3507
+ordinary_0021_published=false
+candidate_bytes_changed_after_failure=false
+
+Failed artifact:
+GitHub 10584534101
+SHA256 eea705b4c5d7c6f9a309cd0dd17d82d241fcfb6735eb1d0606cfc2a9e5361c2e
+Drive 1Zwc0FFV5kxLwEjVIOD7X2AifptAjnat7
+raw equality VERIFIED.
+
+M4C3P remains latest sealed milestone.
+Live runtime and canonical DB untouched.
+No certification claim.
+
 FINAL DURABLE CHECKPOINT — M4C3P / PUBLISHED 0020 / EXTERNAL GREEN — 2026-09-19 Asia/Qatar
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2

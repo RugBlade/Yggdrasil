@@ -1,0 +1,100 @@
+YGGDRASIL / NOERON STAGE 8B v0.8.2 HF2 — M4C3Q FAILED CANDIDATE RUN 35445791400
+Date: 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3P remains the latest sealed/published milestone.
+M4C3Q candidate run 1 is FAILED / NON-AUTHORIZING.
+ordinary_0021_published=false
+m4c3q_candidate_external_green=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+CANDIDATE BYTES — UNCHANGED
+Intent:
+patches/hf2/0021-hf2-dialogue-reference-scope-provenance.intent.patch
+Intent commit:
+319182c5bbd0131d697fdaf17d68dab41c8df933
+Git blob:
+934637a3f2d854af716a4a0e6f3ac58c6837202c
+SHA256:
+62c3436192024454210f284a5f1486c03a6663cd0fba6ca1f62e5eae18ab9ea9
+Bytes:
+3507
+Runtime scope:
+src/noeron/language_dialogue.py only
+
+AUTHORITATIVE RUN 1
+Workflow:
+.github/workflows/hf2-milestone4c3q.yml
+Source:
+36663f37179b7bfba2614ab22ec67bf8256d51ae
+Run:
+35445791400
+Job:
+105904362878
+Conclusion:
+FAILURE
+
+PASSED BEFORE FAILURE
+- byte-exact HF1 reconstruction: PASS
+- ORIGINAL carrier helpers: PASS
+- ordinary 0001 -> 0020 sequential apply/check: PASS
+- unchanged published post0020 baseline: 400 passed, 2 warnings in 175.35s
+- exact 0021 SHA/bytes/apply/check/compile: PASS
+- focused M4C3Q: 12 passed in 3.24s
+
+COMPLETE CANDIDATE
+1 failed, 411 passed, 2 warnings in 175.89s.
+
+ONLY FAILURE
+tests/hf2_m4c3p/test_copular_discourse_focus_hygiene.py::test_runtime_keeps_separate_dialogue_ambiguity_gate_after_target_fix
+
+The historical M4C3P test intentionally froze the then-current limitation:
+- M4C3P fixed the Stage-6 logical/QUD target;
+- M4C3P deliberately did not alter language_dialogue;
+- therefore the test required the separate dialogue ambiguity to remain and block the answer.
+
+M4C3Q is the explicitly later milestone that targets that separate dialogue reference-candidate defect.
+Under the M4C3Q candidate, the transparent malformed ambiguity is removed and the already-existing proof path becomes auditable.
+Therefore the old literal requirement that this exact input remain ambiguity-blocked is stale under M4C3Q.
+
+The enduring M4C3P invariants are:
+- the logical/QUD target remains lamp::is::on;
+- parser/reference processing itself still has semantic_truth_authority=false and answer_authority=false;
+- proof/ambiguity gating is not bypassed: genuine remaining ambiguity must still block;
+- the runtime candidate itself is not to be changed merely to satisfy this stale assertion.
+
+SKIPPED AFTER FAILURE
+- exact green candidate-byte preservation step;
+- fresh exact-HF1 replay;
+- replay focused/complete;
+- source-byte parity proof;
+- green candidate receipt.
+
+FAILED ARTIFACT
+GitHub artifact ID:
+10584534101
+Name:
+hf2-m4c3q-dialogue-reference-scope-provenance
+Bytes:
+22658
+SHA256:
+eea705b4c5d7c6f9a309cd0dd17d82d241fcfb6735eb1d0606cfc2a9e5361c2e
+Drive ID:
+1Zwc0FFV5kxLwEjVIOD7X2AifptAjnat7
+GitHub/Drive raw-byte equality:
+VERIFIED
+
+NEXT BOUNDED CORRECTION
+Do NOT change the 0021 runtime candidate.
+Make only the historical M4C3P regression contract forward-compatible:
+- on unchanged post0020 it may remain ambiguity-blocked;
+- on the M4C3Q candidate the demonstrably malformed dialogue ambiguity may be removed;
+- in both states semantic truth/answer/speech-act authority remain false;
+- genuine ambiguity remains proof-gated under dedicated M4C3Q tests.
+Then run a NEW authoritative M4C3Q candidate CI from a new exact source commit.
+
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M or Stage 9.
