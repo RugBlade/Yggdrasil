@@ -1,3 +1,153 @@
+FINAL DURABLE CHECKPOINT — M4C3P / PUBLISHED 0020 / EXTERNAL GREEN — 2026-09-19 Asia/Qatar
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+
+STATUS
+M4C3P is the latest sealed/verified Stage-8B milestone.
+Published runtime reconstruction:
+exact HF1 + ordinary patches 0001 -> 0020.
+ordinary_0020_published=true
+published_exact_chain_0020_green=true
+m4c3p_sealed=true
+stage8b_complete=false
+broad_conversational_completion_claim=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+PROVIDER RECOVERY
+Initial verified provider HEAD before seal work:
+6cea5816dfb87193167f874f1cd377da950d46f4
+No post-6cea durable provider work existed before this seal sequence.
+
+PATCH 0020
+Intent and published Git blob:
+0de9145e8a8bc4f8e8c6c506b9f4ebd4e3765950
+SHA256:
+ffa2cfae51d8258e17661605f2b5bc496eadd78169a342dbb7f283dcfa4c6b60
+Bytes:
+5090
+Publication commit:
+975c3d42c6818e4679efd65bd0a5b62ff5cf6eb1
+Runtime scope:
+src/noeron/inference.py only.
+
+CANDIDATE
+Run 35407518625 / job 105800236369 / source dd6d85bc1d4bab7eaac9e498fcc7a479c8f1f41f: SUCCESS.
+Baseline 391 passed, 2 warnings.
+Focused 9 passed.
+Complete candidate 400 passed, 2 warnings.
+Replay focused 9 passed.
+Replay complete 400 passed, 2 warnings.
+Source parity VERIFIED.
+Candidate source archive SHA256:
+65ee975dc973fe84a5af3287639b3801a49c8faf36abe1d409b3deee91c06dd0
+Candidate artifact:
+GitHub 10572513727
+SHA256 050ad16010b8c120d1898ea4e31107ea6f4eb46084152cdad2a498732845070d
+Drive 1FbxU8woazdEEmZRg8wQvLLOKC0zyiAoa
+GitHub/Drive raw equality VERIFIED.
+
+PUBLISHED EXACT-HF1 CHAIN
+Run 35408285798 / job 105802493909 / source ad76af6fb1703a82313ff5dac2f2f5f0e746926b: SUCCESS.
+Complete HF2 through M4C3P:
+400 passed, 2 warnings in 171.84s.
+Published source archive SHA256:
+a346184eda46e0f7788cf00aafc71b31bd15a13fc9f2b451be6db640d791b0d2
+Published-chain receipt commit:
+6cea5816dfb87193167f874f1cd377da950d46f4
+Receipt blob:
+b2cac3617191f82696a983f4113ee732a1af1f52
+Published-chain artifact:
+GitHub 10573373112
+SHA256 ba581c4f004a2aab8c95c67c17654a4df536ce0a3307a5565d9741ffaeaa4e4c
+Drive 1DDslu4Rv-LG2d7cl0uptbBJPl5JEPztD
+GitHub/Drive raw equality VERIFIED.
+
+FINAL DURABLE DOCUMENTATION
+Final M4C3P continuation:
+docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3P_20260919.txt
+Commit:
+7e241833a603284c9c5a86e8d682b6b8637745cc
+Git blob:
+9427e4d28b31ba1549c40ff4881b50d6420718af
+Drive ID:
+1-DT8rRX_CkMzK6ouuiaY72GlGnTA1rqu4qMC-oddMqE
+GitHub/Drive normalized equality:
+VERIFIED
+
+Final M4C3P manifest:
+docs/evidence/HF2_M4C3P_20260919_MANIFEST.json
+Commit:
+bbdc5c6a553cab000d2c7a6f09543f4733d32861
+Git blob:
+d294d4c5c820e67ec4b2d7a500bd8f1fa503926b
+Drive ID:
+16ququFldrv6fyfUGrCkR7ihf88NCZBnkbfNpRdaC_Ec
+GitHub/Drive normalized equality:
+VERIFIED
+
+Standing Drive root ID:
+1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+
+WHAT M4C3P CLOSES
+- copular predicate complements no longer occupy the direct-object discourse slot;
+- newer no-direct-object copular clauses clear stale direct-object focus;
+- malformed logical/QUD targets are corrected;
+- ordinary transitive direct-object behavior remains intact;
+- independent unresolved-reference ambiguity remains proof-gated.
+
+POST-SEAL REMAINING LIMITATION
+Exact post0020 inspection shows:
+- same-ingress language_dialogue reference analysis does not incorporate antecedent mentions from prior sentences in the same ingress;
+- across turns, a copular theme and predicate complement can both remain neutral referent alternatives;
+- corrected logical/QUD targets can therefore still remain proof-gated by the separate dialogue reference inventory.
+No answer-authority bypass is permitted.
+
+NEXT BOUNDED STAGE-8B MILESTONE — M4C3Q
+Title:
+transparent dialogue reference-candidate scope/provenance inspection
+Mode:
+DESIGN / VERIFICATION FIRST ONLY.
+Inspect same-ingress sentence scope, prior-turn grammatical role provenance, transitive controls, identity/person controls and genuine multi-referent ambiguity.
+Determine whether any candidate can be removed by transparent grammatical role provenance and sentence/turn scope alone.
+Do not add semantic verb classes, lexical salience ranking, hidden preference, truth authority, or answer authority.
+Do not create ordinary 0021 merely to continue numbering.
+If a candidate cannot be proved malformed by transparent grammar/provenance, preserve the ambiguity.
+
+AUTHORITY BOUNDARY
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+ROADMAP
+Stage 8 spans 8A–8M.
+Stage-8 self-upgrade work belongs especially to 8H–8K.
+Current work remains Stage 8B.
+Do not begin Stage 8C–8M or Stage 9 from this milestone.
+
+READ THIS FIRST
+The immediately following M4C3P seal-checkpoint block with next_milestone_selection_pending_post_seal=true is preserved as historical provenance.
+This FINAL DURABLE CHECKPOINT supersedes that pending-selection field operationally.
+Do not rewrite older historical blocks merely to make their old pending flags final.
+
 LATEST VERIFIED CHECKPOINT — M4C3P / PUBLISHED 0020 / EXTERNAL GREEN — 2026-09-19 Asia/Qatar
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
