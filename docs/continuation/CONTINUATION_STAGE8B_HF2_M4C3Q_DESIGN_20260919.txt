@@ -38,7 +38,7 @@ Contained exact post0020 source archive:
 m4c3p-exact-post0020-published-source.tar.gz
 SHA256:
 a346184eda46e0f7788cf00aafc71b31bd15a13fc9f2b451be6db640d791b0d2
-This immutable source, not repository carrier source, was used for the M4C3Q inspection.
+This immutable source, not repository carrier source, was used for inspection.
 
 CURRENT LANGUAGE_DIALOGUE MECHANISM
 src/noeron/language_dialogue.py currently:
@@ -46,7 +46,7 @@ src/noeron/language_dialogue.py currently:
 2. supplies only state.dialogue.recent_referents from PRIOR admitted turns plus legacy Stage-6 discourse fallback;
 3. therefore cannot use event mentions from an earlier sentence in the SAME ingress;
 4. persists referent_mentions() from event roles into a flat recent-referent list;
-5. for third-person/deictic non-person reference, _reference_candidates() uses recent non-person mentions without grammatical-role filtering;
+5. for third-person/deictic non-person reference, _reference_candidates() uses recent non-person mentions without grammatical-role/surface-shape filtering;
 6. for person-like pronouns it uses recent kind in {person, unknown};
 7. copular event candidates record roles:
    theme=<subject surface>
@@ -60,64 +60,68 @@ A. DEMONSTRABLE SAME-INGRESS SCOPE DEFECT
 - exact post0020 logical/QUD target is already correct: lamp::is::on;
 - language_dialogue reference row for "it" has candidates=[];
 - status=unresolved-no-candidate;
-- first sentence transparently exposes mentions:
-  theme="the lamp"
-  attribute_or_identity="on"
-- those mentions are unavailable only because references are computed before sentence/event traversal.
+- first sentence transparently exposes event mentions before the later question sentence;
+- those prior-sentence mentions are unavailable only because references are computed before sentence/event traversal.
 
 "Mira opened the door. Is it open?"
 - reference "it" also gets candidates=[];
-- prior sentence transparently exposes:
-  agent="mira"
-  patient_or_theme="the door".
-The absence of all same-ingress antecedent candidates is therefore structural/scope-driven, not semantic uncertainty.
+- prior sentence transparently exposes agent="mira" and patient_or_theme="the door".
 
 "Mira opened the door. Did she close it?"
 - both "she" and "it" get candidates=[];
 - prior sentence mentions exist but are not considered.
 
-B. DEMONSTRABLE COPULAR ROLE-PROVENANCE DEFECT ACROSS TURNS
+This is a sentence/turn scope defect independent of semantic interpretation.
+
+B. TRANSPARENT COPULAR PREPOSITIONAL-COMPLEMENT DEFECT ACROSS TURNS
 Turn 1: "The lamp is on."
 Turn 2: "Is it on?"
 Persisted recent referents:
 - "the lamp", role=theme, kind=unknown
 - "on", role=attribute_or_identity, kind=unknown
 Current "it" candidates:
-["on", "the lamp"]
-status=ambiguous-alternatives-preserved.
+["on", "the lamp"].
 
-The candidate "on" is demonstrably a predicative complement by the parser's OWN grammatical provenance.
-Removing it from nominal antecedent inventory does not require semantic typing, verb classes, lexical salience, world knowledge, preference or answer authority.
+The candidate "on" is demonstrably non-nominal under the parser's OWN function-word grammar because its sole surface token is in _PREP.
+Likewise "on the table" begins with a known preposition.
+Excluding such transparently prepositional copular complements from nominal antecedent inventory requires no semantic typing, verb classes, lexical salience, world knowledge, preference or answer authority.
 
-Control:
+C. IMPORTANT NON-REMOVAL BOUNDARY
+The role label is attribute_or_identity, not "always attribute".
+Therefore M4C3Q MUST NOT categorically discard every copular predicate complement.
+
+Examples that remain structurally uncertain:
+- "Mira is a scholar." -> complement "a scholar" is a nominal surface and may denote an entity/class; do not discard it merely because it is a copular complement.
+- "The lamp is red." -> "red" is not transparently typed as adjective by the current grammar; do not invent lexical/POS semantics to discard it.
+- identity-like predicate nominals must remain candidate material unless existing transparent grammar proves otherwise.
+
+Thus:
+predicate_complement_role_alone_is_insufficient_to_remove_candidate=true
+transparent_prepositional_surface_shape_can_remove_nominal_candidate=true
+
+D. TRANSITIVE CONTROL
 Turn 1: "Mira opened the door."
 Turn 2: "Is it open?"
 Current candidate is already uniquely ["the door"].
-Ordinary transitive direct-object antecedent behavior must be preserved.
+Ordinary transitive antecedent behavior must remain intact.
 
-C. COPULAR PERSON/IDENTITY CONTROL
+E. PERSON/IDENTITY CONTROL
 Turn 1: "Mira is a scholar."
 Turn 2: "Is she kind?"
-Current recent referents:
-- mira / theme / unknown
-- a scholar / attribute_or_identity / unknown
-Current "she" candidates:
+Current candidates:
 ["a scholar","mira"].
+M4C3Q must preserve this under the present non-semantic grammar because "a scholar" is not provably a non-person/non-referent from role provenance alone.
+No lexical animacy/person inference may be added.
 
-The predicate complement is again explicitly recorded as attribute_or_identity.
-The transparent correction may exclude predicate complements from nominal/pronominal antecedent inventory without asserting that "Mira" is semantically a person.
-Unknown nominal candidates must otherwise remain candidates.
-
-D. SPATIAL COPULAR CONTROL
+F. SPATIAL COPULAR CONTROL
 Turn 1: "The book is on the table."
 Turn 2: "Where is it?"
-language_dialogue currently treats:
-- the book / theme
-- on the table / attribute_or_identity
-as two unknown referents, yielding both as "it" candidates.
-The complement must not become a nominal antecedent solely because it is a recent surface mention.
+Current candidates include:
+["on the table","the book"].
+Because "on the table" begins with known preposition "on", it is transparently a prepositional complement surface and may be excluded from nominal antecedent inventory.
+"The book" remains.
 
-E. GENUINE MULTI-REFERENT AMBIGUITY MUST REMAIN
+G. GENUINE MULTI-REFERENT AMBIGUITY MUST REMAIN
 Turn 1: "Mira met Sara."
 Turn 2: "Did she leave?"
 Current mentions:
@@ -125,17 +129,15 @@ Current mentions:
 - sara / patient_or_theme / unknown
 Current candidates:
 ["sara","mira"].
-
-Without lexical/world-knowledge animacy typing, both remain grammatically compatible under the present transparent inventory.
+Without lexical/world-knowledge animacy typing, both remain grammatically compatible under the current transparent inventory.
 M4C3Q must NOT rank or discard one.
-This ambiguity remains proof/clarification-gated.
 
-Same-ingress multi-referent control:
+Same-ingress:
 "Mira placed the book beside the lamp. Is it blue?"
-The prior sentence exposes both a patient/theme surface and an oblique candidate.
-A transparent same-ingress fix must not manufacture certainty where multiple nominal antecedent surfaces remain.
+The prior sentence exposes multiple nominal surfaces.
+After the same-ingress scope repair, ambiguity must remain rather than manufacturing one selected referent.
 
-F. DITRANSITIVE CONTROL
+H. DITRANSITIVE CONTROL
 "Teacher gave Omar the book." produces genuine structural role alternatives under the existing M4C3O contract.
 M4C3Q must not use a reference fix to semantically collapse recipient/theme/patient alternatives or rewrite double-object event parsing.
 
@@ -143,11 +145,13 @@ DEFECT CLASSIFICATION
 concrete_runtime_defect=true
 surface=language_dialogue grammatical reference-candidate inventory
 same_ingress_scope_defect=true
-copular_predicate_complement_nominal_antecedent_defect=true
+transparent_prepositional_complement_nominal_candidate_defect=true
+categorical_predicate_complement_removal_authorized=false
 semantic_truth_authority_required=false
 answer_authority_required=false
 semantic_verb_class_table_required=false
 lexical_candidate_ranking_required=false
+lexical_pos_inference_required=false
 llm_inference_required=false
 proof_gate_change_required=false
 
@@ -157,14 +161,15 @@ A future candidate may:
 2. allow sentence N to use only prior-turn referents plus transparently extracted mentions from sentences < N;
 3. forbid a current sentence from resolving its own pronoun from mentions extracted later in that same sentence;
 4. preserve original global token_index/sentence_index provenance;
-5. filter predicate-complement roles such as attribute_or_identity from nominal/pronominal antecedent inventory;
-6. preserve all remaining candidates without ranking.
+5. exclude from nominal antecedent inventory only a copular attribute_or_identity surface that is transparently prepositional under existing _PREP grammar;
+6. preserve nominal/unknown copular complements and all other remaining candidates without ranking.
 
 A future candidate must NOT:
-- infer animacy or personhood from lexical/world knowledge;
+- categorically discard attribute_or_identity;
+- infer adjective/noun/animacy/personhood from world knowledge or new lexical tables;
 - add semantic verb classes;
 - add lexical salience/recency scores beyond existing bounded order;
-- choose a "best" antecedent among multiple grammatically admissible nominal candidates;
+- choose a best antecedent among multiple grammatically admissible nominal candidates;
 - treat proof support as reference resolution;
 - weaken ambiguity/proof gates;
 - add canned clarification;
@@ -174,19 +179,20 @@ A future candidate must NOT:
 
 FOCUSED FUTURE CONTRACT
 At minimum:
-1. Same ingress "The lamp is on. Is it on?" -> reference candidates ["the lamp"] at sentence 1.
+1. Same ingress "The lamp is on. Is it on?" can use "the lamp"; transparently prepositional "on" is not a nominal antecedent.
 2. Same ingress "Mira opened the door. Is it open?" -> ["the door"].
-3. Same ingress "Mira opened the door. Did she close it?" must see prior-sentence mentions; any remaining person-pronoun ambiguity caused by kind=unknown must remain visible rather than guessed away.
+3. Same ingress "Mira opened the door. Did she close it?" must see prior-sentence mentions; remaining person-pronoun uncertainty must remain visible rather than guessed away.
 4. Prior-turn "The lamp is on." / "Is it on?" -> ["the lamp"], not "on".
-5. Prior-turn "Mira is a scholar." / "Is she kind?" excludes "a scholar" by predicate-complement role; no semantic person inference is added.
-6. Prior-turn transitive "Mira opened the door." / "Is it open?" remains ["the door"].
-7. Prior-turn "Mira met Sara." / "Did she leave?" preserves multiple candidates under current non-semantic kind information.
-8. Same-ingress multiple nominal candidates remain ambiguous.
-9. Event-role alternatives remain intact.
-10. All authority flags remain false and proof/ambiguity gates unchanged.
+5. Prior-turn "The book is on the table." / "Where is it?" -> ["the book"], not "on the table".
+6. Prior-turn "Mira is a scholar." / "Is she kind?" preserves nominal/unknown alternatives rather than pretending the complement is nonreferential.
+7. Prior-turn transitive "Mira opened the door." / "Is it open?" remains ["the door"].
+8. Prior-turn "Mira met Sara." / "Did she leave?" preserves multiple candidates.
+9. Same-ingress multiple nominal candidates remain ambiguous.
+10. Event-role alternatives remain intact.
+11. All authority flags remain false and proof/ambiguity gates unchanged.
 
 NEXT ACTION
-Materialize a minimal 0021 intent candidate ONLY if the above can be implemented using sentence/turn scope and recorded grammatical role provenance alone.
+Materialize a minimal 0021 intent candidate ONLY if the focused contract can be implemented using sentence/turn scope and existing function-word/role provenance alone.
 Run focused disposable exact-post0020 tests first.
 Then freeze exact candidate bytes and focused tests in GitHub/Drive.
 Only then create authoritative external candidate CI:
