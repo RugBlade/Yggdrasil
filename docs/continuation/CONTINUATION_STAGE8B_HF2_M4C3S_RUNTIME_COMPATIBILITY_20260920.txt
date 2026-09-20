@@ -1,3 +1,175 @@
+M4C3S RUNTIME COMPATIBILITY EXTERNALLY VERIFIED — DESIGN CONTRACT AND SOURCE SCOPE FROZEN
+Recorded UTC: 2026-09-20T13:06:19.094675+00:00
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Actual starting HEAD: 71d9fd182f64c7a46fd3f0e51781a61c5508c842
+Compared with the user's older 75478de9c7f9ea4a0f8106c05439873ef0da4537 handoff, durable two-ledger work already existed through 71d9fd1. That completed 41-check gate was inspected, not rerun. No work newer than 71d9fd1 existed at this run's start.
+Observed HEAD before this design-freeze commit: b10c0a3100d46f89ca1f4fae4a50658b12533096
+Milestone continuation Drive ID (preserved identity): 1iZDxf6v6DWdKYloPL8VY98Fo75Qglrry
+Standing root Drive ID: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+This newest block supersedes the earlier local-only pending status below. Historical records are retained, not rewritten as if the external result had been known earlier.
+
+CURRENT PHASE
+DESIGN_CONTRACT_FROZEN_CANDIDATE_ELIGIBLE_NOT_CREATED.
+M4C3R remains latest sealed milestone; M4C3Q remains sealed. M4C3S is not sealed. Published reconstruction remains exact HF1 + ORIGINAL helpers + ordinary 0001 -> 0022. No 0023 intent or ordinary patch existed before this run or at this checkpoint.
+Runtime correction is necessary; the defect was already proved by the completed prior characterization. The new integrated prototype proves the confidence/typed-identity/admission/completeness contracts needed before constructing an intent. It is neither a candidate receipt nor a publication gate.
+
+AUTHORITATIVE NEW EXTERNAL RESULT
+Workflow: .github/workflows/hf2-m4c3s-runtime-compatibility.yml
+Source commit: b10c0a3100d46f89ca1f4fae4a50658b12533096
+Run: 35512293321; job: 106082178301; attempt: 1; conclusion: SUCCESS.
+34 PASS / 0 FAIL: 19 runtime compatibility, 5 conservative consumer, 1 full-ingest check containing 2 complete Noeron.ingest cases, 7 native-choice controls, 1 surface control, 1 provenance/source-boundary check.
+Additional matrix cardinalities: 24 confidence-order permutations, 10 correction-admission comparisons, 14 public query-family comparisons. The two earlier completed M4C3S gates and sealed M4C3R CI were not rerun.
+All source copies compiled. All workflow steps succeeded, including exact instrument hash checks, immutable input verification and clean Git carrier check. Substantive branch mutations were frozen while the workflow ran. No external run remains active at this checkpoint.
+Artifact 10605961809; name hf2-m4c3s-runtime-compatibility-prototype; 710692 bytes; SHA-256 ae896ba190fe0cf7c1d0943efef74740c041c0551802b42982f7647f691631f8.
+Artifact Drive ID: 1lNiiObhynUgj0_PdOJJZi0GXvRqtCewF; GitHub/Drive raw equality VERIFIED.
+Complete archive inspected: every member hash, source archive member, instrument/workflow byte and test result verified. Immutable 58-file source is unchanged. Local/CI overlay file hashes are identical (59 files: 7 changed, 1 added). Reports match after excluding only provider run/time metadata and generated NativeThought ID/creation timestamps. No proof identity, confidence, result or source hash is excluded from comparison.
+
+FROZEN BEHAVIOR AND DATA CONTRACT
+The detailed contract below is now externally verified and frozen, including full typed proposition identity, finite direct-route fingerprint, independent conclusion/proof budgets, explicit proof completeness, source readings, per-route confidence expressions and no cross-route reducer.
+Existing correction order and source admission remain separate from proof enumeration. All admission changes are explicit events with zero authority; removed premises are not evidence. Direct target premises no longer shadow their derivations. Bare target truth cannot explain itself.
+Typed proof audit IDs preserve the universal bit that legacy canonical strings omit. Each envelope binds to its actual typed input. Parallel current/bounded/DKT provenance is retained; a missing typed origin cannot borrow the other typed proposition's provenance. Legacy ambiguity scopes expand conservatively across matching typed aliases. Every independent proof route enters the same conservative support audit; no any-clean-route bypass exists.
+Optional scalar confidence is stored alongside finite source/producer references. Undefined is None, distinct from zero; no residual/first/max/min/average/preferred route confidence replaces it. Existing within-route conjunction remains allowed for exact direct operands only. Nested/cyclic support remains symbolic. Response/autonomous serialization retains the references and completeness.
+Incomplete proof ledgers expose no preferred record prefix. Both response and autonomous content paths block proof-ineligible assertions. Raw partial closure remains in the internal ledger for audit. Proof-dependent question content from incomplete closure is also ineligible; this is content validity, not a programmed remain-silent or ask choice.
+Native action choice stays downstream of learned consequence geometry. Blank/tied/incomplete geometry still selects no act; observed clarify/ask/remain-silent geometry keeps its valid choice. Owner calibration remains operator-directed. Sealed 0022 realization correspondence remains intact, with complete typed internal options.
+
+FROZEN EXACT CANDIDATE FILE BOUNDARY (8 FILES)
+1. src/noeron/direct_proof.py — NEW: unique typed closure, finite direct proof/source ledgers, admission audit, confidence references, evidence-bearing result and typed conservative gate projection.
+2. src/noeron/inference.py — replace first-discovery-only infer bookkeeping with the evidence-bearing entry point; keep existing parsing, formal helper semantics and rendering.
+3. src/noeron/reasoning.py — retain parallel admitted observations, bind typed envelopes, keep completeness and confidence metadata, apply the same conservative audit to response/autonomous proof content.
+4. src/noeron/math/models.py — optional proof confidence and explicit ledger/node/record/admission metadata. Pre-inference affect coordinates remain unchanged numeric geometry.
+5. src/noeron/cognition/models.py — optional proposition/thought confidence and proof evidence fields.
+6. src/noeron/cognition/kernel.py — preserve undefined confidence, typed grounds and proof completeness in response/autonomous construction; no residual fallback for incomplete proof confidence.
+7. src/noeron/conversation_proof.py — preserve None and numeric zero when normalizing step confidence; existing support/ambiguity/conflict policy unchanged.
+8. src/noeron/conversation_resolution.py — preserve typed collisions and direct-record identities in act-neutral proposition/proof options; no renderer or act-selection change.
+No change to math/affect.py, math/kernel.py, orchestrator.py, native-language rendering, speech-act machinery, DKT retrieval or bounded premise admission is in the frozen scope. The actual math call order proves affect uses pre-inference geometric support. No new scalar fallback or diagnostic-coordinate policy is needed.
+Prototype implementation conventions to remove when forming the actual intent: the retained old infer comparison oracle/alias and duplicate definition; disposable-only names on reasoning budget test hooks; code assembly instrumentation and prototype-only headers. The new candidate must retain exactly the proved behavior and explicit budgets under ordinary permanent names. Such packaging cleanup must not broaden source scope or alter any frozen semantic/authority contract.
+
+DECISION / NEXT ACTION
+The design prerequisite for 0023 candidate creation is satisfied once this final block and its manifest are mirrored and raw equality is verified. User-authorized engineering may next form the smallest intent within this exact boundary. NO intent is created in this Work run; NO ordinary 0023 is published. No full candidate suite or independent replay has yet run.
+Next Work run: inspect actual GitHub/Drive state and active Actions first. Preserve newer work. Use the exact sealed post0022 source and this green compatibility artifact to form the candidate; remove disposable comparison instrumentation, freeze exact intent bytes, commit intent separately, focused tests separately, candidate continuation in GitHub + Drive, then one authoritative candidate workflow.
+Candidate pipeline remains exact HF1 + ORIGINAL helpers + ordinary 0001 -> 0022, unchanged 451-test post0022 baseline, exact intent hash and apply check, compile/focused/full candidate, independently reconstructed fresh replay with source parity/focused/full, evidence artifact, green candidate receipt only if all gates succeed. Candidate green does not publish; exact byte/blob/hash publication and a separate published-chain run are still required before M4C3S can seal.
+
+DURABLE IDENTITIES / LIMITS
+Initial prototype/local checkpoint commit: 951ee4261999ace5c0699cd2fe7db990f17ad1a4.
+Initial milestone continuation blob: e6532753f09f4bedcd7f9c685ae122af430c9490; 11130 bytes; SHA-256 2ba3b2e4c1aa188bf20aea42c293e3cb3878cfe748888c4f181666e0aecf000e; Drive identity preserved above. The later final continuation supersedes its pending field.
+Local support archive: Drive 1j_I4KLGsh77bYK77xt3BRUEADczNxhv0; 1518566 bytes; SHA-256 726654c32a4b9e1dfcaf99b283b34ed3c3871be8b1822ab968f97b6ccc1591fe; raw equality VERIFIED. It includes the initial failed local report and instruments.
+Provider/log backup: Drive 1RKAUnODpSFS9l6XA7euNf_iHA-gpWGCR; 116588 bytes; SHA-256 ca11626db106d63eb743102a537b1c72faea2e1b4f42ad441e9b1fefb01a1623.
+Final exact continuation and manifest commit/blob/SHA/bytes, standing root ending commit and closure receipt are recorded in the final manifest/root/Drive closure chain. A file cannot contain its own enclosing commit hash; the closure receipt supplies the exact post-save ending HEAD.
+No provider divergence remains after readback. No live runtime/canonical DB was touched. Temporary SQLite DBs existed only under disposable directories and were removed. The design workflow is retained as auditable read-only evidence; no workflow cleanup or active process is pending. Scratch copies may be discarded after verified backups; they are not authoritative.
+
+FINAL PHASE FLAGS
+runtime_compatibility_proven=true; runtime_compatibility_external_green=true; candidate_scope_frozen=true; candidate_design_authorized=true; runtime_candidate_created=false; ordinary_0023_published=false; m4c3r_sealed=true; m4c3q_sealed=true; m4c3s_sealed=false; stage8b_complete=false; live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED.
+All authority/autonomy and roadmap invariants below remain in force. No stage plan has been changed.
+
+EXTERNAL ARTIFACT MEMBER IDENTITIES
+[
+  {
+    "name": "m4c3s-runtime-compatibility/compatibility_report.json",
+    "sha256": "58703f647e0725411b7f58b4f62589fc63557facc5fef516d39a42de7ecae127",
+    "bytes": 260976
+  },
+  {
+    "name": "m4c3s-runtime-compatibility/dependencies.txt",
+    "sha256": "eb57782dc88e6f68dcdb2b4b9bb710574b91f0a8f66791a1d095edc07556dd9b",
+    "bytes": 214
+  },
+  {
+    "name": "m4c3s-runtime-compatibility/disposable-overlay-source.tar.gz",
+    "sha256": "e4029d254570e8832fba3c80a1d74ca20461629979719b8fb873501854188e31",
+    "bytes": 665261
+  },
+  {
+    "name": "m4c3s-runtime-compatibility/hf2-m4c3s-runtime-compatibility.yml",
+    "sha256": "e72c25f5e65c0766c5b253eded5e09c6e83fd588a13dd70dda0cb3b3cbb091cf",
+    "bytes": 2714
+  },
+  {
+    "name": "m4c3s-runtime-compatibility/immutable_hashes.json",
+    "sha256": "125c9250d403202f8755874879add3880b9cb91b1c6b1c84658353df4781d74e",
+    "bytes": 5898
+  },
+  {
+    "name": "m4c3s-runtime-compatibility/install_disposable.py",
+    "sha256": "0fdc60eb68cdc6d7a8b85ae06918cbf4d403728f9331582e8c4ca2f6758d25c7",
+    "bytes": 10301
+  },
+  {
+    "name": "m4c3s-runtime-compatibility/overlay_hashes.json",
+    "sha256": "d3bd1ecad5d51fe7163aa0a2b180077a97450d3f9d0e347eb7235043bcfd588b",
+    "bytes": 5998
+  },
+  {
+    "name": "m4c3s-runtime-compatibility/prototype.log",
+    "sha256": "2eb46f69c28d4ef75421be65d25a771d396ef4610b915342244073800484ef1a",
+    "bytes": 1999
+  },
+  {
+    "name": "m4c3s-runtime-compatibility/prototype_files.sha256",
+    "sha256": "2d8194b831740e864e1c45c952ff8418d0197bdf581154b4bdb1db6b96b951e0",
+    "bytes": 514
+  },
+  {
+    "name": "m4c3s-runtime-compatibility/runtime_adapter.py",
+    "sha256": "502140e97bc321642df4b2b4f02855e12e4d89a2fb339d57b92779ccdb1971ca",
+    "bytes": 11773
+  },
+  {
+    "name": "m4c3s-runtime-compatibility/two_ledger_v1.py",
+    "sha256": "4462e4878de90a9ec4dd4a1f87d7de9451cf685fcf31e0d2d7c4586353c36f6e",
+    "bytes": 12765
+  },
+  {
+    "name": "m4c3s-runtime-compatibility/verify_compatibility.py",
+    "sha256": "26819a2d058cc603732b2073c68c8f7554d419a3c68663b6699c669ef4d13889",
+    "bytes": 31107
+  },
+  {
+    "name": "m4c3s-runtime-compatibility.sha256",
+    "sha256": "f643f60ba54462eb1a1e6f6a0e17ee22d919aa6c7dca604b23b1c755afc20461",
+    "bytes": 1509
+  }
+]
+
+EXTERNAL VERIFICATION MATRIX
+PASS | runtime_compatibility | integrated_why_has_two_routes_and_four_supports
+PASS | runtime_compatibility | real_reasoning_preserves_02_09_across_24_orders
+PASS | runtime_compatibility | integrated_atomic_parallel_routes
+PASS | runtime_compatibility | integrated_transitive_parallel_routes
+PASS | runtime_compatibility | integrated_universal-positive_parallel_routes
+PASS | runtime_compatibility | integrated_universal-negative_parallel_routes
+PASS | runtime_compatibility | single_route_zero_is_numeric_zero_not_default_or_absence
+PASS | runtime_compatibility | direct_target_preserves_derivations_bare_truth_is_not_explanation
+PASS | runtime_compatibility | cyclic_nested_symbolic_routes_pass_models_and_conservative_audit
+PASS | runtime_compatibility | reasoning_duplicate_observations_do_not_multiply_proof_records
+PASS | runtime_compatibility | response_autonomous_and_serialization_preserve_undefined_confidence
+PASS | runtime_compatibility | proof_budget_incompleteness_reaches_both_content_consumers
+PASS | runtime_compatibility | closure_budget_incompleteness_reaches_both_content_consumers
+PASS | runtime_compatibility | public_infer_four_item_compatibility_and_separate_max_steps_budget
+PASS | runtime_compatibility | typed_universal_collision_keeps_provenance_and_surface_options_distinct
+PASS | conservative_consumer | all_routes_missing_remains_blocked
+PASS | conservative_consumer | all_routes_conflict_remains_blocked
+PASS | conservative_consumer | all_routes_scoped_remains_blocked
+PASS | conservative_consumer | all_routes_unscoped_remains_blocked
+PASS | conservative_consumer | autonomous_path_uses_same_all_route_conservative_audit
+PASS | runtime_compatibility | parallel_current_bounded_DKT_sources_and_native_admission_preserved
+PASS | runtime_compatibility | existing_direct_and_reasoning_correction_admission_matches_ten_controls
+PASS | runtime_compatibility | fourteen_public_query_families_keep_observed_content_contract
+PASS | runtime_compatibility | genuine_proposition_alternatives_stay_act_neutral
+PASS | full_ingest | two_complete_Noeron_ingest_orders_and_state_roundtrip
+PASS | native_choice | integrated_proof_inventory_native_blank
+PASS | native_choice | integrated_proof_inventory_native_tied
+PASS | native_choice | integrated_proof_inventory_native_missing
+PASS | native_choice | integrated_proof_inventory_native_learned-clarify
+PASS | native_choice | integrated_proof_inventory_native_learned-ask
+PASS | native_choice | integrated_proof_inventory_native_learned-silent
+PASS | native_choice | owner_calibration_preserves_operator_boundary
+PASS | surface_control | sealed_0022_surface_correspondence_with_typed_proof_metadata
+PASS | provenance | source_provenance_authority_and_unchanged_causal_boundaries
+
+HISTORICAL LOCAL DESIGN CHECKPOINT — PRESERVED CHRONOLOGY
+
 M4C3S DISPOSABLE RUNTIME COMPATIBILITY — LOCAL DESIGN CHECKPOINT / EXTERNAL GATE PENDING
 Repository: RugBlade/Yggdrasil
 Branch: stage8B/v0.8.2-conversation-completion-hf2
