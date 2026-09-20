@@ -1,0 +1,632 @@
+{
+  "schema_version": "HF2-M4C3S-TWO-LEDGER-PROTOTYPE-MANIFEST-20260920-v1",
+  "recorded_utc": "2026-09-20T07:31:58.818121+00:00",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "actual_starting_head": "75478de9c7f9ea4a0f8106c05439873ef0da4537",
+  "observed_head_before_manifest": "9d8216fe318b4b3d4aa580bb51bedb3fb135524e",
+  "starting_provider_inspection": {
+    "newer_commits_found": false,
+    "active_or_pending_runs": [],
+    "competing_mutations_observed": false,
+    "ordinary_or_intent_0023_present": false,
+    "root_design_verification_manifest_raw_equality": true,
+    "standing_root_blob": "30a05e60b8d7862542d8ca3a36cf74a2db00a070",
+    "standing_root_sha256": "f78c9ae3f414a6156d54c92a7e91c41564a67605633e7f13f8490d42792e9d33",
+    "standing_root_bytes": 249507,
+    "previous_closure_drive_id": "1o8gxiZqpE3KIdIQb4LClD9XZAIDqMATo"
+  },
+  "active_milestone": {
+    "id": "M4C3S",
+    "name": "direct-proof provenance completeness",
+    "stage": "8B v0.8.2 HF2",
+    "phase": "TWO_LEDGER_PROTOTYPE_VERIFIED_RUNTIME_COMPATIBILITY_CONTRACT_PENDING",
+    "two_ledger_prototype_green": true,
+    "prototype_contract_preserved": true,
+    "runtime_compatibility_proven": false,
+    "candidate_scope_frozen": false,
+    "candidate_authorized": false,
+    "runtime_candidate_created": false,
+    "ordinary_0023_published": false,
+    "m4c3s_sealed": false,
+    "stage8b_complete": false
+  },
+  "parent_seal": {
+    "latest_sealed_milestone": "M4C3R",
+    "m4c3r_sealed": true,
+    "m4c3q_sealed": true,
+    "reopened": false,
+    "published_reconstruction": "byte-exact HF1 + ORIGINAL helpers + ordinary patches 0001 -> 0022",
+    "manifest_path": "docs/evidence/HF2_M4C3R_20260919_MANIFEST.json",
+    "manifest_commit": "b5f843db9d546781c494641f766952b8cac55d3b",
+    "manifest_blob": "924cbe5431f404bf6af40a75bb23ed6496a62c58",
+    "manifest_drive_id": "1WHPZymaVah9Sk-SROutQa7RE_30teEys",
+    "github_drive_raw_equality": true,
+    "existing_ci_gates_rerun": false
+  },
+  "completed_previous_verification": {
+    "run_id": 35477884092,
+    "job_id": 105990188172,
+    "conclusion": "SUCCESS",
+    "checks": 31,
+    "rerun": false,
+    "manifest_path": "docs/evidence/HF2_M4C3S_DISPOSABLE_VERIFICATION_20260920_MANIFEST.json",
+    "manifest_commit": "26502b26e22b70243e9321af109ff6ed4a6132e3",
+    "manifest_blob": "4a6220ff86b3de825929593fc4850df810c3586d",
+    "manifest_sha256": "c69d92c65855ee3c0ecf1c59bf4f96bab4fdc786416b1c398f4d9f0dc12c2718",
+    "manifest_drive_id": "1bQy4VzlQWr4-vT9XtO64FvUxGVhtJpHO"
+  },
+  "immutable_input": {
+    "published_source_commit": "4e54623e696a687586b820b5dd9a3190d1648934",
+    "published_run_id": 35476221835,
+    "published_job_id": 105985811089,
+    "artifact": {
+      "github_id": 10594550960,
+      "name": "hf2-m4c3r-exact-hf1-published-0022",
+      "bytes": 679959,
+      "sha256": "b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0",
+      "drive_id": "1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_",
+      "github_drive_raw_equality": true
+    },
+    "source_archive_sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd",
+    "source_archive_bytes": 663382,
+    "source_file_count": 58,
+    "python_file_count": 54,
+    "all_imported_noeron_modules_from_exact_artifact": true,
+    "before_after_source_bytes_equal": true,
+    "source_hash_inventory": {
+      "path": "docs/evidence/m4c3s/verified_post0022_source_hashes.json",
+      "bytes": 5898,
+      "sha256": "125c9250d403202f8755874879add3880b9cb91b1c6b1c84658353df4781d74e",
+      "blob": "24fa409d8ac3c813cb4d7db28ce252e456499ae6",
+      "commit": "0570d48197fb206543691cfd4c6391b2777246c1"
+    }
+  },
+  "prototype": {
+    "initial_design_commit": "507e3815fcfa1a34cbbc45d0be458db83a9a7487",
+    "initial_continuation": {
+      "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_TWO_LEDGER_DESIGN_20260920.txt",
+      "bytes": 13010,
+      "sha256": "5d302176f3be254f9c6adcdf31848aff0a3e4b889339510953b06ff1eab02739",
+      "blob": "a86b9ad4df22637835132bdd284b20696881b7ae"
+    },
+    "files": [
+      {
+        "path": "docs/evidence/m4c3s_two_ledger/two_ledger.py",
+        "bytes": 12765,
+        "sha256": "4462e4878de90a9ec4dd4a1f87d7de9451cf685fcf31e0d2d7c4586353c36f6e",
+        "blob": "716c48ff908157bd87bd9f95c0cad240621687ae",
+        "commit": "507e3815fcfa1a34cbbc45d0be458db83a9a7487"
+      },
+      {
+        "path": "docs/evidence/m4c3s_two_ledger/verify_two_ledger.py",
+        "bytes": 31615,
+        "sha256": "49486f69b8771b60fae2b764a2fde1f3163fa52d038dad26828144d2eca4b331",
+        "blob": "b89917e9c620cf0d2218350e8051dbb3268c1e65",
+        "commit": "507e3815fcfa1a34cbbc45d0be458db83a9a7487"
+      },
+      {
+        "path": "docs/evidence/m4c3s_two_ledger/prototype_files.sha256",
+        "bytes": 229,
+        "sha256": "2dbfff7fe851ae186a49c1500f0de6aeea86c1737b8cddf8639be9287521cdda",
+        "blob": "e695584e79bbb0dcd4ce78d2a98677a59efb6aa0",
+        "commit": "507e3815fcfa1a34cbbc45d0be458db83a9a7487"
+      },
+      {
+        "path": "docs/evidence/m4c3s_two_ledger/runtime_compatibility_review.json",
+        "bytes": 3242,
+        "sha256": "9283e5739537db75d74ea7fa22e1a9b4c3bb7742b921bc21ceabaa6c086bc41c",
+        "blob": "89eb11840c619b8c208580f070d9b96e1f1e0415",
+        "commit": "507e3815fcfa1a34cbbc45d0be458db83a9a7487"
+      }
+    ],
+    "installed_runtime_replacement": false,
+    "legacy_infer_called_or_patched": false
+  },
+  "design_contract": {
+    "version": 1,
+    "unique_proposition_identity": [
+      "subject",
+      "relation",
+      "object",
+      "polarity",
+      "universal",
+      "modality"
+    ],
+    "proposition_confidence": "None means no scalar aggregate; not zero and not native abstention",
+    "source_identity": "SHA256 canonical JSON of typed key, source label/record/memory IDs, modifiers and input-derived flag; available identity only; confidence readings retained separately",
+    "direct_record_fingerprint": {
+      "algorithm": "SHA256 canonical sorted-key compact UTF-8 JSON",
+      "fields": [
+        "version",
+        "rule",
+        "premise_keys",
+        "conclusion_key",
+        "rule_evidence_keys",
+        "premise_source_ids",
+        "rule_evidence_source_ids"
+      ],
+      "premise_order": "role-preserving",
+      "source_id_order": "set-canonicalized serialization only",
+      "excluded": [
+        "numeric confidence readings",
+        "recursive producer-record IDs"
+      ]
+    },
+    "parallel_provenance": "all distinct source observations retained per premise; no Cartesian proof-path multiplication",
+    "closure_budget": {
+      "parameter": "max_conclusion_steps",
+      "prototype_default": 128,
+      "counts": "new unique identities",
+      "semantics": "synchronous whole frontier admitted only if entire frontier fits; otherwise record blocked_frontier and closure_complete=false",
+      "no_preferred_frontier_subset": true,
+      "runtime_default_or_legacy_alias_frozen": false
+    },
+    "proof_budget": {
+      "parameter": "max_proof_records",
+      "prototype_default": 1024,
+      "counts": "distinct direct records",
+      "semantics": "after closure; cap+1 distinct fingerprint exposes overflow, discards arbitrary prefix, records lower bound, marks enumeration incomplete",
+      "does_not_consume_conclusion_capacity": true,
+      "runtime_default_frozen": false
+    },
+    "proof_ledger_complete": "closure_complete AND proof_enumeration_complete_for_known",
+    "incomplete_consumer_behavior": "explicit incomplete metadata and no proof-eligible candidate through prototype adapter; no speech act selected",
+    "cycle_behavior": "finite direct record set with nonrecursive fingerprints and later attached producer references; no path enumeration",
+    "confidence_representation": {
+      "per_source": "all numeric readings preserved, including zero",
+      "per_record": "existing-within-route-min expression with source and producer references",
+      "numeric_evaluation": "only singleton direct observed input values with no derived producer for every premise",
+      "otherwise": "symbolic-unaggregated value=None; preserve finite graph",
+      "cross_route_reducer": null,
+      "observed_distinct_values": [
+        0.2,
+        0.9
+      ]
+    },
+    "direct_target_behavior": "already-admitted target remains unique while independent supporting derivations are recorded; no new-conclusion capacity consumed",
+    "why_behavior": "all direct target premises/explanatory support retained, target excluded from own explanation; explicit incomplete status on truncation",
+    "consumer_projection": "unchanged post0022 gate only when complete, canonical projection injective, numeric step confidence representable; otherwise explicit boundary status without scalar invention",
+    "ambiguity_policy": "existing conservative all-recorded-dependency policy preserved; no any-clean-route bypass",
+    "native_choice": "act-neutral content inventory only; observed learned consequence geometry remains necessary; operator calibration remains directed",
+    "scope_limit": "already-admitted premises; complete runtime integration and exact changed-file set are not proven"
+  },
+  "authoritative_prototype_verification": {
+    "source_commit": "77d436707516db45773a846c21351aec4bc017cd",
+    "workflow": {
+      "path": ".github/workflows/hf2-m4c3s-two-ledger-prototype.yml",
+      "bytes": 2693,
+      "sha256": "ae53d282b7c693946a056ed4a6ea4821ae55f1d3745425e7dd9ba80d53fc6c86",
+      "blob": "522724b31a51377405c631d2dd3e849a279e3ce1"
+    },
+    "run_id": 35496716857,
+    "job_id": 106040915219,
+    "attempt": 1,
+    "conclusion": "SUCCESS",
+    "started_at": "2026-09-20T07:23:02Z",
+    "completed_at": "2026-09-20T07:23:13Z",
+    "branch_frozen_during_run": true,
+    "repository_write_permission": false,
+    "passed": 41,
+    "failed": 0,
+    "categories": {
+      "prototype_contract": 23,
+      "consumer_control": 8,
+      "native_control": 7,
+      "compatibility_boundary": 3
+    },
+    "formal_rule_families": 5,
+    "formal_family_permutations": 120,
+    "confidence_permutations": 24,
+    "checks": [
+      {
+        "id": "structured-modus-ponens_route_complete_order_independent",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "universal-membership_route_complete_order_independent",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "universal-negative-membership_route_complete_order_independent",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "modus-ponens_route_complete_order_independent",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "transitive-composition_route_complete_order_independent",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "why_support_contains_both_direct_routes",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "direct_target_does_not_shadow_derivations",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "bare_event_truth_is_not_explanation",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "identical_premise_duplicates_do_not_multiply_routes",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "parallel_source_provenance_preserved_without_fake_rule_multiplicity",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "same_source_different_confidence_readings_retained",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "cycles_use_finite_direct_records_and_symbolic_references",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "one_conclusion_budget_still_collects_both_routes",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "tiny_proof_budget_marks_incomplete_without_preferred_prefix",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "small_conclusion_budget_withholds_whole_frontier_order_independently",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "zero_budgets_have_explicit_finite_semantics",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "confidence_02_09_permutations_preserve_both_without_reducer",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "zero_route_confidence_is_preserved",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "chained_confidence_preserves_support_graph_without_path_expansion",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "unchanged_proof_consumer_scoped",
+        "category": "consumer_control",
+        "status": "PASS"
+      },
+      {
+        "id": "unchanged_proof_consumer_unscoped",
+        "category": "consumer_control",
+        "status": "PASS"
+      },
+      {
+        "id": "unchanged_proof_consumer_missing",
+        "category": "consumer_control",
+        "status": "PASS"
+      },
+      {
+        "id": "unchanged_proof_consumer_conflict",
+        "category": "consumer_control",
+        "status": "PASS"
+      },
+      {
+        "id": "unchanged_proof_consumer_clean",
+        "category": "consumer_control",
+        "status": "PASS"
+      },
+      {
+        "id": "why_support_is_complete_and_all_route_ambiguity_remains_blocked",
+        "category": "consumer_control",
+        "status": "PASS"
+      },
+      {
+        "id": "genuine_proposition_alternatives_remain_unranked",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "prototype_routes_reach_unchanged_act_neutral_inventory",
+        "category": "consumer_control",
+        "status": "PASS"
+      },
+      {
+        "id": "new_proof_inventory_blank_geometry_selects_no_act",
+        "category": "native_control",
+        "status": "PASS"
+      },
+      {
+        "id": "new_proof_inventory_observed_geometry_clarify",
+        "category": "native_control",
+        "status": "PASS"
+      },
+      {
+        "id": "new_proof_inventory_observed_geometry_ask",
+        "category": "native_control",
+        "status": "PASS"
+      },
+      {
+        "id": "new_proof_inventory_observed_geometry_remain-silent",
+        "category": "native_control",
+        "status": "PASS"
+      },
+      {
+        "id": "new_proof_inventory_tied_geometry_selects_no_act",
+        "category": "native_control",
+        "status": "PASS"
+      },
+      {
+        "id": "new_proof_inventory_incomplete_geometry_selects_no_act",
+        "category": "native_control",
+        "status": "PASS"
+      },
+      {
+        "id": "owner_calibration_remains_operator_directed",
+        "category": "native_control",
+        "status": "PASS"
+      },
+      {
+        "id": "sealed_0022_correspondence_with_new_proof_inventory_unchanged",
+        "category": "consumer_control",
+        "status": "PASS"
+      },
+      {
+        "id": "explicit_transitive_rule_enablement_is_retained_as_provenance",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "typed_identity_collision_is_not_silently_collapsed",
+        "category": "compatibility_boundary",
+        "status": "PASS"
+      },
+      {
+        "id": "existing_runtime_models_require_scalar_confidence",
+        "category": "compatibility_boundary",
+        "status": "PASS"
+      },
+      {
+        "id": "correction_admission_boundary_is_explicit",
+        "category": "compatibility_boundary",
+        "status": "PASS"
+      },
+      {
+        "id": "all_prototype_authorities_false",
+        "category": "prototype_contract",
+        "status": "PASS"
+      },
+      {
+        "id": "immutable_source_and_consumer_imports_verified",
+        "category": "prototype_contract",
+        "status": "PASS"
+      }
+    ],
+    "compatibility_boundary_pass_means_exposed_not_resolved": true,
+    "full_runtime_integration_tested": false,
+    "local_ci_semantic_reports_equal": true,
+    "parity_excluded_fields": [
+      "created_utc",
+      "source_commit",
+      "run_id"
+    ],
+    "artifact": {
+      "github_id": 10601720123,
+      "drive_id": "1cBK0HU6KWkZwrKUrQViKigYq4TUUAkgS",
+      "name": "hf2-m4c3s-two-ledger-design-prototype",
+      "sha256": "8becd6ad387143d4d6486dc897fe7edbee1bcd8a0b8d3c8e613b5dd14f0f7a55",
+      "bytes": 34250,
+      "github_drive_raw_equality": true,
+      "internal_member_hashes_verified": true,
+      "full_report": {
+        "member": "m4c3s-two-ledger/prototype_report.json",
+        "sha256": "620c9267e90e61b04a63e2bf8a61802ab9e1d0921403a98f52d813b496726dde",
+        "bytes": 182502
+      }
+    },
+    "git_summary": {
+      "path": "docs/evidence/m4c3s_two_ledger/prototype_verification_summary.json",
+      "bytes": 7343,
+      "sha256": "9b11e388fb5faf1bff53ff07b705a9c809fdc2eeaa20f16583db250fd6c7438d",
+      "blob": "ece86538310afb0fdd8fa3391b2bdd0c67f21e90",
+      "commit": "9d8216fe318b4b3d4aa580bb51bedb3fb135524e"
+    }
+  },
+  "scope_decision": {
+    "candidate_authorized": false,
+    "exact_candidate_changed_files_frozen": false,
+    "observed_consumer_review": {
+      "status": "OBSERVED_CONSUMER_REVIEW_SURFACE_NOT_CANDIDATE_CHANGED_FILE_SET",
+      "exact_candidate_scope_frozen": false,
+      "files": [
+        {
+          "path": "src/noeron/inference.py",
+          "sha256": "73d32c9e61934c2fcbaf042ac7499b74a916df57cfca06817723020424887434",
+          "bytes": 45920,
+          "observed_constraints": [
+            "infer(): conclusion identity and record production coupled; legacy four-tuple return; correction admission is order-sensitive"
+          ]
+        },
+        {
+          "path": "src/noeron/math/models.py",
+          "sha256": "eef4d3e87ee61da7797e69d773accf4aaa598d2c00139ee851e1e6bb7b6da455",
+          "bytes": 16470,
+          "observed_constraints": [
+            "LogicalProposition.confidence float; InferenceStep.confidence float; MultiMemoryReasoningMathState.confidence float and no completeness metadata"
+          ]
+        },
+        {
+          "path": "src/noeron/reasoning.py",
+          "sha256": "f8b32e87be66e1c53402fbf701c81fd69553907f76187f2cc5856e290cd0d9dc",
+          "bytes": 22049,
+          "observed_constraints": [
+            "premise_map collapses canonical copies before infer; full proof provenance is constructed afterward",
+            "proof_conf=min(p.confidence for p in answers) and geometric multiplication consume scalars"
+          ]
+        },
+        {
+          "path": "src/noeron/conversation_proof.py",
+          "sha256": "a95e52ba329ee2d040373ebce7c4ad863ce80d5ad4bdf26fffaefe7febe4fb05",
+          "bytes": 12760,
+          "observed_constraints": [
+            "normalize_inference_steps coerces scalar confidence; zero uses the existing or-1.0 default",
+            "canonical string support graph does not encode the universal identity bit; complete-record status absent"
+          ]
+        },
+        {
+          "path": "src/noeron/conversation_runtime_gate.py",
+          "sha256": "632689426cfa5c2d3c66d742356e1345f09fe2f22cfb2011aa90674ac224bae6",
+          "bytes": 6337,
+          "observed_constraints": [
+            "must receive and preserve explicit incomplete-ledger status without weakening existing dependency gates"
+          ]
+        },
+        {
+          "path": "src/noeron/cognition/models.py",
+          "sha256": "786231e57f3f906f8941dca5386f2c92a16aa23c8605995e8a83e60f1dd809b0",
+          "bytes": 41026,
+          "observed_constraints": [
+            "NativeProposition and NativeThought confidence fields require scalar float"
+          ]
+        },
+        {
+          "path": "src/noeron/cognition/kernel.py",
+          "sha256": "203c4fbb87da4650e622db065dfd6cfa25188053cc3f891413a2f8c8488bb4ff",
+          "bytes": 8008,
+          "observed_constraints": [
+            "response/autonomous copy proposition confidence; _support_metrics clamps reasoning confidence"
+          ]
+        },
+        {
+          "path": "src/noeron/math/affect.py",
+          "sha256": "ee14fb63becf24786e909767f2c5a353fa86abed3b65832133c4192009e25500",
+          "bytes": 14167,
+          "observed_constraints": [
+            "proto_affective_state computes 1.0 - reasoning.confidence"
+          ]
+        },
+        {
+          "path": "src/noeron/conversation_resolution.py",
+          "sha256": "ea1ead068b8c68bd34d5d852a2918634ae272c692e37831a77f1a1bb63057191",
+          "bytes": 20652,
+          "observed_constraints": [
+            "proof inventory serializes rule/premise/conclusion strings; typed/provenance metadata projection requires verification, not a renderer workaround"
+          ]
+        }
+      ]
+    },
+    "remaining_contracts": [
+      "confidence expressions/absence through scalar models and reasoning/cognition/affect consumers without invented aggregate",
+      "typed key, parallel source envelopes and completeness metadata through conservative proof consumers",
+      "existing order-sensitive correction/supersession and current/bounded/persistent admission compatibility"
+    ],
+    "no_renderer_or_speech_act_patch_justified": true,
+    "next_bounded_action": "Build a disposable runtime-compatibility prototype against the same immutable post0022 source and frozen ledger module; test these contracts, checkpoint exact minimal file scope, and only then consider 0023 intent."
+  },
+  "continuation": {
+    "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_TWO_LEDGER_DESIGN_20260920.txt",
+    "bytes": 25211,
+    "sha256": "f248f5387da0bed7f6c16a433537403a9971cd0c929dcf139eacbb3e864a2fc5",
+    "blob": "3004ba28ed7e1642fec90b0c39a72559d646526b",
+    "commit": "9d8216fe318b4b3d4aa580bb51bedb3fb135524e",
+    "drive_id": "1-YFIb4c_1YAIQGZEmYRJITV51SNPjVHe",
+    "github_drive_raw_equality": true
+  },
+  "backup": {
+    "local_support": {
+      "drive_id": "1JnDmwOvwshkOS-joMBs_OVp676g8XPBS",
+      "sha256": "b2a9ce054c7e532783a3a1c4a05213a4d5c2cc1540fdef7b00e9c164ad16c5ac",
+      "bytes": 51868,
+      "raw_equality": true,
+      "contains_initial_fixture_error_report": true
+    },
+    "provider_receipt": {
+      "drive_id": "1lda7vSTiMAKBLZomGi6qhhh-6a33nW-s",
+      "sha256": "1271ef44201b0fb0e1a4e60728847b1abdcae14fd4a16a05768eb2c8d9a7b21b",
+      "bytes": 106128,
+      "raw_equality": true,
+      "contains_complete_job_log_and_provider_snapshots": true
+    }
+  },
+  "ending_root": {
+    "path": "CONTINUATION_STAGE8B_HF2.txt",
+    "drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+    "closure_receipt_drive_id": "1fKNSdg_6AmVCe_XcjGbUY_E0o2GhtbNk",
+    "exact_ending_head_resolution": "Following ending-root commit references this manifest; closure receipt records exact ending HEAD/root blob/SHA256/bytes after that write."
+  },
+  "authority": {
+    "same_ingress_prior_sentence_scope": true,
+    "current_sentence_self_reference_from_later_mentions": false,
+    "prepositional_complement_nominal_candidate": false,
+    "categorical_predicate_complement_removal": false,
+    "genuine_reference_alternatives_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "lexical_pos_inference_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "roadmap": {
+    "drive_id": "1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog",
+    "sha256": "bebb169641d4b2b270fffc1c8af4b92b53158acc25dbc480eb35ada4891452b2",
+    "bytes": 10359,
+    "git_synchronized_body_equality": true,
+    "modified": false,
+    "current_stage": "8B",
+    "stage8_range": "8A-8M",
+    "self_upgrade_location": "Stage 8, especially 8H-8K",
+    "stage9_begun": false
+  },
+  "closure": {
+    "active_or_pending_runs": [],
+    "provider_divergence": false,
+    "access_blockers": [],
+    "engineering_gate_remaining": true,
+    "cleanup_required": [],
+    "read_only_prototype_workflow_retained": true,
+    "runtime_source_changed": false,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false,
+    "final_live_deployment_package": "FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED"
+  }
+}
