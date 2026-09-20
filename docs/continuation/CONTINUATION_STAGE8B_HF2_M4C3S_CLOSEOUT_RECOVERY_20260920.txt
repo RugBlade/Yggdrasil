@@ -14,11 +14,15 @@ Standing root Drive ID: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
 Authoritative Stage8/HF2 folder: 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
 Milestone recovery supplement: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_CLOSEOUT_RECOVERY_20260920.txt
 
+RECOVERY WRITE INCIDENT — CANDIDATE WORK STOPPED
+The first closeout attempt hit a local Python bytes-literal generation error. A subsequent unchecked failed file read was mistakenly committed as the GitHub standing root in ffb5746a6196cb2af5e7637e8cc362e8f52b4de9 (root blob 8244cb8c4b75442853a25206040a5c22bca37b09). The Drive write failed because the generated local file did not exist, so the original 268957-byte Drive root remained intact. This was an assistant execution error, not an engineering/CI defect.
+The failed commit is preserved in history. This follow-up commit restores the complete provider-verified historical root and adds the verified runtime-compatibility block. The final closure receipt records this incident and the successful raw readback. Per the user's STOP-on-divergence instruction, this Work run ends after closeout repair; no candidate engineering begins. The next run must recheck providers before candidate construction.
+
 Current Stage 8B v0.8.2 HF2 / M4C3S remains active. M4C3R is latest sealed; M4C3Q also remains sealed. Published reconstruction is exact HF1 + ORIGINAL helpers + ordinary 0001 -> 0022. The compatibility gate is complete: run 35512293321 / job 106082178301, 34 PASS / 0 FAIL. No 0023 intent or ordinary patch exists at this closeout. Neither M4C3S nor Stage 8B is complete.
 
 The frozen design preserves unique typed propositions, distinct finite direct proofs, independent conclusion/proof budgets, explicit incompleteness, all source/route confidence without a cross-route reducer, None distinct from zero, typed universal identity, parallel current/bounded/DKT provenance, conservative all-route proof audit and existing correction admission. No clean-route ambiguity bypass or automatic act policy is permitted. Native action selection remains downstream of learned geometry; owner calibration remains operator-directed. The complete behavioral contract and exact eight-file scope are in the unchanged milestone continuation and manifest identified below.
 
-Next bounded action ONLY AFTER this root and closure receipt are verified: inspect providers again, form exact 0023 candidate intent from immutable sealed post0022 and the green compatibility artifact within the frozen eight-file boundary, remove only disposable comparison/assembly instrumentation, commit intent separately, focused tests separately, candidate continuation separately, and mirror the candidate continuation before authoritative CI. Preserve the unchanged 451-test post0022 baseline first; then hash/apply/compile/focused/full and independent exact-HF1 replay/source parity/focused/full. Candidate green cannot publish ordinary 0023; publication requires exact byte/blob/SHA equality and a separate published-chain gate before sealing.
+Exact next bounded action, in a subsequent Work run after this repair is verified: inspect providers again, form exact 0023 candidate intent from immutable sealed post0022 and the green compatibility artifact within the frozen eight-file boundary, remove only disposable comparison/assembly instrumentation, commit intent separately, focused tests separately, candidate continuation separately, and mirror the candidate continuation before authoritative CI. Preserve the unchanged 451-test post0022 baseline first; then hash/apply/compile/focused/full and independent exact-HF1 replay/source parity/focused/full. Candidate green cannot publish ordinary 0023; publication requires exact byte/blob/SHA equality and a separate published-chain gate before sealing.
 
 Live runtime untouched. Canonical DB untouched. No deployment or certification claim. No external run is active. No source/patch/test/workflow cleanup is pending. Previously completed 31/41/34-check gates must not be rerun because the UI ended. This repair is documentation-only.
 
@@ -142,6 +146,8 @@ EXACT PROVIDER IDENTITIES, VERIFIED STATUS AND AUTHORITY INVARIANTS
   "blockers": [],
   "cleanup_pending": []
 }
+
+Recovery supplement Drive ID: 1LNjlEvFEtoZ4Bn9mwmbQZOS2F6A4uaSJ
 
 PREALLOCATED RECEIPT PRESERVED FOR CHRONOLOGY
 {
