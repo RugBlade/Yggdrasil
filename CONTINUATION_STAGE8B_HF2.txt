@@ -1,3 +1,164 @@
+M4C3S VERIFICATION WORK RUN CLOSED — DEFECT PROVEN / CANDIDATE DESIGN CONTRACT PENDING
+Recorded UTC: 2026-09-20T00:23:57.759207+00:00
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Actual starting HEAD: 94513f949534c49b5c5adda420182312d7e02867
+Exact observed HEAD immediately before this ending-root commit: 26502b26e22b70243e9321af109ff6ed4a6132e3
+The containing Git commit is the ending-root commit. After this write, its exact HEAD, root Git blob, SHA-256 and byte count are recorded in Drive closure receipt 1o8gxiZqpE3KIdIQb4LClD9XZAIDqMATo:
+HF2_M4C3S_WORK_RUN_CLOSURE_20260920.json.
+This avoids a self-referential commit hash. Inspect actual provider HEAD and this receipt on resumption; do not infer state from chat.
+Standing root Drive ID: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Authoritative Stage 8/HF2 Drive folder: 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+
+CURRENT STATE
+Current Stage/substage: Stage 8B v0.8.2 HF2.
+Active milestone: M4C3S — direct-proof provenance completeness.
+Phase: DISPOSABLE_VERIFICATION_COMPLETE_CANDIDATE_DESIGN_CONTRACT_PENDING.
+Latest sealed milestone: M4C3R. M4C3Q also remains sealed; neither milestone reopened or invalidated.
+Published reconstruction remains byte-exact HF1 + ORIGINAL carrier helpers + ordinary patches 0001 -> 0022.
+M4C3S concerns an upstream proof-recording gap, distinct from the sealed M4C3R surface-correspondence correction.
+No provider work newer than the starting HEAD or competing branch mutation was observed at initial inspection. Root, parent final continuation, parent manifest and exact published artifact were reverified against Drive. No prior sealed CI gate was rerun.
+
+COMPLETED THIS WORK RUN
+Inspected GitHub branch/history/Actions/tree, Drive standing root and parent evidence, authoritative HF2 reasoning specification, original revised Stage 8B acceptance matrix and unchanged roadmap.
+Selected M4C3S in a separate durable design checkpoint; preserved the initial probe and immutable source identities.
+Created a read-only disposable verification harness and one authoritative external GitHub Actions workflow; no runtime source, intent patch or ordinary patch was changed.
+Verified 31 checks: 20 controls, 10 defect reproductions, 1 finite-budget/cycle design constraint; 0 failures. PASS for a defect check means reproduced, not corrected.
+Exercised 120 premise permutations across 5 formal rule families, plus 2 complete real Noeron.ingest cases.
+Verified every artifact member hash and exact harness/workflow bytes. Local and CI semantic reports agree after removal only of creation time, source commit and run ID fields.
+Mirrored the CI artifact, supporting evidence archive, design, verification continuation and verification manifest to Drive and checked raw byte equality.
+All 58 immutable runtime files, including 54 Python files, retain identical before/after bytes. All imported Noeron modules came from the exact artifact. Temporary test databases only; no live runtime or canonical DB touched.
+
+VERIFICATION FINDINGS AND CONTROLS
+infer() deduplicates conclusions before appending InferenceStep records. Two distinct independently valid direct derivations to one conclusion therefore leave only the first proof record.
+Reproduced for structured modus ponens, atomic modus ponens, transitive composition, positive universal membership and negative universal membership; all 24 premise permutations per family lose a route.
+Natural WHY support changes with premise order. A directly supplied target proposition hides legitimate derived proof routes entirely. Derivation confidence changes with the first route (observed 0.2 versus 0.9).
+A controlled, explicitly typed scoped-ambiguity fixture changes proof-gate visibility with the recorded route. This is not a claim that the parser inferred that scope. Supplying both independently generated proof records to unchanged audit logic preserves its conservative ambiguity block in both orders.
+Controls retain distinct supplied proof records, ordinary formal reasoning, formal rule boundaries and conservative unscoped/missing/conflicting-provenance gates. No any-clean-route ambiguity bypass is authorized.
+Blank, tied and incomplete resolution consequence geometry select no resolution act. This does not claim that ordinary proof-response output is always silent. Observed native consequence geometry in controlled fixtures still selects clarify, ask or remain-silent with native choice traces. Owner calibration remains explicitly operator-directed.
+The current inference step budget is shared with conclusion discovery; its 4-tuple return has no explicit completeness flag. Appending proof records under the same counter could truncate conclusions. Cycles require finite direct-proof records, not unbounded path enumeration.
+A runtime correction is demonstrably required; a verification-only M4C3S seal is inappropriate. No correction or candidate green is claimed.
+
+EXACT NEXT BOUNDED ACTION — DISPOSABLE DESIGN BEFORE ANY 0023
+1. Reinspect actual GitHub HEAD, standing Drive root/closure receipt and recent/active Actions; confirm no competing mutation and retain both sealed parents.
+2. Use the same immutable post0022 archive. Build a disposable design prototype separating unique proposition closure from distinct direct proof records identified by formal rule, premises and conclusion, with explicit per-route confidence/provenance.
+3. Resolve direct-target shadowing, max_steps=1, cycles and 0.2/0.9 route-confidence permutations. Define finite proof-record budget/completeness semantics and explicit incomplete-ledger status without manufacturing semantic authority.
+4. Preserve the existing conservative ambiguity/conflict/missing-provenance policy, genuine alternatives, native learned speech-act choice, operator calibration and sealed 0022 correspondence behavior. Do not introduce route ranking, an any-clean-route bypass, canned explanations or forced ask/clarify.
+5. Checkpoint the tested design contract and exact minimal changed-file scope in GitHub and Drive before writing any 0023 intent. The provisional boundary is inference.py direct-derivation bookkeeping plus only necessary reasoning/proof completeness and per-route support metadata; the exact file set is not frozen.
+6. Only after that design gate, follow the established separately committed intent/tests/continuation and authoritative candidate/replay pipeline. A candidate green does not itself publish an ordinary patch.
+Unfinished work: the finite proof-completeness and per-route confidence contract, runtime candidate, candidate CI, publication and separate published-chain gate. No source-changing work is in flight.
+
+EXACT IMMUTABLE INPUT AND AUTHORITATIVE VERIFICATION
+Published source/workflow commit: 4e54623e696a687586b820b5dd9a3190d1648934
+Parent published run: 35476221835 / job: 105985811089 / 451 passed, 2 warnings, 183.94 seconds (existing gate; not rerun).
+Input GitHub artifact: 10594550960 / Drive: 1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_
+Input artifact SHA-256: b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0 / bytes: 679959
+Source member: m4c3r-exact-post0022-published-source.tar.gz
+Source archive SHA-256: 2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd / bytes: 663382
+M4C3S verification source commit: cc608f56781aa5a9ff11ea7da5afd8dff6818d50
+M4C3S run: 35477884092 / job: 105990188172 / status: completed / conclusion: SUCCESS
+M4C3S GitHub artifact: 10594722765 / Drive: 1CP9y0ptu7EfKkNWUEd6qbKVQrGArKhhV
+Artifact SHA-256: d4c0d55e6c6f2951f68fee231d91c7e04e4253055643075bd1c9151f16cf820a / bytes: 22299 / raw equality VERIFIED
+Full report member: m4c3s-disposable/verification.json
+Full report SHA-256: bad92a0389e16014e3266ecec3161c2662466870d17297b49c161b6467d6dbd5 / bytes: 156814
+Support archive Drive: 1e4SOqVORs7CDc-2qdtsDWoZLeHzlvlix
+Support archive SHA-256: ed9df8fe19b28453974981a975701e3bb1eb083500d8a07dc9c65f5853f2bbdc / bytes: 32718 / raw equality VERIFIED
+Local semantic report Drive: 1OnF2-47il2qnkaNGEZmdy19M9imq8bk5 / raw equality VERIFIED
+
+DURABLE DOCUMENT AND CARRIER IDENTITIES
+Design: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_DESIGN_20260920.txt
+Commit: 1f2fc35d78b4a2dc5d29518b0a560d38ee37d126
+Git blob: b943434b7b9bb078c33649df4c48238c7578b874
+SHA-256: 5a5d72f55ddfa3f88bdc07d4a3574de137b1162d30974c39bbd39f22950486bb / bytes: 8964
+Drive: 1qrGzhdX_ph33XwtGwpg-3LybvnCJv_mA / GitHub-Drive raw equality VERIFIED
+
+Initial probe: docs/evidence/m4c3s/initial_proof_provenance_probe.json
+Commit: 1f2fc35d78b4a2dc5d29518b0a560d38ee37d126
+Git blob: 34482973f7928665a099c040af29b36023545944
+SHA-256: 5a8c254604ceee0a3e2770cf766f1e347068ca922e7fd6d8b212ec86cb428c92 / bytes: 22489
+
+Verification harness: docs/evidence/m4c3s/verify_post0022.py
+Commit: cc608f56781aa5a9ff11ea7da5afd8dff6818d50
+Git blob: 3573538df4128f61312da2a349e1934fec6dbbd3
+SHA-256: 8bd559fbce714e80a7357c137c3fb8f9f186093a028d7378c3b8e7fc316f3424 / bytes: 24901
+
+Read-only verification workflow: .github/workflows/hf2-m4c3s-disposable-verification.yml
+Commit: cc608f56781aa5a9ff11ea7da5afd8dff6818d50
+Git blob: bce456947c735e1bbd2ea3c5ae6d6f8216473651
+SHA-256: 1a5d4ca6091de8948a925b65da1d136b72d2bc1b01e4669c3064f384afbd7b72 / bytes: 2372
+
+Verification continuation: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_VERIFICATION_20260920.txt
+Commit: 0570d48197fb206543691cfd4c6391b2777246c1
+Git blob: ea8f93ab47b333e06e79618fc4e41181965d361d
+SHA-256: ed1efb0bacdde6138ebd7a7b41d3da4e928d7b2cb3e4f47e03df5e07c48a9dfb / bytes: 16572
+Drive: 1fHh3kmviRT1DJUkiyVHyFS3OVQqKGVnN / GitHub-Drive raw equality VERIFIED
+
+Verification summary: docs/evidence/m4c3s/disposable_verification_summary.json
+Commit: 0570d48197fb206543691cfd4c6391b2777246c1
+Git blob: b3af1e34faa00b7a037be54777d61c8dc5c4e968
+SHA-256: dd1e42fbd7a06c80d3ccf54f3d30d0377125d855c192798d0b8f36e930b9f773 / bytes: 23238
+
+Verified immutable source hashes: docs/evidence/m4c3s/verified_post0022_source_hashes.json
+Commit: 0570d48197fb206543691cfd4c6391b2777246c1
+Git blob: 24fa409d8ac3c813cb4d7db28ce252e456499ae6
+SHA-256: 125c9250d403202f8755874879add3880b9cb91b1c6b1c84658353df4781d74e / bytes: 5898
+
+Verification manifest: docs/evidence/HF2_M4C3S_DISPOSABLE_VERIFICATION_20260920_MANIFEST.json
+Commit: 26502b26e22b70243e9321af109ff6ed4a6132e3
+Git blob: 4a6220ff86b3de825929593fc4850df810c3586d
+SHA-256: c69d92c65855ee3c0ecf1c59bf4f96bab4fdc786416b1c398f4d9f0dc12c2718 / bytes: 16326
+Drive: 1bQy4VzlQWr4-vT9XtO64FvUxGVhtJpHO / GitHub-Drive raw equality VERIFIED
+
+ENDING STATUS
+m4c3q_sealed=true
+m4c3r_sealed=true
+ordinary_0022_published=true
+published_exact_chain_0022_green=true
+m4c3s_disposable_verification_complete=true
+m4c3s_disposable_verification_green=true
+runtime_correction_required=true
+candidate_scope_frozen=false
+runtime_candidate_created=false
+ordinary_0023_published=false
+m4c3s_sealed=false
+stage8b_complete=false
+Active/pending GitHub Actions: none observed. No competing mutation observed.
+Provider divergence: none observed; ending-root and closure readback verification follows this save and is recorded in the closure receipt.
+Access blockers: none. Engineering gate remaining: finite proof completeness and per-route confidence design contract.
+Temporary files/workflows requiring cleanup: none. The read-only disposable verification workflow and harness are retained as reproducible evidence. Scratch source extraction and temporary test DBs are disposable and are not continuation carriers.
+Authority/autonomy invariants remain in force:
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+
+Roadmap unchanged: Stage 8 spans 8A-8M; current work remains Stage 8B; self-upgrade belongs within Stage 8, especially 8H-8K. No Stage 8C-8M or Stage 9 begun. No milestone increment advances or redefines the roadmap.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+
+HISTORICAL CHECKPOINTS FOLLOW. Earlier pending manifest, verification and ending-root fields are chronological; this completed checkpoint and its closure receipt supersede them. Parent seals and established roadmap remain intact.
+
 M4C3S DISPOSABLE VERIFICATION GREEN — CORRECTION REQUIRED / NO 0023 CANDIDATE
 Recorded UTC: 2026-09-20T00:14:51.935970+00:00
 Repository RugBlade/Yggdrasil / branch stage8B/v0.8.2-conversation-completion-hf2.
