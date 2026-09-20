@@ -1,3 +1,136 @@
+M4C3S TWO-LEDGER PROTOTYPE WORK RUN CLOSED — DESIGN GREEN / RUNTIME COMPATIBILITY PENDING
+Recorded UTC: 2026-09-20T07:35:01.373564+00:00
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Actual starting HEAD: 75478de9c7f9ea4a0f8106c05439873ef0da4537
+Exact observed HEAD immediately before this ending-root commit: 6439b2065afa76cfc11e7a98708f12ce8f2f0d4f
+The containing Git commit is this Work run's ending-root commit. Its exact HEAD, root Git blob, SHA-256 and byte count are recorded after this write in Drive receipt:
+HF2_M4C3S_TWO_LEDGER_WORK_RUN_CLOSURE_20260920.json
+Drive ID: 1fKNSdg_6AmVCe_XcjGbUY_E0o2GhtbNk
+This resolves the ending HEAD without an impossible self-referential commit hash. On resumption inspect actual provider HEAD, this root and the closure receipt; do not reconstruct state from UI/chat.
+Standing root Drive ID: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Stage 8/HF2 Drive folder: 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+
+CURRENT STATUS
+Current stage/substage: Stage 8B v0.8.2 HF2.
+Active milestone: M4C3S — direct-proof provenance completeness.
+Phase: TWO_LEDGER_PROTOTYPE_VERIFIED_RUNTIME_COMPATIBILITY_CONTRACT_PENDING.
+Latest sealed milestone: M4C3R; M4C3Q also remains sealed. No parent seal reopened.
+Published reconstruction remains byte-exact HF1 + ORIGINAL carrier helpers + ordinary patches 0001 -> 0022.
+No provider commits newer than 75478de9c7f9ea4a0f8106c05439873ef0da4537 existed at start. No active workflows or competing mutations were found. Standing root, design, verification continuation/manifest and previous closure receipt were inspected; corresponding Git/Drive raw equality was reverified. No 0023 existed before or after this run.
+
+WORK COMPLETED
+Built a disposable two-ledger model and a separate new verification matrix from immutable exact post0022 source. The completed earlier M4C3S characterization and sealed M4C3R published-chain gates were not rerun.
+Preserved unique typed proposition closure independently of every distinct direct formal proof record. Retained source observation identities/readings and per-route confidence expressions without a cross-route reducer. Defined finite conclusion/proof budgets and explicit completeness metadata; duplicate routes/cycles remain finite.
+Ran and inspected one authoritative read-only prototype workflow. 41 PASS / 0 FAIL: 23 contract checks, 8 consumer controls, 7 native controls, 3 compatibility-boundary checks. Covered 120 family premise permutations and 24 additional confidence permutations.
+Verified the complete artifact, all member hashes, exact module/harness/workflow bytes and local/external semantic report parity (excluding only created_utc/source_commit/run_id). Mirrored artifact/support/continuation/manifest and checked raw byte equality.
+All 58 immutable runtime files, including 54 Python files, stayed byte-identical. No runtime replacement was installed and no full ingest correction is claimed. Synthetic component/native-consequence fixtures used isolated temporary state/DB only.
+
+PROVEN DESIGN CONTRACT
+Proposition identity: (subject, relation, object, polarity, universal, modality), with no invented scalar aggregate confidence.
+Direct record fingerprint: SHA-256 canonical JSON of version, formal rule, role-ordered premise keys, conclusion key, rule-enabling evidence keys, and canonicalized premise/evidence source IDs. Numeric confidence and recursive producer IDs are excluded. Available source observations are retained; absent origin IDs are not invented from list order.
+Separate max_conclusion_steps and max_proof_records. Closure admits whole synchronous frontiers only when capacity fits, otherwise records the blocked frontier. Proof overflow at cap+1 exposes an explicit lower bound and incomplete status, with no preferred record prefix. Proof capacity cannot steal conclusion capacity.
+proof_ledger_complete = closure_complete AND proof_enumeration_complete_for_known. Incomplete evidence cannot pass the prototype proof adapter; it does not select an action.
+Finite direct records carry references to premise nodes and producer records. No arbitrary proof paths are expanded through cycles.
+Each source confidence reading is preserved. A direct route may use the existing within-route minimum only when all premise values are unambiguous direct observations. Nested/multiple/cyclic support remains a symbolic expression with value=None; 0.2 and 0.9 routes remain distinct under permutation. No first/max/min/average/preferred cross-route reducer exists.
+An already-present target retains both derivations. WHY includes all actual support and excludes the target from explaining itself; bare event truth remains insufficient.
+Unchanged proof consumers remain conservative for all recorded dependencies, scoped/unscoped ambiguity, missing provenance and conflict. Genuine alternatives remain unranked. Blank/tied/incomplete resolution geometry selects no act; observed learned geometry retains valid choices; owner calibration stays operator-directed. Sealed 0022 correspondence remains unchanged with the new proof inventory.
+
+DECISION AND UNFINISHED WORK
+The disposable ledger contract is externally verified. The complete runtime candidate contract and exact changed-file scope are NOT frozen. No 0023 intent, ordinary patch, candidate workflow or candidate receipt was created.
+Three proven compatibility boundaries remain:
+1. Existing LogicalProposition, NativeProposition and reasoning-state models require scalar confidence; reasoning/cognition/affect consumers perform scalar operations. A fabricated scalar or first-route fallback is forbidden.
+2. Legacy canonical strings omit the universal identity bit. Full typed identity, parallel source envelopes and completeness status must reach proof consumers without silent merging or any-clean-route bypass.
+3. Existing correction/supersession and current/bounded/persistent admission behavior must be preserved. The prototype explicitly requires already-admitted premises and rejects correction-marked input instead of redefining it.
+The exact immutable consumer review is docs/evidence/m4c3s_two_ledger/runtime_compatibility_review.json. It is a review surface, not an approved changed-file list. No renderer or speech-act workaround is justified.
+
+EXACT NEXT BOUNDED ACTION
+Reinspect current GitHub HEAD, standing Drive root, this run's closure receipt and active/recent Actions. Preserve newer durable work if any.
+Build a disposable runtime-compatibility prototype against the same immutable post0022 artifact using the frozen two-ledger model. Carry absent/unaggregated confidence, typed identities, source envelopes and completeness metadata through the actually affected models/consumers; preserve original correction/admission semantics.
+Test current/bounded/persistent parallel provenance, singleton versus multiple route confidence, nested/cyclic references, zero confidence, universal/nonuniversal canonical collisions, explicit corrections and incomplete status in response and autonomous proof consumers. Preserve native learned choice and operator calibration. Do not invent a scalar confidence or automatic act policy.
+Checkpoint the green compatibility evidence and exact minimal runtime file set in GitHub and Drive BEFORE any 0023 intent. Only then may the established separately committed intent/tests/candidate-CI/replay process begin. Candidate green does not itself publish ordinary 0023; a separate published exact-HF1 chain would still be required before sealing M4C3S.
+
+EXACT CI AND INPUT PROVENANCE
+New prototype source/workflow commit: 77d436707516db45773a846c21351aec4bc017cd
+Initial disposable design commit: 507e3815fcfa1a34cbbc45d0be458db83a9a7487
+New run: 35496716857 / job: 106040915219 / attempt: 1 / SUCCESS
+No active or pending external run remains. Branch was frozen during this completed run.
+Prototype artifact GitHub: 10601720123 / Drive: 1cBK0HU6KWkZwrKUrQViKigYq4TUUAkgS
+Artifact SHA-256: 8becd6ad387143d4d6486dc897fe7edbee1bcd8a0b8d3c8e613b5dd14f0f7a55 / bytes: 34250 / raw equality VERIFIED
+Full report: m4c3s-two-ledger/prototype_report.json / SHA-256 620c9267e90e61b04a63e2bf8a61802ab9e1d0921403a98f52d813b496726dde / bytes: 182502
+Immutable input GitHub artifact: 10594550960 / Drive: 1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_
+Input artifact SHA-256: b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0 / bytes: 679959
+Source archive: m4c3r-exact-post0022-published-source.tar.gz
+Source archive SHA-256: 2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd / bytes: 663382
+Parent published source: 4e54623e696a687586b820b5dd9a3190d1648934 / run 35476221835 / job 105985811089 / existing 451 passed, 2 warnings (not rerun).
+Earlier M4C3S characterization run 35477884092 / job 105990188172 / existing 31 PASS (not rerun).
+
+FINAL DURABLE IDENTITIES
+Milestone continuation: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_TWO_LEDGER_DESIGN_20260920.txt
+Commit: 9d8216fe318b4b3d4aa580bb51bedb3fb135524e
+Git blob: 3004ba28ed7e1642fec90b0c39a72559d646526b
+SHA-256: f248f5387da0bed7f6c16a433537403a9971cd0c929dcf139eacbb3e864a2fc5 / bytes: 25211
+Drive: 1-YFIb4c_1YAIQGZEmYRJITV51SNPjVHe / GitHub-Drive raw equality VERIFIED
+Manifest: docs/evidence/HF2_M4C3S_TWO_LEDGER_DESIGN_20260920_MANIFEST.json
+Commit: 6439b2065afa76cfc11e7a98708f12ce8f2f0d4f
+Git blob: 7a610e6d91d4a85d1e9cd8ccac2ea24ccfec83b4
+SHA-256: 2bf3a72c0078c458c3273c22f9c0c881769e271df2ef06f73ed3aad599c8cf80 / bytes: 25142
+Drive: 1Sja6Fe1o5uYdTVF8wcd5HCIeKw85PG_w / GitHub-Drive raw equality VERIFIED
+Prototype/harness/workflow and source-review exact commits/blobs/hashes are in both documents; their frozen code bytes remain unchanged since source commit 77d436707516db45773a846c21351aec4bc017cd.
+Local support archive Drive: 1JnDmwOvwshkOS-joMBs_OVp676g8XPBS / SHA-256 b2a9ce054c7e532783a3a1c4a05213a4d5c2cc1540fdef7b00e9c164ad16c5ac / bytes 51868 / raw equality VERIFIED.
+Provider/log receipt Drive: 1lda7vSTiMAKBLZomGi6qhhh-6a33nW-s / SHA-256 1271ef44201b0fb0e1a4e60728847b1abdcae14fd4a16a05768eb2c8d9a7b21b / bytes 106128 / raw equality VERIFIED.
+
+ENDING FLAGS / HANDOFF
+m4c3q_sealed=true
+m4c3r_sealed=true
+ordinary_0022_published=true
+published_exact_chain_0022_green=true
+m4c3s_disposable_verification_complete=true
+m4c3s_disposable_verification_green=true
+m4c3s_two_ledger_prototype_green=true
+prototype_contract_preserved=true
+runtime_compatibility_proven=false
+candidate_scope_frozen=false
+candidate_authorized=false
+runtime_candidate_created=false
+ordinary_0023_published=false
+m4c3s_sealed=false
+stage8b_complete=false
+Active/pending Actions: none observed. Competing mutation: none observed. Provider divergence: none observed; final root/closure readback is recorded after this save in the closure receipt.
+Access blockers: none. Engineering blockers: the three explicit compatibility contracts above. Cleanup required: none. Retain read-only prototype workflow/harness as evidence; scratch extraction/venv/test DBs are disposable and are not continuation carriers.
+Earlier pending manifest/root/CI fields in historical documents are chronological and superseded by this completed checkpoint and closure receipt.
+Authority/autonomy invariants:
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+Roadmap unchanged: Stage 8 spans 8A-8M; current Stage 8B; self-upgrade belongs within Stage 8, especially 8H-8K. No Stage 8C-8M or Stage 9 begun. Milestone numbering does not change the roadmap.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+
+HISTORICAL CHECKPOINTS FOLLOW. This ending operational block and its exact closure receipt supersede earlier pending operational fields while preserving all parent seals and roadmap authority.
+
 M4C3S TWO-LEDGER PROTOTYPE EXTERNALLY GREEN — 0023 STILL PREMATURE
 Recorded UTC: 2026-09-20T07:28:25.181542+00:00
 Repository RugBlade/Yggdrasil / branch stage8B/v0.8.2-conversation-completion-hf2.
