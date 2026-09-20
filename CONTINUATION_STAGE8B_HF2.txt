@@ -1,3 +1,61 @@
+M4C3S AUTHORITATIVE CANDIDATE CI RUNNING — RECOVERABLE HANDOFF
+Recorded UTC: 2026-09-20T20:00:50.644607+00:00
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Actual starting HEAD of this Work run: 6d9b0df915d1e9aaa629731978cf52749da18764.
+Phase: CANDIDATE_CI_RUNNING_RESULTS_NOT_YET_INSPECTED.
+
+One authoritative external candidate run is executing:
+Run ID: 35534036956
+Job ID: 106139739042
+Workflow source commit: ce05f10f5c03f2d3c4c8340e3596028dd7da2df5
+Workflow: .github/workflows/hf2-milestone4c3s.yml
+Job: exact-post0022-candidate-replay
+Last observed status: in_progress; conclusion: null. The provider may advance independently after this observation. No baseline/candidate/replay result is claimed yet. No artifact ID or green candidate receipt exists at this observation.
+The exact intent remains 49785 bytes, SHA-256 3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933, Git blob 82af12392377de6cbc7dd30297982aaa09d1f6ea, intent commit 9e32af64693677f01cec688728b1456319e6ea6d.
+Focused tests commit f5ac720443bb48e847f96914db3c0b441f53a73e; 34 local tests passed. Candidate preparation checkpoint f4a8051d96bb60bf0afab1b69f07d7e192b91f4e was mirrored and verified BEFORE launching this run.
+
+CI ORDER AND EXPECTED NEXT GATES
+Exact HF1 -> ORIGINAL helpers -> ordinary 0001 through 0022 -> source parity with sealed post0022 -> unchanged 451-test baseline from 6d9b0df915d1e9aaa629731978cf52749da18764 -> verify exact intent SHA/blob/bytes -> apply-check/apply/compile -> 34 focused -> complete 485-test candidate suite -> independent fresh exact HF1 reconstruction and exact same chain/intent -> source-byte parity -> 34 focused replay -> complete 485-test replay -> source/carrier/evidence archive -> green candidate result only if every gate succeeds. These are required counts, not claimed results.
+Substantive branch mutations are frozen while CI executes. This handoff commit changes documentation only. CI remains pinned to its exact source commit above.
+
+NEXT ACTION
+Reinspect GitHub HEAD, this root/continuation and candidate closure; inspect run 35534036956 and job 106139739042. Do not rerun the workflow because chat/UI ended. If still active, record its current state and leave recoverably. If complete, inspect the full logs/artifact and gate counts. On failure preserve evidence, classify the proven failure and repair only that gap. On success verify artifact hashes, exact intent/source identities, baseline/candidate/replay counts and source parity, mirror evidence, then issue a green candidate receipt.
+Candidate green DOES NOT publish ordinary 0023. Ordinary publication remains absent and requires exact blob/SHA/byte equality followed by a separate published-chain gate before M4C3S can seal. No ordinary patch has been created in this Work run.
+
+DURABLE HANDOFF
+Candidate continuation Drive ID: 1N_DpE0oLL9JQZCQQ05wrQgByZTuDT0aJ
+Standing root Drive ID: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Candidate closure receipt Drive ID: 12_Dw_DMmwRSaU0VXDA45Bq4_WVQvM1LA
+HF2_M4C3S_CANDIDATE_WORK_RUN_CLOSURE_20260920.json will record this documentation commit's exact ending HEAD/tree/root blob/SHA/bytes after save, plus the independently pinned CI source/run/job.
+Candidate preparation archive Drive ID: 1ieJMYpY2Bk4AhyTG302d4XnB09XSWIye; 31983 bytes; SHA-256 f8401a4c117852401c3b4f9f631805a283b1c0ae7689bf95508ac381a7d86746; raw mirror verified.
+Full pipeline source identities:
+{
+  "run_id": 35534036956,
+  "job_id": 106139739042,
+  "source_commit": "ce05f10f5c03f2d3c4c8340e3596028dd7da2df5",
+  "status": "in_progress",
+  "conclusion": null,
+  "workflow_path": ".github/workflows/hf2-milestone4c3s.yml",
+  "workflow_blob": "ab62771f573353ba66883066d51c0ff67351c1ee",
+  "workflow_sha256": "50a4270de1b01cffc588d2aeec732b2bb12ec930924123b626c062f8d2d3ce85",
+  "runner_path": "docs/evidence/m4c3s_candidate/run_candidate.py",
+  "runner_blob": "603d2b78729c1289bf732bb802efc2d717a761d6",
+  "runner_sha256": "4c11fa1271061c90bbbcccd6316e1b01d4f75f2a813924506d23e1a67f84692f",
+  "artifact_id": null
+}
+
+STATUS
+runtime_candidate_created=true; candidate_intent_frozen=true; candidate_authoritative_green=false; ordinary_0023_published=false; m4c3s_sealed=false; stage8b_complete=false.
+Latest sealed M4C3R and M4C3Q remain unchanged. Published reconstruction remains exact HF1 + ORIGINAL helpers + ordinary 0001 -> 0022. No completed disposable gate was rerun.
+Live runtime untouched; canonical DB untouched; no deployment/certification. No provider divergence was found in this Work run. No temporary workflows require cleanup; the candidate workflow is the one authoritative pending gate. Scratch code/DB fixtures are disposable; Git/Drive carry the continuation.
+Remain Stage 8B. Stage 8 is 8A–8M; self-upgrade remains in Stage 8, especially 8H–8K. No roadmap change and no Stage 9 work. All authority/autonomy invariants in the candidate contract below remain in force.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED.
+
+PREPARED CANDIDATE CHECKPOINT — PRESERVED CHRONOLOGY
+
+HISTORICAL STANDING ROOT — PRESERVED BELOW
+
 M4C3S 0023 CANDIDATE PREPARED — AUTHORITATIVE CI PENDING
 This newest block supersedes the prior candidate-not-created status. The root/closure repair was verified before candidate work began. Actual starting HEAD: 6d9b0df915d1e9aaa629731978cf52749da18764.
 Exact observed HEAD before this candidate checkpoint commit: f5ac720443bb48e847f96914db3c0b441f53a73e.
