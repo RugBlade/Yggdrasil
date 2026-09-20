@@ -1,0 +1,68 @@
+name: HF2 M4C3S - disposable runtime compatibility prototype
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'docs/evidence/m4c3s_runtime_compatibility/*.py'
+      - '.github/workflows/hf2-m4c3s-runtime-compatibility.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: hf2-m4c3s-runtime-compatibility
+  cancel-in-progress: false
+
+jobs:
+  verify-disposable-design:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      NOERON_AUTONOMY_ENABLED: 'false'
+      NOERON_TERRA_ENABLED: 'false'
+      NOERON_LLM_BACKEND: mock
+      NOERON_OWNER_TOKEN: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated prototype dependencies
+        run: python -m pip install --disable-pip-version-check pydantic==2.13.5 httpx==0.28.1 Pillow==12.3.0
+      - name: Download immutable sealed post0022 input
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api repos/RugBlade/Yggdrasil/actions/artifacts/10594550960/zip > "$RUNNER_TEMP/post0022.zip"
+      - name: Verify frozen prototype identities and run new design matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum --check docs/evidence/m4c3s_runtime_compatibility/prototype_files.sha256
+          mkdir -p evidence/m4c3s-runtime-compatibility
+          python docs/evidence/m4c3s_runtime_compatibility/verify_compatibility.py \
+            --artifact "$RUNNER_TEMP/post0022.zip" \
+            --output evidence/m4c3s-runtime-compatibility \
+            | tee evidence/m4c3s-runtime-compatibility/prototype.log
+          cp docs/evidence/m4c3s_runtime_compatibility/*.py evidence/m4c3s-runtime-compatibility/
+          cp docs/evidence/m4c3s_runtime_compatibility/prototype_files.sha256 evidence/m4c3s-runtime-compatibility/
+          cp .github/workflows/hf2-m4c3s-runtime-compatibility.yml evidence/m4c3s-runtime-compatibility/
+          python -m pip freeze > evidence/m4c3s-runtime-compatibility/dependencies.txt
+          sha256sum evidence/m4c3s-runtime-compatibility/* > evidence/m4c3s-runtime-compatibility.sha256
+          git diff --exit-code
+      - name: Retain design evidence without branch write authority
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-m4c3s-runtime-compatibility-prototype
+          path: |
+            evidence/m4c3s-runtime-compatibility/
+            evidence/m4c3s-runtime-compatibility.sha256
+          if-no-files-found: error
