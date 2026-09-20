@@ -1,0 +1,96 @@
+M4C3S DISPOSABLE RUNTIME COMPATIBILITY — LOCAL DESIGN CHECKPOINT / EXTERNAL GATE PENDING
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Current stage: Stage 8B v0.8.2 HF2
+Milestone: M4C3S — direct-proof provenance completeness
+Actual starting HEAD: 71d9fd182f64c7a46fd3f0e51781a61c5508c842
+No newer provider work, active Actions, competing mutation or 0023 existed at this Work run's start. Root, previous closure, two-ledger continuation/manifest and module were reverified from GitHub + Drive, including raw byte equality. M4C3R and M4C3Q remain sealed. The published reconstruction is still exact HF1 + ORIGINAL helpers + ordinary 0001 -> 0022.
+Standing root Drive ID: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Stage8/HF2 folder: 16ToRJF-61bQGUd9_NUUbcw5eQmiTndbO
+
+IMMUTABLE INPUT
+GitHub artifact 10594550960; Drive 1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_; 679959 bytes; SHA-256 b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0.
+Member m4c3r-exact-post0022-published-source.tar.gz; 663382 bytes; SHA-256 2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd. 58 immutable files / 54 Python files. Every import came from a disposable, enumerated overlay derived from these bytes; unchecked carrier runtime was not used.
+Previous completed gates 35477884092 (31 checks) and 35496716857 (41 checks) were NOT rerun. Sealed M4C3R CI was NOT rerun. This is a new integration verification instrument, not a candidate intent or candidate baseline/replay gate.
+
+PROTOTYPE CONTRACT
+Two ledgers remain separate. Unique proposition key is (subject, relation, object, polarity, universal, modality). Direct proof identity remains version + formal rule + role-ordered premise keys + conclusion key + rule evidence keys + sorted source identity lists, hashed as canonical JSON SHA-256. Confidence and recursively expanded producer paths are excluded from the fingerprint.
+Source identities retain source/record/memory IDs, all memory IDs, modifiers and typed input identity. Repeated identical observations do not multiply records; parallel observations/readings remain present without choosing a representative confidence.
+max_steps is the legacy public argument now explicitly budgeting conclusion discovery only (default 128); max_proof_records is independent (default 1024). The ledger records both actual budgets. Closure admits whole synchronous frontiers or records a blocked frontier; proof overflow detects cap+1, records a lower bound, clears the arbitrary proof prefix and marks incomplete. proof_ledger_complete = closure_complete AND proof_enumeration_complete_for_known. No arbitrary cyclic proof paths are enumerated.
+Per-route confidence retains the existing within-route minimum for unambiguous direct observed operands. Multiple/nested/cyclic support is a finite symbolic node/producer-reference graph with value=None and cross_route_reducer=None. No first/max/min/average/preferred route aggregate is defined. A proposition scalar exists only for one observed source with one reading and no producer, or one exact numeric direct route with no direct source; otherwise it is None. Zero remains numeric zero. WHY workspace confidence is also undefined if its target's support is unaggregated, even where individual explanatory premises have scalar observations.
+LogicalProposition, InferenceStep, reasoning state, NativeProposition and NativeThought preserve optional confidence plus explicit proof metadata. Both response and autonomous content consumers receive completeness; incomplete proof content cannot be asserted. The native thought residual-score fallback cannot replace incomplete proof confidence. Neither this content gate nor absence of confidence selects a speech act.
+Public infer returns an evidence-bearing object with the established four-item unpack/index interface plus ledger, full proposition set, admission indexes and admission audit. The actual runtime reasoning consumer retains the complete object. Legacy four-item unpack alone is not a proof-completeness claim.
+
+ADMISSION AND PROVENANCE
+The existing direct-infer input-order correction admission is preserved. Reasoning preserves its prior last-control-representative / first-insertion-position correction behavior, now by full typed key, while retaining every admitted source observation. Control representatives have no authority to select a proof confidence. Supersession events are explicit admission audit records, not formal derivations and not proof-budget expenditure. Removed premises cannot become explanation support. Existing bounded-dialogue admission and DKT persistent-source selection functions stay byte-identical; no new retrieval or source confidence policy is introduced.
+Typed audit IDs are injective canonical JSON [proof-node-v1, subject, relation, object, polarity, universal, modality]. Each envelope is bound to its actual typed input before legacy canonical collapse. Parallel current/bounded/DKT envelopes all reach the existing conservative proof gate. Legacy ambiguity scope expands to every typed alias with matching text; it never guesses one interpretation. The existing all-dependency proof audit policy stays conservative for scoped/unscoped ambiguity, conflict and missing provenance. A clean independent route does not bypass a contaminated route.
+Proof-step normalization preserves None and numeric 0 rather than replacing either with 1. Typed proof metadata is carried into the act-neutral resolution inventory; canonical collisions preserve distinct typed alternatives. Proof alternatives retain exact record IDs and premise/conclusion identities. This is content/provenance serialization, not a renderer or speech-act policy change.
+
+ACTUAL SOURCE SCOPE UNDER VERIFICATION
+Changed copied files: src/noeron/inference.py; src/noeron/reasoning.py; src/noeron/math/models.py; src/noeron/cognition/models.py; src/noeron/cognition/kernel.py; src/noeron/conversation_proof.py; src/noeron/conversation_resolution.py.
+Added copied module: src/noeron/direct_proof.py, assembled from the frozen two-ledger core and the compatibility adapter. Prototype-only query/legacy projection methods are omitted. The old inference implementation is retained solely as a disposable comparison oracle; a future candidate must replace its implementation and omit the comparison alias, not ship two active infer definitions.
+The actual math/kernel.py call order proves affect consumes pre-inference geometric support. math/affect.py and its numeric model coordinates therefore need no change and stay byte-identical. No undefined post-inference proof confidence is substituted into that earlier geometric calculation. Orchestrator, speech-act learning/choice, native language renderer, DKT selection and bounded premise admission source stay byte-identical.
+This eight-file runtime boundary is a tested design proposal, pending complete external evidence inspection and final contract checkpoint. No runtime candidate scope is frozen at this local checkpoint.
+
+LOCAL VERIFICATION
+34 PASS / 0 FAIL. Includes four additional integrated formal families plus structured MP, 24 confidence permutations, direct-target/bare-event, duplicate input, nested cycles, single-route zero, both content consumers, independent tiny budgets, typed collision/provenance, missing/conflict/scoped/unscoped blocking, real current/bounded/DKT parallel sources, ten correction-admission controls, fourteen query-family compatibility checks, two full Noeron.ingest orders + state roundtrip, blank/tied/incomplete and learned native geometry, owner calibration, sealed 0022 correspondence and exact source boundaries.
+Initial local run: 30 PASS / 3 FAIL. Two failed assertions exposed the incomplete-confidence residual fallback in native thought construction, corrected in the disposable kernel. One failed surface fixture lacked the matching event provenance, corrected in the fixture only. Initial instruments/report/log/overlay are preserved in the local-support archive. Later green runs verified the actual refined module boundary and query contracts. No failed CI run exists at this checkpoint.
+
+NEXT BOUNDED ACTION
+Commit and mirror these instruments and continuation, run ONE authoritative read-only GitHub Actions runtime-compatibility workflow against the same immutable artifact, freeze substantive branch mutations during its execution, inspect complete artifact and mirror it. Only after that evidence is green may the final exact contract/scope be checkpointed and 0023 candidate creation become eligible. Do not create 0023 during this local pending gate.
+No active external run exists yet. The pending workflow source/run/job/artifact will be recorded in the supplement/manifest and run-end root. There is no indefinite polling requirement.
+
+FLAGS
+m4c3r_sealed=true; m4c3q_sealed=true; m4c3s_disposable_verification_complete=true; m4c3s_two_ledger_prototype_verified=true; runtime_correction_required=true; runtime_compatibility_local_green=true; runtime_compatibility_external_green=false; candidate_scope_frozen=false; runtime_candidate_created=false; ordinary_0023_published=false; m4c3s_sealed=false; stage8b_complete=false; live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED.
+Stage 8 spans 8A–8M. Current work remains Stage 8B. Self-upgrade belongs within Stage 8, especially 8H–8K. No Stage 8C–8M or Stage 9 work begins here. Milestone numbering does not alter the roadmap.
+
+AUTHORITY / AUTONOMY INVARIANTS
+{
+  "same_ingress_prior_sentence_scope": true,
+  "current_sentence_self_reference_from_later_mentions": false,
+  "prepositional_complement_nominal_candidate": false,
+  "categorical_predicate_complement_removal": false,
+  "genuine_reference_alternatives_preserved": true,
+  "semantic_truth_authority": false,
+  "answer_authority": false,
+  "speech_act_choice_authority": false,
+  "preference_authority": false,
+  "relationship_authority": false,
+  "cognitive_memory_authority": false,
+  "source_write_authority": false,
+  "deployment_authority": false,
+  "proof_ambiguity_gate_weakened": false,
+  "semantic_verb_class_table_added": false,
+  "lexical_candidate_ranking_added": false,
+  "lexical_pos_inference_added": false,
+  "llm_inference_added": false,
+  "canned_clarification_added": false,
+  "autoplay_added": false,
+  "microphone_camera_expansion": false,
+  "human_hearing_inference": false,
+  "stage8b_only": true,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false
+}
+
+LOCAL INSTRUMENT IDENTITIES
+{
+  "two_ledger_v1.py": {
+    "sha256": "4462e4878de90a9ec4dd4a1f87d7de9451cf685fcf31e0d2d7c4586353c36f6e",
+    "bytes": 12765
+  },
+  "runtime_adapter.py": {
+    "sha256": "502140e97bc321642df4b2b4f02855e12e4d89a2fb339d57b92779ccdb1971ca",
+    "bytes": 11773
+  },
+  "install_disposable.py": {
+    "sha256": "0fdc60eb68cdc6d7a8b85ae06918cbf4d403728f9331582e8c4ca2f6758d25c7",
+    "bytes": 10301
+  },
+  "verify_compatibility.py": {
+    "sha256": "26819a2d058cc603732b2073c68c8f7554d419a3c68663b6699c669ef4d13889",
+    "bytes": 31107
+  }
+}

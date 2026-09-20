@@ -1,0 +1,214 @@
+{
+  "schema": "M4C3S-DISPOSABLE-RUNTIME-COMPATIBILITY-v1",
+  "created_utc": "2026-09-20T12:57:19.369096+00:00",
+  "source_commit": null,
+  "run_id": null,
+  "input_artifact_id": 10594550960,
+  "input_artifact_sha256": "b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0",
+  "input_source_sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd",
+  "passed": 34,
+  "failed": 0,
+  "changed_disposable_runtime_files": [
+    "cognition/kernel.py",
+    "cognition/models.py",
+    "conversation_proof.py",
+    "conversation_resolution.py",
+    "inference.py",
+    "math/models.py",
+    "reasoning.py"
+  ],
+  "added_disposable_runtime_files": [
+    "direct_proof.py"
+  ],
+  "previous_31_and_41_check_gates_rerun": false,
+  "candidate_created": false,
+  "ordinary_0023_published": false,
+  "m4c3r_sealed": true,
+  "m4c3s_sealed": false,
+  "stage8b_complete": false,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "full_hf2_candidate_suite_run": false,
+  "scope_status": "INTEGRATION_PROTOTYPE_ONLY_REQUIRES_FINAL_CONTRACT_REVIEW",
+  "checks": [
+    {
+      "id": "integrated_why_has_two_routes_and_four_supports",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "real_reasoning_preserves_02_09_across_24_orders",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "integrated_atomic_parallel_routes",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "integrated_transitive_parallel_routes",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "integrated_universal-positive_parallel_routes",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "integrated_universal-negative_parallel_routes",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "single_route_zero_is_numeric_zero_not_default_or_absence",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "direct_target_preserves_derivations_bare_truth_is_not_explanation",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "cyclic_nested_symbolic_routes_pass_models_and_conservative_audit",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "reasoning_duplicate_observations_do_not_multiply_proof_records",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "response_autonomous_and_serialization_preserve_undefined_confidence",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "proof_budget_incompleteness_reaches_both_content_consumers",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "closure_budget_incompleteness_reaches_both_content_consumers",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "public_infer_four_item_compatibility_and_separate_max_steps_budget",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "typed_universal_collision_keeps_provenance_and_surface_options_distinct",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "all_routes_missing_remains_blocked",
+      "category": "conservative_consumer",
+      "status": "PASS"
+    },
+    {
+      "id": "all_routes_conflict_remains_blocked",
+      "category": "conservative_consumer",
+      "status": "PASS"
+    },
+    {
+      "id": "all_routes_scoped_remains_blocked",
+      "category": "conservative_consumer",
+      "status": "PASS"
+    },
+    {
+      "id": "all_routes_unscoped_remains_blocked",
+      "category": "conservative_consumer",
+      "status": "PASS"
+    },
+    {
+      "id": "autonomous_path_uses_same_all_route_conservative_audit",
+      "category": "conservative_consumer",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_current_bounded_DKT_sources_and_native_admission_preserved",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "existing_direct_and_reasoning_correction_admission_matches_ten_controls",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "fourteen_public_query_families_keep_observed_content_contract",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "genuine_proposition_alternatives_stay_act_neutral",
+      "category": "runtime_compatibility",
+      "status": "PASS"
+    },
+    {
+      "id": "two_complete_Noeron_ingest_orders_and_state_roundtrip",
+      "category": "full_ingest",
+      "status": "PASS"
+    },
+    {
+      "id": "integrated_proof_inventory_native_blank",
+      "category": "native_choice",
+      "status": "PASS"
+    },
+    {
+      "id": "integrated_proof_inventory_native_tied",
+      "category": "native_choice",
+      "status": "PASS"
+    },
+    {
+      "id": "integrated_proof_inventory_native_missing",
+      "category": "native_choice",
+      "status": "PASS"
+    },
+    {
+      "id": "integrated_proof_inventory_native_learned-clarify",
+      "category": "native_choice",
+      "status": "PASS"
+    },
+    {
+      "id": "integrated_proof_inventory_native_learned-ask",
+      "category": "native_choice",
+      "status": "PASS"
+    },
+    {
+      "id": "integrated_proof_inventory_native_learned-silent",
+      "category": "native_choice",
+      "status": "PASS"
+    },
+    {
+      "id": "owner_calibration_preserves_operator_boundary",
+      "category": "native_choice",
+      "status": "PASS"
+    },
+    {
+      "id": "sealed_0022_surface_correspondence_with_typed_proof_metadata",
+      "category": "surface_control",
+      "status": "PASS"
+    },
+    {
+      "id": "source_provenance_authority_and_unchanged_causal_boundaries",
+      "category": "provenance",
+      "status": "PASS"
+    }
+  ],
+  "categories": {
+    "runtime_compatibility": 19,
+    "conservative_consumer": 5,
+    "full_ingest": 1,
+    "native_choice": 7,
+    "surface_control": 1,
+    "provenance": 1
+  }
+}
