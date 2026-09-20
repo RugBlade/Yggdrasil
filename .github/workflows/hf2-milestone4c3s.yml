@@ -1,0 +1,48 @@
+name: HF2 M4C3S - direct proof provenance candidate
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'patches/hf2/0023-hf2-direct-proof-provenance.intent.patch'
+      - 'tests/hf2_m4c3s/**'
+      - 'docs/evidence/m4c3s_candidate/run_candidate.py'
+      - '.github/workflows/hf2-milestone4c3s.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: hf2-m4c3s-candidate
+  cancel-in-progress: false
+
+jobs:
+  exact-post0022-candidate-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      NOERON_AUTONOMY_ENABLED: 'false'
+      NOERON_TERRA_ENABLED: 'false'
+      NOERON_LLM_BACKEND: mock
+      NOERON_OWNER_TOKEN: ''
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact HF1 baseline, candidate and independent replay
+        run: python docs/evidence/m4c3s_candidate/run_candidate.py
+      - name: Preserve candidate evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-m4c3s-direct-proof-provenance
+          path: evidence/
+          if-no-files-found: error
