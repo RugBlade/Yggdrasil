@@ -1,0 +1,155 @@
+YGGDRASIL / NOERON — STAGE 8B v0.8.2 HF2 — M4C3S VERIFIED DESIGN CHECKPOINT
+Recorded UTC: 2026-09-20T00:12:23.976899+00:00
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Actual starting HEAD: 94513f949534c49b5c5adda420182312d7e02867
+Exact observed HEAD before this checkpoint: cc608f56781aa5a9ff11ea7da5afd8dff6818d50
+Active milestone: M4C3S — direct-proof provenance completeness.
+Phase: DISPOSABLE VERIFICATION COMPLETE; CANDIDATE DESIGN CONTRACT STILL TO RESOLVE.
+Latest sealed milestone remains M4C3R; M4C3Q remains sealed. No existing milestone gate was reopened or rerun.
+Published reconstruction remains byte-exact HF1 + ORIGINAL carrier helpers + ordinary 0001-0022.
+No 0023intent, ordinary 0023, candidate workflow, candidate receipt, runtime change, or M4C3S seal exists.
+This continuation's exact writer commit/blob/Drive identity is recorded in its following verification manifest and ending root; final closure receipt resolves ending HEAD without a self-referential hash.
+
+PROVIDER REALITY / REQUIREMENT PROVENANCE
+Starting HEAD was exactly94513f949534c49b5c5adda420182312d7e02867. No newer work, active/queued workflows or competing branch mutation was observed. Root/manifest/final M4C3R continuation GitHub/Drive raw equality was reverified.
+Standing root Drive 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1; original root blob11f9ec230cc443c8570b2cbc903fb30546f640d3;230793bytes;SHA-256: c222303e355f5de46246d88a42392716daa7949f2a143d7a3b154a5c72c3efd5.
+M4C3R manifest Drive 1WHPZymaVah9Sk-SROutQa7RE_30teEys / commitb5f843db9d546781c494641f766952b8cac55d3b / blob924cbe5431f404bf6af40a75bb23ed6496a62c58 / SHA-256: 50e53525df1d0f7e97f1b541264f32d1a1a57aae25c517ad2cad0cdf1fc2a1ef.
+M4C3R final continuation Drive 1KwZi_DPsWQtjmqjMww-4kN3Cju18w-jf / commit0a7d6dba8160c4332d66a25d1f897fd5c2276329 / blobbed3d9c39da524e7f96588212504e8a984c06291.
+HF2 engineering spec docs/engineering/HF2_CONVERSATIONAL_REASONING_PATCH_SPEC.txt / blob9cb756aecb585d51a156b1921d43ecb1b5fe6d86 requires explicit premise/proof provenance, genuine WHY support and ambiguity-conditioned reasoning without forced ranking.
+Original revised Stage 8B acceptance matrix Drive 1x5VLvb7CoblNPgmZIT401woSB-cK2zfD-VEJiFNb3q8: A5/A6, E1/E5/E8, G4, L6/L8 apply. Its older status/certification paragraph is historical; no current status is inferred from it.
+Roadmap Drive 1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog was reread; synchronized Git body equality verified. Roadmap SHA-256: bebb169641d4b2b270fffc1c8af4b92b53158acc25dbc480eb35ada4891452b2;10359bytes.
+No roadmap changes. Stage 8 spans8A-8M; current8B; self-upgrade especially8H-8K; Stage 9 is not self-upgrade.
+M4C3S design commit1f2fc35d78b4a2dc5d29518b0a560d38ee37d126 / blobb943434b7b9bb078c33649df4c48238c7578b874 / Drive 1qrGzhdX_ph33XwtGwpg-3LybvnCJv_mA /8964bytes / SHA-256: 5a5d72f55ddfa3f88bdc07d4a3574de137b1162d30974c39bbd39f22950486bb.
+Initial natural-conditionals/permutation probe: docs/evidence/m4c3s/initial_proof_provenance_probe.json;22489bytes;SHA-256: 5a8c254604ceee0a3e2770cf766f1e347068ca922e7fd6d8b212ec86cb428c92;blob34482973f7928665a099c040af29b36023545944.
+
+EXACT IMMUTABLE POST0022 SOURCE
+Published M4C3R source/workflow commit4e54623e696a687586b820b5dd9a3190d1648934 / completed run 35476221835 / job 105985811089.
+Artifact GitHub 10594550960 / Drive 1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_;679959bytes;SHA-256: b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0.
+Contained source m4c3r-exact-post0022-published-source.tar.gz / SHA-256: 2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd.
+Fresh disposable extraction contains58files/54Python files. Artifact/source hashes and existing per-file hashes checked before imports; all noeron modules resolve to that extraction; all 58 file bytes identical afterward. No carrier runtime, source monkeypatch or live DB used.
+Source hash inventory docs/evidence/m4c3s/verified_post0022_source_hashes.json /5898bytes /SHA-256: 125c9250d403202f8755874879add3880b9cb91b1c6b1c84658353df4781d74e.
+
+AUTHORITATIVE EXTERNAL VERIFICATION
+Workflow .github/workflows/hf2-m4c3s-disposable-verification.yml / blobbce456947c735e1bbd2ea3c5ae6d6f8216473651 /2372bytes /SHA-256: 1a5d4ca6091de8948a925b65da1d136b72d2bc1b01e4669c3064f384afbd7b72.
+Harness docs/evidence/m4c3s/verify_post0022.py / blob3573538df4128f61312da2a349e1934fec6dbbd3 /24901bytes /SHA-256: 8bd559fbce714e80a7357c137c3fb8f9f186093a028d7378c3b8e7fc316f3424.
+Immutable workflow/harness source commitcc608f56781aa5a9ff11ea7da5afd8dff6818d50.
+Run 35477884092 / job 105990188172 / verify-immutable-post0022 / SUCCESS.
+Run URL https://github.com/RugBlade/Yggdrasil/actions/runs/35477884092.
+31PASS /0FAIL =20controls +10defect reproductions +1design-constraint characterization.
+Five formal rule families;24premise permutations each (120total); two complete real Noeron.ingest examples; all unchanged-source checks passed.
+A PASS for a defect-reproduction assertion means the existing defect was confirmed, NOT that runtime was corrected. No candidate was tested.
+No source/full-HF2/published-chain milestone was rerun. This was the new disposable M4C3S matrix only.
+Artifact GitHub 10594722765 / Drive 1CP9y0ptu7EfKkNWUEd6qbKVQrGArKhhV /22299bytes /SHA-256: d4c0d55e6c6f2951f68fee231d91c7e04e4253055643075bd1c9151f16cf820a.
+All artifact member hashes, exact harness/workflow bytes, run/source identity and31individual assertions inspected. Local and external semantic reports match exactly after removing UTC/run/source metadata.
+Full report m4c3s-disposable/verification.json /156814bytes /SHA-256: bad92a0389e16014e3266ecec3161c2662466870d17297b49c161b6467d6dbd5, inside that mirrored artifact.
+Compact Git summary docs/evidence/m4c3s/disposable_verification_summary.json retains all 31 check records and points to the complete120-permutation evidence.
+GitHub/Drive artifact RAW BYTE EQUALITY VERIFIED by independent readback.
+Support/requirements/local-report/job-log backup Drive 1e4SOqVORs7CDc-2qdtsDWoZLeHzlvlix /32718bytes /SHA-256: ed9df8fe19b28453974981a975701e3bb1eb083500d8a07dc9c65f5853f2bbdc;raw equality verified.
+Local report separately mirrored Drive 1OnF2-47il2qnkaNGEZmdy19M9imq8bk5. Synthetic dependencies and learned-consequence fixtures are labelled; no claim of live learning/history is made.
+
+DISPOSABLE MATRIX
+01. control / PASS / structured-modus-ponens_two_routes_independently_proven
+02. defect_reproduction / PASS / structured-modus-ponens_combined_route_loss
+03. control / PASS / universal-membership_two_routes_independently_proven
+04. defect_reproduction / PASS / universal-membership_combined_route_loss
+05. control / PASS / universal-negative-membership_two_routes_independently_proven
+06. defect_reproduction / PASS / universal-negative-membership_combined_route_loss
+07. control / PASS / modus-ponens_two_routes_independently_proven
+08. defect_reproduction / PASS / modus-ponens_combined_route_loss
+09. control / PASS / transitive-composition_two_routes_independently_proven
+10. defect_reproduction / PASS / transitive-composition_combined_route_loss
+11. defect_reproduction / PASS / natural_why_support_depends_on_premise_order
+12. defect_reproduction / PASS / same_scoped_ambiguity_gate_changes_with_route_loss
+13. control / PASS / unchanged_gate_stays_conservative_when_both_records_are_supplied
+14. control / PASS / typed_proof_inventory_preserves_supplied_distinct_records
+15. control / PASS / unchanged_proof_gate_blocks_unscoped
+16. control / PASS / unchanged_proof_gate_blocks_missing
+17. control / PASS / unchanged_proof_gate_blocks_conflict
+18. control / PASS / ordinary_logical_and_explanation_controls
+19. control / PASS / formal_rule_boundaries_remain_intact
+20. defect_reproduction / PASS / existing_direct_conclusion_shadows_legitimate_derivations
+21. defect_reproduction / PASS / derived_confidence_also_depends_on_first_route
+22. design_constraint / PASS / finite_cycle_and_derivation_budget_contract_characterized
+23. defect_reproduction / PASS / full_real_ingest_reproduces_order_dependent_why_support
+24. control / PASS / blank_resolution_geometry_selects_no_act
+25. control / PASS / observed_native_geometry_selects_clarify
+26. control / PASS / observed_native_geometry_selects_ask
+27. control / PASS / observed_native_geometry_selects_remain-silent
+28. control / PASS / tied_resolution_geometry_selects_no_act
+29. control / PASS / incomplete_resolution_geometry_selects_no_act
+30. control / PASS / owner_calibration_is_operator_directed_only
+31. control / PASS / all_exact_source_bytes_unchanged
+
+CONCRETE FINDINGS / DECISION
+1. Natural structured conditionals:
+If Mira is ready, Mira is calm. If Mira is rested, Mira is calm. Mira is ready. Mira is rested. Why is Mira calm?
+Both direct implication+antecedent routes independently prove mira::is::calm using the existing infer(). Combined input retains only one route. Reordering premises changes which route and WHY-support candidates survive; event truth itself is not used as its own explanation.
+2. The same first-route loss occurs for structured modus ponens, atomic modus ponens, transitive composition, positive universal membership and negative universal membership. Unique proposition/answer identity remains the same in the equal-confidence controls; distinct routes are lost from audit, not extra distinct conclusions.
+3. A controlled scoped-ambiguity dependency on mira::is::ready produces proof-gated-unresolved-ambiguity when ready is the retained route, and proof-gate-all-candidates-auditable when the identical premise set is reordered to retain rested. This is a typed dependency fixture, not a claim the current parser inferred that scope.
+4. Supplying both independently generated route records to the UNCHANGED proof audit makes the same ambiguity block in either route order. The existing consumer is conservative over all recorded dependencies. This diagnostic neither changes runtime nor authorizes an any-clean-route bypass.
+5. An already-direct conclusion suppresses both derivation records, so available structured derivations disappear from WHY support. Bare event truth without a derivation still correctly supplies no explanation.
+6. With route confidences0.2 and0.9, derived proposition confidence changes with premise order. A correction must retain per-route evidence and cannot choose the first, maximum, minimum, average, or preferred route as a new semantic-confidence policy without the intended native/mathematical contract.
+7. Existing max_steps limits derivation records and proposition discovery together. A cycle terminates under the current known-key rule, and a small cap cuts off proof closure; infer() returns no explicit completeness flag. Naively recording repeated routes under this same counter risks truncating other conclusions or hiding incomplete provenance.
+8. Native-choice controls passed: blank/tied/incomplete resolution geometry selects no resolution act; genuinely fixture-observed geometry selects clarify, ask or remain-silent as tested; content retains false authority; operator calibration remains operator-directed. Existing ordinary response content is preserved when resolution is unselected; this is not a claim that all ordinary output is silent under blank resolution geometry.
+
+Decision: runtime correction is genuinely required for complete/order-independent direct-proof provenance. Verification-only sealing is inappropriate because the defect remains. M4C3S is NOT sealed. M4C3R's bounded surface correspondence seal remains valid; this new upstream limitation does not alter its evidence.
+No 0023intent is created at this checkpoint. The smallest safe correction is not established merely by deleting known-key guards. Finite proof completeness and confidence behavior must be settled before candidate bytes are frozen.
+
+EXACT NEXT BOUNDED PHASE / PROPOSED SCOPE BEFORE 0023
+Begin with a disposable design prototype that separates (a) unique proposition closure, (b) distinct direct proof records keyed by rule/premise/conclusion identity, and (c) per-route confidence/provenance. Use the already-pinned five-family matrices; do not repeat this sealed verification run to rediscover the defect.
+Resolve first the existing-conclusion case, max_steps=1, cyclic implication input, and the0.2/0.9confidence permutations. Represent incomplete/truncated proof provenance explicitly and keep it non-authoritative; do not silently treat a partial ledger as complete.
+Do not enumerate unbounded full proof paths. Preserve every admitted direct alternative, canonical/source identities, and all genuinely distinct conclusions. Avoid new lexical or semantic rule tables.
+Likely affected implementation boundary: inference.py direct-derivation bookkeeping plus only the reasoning/proof audit metadata needed to carry completeness and per-route support. The precise changed-file set is not frozen yet. Parser, surface rendering, sealed0022correspondence, native act selection and owner transport are not the proven source of this defect.
+Keep the existing conservative ambiguity/conflict/missing-provenance gate intact. Do not weaken it through existential/OR route acceptance, and do not rank a route merely to recover an answer or smoother explanation.
+After the disposable design proves these contracts, checkpoint the final scope in GitHub+Drive; only then freeze the smallest0023intent separately from focused tests and enter the established unchanged-post0022-baseline/candidate/fresh-HF1-replay/source-parity pipeline. Publication still requires full green evidence inspection, exact intent/ordinary equality and separate published-chain CI.
+
+END-OF-RUN STATUS / RECOVERY
+m4c3q_sealed=true
+m4c3r_sealed=true
+m4c3s_design_selected=true
+m4c3s_disposable_verification_complete=true
+m4c3s_disposable_verification_green=true
+m4c3s_runtime_correction_required=true
+m4c3s_candidate_scope_frozen=false
+m4c3s_runtime_candidate_created=false
+ordinary_0023_published=false
+m4c3s_sealed=false
+stage8b_complete=false
+Completed: provider/source/roadmap inspection, new bounded defect identification, Git+Drive design checkpoint, local31matrix, external31matrix, complete artifact/source/semantic parity inspection, evidence mirrors, and this recoverable verification decision.
+Started but not completed: M4C3S correction design; finite completeness/per-route confidence contracts remain the exact next phase. No source-changing candidate work is in flight.
+Active/pending GitHub Actions:none. Workflow has only contents/actions read permissions and cannot mutate the branch. No other mutation was observed during execution.
+No provider divergence, permissions/access blocker, live operation or destructive cleanup. Retain the read-only verification workflow and evidence; scratch fixtures/testDBs are disposable and require no provider cleanup.
+At creation of this file, final verification manifest and ending-root/closure are the remaining documentation writes; their later records supersede this chronological detail.
+Standing root Drive 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1 must be updated in place with this decision, all identities and exact next action. No reliance on chat history is required.
+
+AUTHORITY / AUTONOMY / ROADMAP
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+Native choice remains causally downstream of persistent native state plus intended IRG/DKT/EGR/RL/Frenet/reasoning/learning machinery. Formal proof/provenance bookkeeping may not supply arbitrary truth, answer, speech-act, preference, relationship, memory, source-write or deployment authority.
+Roadmap unchanged: current Stage 8B; Stage 8 spans8A-8M; self-upgrade belongs within Stage 8, especially8H-8K; Stage 9 is not self-upgrade. No8C-8M orStage 9 begins here.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED

@@ -1,0 +1,674 @@
+{
+  "milestone": "M4C3S",
+  "mode": "DISPOSABLE_VERIFICATION_ONLY",
+  "created_utc": "2026-09-20T00:06:31.253934+00:00",
+  "github_source_commit": "cc608f56781aa5a9ff11ea7da5afd8dff6818d50",
+  "run_id": "35477884092",
+  "artifact_id_used": 10594550960,
+  "artifact_sha256": "b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0",
+  "source_archive_sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd",
+  "source_files": 58,
+  "python_files": 54,
+  "passed": 31,
+  "failed": 0,
+  "checks": [
+    {
+      "id": "structured-modus-ponens_two_routes_independently_proven",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "independent_routes": [
+          {
+            "rule": "structured-modus-ponens",
+            "premises": [
+              "mira::is::ready::implies-proposition::mira::is::calm",
+              "mira::is::ready"
+            ],
+            "conclusion": "mira::is::calm",
+            "confidence": 1.0
+          },
+          {
+            "rule": "structured-modus-ponens",
+            "premises": [
+              "mira::is::rested::implies-proposition::mira::is::calm",
+              "mira::is::rested"
+            ],
+            "conclusion": "mira::is::calm",
+            "confidence": 1.0
+          }
+        ],
+        "permutation_count": 24,
+        "complete_permutations_location": "GitHub artifact10594722765 / Drive 1CP9y0ptu7EfKkNWUEd6qbKVQrGArKhhV / m4c3s-disposable/verification.json"
+      }
+    },
+    {
+      "id": "structured-modus-ponens_combined_route_loss",
+      "category": "defect_reproduction",
+      "status": "PASS",
+      "evidence": {
+        "permutations": 24,
+        "independent_routes": 2,
+        "recorded_routes_per_permutation": 1,
+        "distinct_surviving_routes": 2,
+        "unique_conclusion_and_answer_preserved": true
+      }
+    },
+    {
+      "id": "universal-membership_two_routes_independently_proven",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "independent_routes": [
+          {
+            "rule": "universal-membership",
+            "premises": [
+              "mira::is::scholar",
+              "scholar::is::careful"
+            ],
+            "conclusion": "mira::is::careful",
+            "confidence": 1.0
+          },
+          {
+            "rule": "universal-membership",
+            "premises": [
+              "mira::is::teacher",
+              "teacher::is::careful"
+            ],
+            "conclusion": "mira::is::careful",
+            "confidence": 1.0
+          }
+        ],
+        "permutation_count": 24,
+        "complete_permutations_location": "GitHub artifact10594722765 / Drive 1CP9y0ptu7EfKkNWUEd6qbKVQrGArKhhV / m4c3s-disposable/verification.json"
+      }
+    },
+    {
+      "id": "universal-membership_combined_route_loss",
+      "category": "defect_reproduction",
+      "status": "PASS",
+      "evidence": {
+        "permutations": 24,
+        "independent_routes": 2,
+        "recorded_routes_per_permutation": 1,
+        "distinct_surviving_routes": 2,
+        "unique_conclusion_and_answer_preserved": true
+      }
+    },
+    {
+      "id": "universal-negative-membership_two_routes_independently_proven",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "independent_routes": [
+          {
+            "rule": "universal-negative-membership",
+            "premises": [
+              "mira::is::scholar",
+              "not scholar::is::careless"
+            ],
+            "conclusion": "not mira::is::careless",
+            "confidence": 1.0
+          },
+          {
+            "rule": "universal-negative-membership",
+            "premises": [
+              "mira::is::teacher",
+              "not teacher::is::careless"
+            ],
+            "conclusion": "not mira::is::careless",
+            "confidence": 1.0
+          }
+        ],
+        "permutation_count": 24,
+        "complete_permutations_location": "GitHub artifact10594722765 / Drive 1CP9y0ptu7EfKkNWUEd6qbKVQrGArKhhV / m4c3s-disposable/verification.json"
+      }
+    },
+    {
+      "id": "universal-negative-membership_combined_route_loss",
+      "category": "defect_reproduction",
+      "status": "PASS",
+      "evidence": {
+        "permutations": 24,
+        "independent_routes": 2,
+        "recorded_routes_per_permutation": 1,
+        "distinct_surviving_routes": 2,
+        "unique_conclusion_and_answer_preserved": true
+      }
+    },
+    {
+      "id": "modus-ponens_two_routes_independently_proven",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "independent_routes": [
+          {
+            "rule": "modus-ponens",
+            "premises": [
+              "a::implies::t",
+              "a::true::true"
+            ],
+            "conclusion": "t::true::true",
+            "confidence": 0.5
+          },
+          {
+            "rule": "modus-ponens",
+            "premises": [
+              "b::implies::t",
+              "b::true::true"
+            ],
+            "conclusion": "t::true::true",
+            "confidence": 0.5
+          }
+        ],
+        "permutation_count": 24,
+        "complete_permutations_location": "GitHub artifact10594722765 / Drive 1CP9y0ptu7EfKkNWUEd6qbKVQrGArKhhV / m4c3s-disposable/verification.json"
+      }
+    },
+    {
+      "id": "modus-ponens_combined_route_loss",
+      "category": "defect_reproduction",
+      "status": "PASS",
+      "evidence": {
+        "permutations": 24,
+        "independent_routes": 2,
+        "recorded_routes_per_permutation": 1,
+        "distinct_surviving_routes": 2,
+        "unique_conclusion_and_answer_preserved": true
+      }
+    },
+    {
+      "id": "transitive-composition_two_routes_independently_proven",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "independent_routes": [
+          {
+            "rule": "transitive-composition",
+            "premises": [
+              "a::implies::b",
+              "b::implies::d"
+            ],
+            "conclusion": "a::implies::d",
+            "confidence": 0.5
+          },
+          {
+            "rule": "transitive-composition",
+            "premises": [
+              "a::implies::c",
+              "c::implies::d"
+            ],
+            "conclusion": "a::implies::d",
+            "confidence": 0.5
+          }
+        ],
+        "permutation_count": 24,
+        "complete_permutations_location": "GitHub artifact10594722765 / Drive 1CP9y0ptu7EfKkNWUEd6qbKVQrGArKhhV / m4c3s-disposable/verification.json"
+      }
+    },
+    {
+      "id": "transitive-composition_combined_route_loss",
+      "category": "defect_reproduction",
+      "status": "PASS",
+      "evidence": {
+        "permutations": 24,
+        "independent_routes": 2,
+        "recorded_routes_per_permutation": 1,
+        "distinct_surviving_routes": 2,
+        "unique_conclusion_and_answer_preserved": true
+      }
+    },
+    {
+      "id": "natural_why_support_depends_on_premise_order",
+      "category": "defect_reproduction",
+      "status": "PASS",
+      "evidence": {
+        "why_candidates_by_order": [
+          [
+            "mira::is::ready",
+            "mira::is::ready::implies-proposition::mira::is::calm"
+          ],
+          [
+            "mira::is::rested",
+            "mira::is::rested::implies-proposition::mira::is::calm"
+          ]
+        ],
+        "event_not_its_own_explanation": true
+      }
+    },
+    {
+      "id": "same_scoped_ambiguity_gate_changes_with_route_loss",
+      "category": "defect_reproduction",
+      "status": "PASS",
+      "evidence": {
+        "typed_dependency_fixture_not_parser_claim": true,
+        "orders": [
+          {
+            "status": "proof-gated-unresolved-ambiguity",
+            "eligible": [],
+            "audits": [
+              {
+                "target": "mira::is::calm",
+                "status": "proof-unresolved-ambiguity",
+                "support_gate_passed": false,
+                "support_nodes": [
+                  "mira::is::calm",
+                  "mira::is::ready",
+                  "mira::is::ready::implies-proposition::mira::is::calm"
+                ],
+                "leaf_premises": [
+                  "mira::is::ready",
+                  "mira::is::ready::implies-proposition::mira::is::calm"
+                ],
+                "step_rules": [
+                  "structured-modus-ponens"
+                ],
+                "unresolved_ambiguity_ids": [
+                  "controlled-ready-dependency"
+                ],
+                "unscoped_ambiguity_ids": [],
+                "conflicting_support": [],
+                "missing_provenance": [],
+                "explanation_support": true,
+                "native_evidence": {
+                  "irg_event_ids": [],
+                  "dkt_activation_ids": [],
+                  "egr_region_ids": [],
+                  "rl_proof_ids": [],
+                  "frenet_trace_ids": []
+                },
+                "provenance": [
+                  {
+                    "canonical": "mira::is::ready",
+                    "origin": "current-turn",
+                    "source_turn": 1,
+                    "status": "active",
+                    "admitted": true,
+                    "semantic_truth_authority": false,
+                    "answer_authority": false,
+                    "cognitive_memory_authority": false
+                  },
+                  {
+                    "canonical": "mira::is::ready::implies-proposition::mira::is::calm",
+                    "origin": "current-turn",
+                    "source_turn": 1,
+                    "status": "active",
+                    "admitted": true,
+                    "semantic_truth_authority": false,
+                    "answer_authority": false,
+                    "cognitive_memory_authority": false
+                  }
+                ],
+                "native_reasoning_path": "IRG->DKT->regional-EGR->RL/Frenet->DKT->native-cognition/action",
+                "authority": {
+                  "semantic_truth": false,
+                  "answer": false,
+                  "speech_act": false,
+                  "cognitive_memory": false,
+                  "relationship": false,
+                  "source_write": false,
+                  "deployment": false
+                }
+              }
+            ]
+          },
+          {
+            "status": "proof-gate-all-candidates-auditable",
+            "eligible": [
+              "mira::is::calm"
+            ],
+            "audits": [
+              {
+                "target": "mira::is::calm",
+                "status": "proof-support-auditable",
+                "support_gate_passed": true,
+                "support_nodes": [
+                  "mira::is::calm",
+                  "mira::is::rested",
+                  "mira::is::rested::implies-proposition::mira::is::calm"
+                ],
+                "leaf_premises": [
+                  "mira::is::rested",
+                  "mira::is::rested::implies-proposition::mira::is::calm"
+                ],
+                "step_rules": [
+                  "structured-modus-ponens"
+                ],
+                "unresolved_ambiguity_ids": [],
+                "unscoped_ambiguity_ids": [],
+                "conflicting_support": [],
+                "missing_provenance": [],
+                "explanation_support": true,
+                "native_evidence": {
+                  "irg_event_ids": [],
+                  "dkt_activation_ids": [],
+                  "egr_region_ids": [],
+                  "rl_proof_ids": [],
+                  "frenet_trace_ids": []
+                },
+                "provenance": [
+                  {
+                    "canonical": "mira::is::rested",
+                    "origin": "current-turn",
+                    "source_turn": 1,
+                    "status": "active",
+                    "admitted": true,
+                    "semantic_truth_authority": false,
+                    "answer_authority": false,
+                    "cognitive_memory_authority": false
+                  },
+                  {
+                    "canonical": "mira::is::rested::implies-proposition::mira::is::calm",
+                    "origin": "current-turn",
+                    "source_turn": 1,
+                    "status": "active",
+                    "admitted": true,
+                    "semantic_truth_authority": false,
+                    "answer_authority": false,
+                    "cognitive_memory_authority": false
+                  }
+                ],
+                "native_reasoning_path": "IRG->DKT->regional-EGR->RL/Frenet->DKT->native-cognition/action",
+                "authority": {
+                  "semantic_truth": false,
+                  "answer": false,
+                  "speech_act": false,
+                  "cognitive_memory": false,
+                  "relationship": false,
+                  "source_write": false,
+                  "deployment": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "unchanged_gate_stays_conservative_when_both_records_are_supplied",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "status": "proof-unresolved-ambiguity",
+        "both_routes_visible": true,
+        "existing_gate_uses_all_recorded_dependencies": true,
+        "runtime_changed": false
+      }
+    },
+    {
+      "id": "typed_proof_inventory_preserves_supplied_distinct_records",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "proof_unit_count": 1,
+        "alternatives": [
+          "{\"conclusion\":\"mira::is::calm\",\"premises\":[\"mira::is::ready::implies-proposition::mira::is::calm\",\"mira::is::ready\"],\"rule\":\"structured-modus-ponens\"}",
+          "{\"conclusion\":\"mira::is::calm\",\"premises\":[\"mira::is::rested::implies-proposition::mira::is::calm\",\"mira::is::rested\"],\"rule\":\"structured-modus-ponens\"}"
+        ],
+        "collector_can_preserve_both_if_upstream_records_exist": true
+      }
+    },
+    {
+      "id": "unchanged_proof_gate_blocks_unscoped",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "status": "proof-unresolved-ambiguity",
+        "support_gate_passed": false
+      }
+    },
+    {
+      "id": "unchanged_proof_gate_blocks_missing",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "status": "proof-incomplete-provenance",
+        "support_gate_passed": false
+      }
+    },
+    {
+      "id": "unchanged_proof_gate_blocks_conflict",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "status": "proof-unresolved-conflict",
+        "support_gate_passed": false
+      }
+    },
+    {
+      "id": "ordinary_logical_and_explanation_controls",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "bare_event_is_not_explanation": true,
+        "single_route_why_supported": true,
+        "missing_antecedents_infer_nothing": true,
+        "identical_premises_do_not_add_routes": true,
+        "positive_negative_alternatives_preserved": true
+      }
+    },
+    {
+      "id": "formal_rule_boundaries_remain_intact",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "undeclared_transitivity_not_invented": true,
+        "modal_universal_not_demodalized": true
+      }
+    },
+    {
+      "id": "existing_direct_conclusion_shadows_legitimate_derivations",
+      "category": "defect_reproduction",
+      "status": "PASS",
+      "evidence": {
+        "independent_routes_available": 2,
+        "recorded_routes": 0,
+        "why_candidates": [],
+        "status": "no-proof-supported-answer",
+        "direct_truth_does_not_explain_itself": true
+      }
+    },
+    {
+      "id": "derived_confidence_also_depends_on_first_route",
+      "category": "defect_reproduction",
+      "status": "PASS",
+      "evidence": {
+        "derived_confidence_by_order": [
+          0.2,
+          0.9
+        ],
+        "future_fix_must_not_hide_route_confidence_by_authored_ranking": true
+      }
+    },
+    {
+      "id": "finite_cycle_and_derivation_budget_contract_characterized",
+      "category": "design_constraint",
+      "status": "PASS",
+      "evidence": {
+        "cycle_steps": [
+          {
+            "rule": "modus-ponens",
+            "premises": [
+              "a::implies::b",
+              "a::true::true"
+            ],
+            "conclusion": "b::true::true",
+            "confidence": 0.5
+          }
+        ],
+        "limited_steps": 1,
+        "full_steps": 3,
+        "limited_result_arity": 4,
+        "explicit_completeness_flag_in_infer_return": false,
+        "naive_extra_route_records_would_share_existing_step_budget": true
+      }
+    },
+    {
+      "id": "full_real_ingest_reproduces_order_dependent_why_support",
+      "category": "defect_reproduction",
+      "status": "PASS",
+      "evidence": {
+        "complete_real_ingest_cases": [
+          {
+            "input": "If Mira is ready, Mira is calm. If Mira is rested, Mira is calm. Mira is ready. Mira is rested. Why is Mira calm?",
+            "steps": [
+              {
+                "rule": "structured-modus-ponens",
+                "premises": [
+                  "mira::is::ready::implies-proposition::mira::is::calm",
+                  "mira::is::ready"
+                ],
+                "conclusion": "mira::is::calm",
+                "confidence": 1.0
+              }
+            ],
+            "answers": [
+              "mira::is::ready",
+              "mira::is::ready::implies-proposition::mira::is::calm"
+            ],
+            "native_text": "mira is ready. mira::is::ready implies proposition mira::is::calm.",
+            "resolution_selection_status": "unresolved-insufficient-speech-act-consequence-geometry"
+          },
+          {
+            "input": "If Mira is rested, Mira is calm. If Mira is ready, Mira is calm. Mira is ready. Mira is rested. Why is Mira calm?",
+            "steps": [
+              {
+                "rule": "structured-modus-ponens",
+                "premises": [
+                  "mira::is::rested::implies-proposition::mira::is::calm",
+                  "mira::is::rested"
+                ],
+                "conclusion": "mira::is::calm",
+                "confidence": 1.0
+              }
+            ],
+            "answers": [
+              "mira::is::rested",
+              "mira::is::rested::implies-proposition::mira::is::calm"
+            ],
+            "native_text": "mira is rested. mira::is::rested implies proposition mira::is::calm.",
+            "resolution_selection_status": "unresolved-insufficient-speech-act-consequence-geometry"
+          }
+        ],
+        "no_source_monkeypatch": true
+      }
+    },
+    {
+      "id": "blank_resolution_geometry_selects_no_act",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "action": null,
+        "native_choice_claim": false,
+        "status": "unresolved-insufficient-speech-act-consequence-geometry",
+        "decision_layer": "unresolved",
+        "synthetic_fixture_not_live_learning": true,
+        "ordinary_response_not_forced_silent_when_resolution_unselected": true
+      }
+    },
+    {
+      "id": "observed_native_geometry_selects_clarify",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "action": "clarify",
+        "native_choice_claim": true,
+        "status": "native-unique-speech-act-predicted-post-state-hs-minimum",
+        "decision_layer": "learned-deliberative",
+        "synthetic_fixture_not_live_learning": true,
+        "ordinary_response_not_forced_silent_when_resolution_unselected": true
+      }
+    },
+    {
+      "id": "observed_native_geometry_selects_ask",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "action": "ask",
+        "native_choice_claim": true,
+        "status": "native-unique-speech-act-predicted-post-state-hs-minimum",
+        "decision_layer": "learned-deliberative",
+        "synthetic_fixture_not_live_learning": true,
+        "ordinary_response_not_forced_silent_when_resolution_unselected": true
+      }
+    },
+    {
+      "id": "observed_native_geometry_selects_remain-silent",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "action": "remain-silent",
+        "native_choice_claim": true,
+        "status": "native-unique-speech-act-predicted-post-state-hs-minimum",
+        "decision_layer": "learned-deliberative",
+        "synthetic_fixture_not_live_learning": true,
+        "ordinary_response_not_forced_silent_when_resolution_unselected": true
+      }
+    },
+    {
+      "id": "tied_resolution_geometry_selects_no_act",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "action": null,
+        "native_choice_claim": false,
+        "status": "unresolved-exact-speech-act-consequence-geometry-tie",
+        "decision_layer": "unresolved",
+        "synthetic_fixture_not_live_learning": true,
+        "ordinary_response_not_forced_silent_when_resolution_unselected": true
+      }
+    },
+    {
+      "id": "incomplete_resolution_geometry_selects_no_act",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "action": null,
+        "native_choice_claim": false,
+        "status": "unresolved-insufficient-speech-act-consequence-geometry",
+        "decision_layer": "unresolved",
+        "synthetic_fixture_not_live_learning": true,
+        "ordinary_response_not_forced_silent_when_resolution_unselected": true
+      }
+    },
+    {
+      "id": "owner_calibration_is_operator_directed_only",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "authenticated": "operator-directed-calibration-existing-native-question-exposure",
+        "unauthenticated": "rejected-authenticated-owner-required",
+        "native_choice": false
+      }
+    },
+    {
+      "id": "all_exact_source_bytes_unchanged",
+      "category": "control",
+      "status": "PASS",
+      "evidence": {
+        "unchanged": true,
+        "files": 58,
+        "python_files": 54
+      }
+    }
+  ],
+  "runtime_source_changed": false,
+  "candidate_created": false,
+  "ordinary_0023_published": false,
+  "m4c3r_sealed": true,
+  "m4c3s_sealed": false,
+  "stage8b_complete": false,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "defect_reproduction_is_not_correction": true,
+  "next_decision": "Separate unique conclusion closure from complete distinct direct proof provenance; resolve finite-budget completeness and per-route confidence contracts before candidate intent. Preserve conservative gates and native-choice boundaries.",
+  "full_report_sha256": "bad92a0389e16014e3266ecec3161c2662466870d17297b49c161b6467d6dbd5",
+  "full_report_bytes": 156814,
+  "full_report_location": "GitHub artifact10594722765 / Drive 1CP9y0ptu7EfKkNWUEd6qbKVQrGArKhhV / m4c3s-disposable/verification.json",
+  "artifact_github_drive_raw_equality": true,
+  "local_ci_semantic_report_equality": true,
+  "verified_rule_family_count": 5,
+  "verified_premise_permutations": 120,
+  "runtime_correction_required": true,
+  "candidate_scope_frozen": false
+}
