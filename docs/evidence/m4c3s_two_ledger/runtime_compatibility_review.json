@@ -1,0 +1,80 @@
+{
+  "status": "OBSERVED_CONSUMER_REVIEW_SURFACE_NOT_CANDIDATE_CHANGED_FILE_SET",
+  "exact_candidate_scope_frozen": false,
+  "files": [
+    {
+      "path": "src/noeron/inference.py",
+      "sha256": "73d32c9e61934c2fcbaf042ac7499b74a916df57cfca06817723020424887434",
+      "bytes": 45920,
+      "observed_constraints": [
+        "infer(): conclusion identity and record production coupled; legacy four-tuple return; correction admission is order-sensitive"
+      ]
+    },
+    {
+      "path": "src/noeron/math/models.py",
+      "sha256": "eef4d3e87ee61da7797e69d773accf4aaa598d2c00139ee851e1e6bb7b6da455",
+      "bytes": 16470,
+      "observed_constraints": [
+        "LogicalProposition.confidence float; InferenceStep.confidence float; MultiMemoryReasoningMathState.confidence float and no completeness metadata"
+      ]
+    },
+    {
+      "path": "src/noeron/reasoning.py",
+      "sha256": "f8b32e87be66e1c53402fbf701c81fd69553907f76187f2cc5856e290cd0d9dc",
+      "bytes": 22049,
+      "observed_constraints": [
+        "premise_map collapses canonical copies before infer; full proof provenance is constructed afterward",
+        "proof_conf=min(p.confidence for p in answers) and geometric multiplication consume scalars"
+      ]
+    },
+    {
+      "path": "src/noeron/conversation_proof.py",
+      "sha256": "a95e52ba329ee2d040373ebce7c4ad863ce80d5ad4bdf26fffaefe7febe4fb05",
+      "bytes": 12760,
+      "observed_constraints": [
+        "normalize_inference_steps coerces scalar confidence; zero uses the existing or-1.0 default",
+        "canonical string support graph does not encode the universal identity bit; complete-record status absent"
+      ]
+    },
+    {
+      "path": "src/noeron/conversation_runtime_gate.py",
+      "sha256": "632689426cfa5c2d3c66d742356e1345f09fe2f22cfb2011aa90674ac224bae6",
+      "bytes": 6337,
+      "observed_constraints": [
+        "must receive and preserve explicit incomplete-ledger status without weakening existing dependency gates"
+      ]
+    },
+    {
+      "path": "src/noeron/cognition/models.py",
+      "sha256": "786231e57f3f906f8941dca5386f2c92a16aa23c8605995e8a83e60f1dd809b0",
+      "bytes": 41026,
+      "observed_constraints": [
+        "NativeProposition and NativeThought confidence fields require scalar float"
+      ]
+    },
+    {
+      "path": "src/noeron/cognition/kernel.py",
+      "sha256": "203c4fbb87da4650e622db065dfd6cfa25188053cc3f891413a2f8c8488bb4ff",
+      "bytes": 8008,
+      "observed_constraints": [
+        "response/autonomous copy proposition confidence; _support_metrics clamps reasoning confidence"
+      ]
+    },
+    {
+      "path": "src/noeron/math/affect.py",
+      "sha256": "ee14fb63becf24786e909767f2c5a353fa86abed3b65832133c4192009e25500",
+      "bytes": 14167,
+      "observed_constraints": [
+        "proto_affective_state computes 1.0 - reasoning.confidence"
+      ]
+    },
+    {
+      "path": "src/noeron/conversation_resolution.py",
+      "sha256": "ea1ead068b8c68bd34d5d852a2918634ae272c692e37831a77f1a1bb63057191",
+      "bytes": 20652,
+      "observed_constraints": [
+        "proof inventory serializes rule/premise/conclusion strings; typed/provenance metadata projection requires verification, not a renderer workaround"
+      ]
+    }
+  ]
+}

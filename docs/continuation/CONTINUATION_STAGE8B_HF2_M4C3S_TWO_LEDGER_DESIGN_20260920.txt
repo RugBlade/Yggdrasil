@@ -1,0 +1,86 @@
+M4C3S DISPOSABLE TWO-LEDGER DESIGN CHECKPOINT — LOCAL GREEN / EXTERNAL VERIFICATION PENDING
+Recorded UTC: 2026-09-20T07:20:20.672644+00:00
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Actual starting HEAD: 75478de9c7f9ea4a0f8106c05439873ef0da4537
+Starting tree: d15178fa2f7aa3cff678e00b01e524810ec1bae2
+No newer commits, active/pending Actions or competing mutations observed at inspection. No 0023 exists. Standing GitHub root, design, verification continuation and verification manifest were matched to raw Drive bytes. Previous closure receipt confirms exact ending HEAD and the pending design contract.
+
+SCOPE AND PARENT STATUS
+Current Stage 8B v0.8.2 HF2; active M4C3S direct-proof provenance completeness.
+M4C3R remains latest sealed milestone; M4C3Q remains sealed. Ordinary 0001 -> 0022 unchanged.
+Completed characterization run 35477884092 / job 105990188172 / 31 PASS was inspected, not rerun. This new work tests a disposable design, not the completed characterization and not a runtime candidate.
+Immutable input: GitHub artifact 10594550960 / Drive 1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_ / 679959 bytes / SHA-256 b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0.
+Source member m4c3r-exact-post0022-published-source.tar.gz / 663382 bytes / SHA-256 2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd.
+All 58 source files, including 54 Python files, retain identical bytes. Every imported Noeron module came from this exact extraction. No carrier runtime source was imported or installed as a replacement.
+
+DISPOSABLE DESIGN CONTRACT v1
+A. Unique proposition ledger
+Identity is the complete six-field proposition_key: subject, relation, object, polarity, universal, modality. Confidence and surface serialization are not proposition identity.
+Each admitted input observation retains its available source fields: source label, source_record_id, source_memory_id(s), modifiers and input-derived flag. Source IDs are SHA-256 of canonical structural JSON. Numeric confidence readings are retained separately; exact duplicate observations collapse, differing readings or distinct source IDs remain visible.
+Missing occurrence/source identity is not invented from list order. The prototype preserves available LogicalProposition provenance; integrating the richer current/bounded/persistent envelopes before reasoning.py's premise_map is an explicit remaining compatibility task.
+Unique proposition identity carries no aggregate confidence. NodeView.confidence is None, explicitly absent; it is not zero, a selected route value, or native abstention.
+
+B. Direct proof ledger
+Each record contains formal rule, role-ordered premise keys, conclusion key, explicit rule-enabling evidence keys where relevant, and all available premise/evidence source IDs.
+Fingerprint: SHA-256 over canonical JSON of version=1, rule, premise_keys, conclusion_key, rule_evidence_keys, premise_source_ids and rule_evidence_source_ids.
+Ordered premise slots preserve rule roles. Source lists are set-canonicalized. Confidence readings and recursive producer IDs do not enter the fingerprint. Identical routes cannot multiply through replay or cycles. Distinct rules/premise identities/conclusions or provenance bundles remain distinguishable.
+Parallel observations supporting an identical premise are retained within that premise's support inventory; they do not fabricate additional formal rule applications or path products.
+The five existing formal rule families retain their guards. Explicit non-built-in transitivity declarations are retained as rule-enabling provenance; their absence cannot silently pass the proof audit.
+No arbitrary proof paths are enumerated. A direct record points to proposition identities; producer references are attached after the finite direct-record set is formed. Cycles therefore form finite references rather than recursive fingerprint expansion.
+
+FINITE BUDGET / COMPLETENESS CONTRACT
+Separate nonnegative integer parameters: max_conclusion_steps (default 128 new unique identities) and max_proof_records (default 1024 direct records). These are prototype resource defaults, not semantic thresholds or a frozen runtime configuration.
+Closure uses synchronous whole frontiers. If the next frontier exceeds remaining conclusion capacity, no preferred subset is admitted; the complete frontier is recorded as blocked and closure_complete=false. This makes bounded closure independent of premise order without lexical or route preference. Exact equality with the budget is allowed; a final no-new-frontier check distinguishes complete from truncated.
+Proof enumeration follows closure and cannot consume conclusion capacity. If at most max_proof_records distinct direct records exist, they are retained. On the first cap+1 distinct record, proof enumeration stops; no preferred prefix is exposed, records is empty, proof_record_lower_bound=cap+1, and proof_enumeration_complete_for_known=false. The lower bound is not claimed to be the final total.
+proof_ledger_complete = closure_complete AND proof_enumeration_complete_for_known. This status is global and conservative; the prototype makes no finer per-target completeness claim.
+An incomplete ledger supplies no proof-eligible query content through the prototype adapter. It does not claim complete evidence and does not select any speech act. This is a provenance eligibility boundary, not a programmed remain-silent choice.
+max_conclusion_steps=1 can retain one conclusion plus both independent proofs with proof capacity 2. Reducing only proof capacity to 1 leaves proposition closure unchanged and marks proofs incomplete.
+Finite means finite structural enumeration over admitted inputs and bounded new identities; it is not a claim of constant-memory or adversarial-performance certification. The prototype has no legacy max_steps alias; exact runtime call compatibility remains to be designed.
+
+CONFIDENCE CONTRACT
+Every direct source confidence reading is retained exactly, including 0.0. Each proof record has a confidence expression with operator existing-within-route-min and references to the premise support nodes, source IDs and producer-record IDs.
+A numeric value is materialized only when every premise has exactly one distinct directly observed value and no derived producer. In that one route, the already-existing weakest-premise/min operation is preserved. This is never a reduction across alternative routes.
+If a premise has multiple values or derived producers, the expression remains symbolic-unaggregated with value=None. Nested routes and cycles retain their complete finite references. No first/max/min/average/preferred route reduction is invented. The distinct 0.2 and 0.9 routes survive all 24 confidence permutations.
+Cross-route reducer is always None. Unique proposition confidence remains absent even when direct proof records have numeric values. The intended mathematical/native consumer contract has not been replaced by bookkeeping.
+
+DIRECT TARGET / WHY CONTRACT
+An explicitly supplied target proposition retains its identity while both supporting derivations are recorded. It consumes zero new-conclusion capacity but still has two proof records.
+WHY support includes premises of every direct target derivation and explicit causal/explanatory support when present. The target itself is excluded from its own explanation. Bare event truth has no explanation support.
+If proof enumeration is incomplete, WHY is explicitly incomplete rather than silently first-route-only.
+
+CONSUMER BOUNDARY
+The adapter calls the unchanged post0022 proof gate only when the entire ledger is complete, canonical projection is injective, and every step confidence is exactly representable. Otherwise it returns an explicit incompatibility/incomplete status with no eligible candidates; it never substitutes a scalar.
+Scoped/unscoped ambiguity, missing provenance and conflict remain blocked under the unchanged audit. Both routes enter the support graph; the prototype does not introduce an any-clean-route bypass.
+Existing parallel-provenance handling inside the unchanged gate is preserved. That policy is distinct from bypassing a contaminated independent proof route.
+Genuine proposition and proof alternatives remain act-neutral. New prototype proof records were supplied to the unchanged native action consumer in explicitly synthetic fixtures. Blank/tied/incomplete geometry selects no act; observed consequence geometry retains clarify, ask and remain-silent selection. Operator calibration remains operator-directed. No full Noeron.ingest replacement is claimed.
+Sealed 0022 surface correspondence was exercised together with the new complete proof inventory: the derivative reference/QUD duplicate stays suppressed, all typed units remain, and both proof alternatives survive. No renderer or speech-act source was changed.
+
+LOCAL RESULTS
+41 PASS / 0 FAIL: 23 prototype-contract checks, 8 consumer controls, 7 native controls, 3 compatibility-boundary checks.
+120 premise permutations across five rule families; additional 24 confidence permutations. Full ledger serialization is invariant under those reorderings.
+Expected incompatibility/rejection checks are PASS because the boundary is exposed; they are not claims that runtime integration is fixed.
+An initial local harness run had 40 PASS / 1 fixture error: required NativeThought.statement omitted in the combined sealed-surface fixture. Only the test fixture was corrected to statement=''; the initial report is preserved in the support archive. No runtime or prototype algorithm change was needed for that error.
+
+WHY EXACT CANDIDATE SCOPE IS NOT FROZEN
+Actual immutable model constructors reject confidence=None in LogicalProposition, NativeProposition and MultiMemoryReasoningMathState. reasoning.py, cognition/kernel.py and math/affect.py actively perform scalar operations. Setting an arbitrary scalar or preserving the first route would violate the user's confidence boundary.
+Canonical strings omit the universal identity bit. The typed ledger preserves both identities and its legacy adapter explicitly rejects collisions. Full typed-key/provenance plumbing into proof consumers is not yet implemented or tested.
+Correction admission is order-sensitive in the original infer(). The prototype requires already-admitted premises and explicitly rejects correction-marked input rather than silently redefining that contract. Integration must preserve the existing correction/supersession behavior separately from proof discovery.
+Runtime compatibility review: docs/evidence/m4c3s_two_ledger/runtime_compatibility_review.json records exact immutable file hashes and observed consumers. This is a review surface, not permission or a promise to change every listed file.
+The ledger contract is reproducible and locally proven. Exact runtime changed-file scope, complete data-model integration and candidate authorization remain pending. No 0023 intent is authorized at this checkpoint.
+
+EXACT NEXT ACTION
+Run one new read-only external prototype workflow over the exact frozen two_ledger.py and verify_two_ledger.py bytes and the immutable artifact. Do not rerun the previous completed characterization or parent CI gates. Freeze substantive branch changes while that run executes.
+Inspect its complete artifact, verify member hashes and local/external semantic parity, mirror evidence, and supplement this continuation with exact run/job/artifact/commit/blob/Drive identities.
+Then the next engineering phase is a disposable runtime-compatibility prototype: carry confidence expressions and typed/source identities through affected models and consumers without scalar invention; preserve existing admission/supersession behavior; prove incomplete-ledger metadata reaches all proof consumers. Checkpoint that result and freeze the exact minimal source scope before any 0023 intent.
+
+STATUS / INVARIANTS
+m4c3r_sealed=true; m4c3q_sealed=true; ordinary_0022_published=true.
+m4c3s_disposable_verification_complete=true; m4c3s_disposable_verification_green=true.
+m4c3s_two_ledger_local_prototype_green=true; external_prototype_verification_pending=true.
+candidate_scope_frozen=false; runtime_candidate_created=false; ordinary_0023_published=false; m4c3s_sealed=false; stage8b_complete=false.
+No active run yet. No provider divergence or access blocker. No source-changing work or destructive cleanup. New read-only workflow and disposable evidence files are retained for reproducibility.
+live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.
+All authority/autonomy invariants from the standing root and previous manifest remain in force. Programmed proof bookkeeping has zero semantic truth, answer, preference, relationship, memory, source-write, deployment or speech-act authority.
+Roadmap unchanged: Stage 8 spans 8A-8M; current Stage 8B; self-upgrade especially 8H-8K. No other Stage-8 subdivision or Stage 9 begun.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
