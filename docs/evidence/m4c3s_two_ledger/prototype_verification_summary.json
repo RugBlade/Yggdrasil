@@ -1,0 +1,242 @@
+{
+  "schema": "M4C3S-DISPOSABLE-TWO-LEDGER-DESIGN-v1",
+  "created_utc": "2026-09-20T07:23:10.512675+00:00",
+  "source_commit": "77d436707516db45773a846c21351aec4bc017cd",
+  "run_id": "35496716857",
+  "artifact_id_used": 10594550960,
+  "artifact_sha256": "b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0",
+  "source_archive_sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd",
+  "passed": 41,
+  "failed": 0,
+  "formal_family_permutations": 120,
+  "confidence_permutations": 24,
+  "completed_previous_verification_rerun": false,
+  "runtime_source_changed": false,
+  "full_runtime_integration_tested": false,
+  "candidate_created": false,
+  "ordinary_0023_published": false,
+  "m4c3r_sealed": true,
+  "m4c3s_sealed": false,
+  "stage8b_complete": false,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "design_contract_status": "PROTOTYPE_PROVEN_RUNTIME_COMPATIBILITY_SCOPE_NOT_FROZEN",
+  "candidate_authorized": false,
+  "next_action": "Resolve and test confidence-preserving runtime compatibility across scalar models/consumers, typed-key audit projection and existing correction admission before freezing the exact candidate file set. No aggregate confidence or native action policy is authorized.",
+  "checks": [
+    {
+      "id": "structured-modus-ponens_route_complete_order_independent",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "universal-membership_route_complete_order_independent",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "universal-negative-membership_route_complete_order_independent",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "modus-ponens_route_complete_order_independent",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "transitive-composition_route_complete_order_independent",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "why_support_contains_both_direct_routes",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "direct_target_does_not_shadow_derivations",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "bare_event_truth_is_not_explanation",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "identical_premise_duplicates_do_not_multiply_routes",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_source_provenance_preserved_without_fake_rule_multiplicity",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "same_source_different_confidence_readings_retained",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "cycles_use_finite_direct_records_and_symbolic_references",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "one_conclusion_budget_still_collects_both_routes",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "tiny_proof_budget_marks_incomplete_without_preferred_prefix",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "small_conclusion_budget_withholds_whole_frontier_order_independently",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "zero_budgets_have_explicit_finite_semantics",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "confidence_02_09_permutations_preserve_both_without_reducer",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "zero_route_confidence_is_preserved",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "chained_confidence_preserves_support_graph_without_path_expansion",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "unchanged_proof_consumer_scoped",
+      "category": "consumer_control",
+      "status": "PASS"
+    },
+    {
+      "id": "unchanged_proof_consumer_unscoped",
+      "category": "consumer_control",
+      "status": "PASS"
+    },
+    {
+      "id": "unchanged_proof_consumer_missing",
+      "category": "consumer_control",
+      "status": "PASS"
+    },
+    {
+      "id": "unchanged_proof_consumer_conflict",
+      "category": "consumer_control",
+      "status": "PASS"
+    },
+    {
+      "id": "unchanged_proof_consumer_clean",
+      "category": "consumer_control",
+      "status": "PASS"
+    },
+    {
+      "id": "why_support_is_complete_and_all_route_ambiguity_remains_blocked",
+      "category": "consumer_control",
+      "status": "PASS"
+    },
+    {
+      "id": "genuine_proposition_alternatives_remain_unranked",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "prototype_routes_reach_unchanged_act_neutral_inventory",
+      "category": "consumer_control",
+      "status": "PASS"
+    },
+    {
+      "id": "new_proof_inventory_blank_geometry_selects_no_act",
+      "category": "native_control",
+      "status": "PASS"
+    },
+    {
+      "id": "new_proof_inventory_observed_geometry_clarify",
+      "category": "native_control",
+      "status": "PASS"
+    },
+    {
+      "id": "new_proof_inventory_observed_geometry_ask",
+      "category": "native_control",
+      "status": "PASS"
+    },
+    {
+      "id": "new_proof_inventory_observed_geometry_remain-silent",
+      "category": "native_control",
+      "status": "PASS"
+    },
+    {
+      "id": "new_proof_inventory_tied_geometry_selects_no_act",
+      "category": "native_control",
+      "status": "PASS"
+    },
+    {
+      "id": "new_proof_inventory_incomplete_geometry_selects_no_act",
+      "category": "native_control",
+      "status": "PASS"
+    },
+    {
+      "id": "owner_calibration_remains_operator_directed",
+      "category": "native_control",
+      "status": "PASS"
+    },
+    {
+      "id": "sealed_0022_correspondence_with_new_proof_inventory_unchanged",
+      "category": "consumer_control",
+      "status": "PASS"
+    },
+    {
+      "id": "explicit_transitive_rule_enablement_is_retained_as_provenance",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "typed_identity_collision_is_not_silently_collapsed",
+      "category": "compatibility_boundary",
+      "status": "PASS"
+    },
+    {
+      "id": "existing_runtime_models_require_scalar_confidence",
+      "category": "compatibility_boundary",
+      "status": "PASS"
+    },
+    {
+      "id": "correction_admission_boundary_is_explicit",
+      "category": "compatibility_boundary",
+      "status": "PASS"
+    },
+    {
+      "id": "all_prototype_authorities_false",
+      "category": "prototype_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "immutable_source_and_consumer_imports_verified",
+      "category": "prototype_contract",
+      "status": "PASS"
+    }
+  ],
+  "full_report": {
+    "github_artifact_id": 10601720123,
+    "drive_id": "1cBK0HU6KWkZwrKUrQViKigYq4TUUAkgS",
+    "member": "m4c3s-two-ledger/prototype_report.json",
+    "sha256": "620c9267e90e61b04a63e2bf8a61802ab9e1d0921403a98f52d813b496726dde",
+    "bytes": 182502
+  },
+  "local_ci_semantic_equality": true
+}

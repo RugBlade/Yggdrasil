@@ -1,3 +1,146 @@
+M4C3S TWO-LEDGER DESIGN EXTERNALLY VERIFIED — RUNTIME COMPATIBILITY GATE STILL OPEN
+Recorded UTC: 2026-09-20T07:28:25.181542+00:00
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Actual starting HEAD: 75478de9c7f9ea4a0f8106c05439873ef0da4537
+Observed HEAD immediately before this evidence checkpoint: 77d436707516db45773a846c21351aec4bc017cd
+Current Stage 8B v0.8.2 HF2; active M4C3S direct-proof provenance completeness.
+Latest sealed milestone M4C3R; M4C3Q also remains sealed. Published exact HF1 + ORIGINAL helpers + ordinary 0001 -> 0022 unchanged. No 0023 existed at start or exists now.
+
+AUTHORITATIVE NEW PROTOTYPE RESULT
+Workflow .github/workflows/hf2-m4c3s-two-ledger-prototype.yml
+Frozen source commit 77d436707516db45773a846c21351aec4bc017cd
+Run 35496716857 / job 106040915219 / attempt 1 / SUCCESS
+Started 2026-09-20T07:23:02Z; completed 2026-09-20T07:23:13Z.
+41 PASS / 0 FAIL: 23 prototype-contract checks, 8 consumer controls, 7 native controls, 3 compatibility-boundary checks.
+120 family premise permutations + 24 confidence permutations. All required prototype controls passed. Expected boundary rejections are successful detection, not completed runtime integration.
+The previous completed 31-check characterization (run 35477884092) and sealed parent gates were NOT rerun.
+Branch HEAD stayed frozen at the source commit throughout the authoritative run. The workflow has read-only contents/actions permissions and did not write the branch.
+The full local and CI semantic reports are exactly equal after removing only created_utc, source_commit and run_id. All artifact member hashes and exact prototype/harness/workflow bytes were checked.
+
+EXACT EVIDENCE IDENTITIES
+GitHub artifact 10601720123 / name hf2-m4c3s-two-ledger-design-prototype
+Artifact bytes 34250 / SHA-256 8becd6ad387143d4d6486dc897fe7edbee1bcd8a0b8d3c8e613b5dd14f0f7a55
+Artifact Drive 1cBK0HU6KWkZwrKUrQViKigYq4TUUAkgS / GitHub-Drive raw equality VERIFIED.
+Full report member m4c3s-two-ledger/prototype_report.json / 182502 bytes / SHA-256 620c9267e90e61b04a63e2bf8a61802ab9e1d0921403a98f52d813b496726dde.
+Initial design/prototype checkpoint commit 507e3815fcfa1a34cbbc45d0be458db83a9a7487.
+Prototype docs/evidence/m4c3s_two_ledger/two_ledger.py / blob 716c48ff908157bd87bd9f95c0cad240621687ae / 12765 bytes / SHA-256 4462e4878de90a9ec4dd4a1f87d7de9451cf685fcf31e0d2d7c4586353c36f6e.
+Harness docs/evidence/m4c3s_two_ledger/verify_two_ledger.py / blob b89917e9c620cf0d2218350e8051dbb3268c1e65 / 31615 bytes / SHA-256 49486f69b8771b60fae2b764a2fde1f3163fa52d038dad26828144d2eca4b331.
+Hash carrier docs/evidence/m4c3s_two_ledger/prototype_files.sha256 / blob e695584e79bbb0dcd4ce78d2a98677a59efb6aa0 / 229 bytes / SHA-256 2dbfff7fe851ae186a49c1500f0de6aeea86c1737b8cddf8639be9287521cdda.
+Workflow blob 522724b31a51377405c631d2dd3e849a279e3ce1 / 2693 bytes / SHA-256 ae53d282b7c693946a056ed4a6ea4821ae55f1d3745425e7dd9ba80d53fc6c86.
+Compatibility review docs/evidence/m4c3s_two_ledger/runtime_compatibility_review.json / blob 89eb11840c619b8c208580f070d9b96e1f1e0415 / 3242 bytes / SHA-256 9283e5739537db75d74ea7fa22e1a9b4c3bb7742b921bc21ceabaa6c086bc41c.
+Local support Drive 1JnDmwOvwshkOS-joMBs_OVp676g8XPBS / 51868 bytes / SHA-256 b2a9ce054c7e532783a3a1c4a05213a4d5c2cc1540fdef7b00e9c164ad16c5ac / raw equality VERIFIED.
+Provider receipt/log backup Drive 1lda7vSTiMAKBLZomGi6qhhh-6a33nW-s / 106128 bytes / SHA-256 1271ef44201b0fb0e1a4e60728847b1abdcae14fd4a16a05768eb2c8d9a7b21b / raw equality VERIFIED.
+This continuation Drive ID: 1-YFIb4c_1YAIQGZEmYRJITV51SNPjVHe (updated in place; original version remains in Git and support archive).
+Standing root Drive ID: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1.
+New run closure receipt Drive ID: 1fKNSdg_6AmVCe_XcjGbUY_E0o2GhtbNk / HF2_M4C3S_TWO_LEDGER_WORK_RUN_CLOSURE_20260920.json. It will hold the exact final containing HEAD/root blob/hash/bytes after the ending-root save, avoiding self-reference.
+
+DECISION AT THIS DURABLE CHECKPOINT
+The disposable two-ledger behavioral/data/budget/fingerprint/confidence contract v1 below is externally verified and preserved at exact code hashes. It is NOT installed runtime behavior and is not the final candidate interface contract.
+Unique closure, direct route completeness, direct-target support, duplicate control, finite cycles, explicit truncation, per-route confidence and conservative unchanged consumers are proven within the stated prototype boundary.
+Candidate changed-file scope is NOT safe to freeze. 0023 remains premature and no intent was created. Three integration contracts remain open:
+(1) Carry absent/unaggregated confidence through actual models and scalar-consuming reasoning/cognition/affect paths without inventing a reducer, retaining first-route confidence or converting absence into an automatic native act.
+(2) Carry complete typed identity, parallel source envelopes and completeness metadata through proof consumers, preserving conservative all-recorded-dependency ambiguity/conflict/missing-provenance behavior; prove legacy canonical collisions cannot silently merge distinct identities.
+(3) Preserve existing current/bounded/persistent admission and order-sensitive correction/supersession behavior while separating its audit records from newly complete direct proof collection. The prototype explicitly rejects correction-marked input pending that compatibility layer.
+No renderer or speech-act source change is justified by these findings. The observed file review surface is not a frozen patch scope.
+
+EXACT NEXT BOUNDED PHASE
+Inspect actual provider HEAD/root/closure/Actions again. Retain both sealed parents and this completed prototype CI evidence; do not rerun a completed gate solely due stale UI.
+Build a disposable runtime-compatibility prototype against the same immutable post0022 archive, starting from this exact two-ledger module and consumer inventory. Resolve the three contracts above with explicit data representation and tests. Preserve the original substrate/native-choice boundary.
+In particular test direct source and learned/bounded parallel envelopes, single and multiple route confidence, nested/cyclic symbolic confidence, zero confidence, typed universal/nonuniversal collisions, explicit corrections, and propagation of incomplete status into response and autonomous proof consumers. No scalar fallback, hidden route ranking or programmed act selection is permitted.
+Only after that compatibility prototype is green and a new GitHub/Drive design checkpoint freezes the exact minimal runtime file set may 0023 intent be created under the established candidate/replay/publication pipeline. This Work run stops at the completed design evidence checkpoint.
+
+FULL NEW PROTOTYPE CHECK MATRIX
+PASS | prototype_contract | structured-modus-ponens_route_complete_order_independent
+PASS | prototype_contract | universal-membership_route_complete_order_independent
+PASS | prototype_contract | universal-negative-membership_route_complete_order_independent
+PASS | prototype_contract | modus-ponens_route_complete_order_independent
+PASS | prototype_contract | transitive-composition_route_complete_order_independent
+PASS | prototype_contract | why_support_contains_both_direct_routes
+PASS | prototype_contract | direct_target_does_not_shadow_derivations
+PASS | prototype_contract | bare_event_truth_is_not_explanation
+PASS | prototype_contract | identical_premise_duplicates_do_not_multiply_routes
+PASS | prototype_contract | parallel_source_provenance_preserved_without_fake_rule_multiplicity
+PASS | prototype_contract | same_source_different_confidence_readings_retained
+PASS | prototype_contract | cycles_use_finite_direct_records_and_symbolic_references
+PASS | prototype_contract | one_conclusion_budget_still_collects_both_routes
+PASS | prototype_contract | tiny_proof_budget_marks_incomplete_without_preferred_prefix
+PASS | prototype_contract | small_conclusion_budget_withholds_whole_frontier_order_independently
+PASS | prototype_contract | zero_budgets_have_explicit_finite_semantics
+PASS | prototype_contract | confidence_02_09_permutations_preserve_both_without_reducer
+PASS | prototype_contract | zero_route_confidence_is_preserved
+PASS | prototype_contract | chained_confidence_preserves_support_graph_without_path_expansion
+PASS | consumer_control | unchanged_proof_consumer_scoped
+PASS | consumer_control | unchanged_proof_consumer_unscoped
+PASS | consumer_control | unchanged_proof_consumer_missing
+PASS | consumer_control | unchanged_proof_consumer_conflict
+PASS | consumer_control | unchanged_proof_consumer_clean
+PASS | consumer_control | why_support_is_complete_and_all_route_ambiguity_remains_blocked
+PASS | prototype_contract | genuine_proposition_alternatives_remain_unranked
+PASS | consumer_control | prototype_routes_reach_unchanged_act_neutral_inventory
+PASS | native_control | new_proof_inventory_blank_geometry_selects_no_act
+PASS | native_control | new_proof_inventory_observed_geometry_clarify
+PASS | native_control | new_proof_inventory_observed_geometry_ask
+PASS | native_control | new_proof_inventory_observed_geometry_remain-silent
+PASS | native_control | new_proof_inventory_tied_geometry_selects_no_act
+PASS | native_control | new_proof_inventory_incomplete_geometry_selects_no_act
+PASS | native_control | owner_calibration_remains_operator_directed
+PASS | consumer_control | sealed_0022_correspondence_with_new_proof_inventory_unchanged
+PASS | prototype_contract | explicit_transitive_rule_enablement_is_retained_as_provenance
+PASS | compatibility_boundary | typed_identity_collision_is_not_silently_collapsed
+PASS | compatibility_boundary | existing_runtime_models_require_scalar_confidence
+PASS | compatibility_boundary | correction_admission_boundary_is_explicit
+PASS | prototype_contract | all_prototype_authorities_false
+PASS | prototype_contract | immutable_source_and_consumer_imports_verified
+
+END-OF-PHASE STATUS
+m4c3q_sealed=true
+m4c3r_sealed=true
+ordinary_0022_published=true
+m4c3s_disposable_verification_complete=true
+m4c3s_disposable_verification_green=true
+m4c3s_two_ledger_prototype_green=true
+prototype_contract_preserved=true
+runtime_compatibility_proven=false
+candidate_scope_frozen=false
+runtime_candidate_created=false
+ordinary_0023_published=false
+m4c3s_sealed=false
+stage8b_complete=false
+All 58 immutable runtime files, including 54 Python files, remain byte-identical. Only new disposable docs/evidence files, one read-only workflow and continuations changed in Git. The prototype does not replace infer() in a full runtime ingestion.
+Active/pending external runs: none observed. Provider divergence: none observed. Access blockers: none. Engineering gate: the three explicit runtime compatibility contracts above. Cleanup: none required; read-only prototype workflow/harness retained, scratch extraction/temporary databases disposable.
+Remaining documentation at this exact commit: final prototype manifest and ending-root closure. Their later committed identities and completed mirror checks supersede this chronological field.
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+Roadmap unchanged: Stage 8 spans 8A-8M; current 8B; self-upgrade especially 8H-8K; no Stage 8C-8M or Stage 9 begun.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+
+HISTORICAL LOCAL-DESIGN CHECKPOINT FOLLOWS. Its pending external-run and next-action fields are superseded by this verified result.
+
 M4C3S DISPOSABLE TWO-LEDGER DESIGN CHECKPOINT — LOCAL GREEN / EXTERNAL VERIFICATION PENDING
 Recorded UTC: 2026-09-20T07:20:20.672644+00:00
 Repository: RugBlade/Yggdrasil
