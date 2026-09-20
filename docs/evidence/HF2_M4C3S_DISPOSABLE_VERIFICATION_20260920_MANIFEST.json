@@ -1,0 +1,446 @@
+{
+  "schema_version": "HF2-M4C3S-DISPOSABLE-VERIFICATION-20260920-v1",
+  "recorded_utc": "2026-09-20T00:18:07.559400+00:00",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "actual_starting_head": "94513f949534c49b5c5adda420182312d7e02867",
+  "observed_head_before_manifest": "0570d48197fb206543691cfd4c6391b2777246c1",
+  "active_milestone": {
+    "id": "M4C3S",
+    "name": "direct-proof provenance completeness",
+    "phase": "DISPOSABLE_VERIFICATION_COMPLETE_CANDIDATE_DESIGN_CONTRACT_PENDING",
+    "disposable_verification_complete": true,
+    "disposable_verification_green": true,
+    "runtime_correction_required": true,
+    "candidate_scope_frozen": false,
+    "runtime_candidate_created": false,
+    "ordinary_0023_published": false,
+    "m4c3s_sealed": false,
+    "stage8b_complete": false
+  },
+  "parent_seal": {
+    "latest_sealed_milestone": "M4C3R",
+    "m4c3r_sealed": true,
+    "m4c3q_sealed": true,
+    "reopened": false,
+    "published_reconstruction": "byte-exact HF1 + ORIGINAL helpers + ordinary patches 0001 -> 0022",
+    "manifest_path": "docs/evidence/HF2_M4C3R_20260919_MANIFEST.json",
+    "manifest_commit": "b5f843db9d546781c494641f766952b8cac55d3b",
+    "manifest_blob": "924cbe5431f404bf6af40a75bb23ed6496a62c58",
+    "manifest_drive_id": "1WHPZymaVah9Sk-SROutQa7RE_30teEys",
+    "github_drive_raw_equality": true,
+    "existing_ci_gates_rerun": false
+  },
+  "provider_start": {
+    "newer_commits_found": false,
+    "active_or_queued_runs": [],
+    "competing_mutations_observed": false,
+    "root_manifest_continuation_raw_equality": true,
+    "root_git_blob": "11f9ec230cc443c8570b2cbc903fb30546f640d3",
+    "root_sha256": "c222303e355f5de46246d88a42392716daa7949f2a143d7a3b154a5c72c3efd5",
+    "root_bytes": 230793,
+    "authoritative_root_drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+    "historical_other_root_copies_not_used_as_authority": true
+  },
+  "requirements": {
+    "hf2_spec": {
+      "path": "docs/engineering/HF2_CONVERSATIONAL_REASONING_PATCH_SPEC.txt",
+      "git_blob": "9cb756aecb585d51a156b1921d43ecb1b5fe6d86",
+      "requires": "explicit premise/derivation provenance, genuine WHY support, ambiguity-conditioned reasoning without forced ranking"
+    },
+    "original_acceptance_matrix": {
+      "drive_id": "1x5VLvb7CoblNPgmZIT401woSB-cK2zfD-VEJiFNb3q8",
+      "applicable_items": [
+        "A5",
+        "A6",
+        "E1",
+        "E5",
+        "E8",
+        "G4",
+        "L6",
+        "L8"
+      ],
+      "readable_snapshot_utf8_sha256": "079a4471977faf2ed5204f7369cb05ae4b0c66bfadaea79555e79c707b6c50ec",
+      "historical_status_paragraph_not_current_state": true
+    },
+    "roadmap": {
+      "drive_id": "1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog",
+      "sha256": "bebb169641d4b2b270fffc1c8af4b92b53158acc25dbc480eb35ada4891452b2",
+      "bytes": 10359,
+      "git_synchronized_body_equality": true,
+      "modified": false,
+      "current_stage": "8B",
+      "stage8_range": "8A-8M",
+      "self_upgrade_location": "Stage 8, especially 8H-8K",
+      "stage9_begun": false
+    }
+  },
+  "design": {
+    "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_DESIGN_20260920.txt",
+    "bytes": 8964,
+    "sha256": "5a5d72f55ddfa3f88bdc07d4a3574de137b1162d30974c39bbd39f22950486bb",
+    "blob": "b943434b7b9bb078c33649df4c48238c7578b874",
+    "commit": "1f2fc35d78b4a2dc5d29518b0a560d38ee37d126",
+    "drive_id": "1qrGzhdX_ph33XwtGwpg-3LybvnCJv_mA",
+    "github_drive_raw_equality": true
+  },
+  "initial_probe": {
+    "path": "docs/evidence/m4c3s/initial_proof_provenance_probe.json",
+    "bytes": 22489,
+    "sha256": "5a8c254604ceee0a3e2770cf766f1e347068ca922e7fd6d8b212ec86cb428c92",
+    "blob": "34482973f7928665a099c040af29b36023545944",
+    "commit": "1f2fc35d78b4a2dc5d29518b0a560d38ee37d126"
+  },
+  "immutable_source": {
+    "published_source_commit": "4e54623e696a687586b820b5dd9a3190d1648934",
+    "published_run_id": 35476221835,
+    "published_job_id": 105985811089,
+    "artifact": {
+      "github_id": 10594550960,
+      "name": "hf2-m4c3r-exact-hf1-published-0022",
+      "bytes": 679959,
+      "sha256": "b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0",
+      "drive_id": "1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_",
+      "github_drive_raw_equality": true
+    },
+    "source_archive_sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd",
+    "source_archive_bytes": 663382,
+    "source_file_count": 58,
+    "python_file_count": 54,
+    "all_imported_noeron_modules_from_exact_artifact": true,
+    "before_after_source_bytes_equal": true,
+    "source_hash_inventory": {
+      "path": "docs/evidence/m4c3s/verified_post0022_source_hashes.json",
+      "bytes": 5898,
+      "sha256": "125c9250d403202f8755874879add3880b9cb91b1c6b1c84658353df4781d74e",
+      "blob": "24fa409d8ac3c813cb4d7db28ce252e456499ae6",
+      "commit": "0570d48197fb206543691cfd4c6391b2777246c1"
+    }
+  },
+  "authoritative_verification": {
+    "source_commit": "cc608f56781aa5a9ff11ea7da5afd8dff6818d50",
+    "run_id": 35477884092,
+    "job_id": 105990188172,
+    "conclusion": "SUCCESS",
+    "harness": {
+      "path": "docs/evidence/m4c3s/verify_post0022.py",
+      "bytes": 24901,
+      "sha256": "8bd559fbce714e80a7357c137c3fb8f9f186093a028d7378c3b8e7fc316f3424",
+      "blob": "3573538df4128f61312da2a349e1934fec6dbbd3"
+    },
+    "workflow": {
+      "path": ".github/workflows/hf2-m4c3s-disposable-verification.yml",
+      "bytes": 2372,
+      "sha256": "1a5d4ca6091de8948a925b65da1d136b72d2bc1b01e4669c3064f384afbd7b72",
+      "blob": "bce456947c735e1bbd2ea3c5ae6d6f8216473651"
+    },
+    "repository_write_permission": false,
+    "candidate_workflow": false,
+    "passed": 31,
+    "failed": 0,
+    "categories": {
+      "control": 20,
+      "defect_reproduction": 10,
+      "design_constraint": 1
+    },
+    "formal_rule_families": [
+      "structured-modus-ponens",
+      "universal-membership",
+      "universal-negative-membership",
+      "modus-ponens",
+      "transitive-composition"
+    ],
+    "premise_permutations": 120,
+    "complete_real_ingest_cases": 2,
+    "checks": [
+      {
+        "id": "structured-modus-ponens_two_routes_independently_proven",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "structured-modus-ponens_combined_route_loss",
+        "category": "defect_reproduction",
+        "status": "PASS"
+      },
+      {
+        "id": "universal-membership_two_routes_independently_proven",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "universal-membership_combined_route_loss",
+        "category": "defect_reproduction",
+        "status": "PASS"
+      },
+      {
+        "id": "universal-negative-membership_two_routes_independently_proven",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "universal-negative-membership_combined_route_loss",
+        "category": "defect_reproduction",
+        "status": "PASS"
+      },
+      {
+        "id": "modus-ponens_two_routes_independently_proven",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "modus-ponens_combined_route_loss",
+        "category": "defect_reproduction",
+        "status": "PASS"
+      },
+      {
+        "id": "transitive-composition_two_routes_independently_proven",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "transitive-composition_combined_route_loss",
+        "category": "defect_reproduction",
+        "status": "PASS"
+      },
+      {
+        "id": "natural_why_support_depends_on_premise_order",
+        "category": "defect_reproduction",
+        "status": "PASS"
+      },
+      {
+        "id": "same_scoped_ambiguity_gate_changes_with_route_loss",
+        "category": "defect_reproduction",
+        "status": "PASS"
+      },
+      {
+        "id": "unchanged_gate_stays_conservative_when_both_records_are_supplied",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "typed_proof_inventory_preserves_supplied_distinct_records",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "unchanged_proof_gate_blocks_unscoped",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "unchanged_proof_gate_blocks_missing",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "unchanged_proof_gate_blocks_conflict",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "ordinary_logical_and_explanation_controls",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "formal_rule_boundaries_remain_intact",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "existing_direct_conclusion_shadows_legitimate_derivations",
+        "category": "defect_reproduction",
+        "status": "PASS"
+      },
+      {
+        "id": "derived_confidence_also_depends_on_first_route",
+        "category": "defect_reproduction",
+        "status": "PASS"
+      },
+      {
+        "id": "finite_cycle_and_derivation_budget_contract_characterized",
+        "category": "design_constraint",
+        "status": "PASS"
+      },
+      {
+        "id": "full_real_ingest_reproduces_order_dependent_why_support",
+        "category": "defect_reproduction",
+        "status": "PASS"
+      },
+      {
+        "id": "blank_resolution_geometry_selects_no_act",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "observed_native_geometry_selects_clarify",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "observed_native_geometry_selects_ask",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "observed_native_geometry_selects_remain-silent",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "tied_resolution_geometry_selects_no_act",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "incomplete_resolution_geometry_selects_no_act",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "owner_calibration_is_operator_directed_only",
+        "category": "control",
+        "status": "PASS"
+      },
+      {
+        "id": "all_exact_source_bytes_unchanged",
+        "category": "control",
+        "status": "PASS"
+      }
+    ],
+    "defect_pass_means_reproduced_not_corrected": true,
+    "local_ci_semantic_reports_equal": true,
+    "artifact": {
+      "github_id": 10594722765,
+      "name": "hf2-m4c3s-disposable-post0022-verification",
+      "drive_id": "1CP9y0ptu7EfKkNWUEd6qbKVQrGArKhhV",
+      "bytes": 22299,
+      "sha256": "d4c0d55e6c6f2951f68fee231d91c7e04e4253055643075bd1c9151f16cf820a",
+      "github_drive_raw_equality": true,
+      "all_internal_member_hashes_verified": true,
+      "full_report": {
+        "member": "m4c3s-disposable/verification.json",
+        "bytes": 156814,
+        "sha256": "bad92a0389e16014e3266ecec3161c2662466870d17297b49c161b6467d6dbd5"
+      }
+    },
+    "git_summary": {
+      "path": "docs/evidence/m4c3s/disposable_verification_summary.json",
+      "bytes": 23238,
+      "sha256": "dd1e42fbd7a06c80d3ccf54f3d30d0377125d855c192798d0b8f36e930b9f773",
+      "blob": "b3af1e34faa00b7a037be54777d61c8dc5c4e968",
+      "commit": "0570d48197fb206543691cfd4c6391b2777246c1"
+    }
+  },
+  "findings": {
+    "two_independent_routes_collapse_to_one_record": true,
+    "known_direct_target_hides_all_derived_routes": true,
+    "why_candidates_depend_on_premise_order": true,
+    "controlled_scoped_ambiguity_gate_visibility_depends_on_order": true,
+    "scoped_dependency_is_explicit_fixture_not_parser_claim": true,
+    "derived_confidence_depends_on_first_route": true,
+    "confidence_values_observed": [
+      0.2,
+      0.9
+    ],
+    "inference_step_budget_shared_with_conclusion_discovery": true,
+    "explicit_completeness_flag_in_infer_return": false,
+    "unchanged_proof_gate_conservative_with_both_independent_records": true,
+    "proof_inventory_can_preserve_both_when_records_exist": true
+  },
+  "decision": {
+    "verification_only_seal_appropriate": false,
+    "runtime_correction_required": true,
+    "candidate_bytes_created": false,
+    "next_bounded_action": "Build a disposable two-ledger design prototype for unique proposition closure versus distinct direct proof records, retaining per-route confidence; resolve direct-target, max_steps=1, cycle and 0.2/0.9 order cases before intent. Explicitly mark incomplete proof provenance.",
+    "proposed_boundary": "inference.py direct-derivation bookkeeping plus only required reasoning/proof completeness and per-route support metadata; exact changed-file set not frozen",
+    "candidate_design_gate_remaining": [
+      "finite derivation and proof-record completeness contract",
+      "per-route confidence without first-route or authored semantic ranking",
+      "conservative ambiguity/conflict/missing-provenance consumer behavior"
+    ],
+    "must_preserve": [
+      "all genuinely distinct conclusions and direct proof records",
+      "existing conservative proof gate",
+      "native learned speech-act choice",
+      "operator-directed calibration",
+      "sealed 0022 correspondence and published source"
+    ],
+    "must_not_add": [
+      "any-clean-route ambiguity bypass",
+      "unbounded proof-path enumeration",
+      "hidden first-route/lexical/semantic ranking",
+      "canned explanations",
+      "forced ask/clarify",
+      "source mutation before candidate design checkpoint"
+    ]
+  },
+  "verification_continuation": {
+    "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_VERIFICATION_20260920.txt",
+    "bytes": 16572,
+    "sha256": "ed1efb0bacdde6138ebd7a7b41d3da4e928d7b2cb3e4f47e03df5e07c48a9dfb",
+    "blob": "ea8f93ab47b333e06e79618fc4e41181965d361d",
+    "commit": "0570d48197fb206543691cfd4c6391b2777246c1",
+    "drive_id": "1fHh3kmviRT1DJUkiyVHyFS3OVQqKGVnN",
+    "github_drive_raw_equality": true
+  },
+  "backup": {
+    "support_archive": {
+      "drive_id": "1e4SOqVORs7CDc-2qdtsDWoZLeHzlvlix",
+      "bytes": 32718,
+      "sha256": "ed9df8fe19b28453974981a975701e3bb1eb083500d8a07dc9c65f5853f2bbdc",
+      "raw_equality": true
+    },
+    "local_report": {
+      "drive_id": "1OnF2-47il2qnkaNGEZmdy19M9imq8bk5",
+      "raw_equality": true
+    }
+  },
+  "ending_root": {
+    "path": "CONTINUATION_STAGE8B_HF2.txt",
+    "drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+    "closure_receipt_drive_id": "1o8gxiZqpE3KIdIQb4LClD9XZAIDqMATo",
+    "exact_ending_head_resolution": "Following ending-root commit references this manifest; closure receipt records that final HEAD/root blob/SHA256/bytes after the write."
+  },
+  "authority": {
+    "same_ingress_prior_sentence_scope": true,
+    "current_sentence_self_reference_from_later_mentions": false,
+    "prepositional_complement_nominal_candidate": false,
+    "categorical_predicate_complement_removal": false,
+    "genuine_reference_alternatives_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "lexical_pos_inference_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "closure": {
+    "active_or_pending_runs": [],
+    "provider_divergence": false,
+    "access_blockers": [],
+    "cleanup_required": [],
+    "read_only_verification_workflow_retained": true,
+    "runtime_source_changed": false,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false,
+    "final_live_deployment_package": "FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED"
+  }
+}
