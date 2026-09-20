@@ -1,0 +1,90 @@
+YGGDRASIL / NOERON STAGE 8B HF2 — M4C3S DESIGN / DISPOSABLE VERIFICATION FIRST
+Selected local date: 2026-09-20 Asia/Qatar. Recorded UTC: 2026-09-19T23:59:45.600303+00:00
+Repository RugBlade/Yggdrasil / branch stage8B/v0.8.2-conversation-completion-hf2.
+Exact starting/observed HEAD: 94513f949534c49b5c5adda420182312d7e02867.
+Milestone: M4C3S — direct-proof provenance completeness.
+Mode: DESIGN / DISPOSABLE VERIFICATION FIRST. No runtime candidate or ordinary 0023.
+Latest sealed milestone remains M4C3R; M4C3Q remains sealed. Published chain remains exact HF1 + ORIGINAL helpers + ordinary 0001-0022. No seal is reopened.
+
+PROVIDER INSPECTION / REQUIREMENT BASIS
+No newer commits, active/queued workflows or competing provider mutation found at start. Standing root, R final continuation and R final manifest Git tree blobs match current Drive raw bytes exactly.
+Root Drive 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1 / blob11f9ec230cc443c8570b2cbc903fb30546f640d3 / SHA-256: c222303e355f5de46246d88a42392716daa7949f2a143d7a3b154a5c72c3efd5 /230793bytes.
+R final manifest Drive 1WHPZymaVah9Sk-SROutQa7RE_30teEys / commitb5f843db9d546781c494641f766952b8cac55d3b / blob924cbe5431f404bf6af40a75bb23ed6496a62c58.
+R final continuation Drive 1KwZi_DPsWQtjmqjMww-4kN3Cju18w-jf / commit0a7d6dba8160c4332d66a25d1f897fd5c2276329 / blobbed3d9c39da524e7f96588212504e8a984c06291.
+GitHub engineering basis docs/engineering/HF2_CONVERSATIONAL_REASONING_PATCH_SPEC.txt / blob9cb756aecb585d51a156b1921d43ecb1b5fe6d86: premise provenance, explicit inference steps, genuine causal/explanatory support, ambiguity-conditioned reasoning, preserved alternative supports, no forced answer ranking.
+Acceptance matrix Drive 1x5VLvb7CoblNPgmZIT401woSB-cK2zfD-VEJiFNb3q8: E1/E5/E8, G4, L6/L8, A5/A6. Its historical certification/status paragraph is not current provider state; requirements are preserved unchanged.
+Roadmap Drive 1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog and synchronized Git body inspected; current Stage 8B, Stage 8 spans8A-8M, self-upgrade especially8H-8K. No roadmap text changed.
+
+IMMUTABLE SOURCE
+Published R workflow source4e54623e696a687586b820b5dd9a3190d1648934; run35476221835; job105985811089; result451passed2warnings. This proven gate is not rerun.
+Published artifact GitHub 10594550960 / Drive 1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_;679959bytes;SHA-256: b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0.
+Contained m4c3r-exact-post0022-published-source.tar.gz SHA-256: 2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd.
+Artifact downloaded/read back and GitHub/Drive raw equality reverified. Disposable source extraction contains58files/54Python files; carrier runtime is not used.
+
+LOCAL PILOT FINDING — NOT A CORRECTION CLAIM
+Natural-language example:
+If Mira is ready, Mira is calm. If Mira is rested, Mira is calm. Mira is ready. Mira is rested. Why is Mira calm?
+The parser admits both structured implications and both antecedents. Either implication+antecedent independently derives the same exact conclusion mira::is::calm.
+Current infer() inserts a conclusion into its known dictionary, then skips every later derivation whose proposition key is already known. The same guard controls derivation audit emission.
+Across all 24 premise permutations, the shared conclusion stays present, but exactly one of the two direct proof routes is recorded. Reversing implication order switches which route survives and which WHY support candidates reach the next layer.
+A separate controlled typed dependency fixture marks only mira::is::ready ambiguous. With the same premise set/ambiguity metadata, ready-first is proof-gated-unresolved-ambiguity; rested-first is proof-gate-all-candidates-auditable. This fixture does not claim the parser inferred that dependency. It proves downstream gate visibility depends on upstream route loss.
+An ordinary Noeron.ingest of the natural WHY example also records one route and omits the other. No source monkeypatch was used. Blank resolution geometry selects no ask/clarify; existing ordinary response content remains on its own native path (this is not a claim that all ordinary output becomes silent).
+Pilot evidence: docs/evidence/m4c3s/initial_proof_provenance_probe.json.
+
+BOUNDED VERIFICATION TO COMPLETE BEFORE 0023
+1. Prove both routes independently with the existing infer(), then show combined-route loss/permutation dependence for structured MP, atomic MP, transitive composition and positive/negative universal membership where applicable.
+2. Natural-language and real-ingest WHY controls: event truth alone is not explanation; independent valid derivations must remain distinguishable in audit; do not select an explanation by input order.
+3. Distinct conclusions/positive-negative alternatives stay separate; duplicate identical premises do not invent multiplicity; absent antecedents, unsupported queries and modal/nontransitive controls do not manufacture conclusions.
+4. Preserve the current conservative proof-ambiguity gate: scoped and unscoped ambiguity, missing provenance and conflict remain blocked. Feed independently obtained route records to the unchanged audit as a diagnostic, not a runtime candidate or alternate OR-gate policy.
+5. Verify blank/tied/incomplete versus fixture-observed learned resolution geometry without programming an act; owner calibration remains operator-directed; typed content and audit authority stay false.
+6. Inspect cycles, derivation budget/completeness and confidence behavior before claiming a minimal correction. A naive removal of known-key guards could duplicate steps, exhaust the budget or change answer support; it is not an acceptable candidate.
+7. Assert all 58 runtime bytes and 54 Python hashes remain unchanged; use external GitHub Actions for authoritative disposable evidence; mirror artifacts and continuation.
+
+PROVISIONAL CORRECTION BOUNDARY / DECISION GATE
+The evidence points upstream to inference/provenance collection, not the sealed0022 surface mechanism. No rendering patch, canned explanation or semantic ranking can recover discarded proof routes.
+The next correction must distinguish unique proposition closure from distinct direct proof records. Preserve rule/premise/conclusion identity and original source/provenance; do not enumerate infinitely many proof paths through cycles.
+Keep conservative proof/ambiguity behavior intact. Do not replace all recorded dependency checks with an any-clean-route bypass or declare ambiguity irrelevant. Do not force ask/clarify because multiple proof routes exist.
+Before intent creation, resolve and document how finite derivation limits, proof-record completeness and per-route confidence are represented without hidden order-dependent truncation or truth ranking. Verification findings will determine the actual smallest scope; no 0023bytes are selected here.
+Future candidate only through separately frozen intent/tests, unchanged post0022 baseline, focused/full candidate, fresh exact HF1 replay, source parity, complete evidence inspection, exact-byte publication and a separate published chain.
+
+STATUS / NEXT ACTION / RECOVERY
+m4c3r_sealed=true
+m4c3s_design_selected=true
+m4c3s_disposable_verification_complete=false
+m4c3s_runtime_correction_required=under-verification
+runtime_candidate_created=false
+ordinary_0023_published=false
+m4c3s_sealed=false
+stage8b_complete=false
+Active external run: none yet. Next action: complete the bounded disposable harness against immutable post0022 and run one read-only authoritative workflow. Preserve results before any candidate.
+No live/canonical DB access; all probe databases disposable. No provider divergence or destructive cleanup. Historical Drive root copies are not the standing root; its explicitIDabove remains authoritative.
+
+AUTHORITY / AUTONOMY
+same_ingress_prior_sentence_scope=true
+current_sentence_self_reference_from_later_mentions=false
+prepositional_complement_nominal_candidate=false
+categorical_predicate_complement_removal=false
+genuine_reference_alternatives_preserved=true
+semantic_truth_authority=false
+answer_authority=false
+speech_act_choice_authority=false
+preference_authority=false
+relationship_authority=false
+cognitive_memory_authority=false
+source_write_authority=false
+deployment_authority=false
+proof_ambiguity_gate_weakened=false
+semantic_verb_class_table_added=false
+lexical_candidate_ranking_added=false
+lexical_pos_inference_added=false
+llm_inference_added=false
+canned_clarification_added=false
+autoplay_added=false
+microphone_camera_expansion=false
+human_hearing_inference=false
+stage8b_only=true
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+Native choice must remain attributable to persistent native state plus intended IRG/DKT/EGR/RL/Frenet/reasoning/learning machinery. Programmed proof bookkeeping has no truth, answer, act, preference, relationship, cognitive-memory, source-write or deployment authority.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED

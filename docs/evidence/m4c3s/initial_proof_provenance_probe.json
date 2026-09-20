@@ -1,0 +1,741 @@
+{
+  "status": "LOCAL_PILOT_DEFECT_REPRODUCED_NOT_CORRECTED",
+  "source_artifact_id": 10594550960,
+  "source_archive_sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd",
+  "input": "If Mira is ready, Mira is calm. If Mira is rested, Mira is calm. Mira is ready. Mira is rested. Why is Mira calm?",
+  "permutations": [
+    {
+      "order": [
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready",
+        "mira::is::rested"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::rested",
+        "mira::is::ready"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::ready",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::rested"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::ready",
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested",
+        "mira::is::ready",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::ready",
+        "mira::is::rested"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested",
+        "mira::is::ready"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready",
+        "mira::is::rested",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::rested",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::ready"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::rested",
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::rested"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::ready",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::ready",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::rested",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::ready",
+        "mira::is::rested",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::ready",
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::ready",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::ready"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested",
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::ready::implies-proposition::mira::is::calm",
+            "mira::is::ready"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::ready",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    },
+    {
+      "order": [
+        "mira::is::rested",
+        "mira::is::ready",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "steps": [
+        {
+          "rule": "structured-modus-ponens",
+          "premises": [
+            "mira::is::rested::implies-proposition::mira::is::calm",
+            "mira::is::rested"
+          ],
+          "conclusion": "mira::is::calm",
+          "confidence": 1.0
+        }
+      ],
+      "answers": [
+        "mira::is::rested",
+        "mira::is::rested::implies-proposition::mira::is::calm"
+      ],
+      "status": "multiple-proof-supported-answers-no-forced-choice"
+    }
+  ],
+  "controlled_scoped_ambiguity_gate": [
+    {
+      "order": [
+        "mira::is::ready::implies-proposition::mira::is::calm",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready",
+        "mira::is::rested"
+      ],
+      "status": "proof-gated-unresolved-ambiguity",
+      "eligible": [],
+      "audits": [
+        {
+          "target": "mira::is::calm",
+          "status": "proof-unresolved-ambiguity",
+          "support_gate_passed": false,
+          "support_nodes": [
+            "mira::is::calm",
+            "mira::is::ready",
+            "mira::is::ready::implies-proposition::mira::is::calm"
+          ],
+          "leaf_premises": [
+            "mira::is::ready",
+            "mira::is::ready::implies-proposition::mira::is::calm"
+          ],
+          "step_rules": [
+            "structured-modus-ponens"
+          ],
+          "unresolved_ambiguity_ids": [
+            "explicit-ready-scope-fixture"
+          ],
+          "unscoped_ambiguity_ids": [],
+          "conflicting_support": [],
+          "missing_provenance": [],
+          "explanation_support": true,
+          "native_evidence": {
+            "irg_event_ids": [],
+            "dkt_activation_ids": [],
+            "egr_region_ids": [],
+            "rl_proof_ids": [],
+            "frenet_trace_ids": []
+          },
+          "provenance": [
+            {
+              "canonical": "mira::is::ready",
+              "origin": "current-turn",
+              "source_turn": 1,
+              "status": "active",
+              "admitted": true,
+              "semantic_truth_authority": false,
+              "answer_authority": false,
+              "cognitive_memory_authority": false
+            },
+            {
+              "canonical": "mira::is::ready::implies-proposition::mira::is::calm",
+              "origin": "current-turn",
+              "source_turn": 1,
+              "status": "active",
+              "admitted": true,
+              "semantic_truth_authority": false,
+              "answer_authority": false,
+              "cognitive_memory_authority": false
+            }
+          ],
+          "native_reasoning_path": "IRG->DKT->regional-EGR->RL/Frenet->DKT->native-cognition/action",
+          "authority": {
+            "semantic_truth": false,
+            "answer": false,
+            "speech_act": false,
+            "cognitive_memory": false,
+            "relationship": false,
+            "source_write": false,
+            "deployment": false
+          }
+        }
+      ]
+    },
+    {
+      "order": [
+        "mira::is::rested",
+        "mira::is::ready",
+        "mira::is::rested::implies-proposition::mira::is::calm",
+        "mira::is::ready::implies-proposition::mira::is::calm"
+      ],
+      "status": "proof-gate-all-candidates-auditable",
+      "eligible": [
+        "mira::is::calm"
+      ],
+      "audits": [
+        {
+          "target": "mira::is::calm",
+          "status": "proof-support-auditable",
+          "support_gate_passed": true,
+          "support_nodes": [
+            "mira::is::calm",
+            "mira::is::rested",
+            "mira::is::rested::implies-proposition::mira::is::calm"
+          ],
+          "leaf_premises": [
+            "mira::is::rested",
+            "mira::is::rested::implies-proposition::mira::is::calm"
+          ],
+          "step_rules": [
+            "structured-modus-ponens"
+          ],
+          "unresolved_ambiguity_ids": [],
+          "unscoped_ambiguity_ids": [],
+          "conflicting_support": [],
+          "missing_provenance": [],
+          "explanation_support": true,
+          "native_evidence": {
+            "irg_event_ids": [],
+            "dkt_activation_ids": [],
+            "egr_region_ids": [],
+            "rl_proof_ids": [],
+            "frenet_trace_ids": []
+          },
+          "provenance": [
+            {
+              "canonical": "mira::is::rested",
+              "origin": "current-turn",
+              "source_turn": 1,
+              "status": "active",
+              "admitted": true,
+              "semantic_truth_authority": false,
+              "answer_authority": false,
+              "cognitive_memory_authority": false
+            },
+            {
+              "canonical": "mira::is::rested::implies-proposition::mira::is::calm",
+              "origin": "current-turn",
+              "source_turn": 1,
+              "status": "active",
+              "admitted": true,
+              "semantic_truth_authority": false,
+              "answer_authority": false,
+              "cognitive_memory_authority": false
+            }
+          ],
+          "native_reasoning_path": "IRG->DKT->regional-EGR->RL/Frenet->DKT->native-cognition/action",
+          "authority": {
+            "semantic_truth": false,
+            "answer": false,
+            "speech_act": false,
+            "cognitive_memory": false,
+            "relationship": false,
+            "source_write": false,
+            "deployment": false
+          }
+        }
+      ]
+    }
+  ],
+  "ambiguity_fixture_is_explicit_typed_dependency_not_parser_inference": true,
+  "runtime_source_changed": false,
+  "candidate_created": false,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false
+}
