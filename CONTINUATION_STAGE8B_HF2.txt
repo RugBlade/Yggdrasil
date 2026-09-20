@@ -1,3 +1,121 @@
+M4C3S 0023 CANDIDATE PREPARED — AUTHORITATIVE CI PENDING
+This newest block supersedes the prior candidate-not-created status. The root/closure repair was verified before candidate work began. Actual starting HEAD: 6d9b0df915d1e9aaa629731978cf52749da18764.
+Exact observed HEAD before this candidate checkpoint commit: f5ac720443bb48e847f96914db3c0b441f53a73e.
+The exact containing commit/tree and this root's byte/blob/SHA identity are recorded after save in HF2_M4C3S_CANDIDATE_WORK_RUN_CLOSURE_20260920.json, Drive 12_Dw_DMmwRSaU0VXDA45Bq4_WVQvM1LA.
+Standing Drive root remains 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1.
+Candidate continuation: docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_CANDIDATE_20260920.txt; Drive 1N_DpE0oLL9JQZCQQ05wrQgByZTuDT0aJ.
+Candidate preparation archive: Drive 1ieJMYpY2Bk4AhyTG302d4XnB09XSWIye.
+Candidate preparation manifest: docs/evidence/HF2_M4C3S_CANDIDATE_PREPARATION_20260920.json.
+The old finalized recovery receipt 1HVA4aGLMJgcKtXtX98XI3hfPScuT0dWE remains unchanged as historical evidence.
+No authoritative external candidate run exists yet. Next action: launch exactly one baseline/candidate/replay workflow after mirror verification, then record its source/run/job IDs and save this root again. No ordinary 0023 publication or M4C3S seal is authorized by local success.
+
+M4C3S — 0023 DIRECT-PROOF PROVENANCE CANDIDATE PREPARED
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Stage: 8B v0.8.2 HF2
+Phase: CANDIDATE_INTENT_AND_FOCUSED_TESTS_FROZEN_AUTHORITATIVE_CI_PENDING
+Actual starting HEAD: 6d9b0df915d1e9aaa629731978cf52749da18764
+Recorded UTC: 2026-09-20T19:52:34.223213+00:00
+
+The repaired root/closure were re-read from GitHub/Drive and verified. The starting HEAD was unchanged, no active/recent mutation was found, and no 0023 existed at start. Existing closure 1HVA4aGLMJgcKtXtX98XI3hfPScuT0dWE remains a finalized historical recovery receipt. This candidate phase does not overwrite its ending HEAD.
+The completed runtime-compatibility continuation and manifest are unchanged; GitHub/Drive manifest equality was reverified. The earlier 31/41/34-check disposable gates were not rerun. New focused tests execute installed candidate source, without prototype source assembly or an old-infer comparison oracle.
+
+Latest sealed milestone is M4C3R; M4C3Q also remains sealed. Published reconstruction is still byte-exact HF1 + ORIGINAL helpers + ordinary patches 0001 -> 0022. No ordinary 0023 is published. No M4C3S seal or Stage8B completion is claimed.
+
+EXACT INPUTS
+Sealed post0022 artifact 10594550960, Drive 1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_, 679959 bytes, SHA-256 b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0.
+Source member m4c3r-exact-post0022-published-source.tar.gz, 663382 bytes, SHA-256 2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd.
+Green compatibility artifact 10605961809, Drive 1lNiiObhynUgj0_PdOJJZi0GXvRqtCewF, 710692 bytes, SHA-256 ae896ba190fe0cf7c1d0943efef74740c041c0551802b42982f7647f691631f8. Its raw GitHub bytes were fetched and verified in this candidate work; all overlay member hashes were checked against its manifest. No disposable gate was rerun.
+Authoritative design manifest docs/evidence/HF2_M4C3S_RUNTIME_COMPATIBILITY_20260920_MANIFEST.json, commit b80ad9a8da6aefa56763fea13666dc95fbbbe80d, blob f8616e00ce3fa58500dd9c5cbe8c3795f087c99d, Drive 1IdkKLXStlRsgk9kbM6rFT2yrP-4d3vl4.
+
+FROZEN CANDIDATE
+Intent commit: 9e32af64693677f01cec688728b1456319e6ea6d
+Intent path: patches/hf2/0023-hf2-direct-proof-provenance.intent.patch
+Git blob: 82af12392377de6cbc7dd30297982aaa09d1f6ea
+SHA-256: 3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933
+Bytes: 49785
+The ordinary .patch does not exist. No candidate-green receipt exists.
+Tests are committed separately in f5ac720443bb48e847f96914db3c0b441f53a73e.
+{
+  "path": "tests/hf2_m4c3s/test_direct_proof_provenance.py",
+  "commit": "f5ac720443bb48e847f96914db3c0b441f53a73e",
+  "sha256": "23bf4f98b41c5bedb7b3c3f647a13a839e2d96314ad025cf64e75ed391df62fd",
+  "bytes": 28897,
+  "git_blob": "1b66214ea5f378df46804361b7d931bcb43eac6f"
+}
+
+Eight runtime files, exactly:
+src/noeron/cognition/kernel.py
+src/noeron/cognition/models.py
+src/noeron/conversation_proof.py
+src/noeron/conversation_resolution.py
+src/noeron/direct_proof.py
+src/noeron/inference.py
+src/noeron/math/models.py
+src/noeron/reasoning.py
+
+Packaging changes from the verified overlay are limited to removing the old infer comparison implementation/alias, retaining one production infer entry point, renaming disposable reasoning budget hooks to max_conclusion_steps/max_proof_records, and replacing prototype-only module headers. The compatibility contract is unchanged. No source outside this boundary changes. The original carrier helper modules remain untouched in GitHub.
+The candidate keeps independent conclusion/proof budgets, finite structurally distinct direct records, full typed keys, explicit completeness, parallel source provenance, undefined confidence as None distinct from zero, and no cross-route confidence reducer. All-route ambiguity/conflict/missing-provenance checks remain conservative. Response/autonomous proof content uses completeness. Native learned speech-act selection and operator calibration remain external. Sealed 0022 correspondence and complete typed alternatives remain intact.
+
+LOCAL VALIDATION
+Applied intent to a separate copy of exact sealed post0022: git apply --check and apply PASS. Applied source bytes exactly equal prepared candidate bytes. Scope check PASS, all source compiled, 34 focused candidate tests passed. The test comparisons use explicit expected correction/query results, not the removed legacy infer implementation. This is local candidate preparation evidence, not an authoritative candidate receipt.
+No full HF2 candidate run or independent exact-HF1 replay has yet been run at this checkpoint. The authoritative workflow must run the unchanged 451-test post0022 baseline FIRST, then candidate tests and replay. No baseline or sealed parent CI was rerun during this local preparation.
+
+NEXT BOUNDED ACTION
+Mirror this candidate continuation and update the standing root. Then launch ONE authoritative workflow that reconstructs exact HF1, injects ORIGINAL helpers, applies ordinary 0001 -> 0022, verifies source-byte parity with the sealed artifact, runs unchanged 451-test baseline from starting commit 6d9b0df915d1e9aaa629731978cf52749da18764, verifies exact intent hash/bytes, apply-check/applies, compiles, runs 34 focused + full HF2 candidate tests, freshly reconstructs exact HF1 independently and reapplies the exact same chain/intent, proves source parity, reruns focused + full, and packages evidence. Freeze substantive branch mutations while it runs.
+The root/closure supplement will record exact workflow source/run/job IDs once dispatched. Do not poll indefinitely. If the external run remains active, close out root+Drive with its exact identities and next gate.
+Only after all candidate evidence is green and inspected may a green candidate receipt be published. Candidate green does not automatically publish ordinary 0023. Ordinary publication requires exact blob/SHA/byte equality and a separate published exact-HF1 chain before M4C3S may seal.
+
+STATUS / BOUNDARIES
+runtime_compatibility_proven=true
+candidate_scope_frozen=true
+candidate_design_authorized=true
+runtime_candidate_created=true
+candidate_intent_frozen=true
+candidate_focused_tests_created=true
+candidate_authoritative_green=false
+ordinary_0023_published=false
+m4c3r_sealed=true
+m4c3q_sealed=true
+m4c3s_sealed=false
+stage8b_complete=false
+live_runtime_touched=false
+canonical_db_touched=false
+certification_claim=false
+Active external runs at this preparation checkpoint: none. Provider divergence: none. Blockers: none. Required cleanup: none; local test DBs are disposable. Old recovery incident is recorded in its immutable recovery receipt; no new provider divergence occurred.
+Stage 8 spans 8A–8M. Remain in 8B. Self-upgrade is within Stage 8, especially 8H–8K. Stage 9 is substrate-level continuity and mobility; it is not begun. No roadmap change.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED.
+{
+  "same_ingress_prior_sentence_scope": true,
+  "current_sentence_self_reference_from_later_mentions": false,
+  "prepositional_complement_nominal_candidate": false,
+  "categorical_predicate_complement_removal": false,
+  "genuine_reference_alternatives_preserved": true,
+  "semantic_truth_authority": false,
+  "answer_authority": false,
+  "speech_act_choice_authority": false,
+  "preference_authority": false,
+  "relationship_authority": false,
+  "cognitive_memory_authority": false,
+  "source_write_authority": false,
+  "deployment_authority": false,
+  "proof_ambiguity_gate_weakened": false,
+  "semantic_verb_class_table_added": false,
+  "lexical_candidate_ranking_added": false,
+  "lexical_pos_inference_added": false,
+  "llm_inference_added": false,
+  "canned_clarification_added": false,
+  "autoplay_added": false,
+  "microphone_camera_expansion": false,
+  "human_hearing_inference": false,
+  "stage8b_only": true,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false
+}
+
+HISTORICAL STANDING ROOT — PRESERVED BELOW
+
 M4C3S RUNTIME COMPATIBILITY EXTERNALLY VERIFIED
 DESIGN CONTRACT AND SOURCE SCOPE FROZEN
 CANDIDATE ELIGIBLE — NOT YET CREATED
