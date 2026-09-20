@@ -1,0 +1,587 @@
+{
+  "schema_version": "HF2-M4C3S-RUNTIME-COMPATIBILITY-DESIGN-v1",
+  "recorded_utc": "2026-09-20T13:09:12.369696+00:00",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "actual_starting_head": "71d9fd182f64c7a46fd3f0e51781a61c5508c842",
+  "observed_head_before_manifest": "1c9a3bf350b3042d131cb358846b457a787e41aa",
+  "phase": "DESIGN_CONTRACT_FROZEN_CANDIDATE_ELIGIBLE_NOT_CREATED",
+  "active_stage": "Stage 8B v0.8.2 HF2",
+  "active_milestone": "M4C3S",
+  "starting_inspection": {
+    "older_user_handoff_head": "75478de9c7f9ea4a0f8106c05439873ef0da4537",
+    "provider_newer_work_already_existed": true,
+    "actual_starting_head": "71d9fd182f64c7a46fd3f0e51781a61c5508c842",
+    "no_commits_after_actual_starting_head_at_start": true,
+    "root_blob": "4575943c6dd10564fc8eef6c441f9d506a6fc0ec",
+    "root_sha256": "4e0ace3c049ca03082787fc8e4bee4540ecb6a8ddc19817d6a8f9c45ae77be80",
+    "root_bytes": 268957,
+    "root_github_drive_raw_equality": true,
+    "previous_closure_drive_id": "1fKNSdg_6AmVCe_XcjGbUY_E0o2GhtbNk",
+    "prior_continuation_and_manifest_raw_equality": true,
+    "no_0023_existed": true,
+    "no_active_workflows_or_competing_mutation_observed": true
+  },
+  "parent_seal": {
+    "latest_sealed_milestone": "M4C3R",
+    "m4c3r_sealed": true,
+    "m4c3q_sealed": true,
+    "reopened": false,
+    "published_reconstruction": "byte-exact HF1 + ORIGINAL helpers + ordinary patches 0001 -> 0022",
+    "manifest_path": "docs/evidence/HF2_M4C3R_20260919_MANIFEST.json",
+    "manifest_commit": "b5f843db9d546781c494641f766952b8cac55d3b",
+    "manifest_blob": "924cbe5431f404bf6af40a75bb23ed6496a62c58",
+    "manifest_drive_id": "1WHPZymaVah9Sk-SROutQa7RE_30teEys",
+    "github_drive_raw_equality": true,
+    "existing_ci_gates_rerun": false
+  },
+  "immutable_input": {
+    "published_source_commit": "4e54623e696a687586b820b5dd9a3190d1648934",
+    "published_run_id": 35476221835,
+    "published_job_id": 105985811089,
+    "artifact": {
+      "github_id": 10594550960,
+      "name": "hf2-m4c3r-exact-hf1-published-0022",
+      "bytes": 679959,
+      "sha256": "b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0",
+      "drive_id": "1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_",
+      "github_drive_raw_equality": true
+    },
+    "source_archive_sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd",
+    "source_archive_bytes": 663382,
+    "source_file_count": 58,
+    "python_file_count": 54,
+    "all_imported_noeron_modules_from_exact_artifact": true,
+    "before_after_source_bytes_equal": true,
+    "source_hash_inventory": {
+      "path": "docs/evidence/m4c3s/verified_post0022_source_hashes.json",
+      "bytes": 5898,
+      "sha256": "125c9250d403202f8755874879add3880b9cb91b1c6b1c84658353df4781d74e",
+      "blob": "24fa409d8ac3c813cb4d7db28ce252e456499ae6",
+      "commit": "0570d48197fb206543691cfd4c6391b2777246c1"
+    }
+  },
+  "prior_completed_gates_not_rerun": {
+    "characterization": 35477884092,
+    "two_ledger_design": 35496716857,
+    "sealed_parent": 35476221835
+  },
+  "prototype_instruments": {
+    "docs/evidence/m4c3s_runtime_compatibility/two_ledger_v1.py": {
+      "commit": "951ee4261999ace5c0699cd2fe7db990f17ad1a4",
+      "sha256": "4462e4878de90a9ec4dd4a1f87d7de9451cf685fcf31e0d2d7c4586353c36f6e",
+      "bytes": 12765,
+      "git_blob": "716c48ff908157bd87bd9f95c0cad240621687ae"
+    },
+    "docs/evidence/m4c3s_runtime_compatibility/runtime_adapter.py": {
+      "commit": "951ee4261999ace5c0699cd2fe7db990f17ad1a4",
+      "sha256": "502140e97bc321642df4b2b4f02855e12e4d89a2fb339d57b92779ccdb1971ca",
+      "bytes": 11773,
+      "git_blob": "380bc51624aace0a7f478c376217af9bff0bd562"
+    },
+    "docs/evidence/m4c3s_runtime_compatibility/install_disposable.py": {
+      "commit": "951ee4261999ace5c0699cd2fe7db990f17ad1a4",
+      "sha256": "0fdc60eb68cdc6d7a8b85ae06918cbf4d403728f9331582e8c4ca2f6758d25c7",
+      "bytes": 10301,
+      "git_blob": "a5cd15f0af09bb5a0d511331254a376d56254572"
+    },
+    "docs/evidence/m4c3s_runtime_compatibility/verify_compatibility.py": {
+      "commit": "951ee4261999ace5c0699cd2fe7db990f17ad1a4",
+      "sha256": "26819a2d058cc603732b2073c68c8f7554d419a3c68663b6699c669ef4d13889",
+      "bytes": 31107,
+      "git_blob": "f962a5db89c3d888719dbdb2280ecac7fd37ba84"
+    },
+    "docs/evidence/m4c3s_runtime_compatibility/prototype_files.sha256": {
+      "commit": "951ee4261999ace5c0699cd2fe7db990f17ad1a4",
+      "sha256": "2d8194b831740e864e1c45c952ff8418d0197bdf581154b4bdb1db6b96b951e0",
+      "bytes": 514,
+      "git_blob": "60aeaf788a650fcba2984e9ad7c64039e3b2689b"
+    },
+    "docs/evidence/m4c3s_runtime_compatibility/local_summary.json": {
+      "commit": "951ee4261999ace5c0699cd2fe7db990f17ad1a4",
+      "sha256": "a52a5d249ea1c33b4394f2a2e411d04c0cd15d4565ef4a031725ab012592776e",
+      "bytes": 6194,
+      "git_blob": "bb89b97f2a88cb8505c3b64e138fa81fb98b50bf"
+    }
+  },
+  "workflow": {
+    "path": ".github/workflows/hf2-m4c3s-runtime-compatibility.yml",
+    "commit": "b10c0a3100d46f89ca1f4fae4a50658b12533096",
+    "sha256": "e72c25f5e65c0766c5b253eded5e09c6e83fd588a13dd70dda0cb3b3cbb091cf",
+    "bytes": 2714,
+    "git_blob": "39b76e78fb80e8cd921bed964f58c4139ae83839"
+  },
+  "continuation": {
+    "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_RUNTIME_COMPATIBILITY_20260920.txt",
+    "commit": "1c9a3bf350b3042d131cb358846b457a787e41aa",
+    "sha256": "460f5a8dd200a0673cccc12aa2d3db0a38e5584fd1effb27ad107d73a58ad495",
+    "bytes": 27030,
+    "git_blob": "031c6aec3a6dc176a8d9653713c1b7f7a9b1dc84",
+    "drive_id": "1iZDxf6v6DWdKYloPL8VY98Fo75Qglrry",
+    "github_drive_raw_equality": true
+  },
+  "authoritative_verification": {
+    "run_id": 35512293321,
+    "job_id": 106082178301,
+    "source_commit": "b10c0a3100d46f89ca1f4fae4a50658b12533096",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "passed": 34,
+    "failed": 0,
+    "categories": {
+      "runtime_compatibility": 19,
+      "conservative_consumer": 5,
+      "full_ingest": 1,
+      "native_choice": 7,
+      "surface_control": 1,
+      "provenance": 1
+    },
+    "confidence_order_permutations": 24,
+    "correction_admission_controls": 10,
+    "query_family_controls": 14,
+    "full_real_ingest_cases": 2,
+    "artifact": {
+      "github_id": 10605961809,
+      "drive_id": "1lNiiObhynUgj0_PdOJJZi0GXvRqtCewF",
+      "name": "hf2-m4c3s-runtime-compatibility-prototype",
+      "bytes": 710692,
+      "sha256": "ae896ba190fe0cf7c1d0943efef74740c041c0551802b42982f7647f691631f8",
+      "github_drive_raw_equality": true
+    },
+    "inspection": {
+      "artifact_id": 10605961809,
+      "artifact_sha256": "ae896ba190fe0cf7c1d0943efef74740c041c0551802b42982f7647f691631f8",
+      "artifact_bytes": 710692,
+      "all_member_hashes_verified": true,
+      "members": [
+        {
+          "name": "m4c3s-runtime-compatibility/compatibility_report.json",
+          "sha256": "58703f647e0725411b7f58b4f62589fc63557facc5fef516d39a42de7ecae127",
+          "bytes": 260976
+        },
+        {
+          "name": "m4c3s-runtime-compatibility/dependencies.txt",
+          "sha256": "eb57782dc88e6f68dcdb2b4b9bb710574b91f0a8f66791a1d095edc07556dd9b",
+          "bytes": 214
+        },
+        {
+          "name": "m4c3s-runtime-compatibility/disposable-overlay-source.tar.gz",
+          "sha256": "e4029d254570e8832fba3c80a1d74ca20461629979719b8fb873501854188e31",
+          "bytes": 665261
+        },
+        {
+          "name": "m4c3s-runtime-compatibility/hf2-m4c3s-runtime-compatibility.yml",
+          "sha256": "e72c25f5e65c0766c5b253eded5e09c6e83fd588a13dd70dda0cb3b3cbb091cf",
+          "bytes": 2714
+        },
+        {
+          "name": "m4c3s-runtime-compatibility/immutable_hashes.json",
+          "sha256": "125c9250d403202f8755874879add3880b9cb91b1c6b1c84658353df4781d74e",
+          "bytes": 5898
+        },
+        {
+          "name": "m4c3s-runtime-compatibility/install_disposable.py",
+          "sha256": "0fdc60eb68cdc6d7a8b85ae06918cbf4d403728f9331582e8c4ca2f6758d25c7",
+          "bytes": 10301
+        },
+        {
+          "name": "m4c3s-runtime-compatibility/overlay_hashes.json",
+          "sha256": "d3bd1ecad5d51fe7163aa0a2b180077a97450d3f9d0e347eb7235043bcfd588b",
+          "bytes": 5998
+        },
+        {
+          "name": "m4c3s-runtime-compatibility/prototype.log",
+          "sha256": "2eb46f69c28d4ef75421be65d25a771d396ef4610b915342244073800484ef1a",
+          "bytes": 1999
+        },
+        {
+          "name": "m4c3s-runtime-compatibility/prototype_files.sha256",
+          "sha256": "2d8194b831740e864e1c45c952ff8418d0197bdf581154b4bdb1db6b96b951e0",
+          "bytes": 514
+        },
+        {
+          "name": "m4c3s-runtime-compatibility/runtime_adapter.py",
+          "sha256": "502140e97bc321642df4b2b4f02855e12e4d89a2fb339d57b92779ccdb1971ca",
+          "bytes": 11773
+        },
+        {
+          "name": "m4c3s-runtime-compatibility/two_ledger_v1.py",
+          "sha256": "4462e4878de90a9ec4dd4a1f87d7de9451cf685fcf31e0d2d7c4586353c36f6e",
+          "bytes": 12765
+        },
+        {
+          "name": "m4c3s-runtime-compatibility/verify_compatibility.py",
+          "sha256": "26819a2d058cc603732b2073c68c8f7554d419a3c68663b6699c669ef4d13889",
+          "bytes": 31107
+        },
+        {
+          "name": "m4c3s-runtime-compatibility.sha256",
+          "sha256": "f643f60ba54462eb1a1e6f6a0e17ee22d919aa6c7dca604b23b1c755afc20461",
+          "bytes": 1509
+        }
+      ],
+      "immutable_source_files": 58,
+      "overlay_source_files": 59,
+      "local_ci_source_byte_parity": true,
+      "semantic_report_parity": true,
+      "excluded_volatile_report_fields": [
+        "created_utc",
+        "source_commit",
+        "run_id",
+        "response_autonomous_and_serialization_preserve_undefined_confidence.evidence.*.id",
+        ".created_at"
+      ],
+      "passed": 34,
+      "failed": 0,
+      "categories": {
+        "runtime_compatibility": 19,
+        "conservative_consumer": 5,
+        "full_ingest": 1,
+        "native_choice": 7,
+        "surface_control": 1,
+        "provenance": 1
+      }
+    },
+    "checks": [
+      {
+        "id": "integrated_why_has_two_routes_and_four_supports",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "real_reasoning_preserves_02_09_across_24_orders",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "integrated_atomic_parallel_routes",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "integrated_transitive_parallel_routes",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "integrated_universal-positive_parallel_routes",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "integrated_universal-negative_parallel_routes",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "single_route_zero_is_numeric_zero_not_default_or_absence",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "direct_target_preserves_derivations_bare_truth_is_not_explanation",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "cyclic_nested_symbolic_routes_pass_models_and_conservative_audit",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "reasoning_duplicate_observations_do_not_multiply_proof_records",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "response_autonomous_and_serialization_preserve_undefined_confidence",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "proof_budget_incompleteness_reaches_both_content_consumers",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "closure_budget_incompleteness_reaches_both_content_consumers",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "public_infer_four_item_compatibility_and_separate_max_steps_budget",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "typed_universal_collision_keeps_provenance_and_surface_options_distinct",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "all_routes_missing_remains_blocked",
+        "category": "conservative_consumer",
+        "status": "PASS"
+      },
+      {
+        "id": "all_routes_conflict_remains_blocked",
+        "category": "conservative_consumer",
+        "status": "PASS"
+      },
+      {
+        "id": "all_routes_scoped_remains_blocked",
+        "category": "conservative_consumer",
+        "status": "PASS"
+      },
+      {
+        "id": "all_routes_unscoped_remains_blocked",
+        "category": "conservative_consumer",
+        "status": "PASS"
+      },
+      {
+        "id": "autonomous_path_uses_same_all_route_conservative_audit",
+        "category": "conservative_consumer",
+        "status": "PASS"
+      },
+      {
+        "id": "parallel_current_bounded_DKT_sources_and_native_admission_preserved",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "existing_direct_and_reasoning_correction_admission_matches_ten_controls",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "fourteen_public_query_families_keep_observed_content_contract",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "genuine_proposition_alternatives_stay_act_neutral",
+        "category": "runtime_compatibility",
+        "status": "PASS"
+      },
+      {
+        "id": "two_complete_Noeron_ingest_orders_and_state_roundtrip",
+        "category": "full_ingest",
+        "status": "PASS"
+      },
+      {
+        "id": "integrated_proof_inventory_native_blank",
+        "category": "native_choice",
+        "status": "PASS"
+      },
+      {
+        "id": "integrated_proof_inventory_native_tied",
+        "category": "native_choice",
+        "status": "PASS"
+      },
+      {
+        "id": "integrated_proof_inventory_native_missing",
+        "category": "native_choice",
+        "status": "PASS"
+      },
+      {
+        "id": "integrated_proof_inventory_native_learned-clarify",
+        "category": "native_choice",
+        "status": "PASS"
+      },
+      {
+        "id": "integrated_proof_inventory_native_learned-ask",
+        "category": "native_choice",
+        "status": "PASS"
+      },
+      {
+        "id": "integrated_proof_inventory_native_learned-silent",
+        "category": "native_choice",
+        "status": "PASS"
+      },
+      {
+        "id": "owner_calibration_preserves_operator_boundary",
+        "category": "native_choice",
+        "status": "PASS"
+      },
+      {
+        "id": "sealed_0022_surface_correspondence_with_typed_proof_metadata",
+        "category": "surface_control",
+        "status": "PASS"
+      },
+      {
+        "id": "source_provenance_authority_and_unchanged_causal_boundaries",
+        "category": "provenance",
+        "status": "PASS"
+      }
+    ],
+    "substantive_branch_mutations_frozen_during_run": true
+  },
+  "frozen_design": {
+    "proposition_key": [
+      "subject",
+      "relation",
+      "object",
+      "polarity",
+      "universal",
+      "modality"
+    ],
+    "route_fingerprint": {
+      "algorithm": "SHA-256 of canonical JSON",
+      "fields": [
+        "version",
+        "rule",
+        "role-ordered premise_keys",
+        "conclusion_key",
+        "rule_evidence_keys",
+        "premise_source_ids",
+        "rule_evidence_source_ids"
+      ],
+      "excludes": [
+        "confidence",
+        "recursive producer paths",
+        "list-order-invented source IDs"
+      ]
+    },
+    "budgets": {
+      "legacy_infer_max_steps": "conclusion discovery only, default 128",
+      "max_proof_records": 1024,
+      "closure": "whole synchronous frontier or blocked_frontier; no preferred subset",
+      "proof_overflow": "detect cap+1, record lower bound, clear record prefix, mark incomplete",
+      "independent_budgets": true
+    },
+    "completeness": "closure_complete AND proof_enumeration_complete_for_known; both content consumers filter incomplete proof assertions without selecting an act",
+    "route_confidence": {
+      "source_readings": "all preserved",
+      "direct_route": "existing within-route min only with unambiguous direct observed operands",
+      "nested_multiple_cyclic": "symbolic finite source/node/producer refs; value=None",
+      "cross_route_reducer": null,
+      "zero_is_preserved": true
+    },
+    "proposition_confidence": "numeric only for one observed source with one reading and no producer, or one numeric direct route and no direct source; otherwise None",
+    "public_result": "evidence-bearing InferenceResult with established four-item unpack/index interface plus ledger/full nodes/admission indexes/audit",
+    "typed_audit_encoding": "injective canonical JSON [proof-node-v1, subject, relation, object, polarity, universal, modality]",
+    "legacy_ambiguity_scope": "expand every matching typed alias conservatively",
+    "parallel_provenance": "each admitted input bound to its actual current/bounded/DKT envelope",
+    "correction_admission": "existing direct and reasoning admission order retained; supersession audited separately and cannot create explanation",
+    "consumer_policy": "all-route conservative ambiguity/conflict/missing-provenance audit; no any-clean-route bypass; response and autonomous both use proof eligibility",
+    "act_neutral_inventory": "typed collisions remain distinct; proof alternatives retain record and premise/conclusion identities; sealed 0022 realization unchanged",
+    "unchanged_causal_paths": [
+      "math/kernel.py",
+      "math/affect.py",
+      "orchestrator.py",
+      "conversation_actions.py",
+      "development.py",
+      "conversation_runtime_gate.py",
+      "conversation_reasoning.py",
+      "conversation_premises.py"
+    ]
+  },
+  "scope_decision": {
+    "runtime_compatibility_proven": true,
+    "candidate_scope_frozen": true,
+    "candidate_design_authorized": true,
+    "runtime_candidate_created": false,
+    "scope": [
+      "src/noeron/direct_proof.py",
+      "src/noeron/cognition/kernel.py",
+      "src/noeron/cognition/models.py",
+      "src/noeron/conversation_proof.py",
+      "src/noeron/conversation_resolution.py",
+      "src/noeron/inference.py",
+      "src/noeron/math/models.py",
+      "src/noeron/reasoning.py"
+    ]
+  },
+  "disposable_only_cleanup_before_intent": [
+    "remove comparison-only legacy infer alias/body",
+    "replace disposable budget-hook names with permanent names",
+    "do not ship installer or prototype-only headers; preserve equivalent eight-file behavior"
+  ],
+  "candidate_status": {
+    "candidate_design_authorized": true,
+    "candidate_scope_frozen": true,
+    "runtime_candidate_created": false,
+    "ordinary_0023_published": false,
+    "candidate_workflow_created": false,
+    "candidate_receipt_created": false,
+    "full_candidate_suite_run": false,
+    "independent_candidate_replay_run": false,
+    "m4c3s_sealed": false
+  },
+  "local_initial_failures": {
+    "passed": 30,
+    "failed": 3,
+    "runtime_defect": "incomplete-confidence residual fallback in NativeThought consumer; corrected in disposable kernel",
+    "fixture_defect": "missing matching event provenance in sealed-surface fixture; fixture corrected",
+    "initial_report_and_instruments_preserved": true
+  },
+  "backups": {
+    "local_support": {
+      "drive_id": "1j_I4KLGsh77bYK77xt3BRUEADczNxhv0",
+      "sha256": "726654c32a4b9e1dfcaf99b283b34ed3c3871be8b1822ab968f97b6ccc1591fe",
+      "bytes": 1518566,
+      "git_blob": "1ff9ac17be5987bedc8788e0695766b14369bf25",
+      "raw_equality": true
+    },
+    "provider_receipt": {
+      "drive_id": "1RKAUnODpSFS9l6XA7euNf_iHA-gpWGCR",
+      "sha256": "ca11626db106d63eb743102a537b1c72faea2e1b4f42ad441e9b1fefb01a1623",
+      "bytes": 116588,
+      "git_blob": "58eb5044e8b239ac39c0c195399831a8ea0c1eff",
+      "raw_equality": true
+    }
+  },
+  "ending_root": {
+    "path": "CONTINUATION_STAGE8B_HF2.txt",
+    "drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+    "closure_receipt_drive_id": "1HVA4aGLMJgcKtXtX98XI3hfPScuT0dWE",
+    "closure_receipt_name": "HF2_M4C3S_RUNTIME_COMPATIBILITY_WORK_RUN_CLOSURE_20260920.json",
+    "exact_post_save_identity": "Recorded in the Drive closure receipt after root commit; avoids impossible self-referential commit hash"
+  },
+  "next_action": "Reinspect providers, then construct exact 0023 intent from immutable post0022 within this frozen scope; commit intent and focused tests separately, checkpoint candidate in GitHub/Drive, and run one authoritative exact-HF1 baseline/candidate/replay workflow. No ordinary publication until exact green candidate evidence inspection and no seal before independent published chain.",
+  "active_external_runs": [],
+  "provider_divergence": false,
+  "blockers": [],
+  "cleanup_pending": [],
+  "authority": {
+    "same_ingress_prior_sentence_scope": true,
+    "current_sentence_self_reference_from_later_mentions": false,
+    "prepositional_complement_nominal_candidate": false,
+    "categorical_predicate_complement_removal": false,
+    "genuine_reference_alternatives_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "lexical_pos_inference_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "roadmap": {
+    "drive_id": "1bKsPz6WmL9z_sv71qG6tD3RNCJ_CGNog",
+    "sha256": "bebb169641d4b2b270fffc1c8af4b92b53158acc25dbc480eb35ada4891452b2",
+    "bytes": 10359,
+    "git_synchronized_body_equality": true,
+    "modified": false,
+    "current_stage": "8B",
+    "stage8_range": "8A-8M",
+    "self_upgrade_location": "Stage 8, especially 8H-8K",
+    "stage9_begun": false
+  },
+  "final_deployment_status": "FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED"
+}
