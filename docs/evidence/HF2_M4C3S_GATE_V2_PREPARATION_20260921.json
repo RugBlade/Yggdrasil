@@ -1,0 +1,254 @@
+{
+  "schema": "HF2-M4C3S-GATE-V2-PREPARATION-v1",
+  "recorded_utc": "2026-09-21T11:56:38.182416+00:00",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "actual_starting_head": "b1c7ddff73393529c17d39fbe1c4e0827d08995c",
+  "starting_tree": "00ac1b67d760da9317f03e18dab19c73c3335007",
+  "stage": "8B v0.8.2 HF2",
+  "milestone": "M4C3S",
+  "phase": "GATE_V2_LOCAL_GREEN_PREPARED_AUTHORITATIVE_CI_PENDING",
+  "candidate_gate_revision": 2,
+  "environment_fault": {
+    "checked": 141,
+    "mismatches": [
+      {
+        "path": "pillow.libs/libavif-8a7f9d56.so.16.4.2",
+        "expected": "sha256=OogZ5g8P18cW7xR3YIWoHJQds1QAKp-aZ52jhEflUH8",
+        "actual": "sha256=Z_mMWcbOX7OsIf9eTD-C7aOH9eno_4ZvJ8ClY1pYk24",
+        "expected_bytes": 5203513,
+        "actual_bytes": 1317376,
+        "match": false
+      },
+      {
+        "path": "pillow.libs/libtiff-fc87e79d.so.6.2.0",
+        "expected": "sha256=UiuvtoEpePxT22wy5cV3hhhrVR_F_Wp8YbhXygEmHRY",
+        "actual": "sha256=hjQJm6wN-PpF-wNJ3rVLj_dqcdDzZih4_TDhJ6UdlRw",
+        "expected_bytes": 762929,
+        "actual_bytes": 272384,
+        "match": false
+      }
+    ]
+  },
+  "environment_probes": {
+    "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "version": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "preserved_dependencies": "/workspace/scratch/71ea47ccf27d/m4c3s_candidate/deps",
+    "fresh_dependencies": "/tmp/noeron-m4c3s-deps-npj5g8jh",
+    "dependency_file_count": 602,
+    "dependency_sha256_parity": true,
+    "probes": [
+      {
+        "label": "preserved_workspace_dependencies",
+        "dependency_path": "/workspace/scratch/71ea47ccf27d/m4c3s_candidate/deps",
+        "returncode": -7,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "label": "byte_identical_temporary_dependencies",
+        "dependency_path": "/tmp/noeron-m4c3s-deps-npj5g8jh",
+        "returncode": -7,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "source_or_test_changes": false
+  },
+  "environment_recovery": {
+    "preserved_dependencies": "/workspace/scratch/71ea47ccf27d/m4c3s_candidate/deps",
+    "fresh_dependencies": "/tmp/noeron-m4c3s-verified-deps-rrv5z13r",
+    "pillow_version": "12.3.0",
+    "wheel_name": "pillow-12.3.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+    "wheel_bytes": 6940830,
+    "wheel_sha256": "78cb2c6865a35ab8ff8b75fd122f6033b92a62c82801110e48ddd6c936a45d91",
+    "record_members_verified": 139,
+    "probe": {
+      "returncode": 0,
+      "stdout": "12.3.0 /tmp/noeron-m4c3s-verified-deps-rrv5z13r/PIL/_imaging.cpython-312-x86_64-linux-gnu.so\n",
+      "stderr": ""
+    },
+    "source_tests_intent_unchanged": true
+  },
+  "environment_conclusion": "Two preserved bundled native shared libraries are truncated and fail Pillow RECORD sizes/hashes. Copying the corrupted dependency tree reproduced SIGBUS. A fresh same-version Pillow wheel restored both libraries, passed every wheel RECORD check, passed PNG roundtrip and allowed all 42 local tests to finish. Preserved old files; no Yggdrasil source or test change in this recovery run.",
+  "local_results": {
+    "passed": 42,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "historical": 8,
+    "focused": 34,
+    "source_hashes_unchanged": 59,
+    "test_sha256": "e839365e1d8e828a79046e252f73ab0f4fb2a67f9011cd63c73271e42a27009c",
+    "focused_sha256": "23bf4f98b41c5bedb7b3c3f647a13a839e2d96314ad025cf64e75ed391df62fd"
+  },
+  "local_execution": {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "pytest",
+      "-q",
+      "m4c3s_env_recovery/test_v082_hf2_reasoning.py",
+      "m4c3s_env_recovery/test_direct_proof_provenance.py",
+      "--junitxml=m4c3s_env_recovery/local.xml"
+    ],
+    "pythonpath": "/workspace/scratch/71ea47ccf27d/m4c3s_candidate/candidate/src:/tmp/noeron-m4c3s-verified-deps-rrv5z13r",
+    "exit_code": 0
+  },
+  "local_log": {
+    "bytes": 184,
+    "sha256": "1b7e7978130f696c2a6f886ec40e4bd159b00969df672a282dd375c164936dc4",
+    "git_blob": "799764abe72d4a2d2f96d66aa22016deda94910b"
+  },
+  "local_junit": {
+    "bytes": 7525,
+    "sha256": "51c17a7328733039e1f2b30a104534e68e5e0b21fae7ce9c9239907db0c99d23",
+    "git_blob": "212d049043e21996114b8134a1af13561043bcec"
+  },
+  "intent": {
+    "path": "patches/hf2/0023-hf2-direct-proof-provenance.intent.patch",
+    "commit": "9e32af64693677f01cec688728b1456319e6ea6d",
+    "bytes": 49785,
+    "sha256": "3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933",
+    "git_blob": "82af12392377de6cbc7dd30297982aaa09d1f6ea",
+    "unchanged": true
+  },
+  "historical_test": {
+    "path": "tests/test_v082_hf2_reasoning.py",
+    "commit": "4f4ca63eb824f49983ad07b9e6432352fea9a8ae",
+    "bytes": 6293,
+    "sha256": "e839365e1d8e828a79046e252f73ab0f4fb2a67f9011cd63c73271e42a27009c",
+    "git_blob": "ff0729aec08a2c82603b75a677ead3a920df7d8a",
+    "unchanged_during_recovery": true
+  },
+  "focused_test": {
+    "path": "tests/hf2_m4c3s/test_direct_proof_provenance.py",
+    "commit": "f5ac720443bb48e847f96914db3c0b441f53a73e",
+    "bytes": 28897,
+    "sha256": "23bf4f98b41c5bedb7b3c3f647a13a839e2d96314ad025cf64e75ed391df62fd",
+    "git_blob": "1b66214ea5f378df46804361b7d931bcb43eac6f",
+    "unchanged": true
+  },
+  "planned_gate": {
+    "runner": {
+      "bytes": 10266,
+      "sha256": "38a288b9de63d5fee07965818bf50e11fcaee176dca9f05ff33ea7dee1ef2d9c",
+      "git_blob": "b76e9778995e72f543aec63edf68079355c01502"
+    },
+    "workflow": {
+      "bytes": 1399,
+      "sha256": "6180460ac7a9d01fdead52ca8e20bcda9e4ff5a3ba64a398c98e558619446d6e",
+      "git_blob": "ee00122355cac1d2b035b47e33cc7b56a1cfcce1"
+    }
+  },
+  "workflow_path": ".github/workflows/hf2-milestone4c3s.yml",
+  "runner_path": "docs/evidence/m4c3s_candidate/run_candidate.py",
+  "expected_artifact_name": "hf2-m4c3s-direct-proof-provenance-gate-v2",
+  "gate_changes": "Workflow/runner are explicitly labeled gate v2. After unchanged baseline, enforce exact historical-test and focused-test blob/SHA/bytes, record test migration commit and prior failed run. Include revision/test identities in eventual green result. Add historical test path to trigger and distinguish v2 artifact. No runtime change or relaxed gate.",
+  "baseline_commit": "6d9b0df915d1e9aaa629731978cf52749da18764",
+  "expected_counts": {
+    "unchanged_baseline": 451,
+    "candidate_focused": 34,
+    "candidate_complete": 485,
+    "replay_focused": 34,
+    "replay_complete": 485
+  },
+  "required_gate_order": "Exact HF1 -> ORIGINAL helpers -> ordinary0001-0022 -> sealed58-source parity -> unchanged451 baseline -> exact test and intent identities -> apply-check/apply/compile -> 34 focused -> 485 full -> fresh independent HF1 + original helpers + ordinary0001-0022 + same exact intent -> source-byte parity -> 34 focused replay -> 485 complete replay -> source/evidence archives. No green receipt before all gates.",
+  "first_failed_run": {
+    "run_id": 35534036956,
+    "job_id": 106139739042,
+    "source_commit": "ce05f10f5c03f2d3c4c8340e3596028dd7da2df5",
+    "status": "completed",
+    "conclusion": "failure",
+    "results_inspected": true,
+    "baseline": {
+      "passed": 451,
+      "failed": 0,
+      "warnings": 2
+    },
+    "focused": {
+      "passed": 34,
+      "failed": 0
+    },
+    "complete": {
+      "passed": 484,
+      "failed": 1,
+      "warnings": 2
+    },
+    "replay": "NOT_REACHED_NOT_CERTIFIED",
+    "artifact_ids": [
+      10612158561
+    ],
+    "green_candidate_receipt_created": false
+  },
+  "first_failure_artifact": {
+    "github_id": 10612158561,
+    "drive_id": "1_oAs2rgLr50p-8uGR2yaFdYkJVuU0cJo",
+    "bytes": 34684,
+    "sha256": "b30b0dd45e822f41486bbfe6e4b75edb310d6fb771bc30ea0bff27d2d4855df6"
+  },
+  "old_local_abort_preserved": {
+    "ending_head": "b1c7ddff73393529c17d39fbe1c4e0827d08995c",
+    "manifest_blob": "1f11aaa29132b6a102fefaf80d449bb2beb4cf06",
+    "manifest_drive_id": "1VYSU_8FBuhm-wNoQI_SM-dbVQAxcC0JG"
+  },
+  "backup": {
+    "drive_id": "19uG4Iw7Ow_VfqmSP_FNc8WeMwtPoM41_",
+    "bytes": 7848122,
+    "sha256": "294f89a69f29df58135c1c1b4ef607794a617b3a394be2911d5bfd24e3449c17",
+    "git_blob": "6871b1b77a7aa17ad31c29d88869381884bd069d",
+    "raw_equality": true,
+    "contents": "Provider snapshots, scripts, logs, probe results, complete Pillow RECORD audit, preserved truncated libraries, exact fresh wheel, full local pytest log/JUnit, pending v2 runner/workflow and exact input tests/intent."
+  },
+  "local_green": true,
+  "test_contract_migration_applied": true,
+  "test_contract_migration_fully_verified_locally": true,
+  "candidate_runtime_intent_changed": false,
+  "candidate_authoritative_green": false,
+  "ordinary_0023_published": false,
+  "m4c3s_sealed": false,
+  "stage8b_complete": false,
+  "latest_sealed_milestone": "M4C3R",
+  "m4c3r_sealed": true,
+  "m4c3q_sealed": true,
+  "published_reconstruction": "exact HF1 + ORIGINAL helpers + ordinary0001-0022",
+  "active_pending_run_count": 0,
+  "new_run_id": null,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "provider_divergence": false,
+  "blockers": [],
+  "cleanup_required": [],
+  "authority": {
+    "same_ingress_prior_sentence_scope": true,
+    "current_sentence_self_reference_from_later_mentions": false,
+    "prepositional_complement_nominal_candidate": false,
+    "categorical_predicate_complement_removal": false,
+    "genuine_reference_alternatives_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "lexical_pos_inference_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "next_action": "Verify this preparation/root/candidate continuation mirrors. Commit the frozen gate-v2 workflow/runner together to launch ONE new run. Record exact source/run/job immediately; freeze substantive mutations. Update root/candidate and closure GitHub+Drive and stop without prolonged polling. Inspect the new run in the next bounded checkpoint. Never convert the first failed run into green.",
+  "roadmap_boundary": "Remain strictly within Stage 8B. Do not begin Stage 8C\u20138M work, including the later Stage-8 self-upgrade milestones 8H\u20138K, and do not begin Stage 9. No roadmap changes.",
+  "final_live_deployment_package": "FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED"
+}

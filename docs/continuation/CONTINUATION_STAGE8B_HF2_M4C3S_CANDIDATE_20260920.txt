@@ -1,3 +1,134 @@
+M4C3S GATE V2 PREPARATION — LOCAL GREEN / AUTHORITATIVE CI NOT YET LAUNCHED
+Recorded 2026-09-21. This newest operational block supersedes the older local-import-abort observation below; all historical records remain preserved.
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Starting/rechecked provider HEAD: b1c7ddff73393529c17d39fbe1c4e0827d08995c
+Starting tree: 00ac1b67d760da9317f03e18dab19c73c3335007
+No newer provider commit or active/pending Actions run observed before this preparation save. Root/candidate GitHub/Drive raw equality was verified on entry.
+Active: Stage 8B v0.8.2 HF2 / M4C3S direct-proof provenance completeness.
+Latest sealed milestone: M4C3R; M4C3Q also remains sealed.
+Published reconstruction: exact HF1 + ORIGINAL helpers + ordinary0001 through0022.
+
+COMPLETED IN THIS RUN
+Diagnosed the prior SIGBUS: two cached Pillow12.3.0 bundled libraries (pillow.libs/libavif-8a7f9d56.so.16.4.2 and libtiff-fc87e79d.so.6.2.0) were truncated and failed their RECORD byte/hash checks. Preserved the faulty dependencies and reproduced the abort from a byte-identical copy. A fresh same-version wheel passed all139 hashed RECORD members and a PNG roundtrip. No runtime, intent or test modification was made for this environment repair.
+Fresh wheel SHA256: 78cb2c6865a35ab8ff8b75fd122f6033b92a62c82801110e48ddd6c936a45d91; bytes6940830.
+Local pytest exit0: 42 passed, zero failures/errors/skips: all8 historical reasoning tests plus all34 unchanged focused M4C3S tests. All59 candidate source hashes remain unchanged before/after testing. This local result is not an authoritative candidate-green receipt.
+Historical test contract migration remains the separately committed 4f4ca63eb824f49983ad07b9e6432352fea9a8ae. Correction admission is audited separately from formal proof, retaining the bounded-correction and non-self-explanation safety contract. Runtime intent remains unchanged. The unchanged451 baseline will still run from the sealed baseline test carrier before candidate tests.
+
+DURABLE EVIDENCE
+Preparation manifest: docs/evidence/HF2_M4C3S_GATE_V2_PREPARATION_20260921.json
+Manifest blob: 824eed9a7c1a92618e4ea551d698d49af72a7a5a
+Manifest SHA256: 4959d11574d5c5130c3717908918b0fec717cbbe64ab1cd53597fdca14f0abc9; bytes11055
+Manifest Drive: 1X4erDGSzeNL25d0tdJXr-wl2zgayTbUs
+Backup Drive: 19uG4Iw7Ow_VfqmSP_FNc8WeMwtPoM41_; bytes7848122; SHA256294f89a69f29df58135c1c1b4ef607794a617b3a394be2911d5bfd24e3449c17. Raw readback equality VERIFIED.
+Backup contains complete local log/JUnit, provider snapshots, inputs, native dependency fault/recovery evidence, fresh wheel, proposed gate-v2 runner/workflow.
+Standing Drive root remains 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1.
+Candidate continuation Drive remains 1N_DpE0oLL9JQZCQQ05wrQgByZTuDT0aJ.
+Closure receipt Drive remains 12_Dw_DMmwRSaU0VXDA45Bq4_WVQvM1LA. The closure receipt will carry the exact ending HEAD/tree and root/candidate blob/SHA256/bytes after this commit; a file cannot embed its own future commit identity.
+
+FIRST FAILED RUN REMAINS FAILED HISTORY
+Run35534036956 / job106139739042 / sourcece05f10f5c03f2d3c4c8340e3596028dd7da2df5: completed FAILURE. Baseline451 pass, focused34 pass, complete484 pass/1 fail; independent replay NOT_REACHED_NOT_CERTIFIED.
+Artifact10612158561 / Drive1_oAs2rgLr50p-8uGR2yaFdYkJVuU0cJo; bytes34684; SHA256b30b0dd45e822f41486bbfe6e4b75edb310d6fb771bc30ea0bff27d2d4855df6.
+No rerun or reinterpretation of that run as green. Earlier31/41/34 design gates and sealed0022 were not rerun in this local recovery.
+
+NEXT BOUNDED ACTION
+After this preparation GitHub/Drive raw equality and closure are verified, commit the already prepared gate-v2 workflow/runner together to launch ONE new authoritative run. Record source/run/job immediately and freeze substantive branch changes. Update root, candidate continuation and closure; let CI run independently. Inspect complete new evidence in the next bounded checkpoint; do not poll indefinitely.
+Required order: exactHF1 -> ORIGINAL helpers -> ordinary0001-0022 -> sealed post0022 source parity -> unchanged451 baseline FIRST -> exact migrated-test/focused-test/intent identities -> apply-check/apply/compile -> focused34/full485 -> independent fresh exactHF1 reconstruction with SAME candidate -> source parity -> focused34/full485 replay -> source/evidence packaging.
+These are required/expected counts, not observed authoritative results for gate v2.
+No runtime correction/replacement intent was justified by the established diagnosis. Gate v2 explicitly versions test/carrier changes while preserving first failed evidence and the exact frozen runtime intent.
+No ordinary0023 exists. No green receipt, publication, seal, live certification or deployment is authorized by local success alone.
+Blockers: none after local dependency repair. Provider divergence: none on entry; mirror verification required before launch. Cleanup: none required; disposable paths are nonauthoritative, backup is durable.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the later Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage9. The established roadmap remains unchanged.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED
+
+EXACT IDENTITIES / STATUS / AUTHORITY
+{
+  "intent": {
+    "path": "patches/hf2/0023-hf2-direct-proof-provenance.intent.patch",
+    "commit": "9e32af64693677f01cec688728b1456319e6ea6d",
+    "bytes": 49785,
+    "sha256": "3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933",
+    "git_blob": "82af12392377de6cbc7dd30297982aaa09d1f6ea",
+    "unchanged": true
+  },
+  "historical_test": {
+    "path": "tests/test_v082_hf2_reasoning.py",
+    "commit": "4f4ca63eb824f49983ad07b9e6432352fea9a8ae",
+    "bytes": 6293,
+    "sha256": "e839365e1d8e828a79046e252f73ab0f4fb2a67f9011cd63c73271e42a27009c",
+    "git_blob": "ff0729aec08a2c82603b75a677ead3a920df7d8a",
+    "unchanged_during_recovery": true
+  },
+  "focused_test": {
+    "path": "tests/hf2_m4c3s/test_direct_proof_provenance.py",
+    "commit": "f5ac720443bb48e847f96914db3c0b441f53a73e",
+    "bytes": 28897,
+    "sha256": "23bf4f98b41c5bedb7b3c3f647a13a839e2d96314ad025cf64e75ed391df62fd",
+    "git_blob": "1b66214ea5f378df46804361b7d931bcb43eac6f",
+    "unchanged": true
+  },
+  "planned_gate": {
+    "runner": {
+      "bytes": 10266,
+      "sha256": "38a288b9de63d5fee07965818bf50e11fcaee176dca9f05ff33ea7dee1ef2d9c",
+      "git_blob": "b76e9778995e72f543aec63edf68079355c01502"
+    },
+    "workflow": {
+      "bytes": 1399,
+      "sha256": "6180460ac7a9d01fdead52ca8e20bcda9e4ff5a3ba64a398c98e558619446d6e",
+      "git_blob": "ee00122355cac1d2b035b47e33cc7b56a1cfcce1"
+    }
+  },
+  "baseline_commit": "6d9b0df915d1e9aaa629731978cf52749da18764",
+  "local_results": {
+    "passed": 42,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "historical": 8,
+    "focused": 34,
+    "source_hashes_unchanged": 59,
+    "test_sha256": "e839365e1d8e828a79046e252f73ab0f4fb2a67f9011cd63c73271e42a27009c",
+    "focused_sha256": "23bf4f98b41c5bedb7b3c3f647a13a839e2d96314ad025cf64e75ed391df62fd"
+  },
+  "candidate_authoritative_green": false,
+  "ordinary_0023_published": false,
+  "m4c3s_sealed": false,
+  "stage8b_complete": false,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "authority": {
+    "same_ingress_prior_sentence_scope": true,
+    "current_sentence_self_reference_from_later_mentions": false,
+    "prepositional_complement_nominal_candidate": false,
+    "categorical_predicate_complement_removal": false,
+    "genuine_reference_alternatives_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "lexical_pos_inference_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  }
+}
+
+HISTORICAL CONTINUATION BELOW — PRIOR OBSERVATIONS RETAINED
+
 M4C3S GATE V2 TEST CONTRACT MIGRATED — LOCAL VERIFICATION ABORTED; CI NOT LAUNCHED
 Recorded UTC: 2026-09-21T11:44:46Z
 Repository: RugBlade/Yggdrasil
