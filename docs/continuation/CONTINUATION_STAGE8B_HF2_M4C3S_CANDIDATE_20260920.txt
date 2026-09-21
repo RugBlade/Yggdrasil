@@ -1,3 +1,71 @@
+M4C3S CORRECTION-SUPERSESSION DIAGNOSIS COMPLETE — CHUNK 2 DURABLE CHECKPOINT
+Recorded UTC: 2026-09-21T00:52:45Z
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Stage/milestone: 8B v0.8.2 HF2 / M4C3S direct-proof provenance completeness
+Phase: CORRECTION_AUDIT_DIAGNOSIS_COMPLETE_HISTORICAL_TEST_CONTRACT_MIGRATION_PENDING
+Actual starting HEAD: b31ab739ccdfe52e3d2b5c270dddbddd74e0509d
+Starting tree: 3c884a4546445775faf9d9b3979267c025e11b22
+No newer provider work, ordinary 0023 or active candidate workflow was found. GitHub/Drive standing root and candidate continuation raw equality and finalized failure closure were reverified before diagnosis. No source or test contract was changed, no replacement intent was created, and no CI was dispatched in this chunk.
+This block supersedes the previous diagnosis-pending status only. The failed-run and earlier running observations remain below as historical chronology. The closure receipt Drive 12_Dw_DMmwRSaU0VXDA45Bq4_WVQvM1LA records the exact ending Git commit/tree and updated root/candidate blobs, SHA-256 and byte counts after save and readback; the file does not pretend to contain its own commit hash.
+
+DIAGNOSIS — THE AUDIT EVENT EXISTS; THE HISTORICAL ASSERTION EXPECTS THE WRONG LEDGER
+The failed historical test is tests/test_v082_hf2_reasoning.py::test_hf2_explicit_correction_supersedes_only_bounded_same_relation_for_answering (file blob 6a1913a4d930f1bedc953708405f01a650fa896b).
+The sealed implementation put bounded-correction-supersession in the same InferenceStep list as formal deductions. M4C3S explicitly separates premise admission from finite formal proof records. direct_proof.admit still emits exactly one event for the red-to-blue correction, containing complete old/new typed keys, removed input index 0, controlling input index 1, role admission-event-not-formal-proof, semantic_truth_authority=false and answer_authority=false.
+infer_compatible returns that event in InferenceResult.admission_audit. Its formal steps come exclusively from ledger.records. The historical helper unpacks only the four-item result, discards the evidence-bearing object, and checks the formal-step slot for an admission event. That obsolete location expectation accounts for the observed zero count; correction admission itself has not disappeared.
+The actual reasoning consumer retains the object and copies its audit into MultiMemoryReasoningMathState.proof_admission_audit. Local checks prove the event survives model JSON serialization. The answer remains box::is::blue, with unique-proof-supported-answer; original parsed red/blue propositions and correction modifier remain available.
+
+WHY A RUNTIME WORKAROUND IS NOT JUSTIFIED
+The externally green frozen compatibility contract (continuation blob 031c6aec3a6dc176a8d9653713c1b7f7a9b1dc84, commit 1c9a3bf350b3042d131cb358846b457a787e41aa, Drive 1iZDxf6v6DWdKYloPL8VY98Fo75Qglrry, run 35512293321) says supersession events are explicit admission audit records, not formal derivations or proof-budget expenditure; removed premises cannot become explanation support. The unchanged focused correction test explicitly requires no bounded-correction-supersession entry in formal steps and checks the separate reasoning audit.
+Targeted comparison demonstrates that sealed direct infer treats its legacy correction step as WHY support for the corrected target itself: red + correction blue + WHY blue yields blue as its own support. The failed candidate correctly has no WHY answer or autonomous proof candidate for the correction alone. PASS for the sealed historical self-support characterization means reproduction, not approval or a new seal claim.
+Restoring a fabricated formal proof step merely to satisfy the historical assertion would contradict the already-verified audit/proof separation. No extra runtime-byte correction is demonstrated necessary for this failure. All eight frozen candidate runtime files and the exact intent remain unchanged.
+
+BOUNDED LOCAL DIAGNOSIS RESULTS
+3 sealed-source characterizations PASS / 0 FAIL.
+12 failed-candidate diagnostic checks PASS / 0 FAIL.
+The candidate checks cover unchanged bounded answer; exact typed zero-authority admission event; exclusion from formal ledger/steps; no target self-explanation; reasoning-state serialization; response/autonomous exclusion; subject/relation/modality/universal scope; duplicated removed observations producing one audit event with both indexes; two independent formal MP routes alongside the audit; tiny proof budget preserving audit while blocking both content consumers; zero formal budgets not charging admission; and missing-provenance blocking despite an existing admission event.
+These 15 checks are local diagnosis, not candidate certification. The 31/41/34-check prototype gates and full baseline/candidate suites were not rerun. The prior authoritative result remains 451 baseline pass / 34 focused pass / 484 full pass and 1 failure; independent replay remains NOT REACHED and NOT CERTIFIED.
+
+EXACT INPUTS AND CACHE HYGIENE
+Sealed artifact 10594550960 / Drive 1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_: 679959 bytes, SHA-256 b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0.
+Source member m4c3r-exact-post0022-published-source.tar.gz: 663382 bytes, SHA-256 2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd.
+A cached local base tree failed hash verification at only src/noeron/static/vendor/three-r185/build/three.module.js. Expected bbf5ed13fe4373f5bd38b14ea8e62e9f157327da5638edc6d3863e08b167c9c7, observed 851381477d2da4f349260fb8c32e2fc5ee1a5c2cc1f25e784a7c634940eeaf00. It was excluded from execution, preserved, and replaced for this diagnostic comparison by a fresh extraction from the verified immutable archive into a separate disposable directory. All 58 sealed source hashes then matched. No provider divergence or renderer change is inferred from an untrusted scratch cache.
+All 59 failed-candidate source hashes matched the authoritative failed artifact's inventory. Both source trees were rechecked unchanged after diagnosis.
+Failed intent remains patches/hf2/0023-hf2-direct-proof-provenance.intent.patch, commit 9e32af64693677f01cec688728b1456319e6ea6d, blob 82af12392377de6cbc7dd30297982aaa09d1f6ea, 49785 bytes, SHA-256 3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933.
+No ordinary 0023 exists. The 34 focused tests remain unchanged at commit f5ac720443bb48e847f96914db3c0b441f53a73e, blob 1b66214ea5f378df46804361b7d931bcb43eac6f.
+
+DURABLE EVIDENCE
+Diagnostic manifest: docs/evidence/HF2_M4C3S_CORRECTION_DIAGNOSIS_20260921.json
+Git blob: 234337ddabed88d9b22a6a452f9062415b3fa4f2
+30704 bytes; SHA-256 972a57a89c60db41b3a5a492b60cf5afa0483163a55369e2b99f25f863d65d20
+Drive: 1DCkR7i8s9CPin7YawOKzwyfXxYNeO1Dn
+Read-only diagnostic script: docs/evidence/m4c3s_correction_diagnosis/diagnose.py; exact hash in manifest.
+Backup: HF2_M4C3S_CORRECTION_DIAGNOSIS_20260921_BACKUP.zip
+Drive: 1nBAgaC3KAzXcu8b5ab5X_2OhztRiBCEv
+184659 bytes; SHA-256 acf71c0f3a7594a6ca350c7b54d17adb123cf6e637cebf3ce71c596629f38c3a; raw readback verified.
+Backup preserves fresh provider root/candidate/closure, input test/contract/intent, complete diagnostic reports and script, and source verification. It includes the preceding finalized failure closure (18790 bytes, SHA-256 a0d5ace783a57bfa27a5e033c60c3380288d427b8c66eeb5ed4a8e704256fb49).
+The failure run remains 35534036956 / job 106139739042 / source ce05f10f5c03f2d3c4c8340e3596028dd7da2df5 / completed failure. Failure artifact 10612158561, 34684 bytes, SHA-256 b30b0dd45e822f41486bbfe6e4b75edb310d6fb771bc30ea0bff27d2d4855df6, Drive 1_oAs2rgLr50p-8uGR2yaFdYkJVuU0cJo is unchanged. No historical result was reclassified as green.
+Standing root Drive: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Candidate continuation Drive: 1N_DpE0oLL9JQZCQQ05wrQgByZTuDT0aJ
+Closure Drive: 12_Dw_DMmwRSaU0VXDA45Bq4_WVQvM1LA
+
+NEXT BOUNDED ACTION — TEST CONTRACT MIGRATION, THEN NEW GATE CHECKPOINT
+1. Reinspect providers and this checkpoint. Change only tests/test_v082_hf2_reasoning.py for the demonstrated historical assertion mismatch: retain the evidence-bearing infer result; assert exactly one admission event with old/new full typed keys, removed/control input indexes, non-proof role and false authority. Preserve original parsed-input/correction-marker/blue-answer/status assertions. Strengthen checks that formal steps/ledger do not contain correction-as-proof and that correction alone supplies no WHY explanation. Keep reasoning-state audit/serialization coverage.
+2. Commit this test migration separately. Run that case and all 34 unchanged M4C3S focused controls plus the strengthened audit checks locally. Do not weaken any correction, provenance, confidence, incomplete-proof, ambiguity, conflict or native-choice contract. If local checks fail, preserve the new evidence and stop before CI.
+3. Freeze an explicitly versioned second candidate-gate checkpoint recording unchanged runtime intent identity and changed historical test identity. A runtime replacement intent is not justified by this diagnosis; do not silently regenerate the existing intent. Any newly demonstrated runtime defect would require a separately identified candidate and checkpoint first.
+4. Update root/candidate continuation GitHub + Drive, then launch one new authoritative candidate workflow with unchanged 451-test sealed baseline FIRST (baseline carrier 6d9b0df915d1e9aaa629731978cf52749da18764), exact unchanged candidate hash verification, strengthened candidate tests, complete suite, fresh independent exact-HF1 replay, source parity and evidence packaging. Record the new source/run/job immediately; freeze substantive branch mutations and close out without prolonged polling.
+5. A new inspected green candidate receipt still does not publish ordinary 0023 automatically. Exact-byte publication and a separate published-chain green gate remain mandatory before sealing.
+
+STATUS / AUTHORITY / ROADMAP
+Completed this run: provider reconciliation; source hash verification/fresh sealed extraction; bounded failure trace; 15 local diagnostic checks; evidence backup; diagnosis and justified test-migration design checkpoint. Unfinished: test migration, new gate checkpoint/local validation, new external CI, publication/published-chain/seal. Active/pending external runs: none. Cleanup required: none; scratch diagnostic trees are disposable. Provider divergence: none. Blocker: historical test migration and new authoritative candidate gate remain necessary.
+Latest sealed milestone M4C3R; M4C3Q also remains sealed. Published reconstruction remains exact HF1 + ORIGINAL helpers + ordinary 0001 -> 0022. Parent seals and ordinary 0022 are not reopened.
+runtime_candidate_created=true; failed_candidate_unchanged=true; replacement_candidate_created=false; test_contract_migration_applied=false; candidate_authoritative_green=false; ordinary_0023_published=false; m4c3s_sealed=false; stage8b_complete=false; live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.
+All authority/autonomy invariants from the frozen contract and manifests remain in force. Proof/admission bookkeeping supplies no semantic truth, answer, speech-act choice, preference, relationship, cognitive-memory, source-write or deployment authority. Native decisions remain downstream of persistent native IRG/DKT/EGR/RL/Frenet/reasoning/learning/consequence machinery; optional Terra remains downstream. No route/confidence ranking, fabricated explanation, canned answer, lexical policy, forced speech act, relational meaning from authentication, runtime deployment or canonical DB change.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the later Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9. Stage 8 spans 8A–8M; Stage 9 is substrate-level continuity and mobility. No stage-plan changes.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED.
+
+PREVIOUS FAILED-CANDIDATE RECONCILIATION AND EARLIER CHRONOLOGY — PRESERVED BELOW
+
 M4C3S FAILED CANDIDATE / POST-CI RECONCILIATION — CHUNK 1 COMPLETE
 Recorded UTC: 2026-09-21T00:33:05Z
 Repository: RugBlade/Yggdrasil

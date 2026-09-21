@@ -1,0 +1,820 @@
+{
+  "schema": "HF2-M4C3S-CORRECTION-SUPERSESSION-DIAGNOSIS-v1",
+  "recorded_utc": "2026-09-21T00:52:30.737263+00:00",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "actual_starting_head": "b31ab739ccdfe52e3d2b5c270dddbddd74e0509d",
+  "starting_tree": "3c884a4546445775faf9d9b3979267c025e11b22",
+  "newer_provider_work_found": false,
+  "stage": "8B v0.8.2 HF2",
+  "milestone": "M4C3S",
+  "phase": "CORRECTION_AUDIT_DIAGNOSIS_COMPLETE_HISTORICAL_TEST_CONTRACT_MIGRATION_PENDING",
+  "failed_run": {
+    "run_id": 35534036956,
+    "job_id": 106139739042,
+    "source_commit": "ce05f10f5c03f2d3c4c8340e3596028dd7da2df5",
+    "status": "completed",
+    "conclusion": "failure",
+    "results_inspected": true,
+    "baseline": {
+      "passed": 451,
+      "failed": 0,
+      "warnings": 2
+    },
+    "focused": {
+      "passed": 34,
+      "failed": 0
+    },
+    "complete": {
+      "passed": 484,
+      "failed": 1,
+      "warnings": 2
+    },
+    "replay": "NOT_REACHED_NOT_CERTIFIED",
+    "artifact_ids": [
+      10612158561
+    ],
+    "green_candidate_receipt_created": false
+  },
+  "failure_artifact": {
+    "github_id": 10612158561,
+    "name": "hf2-m4c3s-direct-proof-provenance",
+    "drive_id": "1_oAs2rgLr50p-8uGR2yaFdYkJVuU0cJo",
+    "bytes": 34684,
+    "sha256": "b30b0dd45e822f41486bbfe6e4b75edb310d6fb771bc30ea0bff27d2d4855df6",
+    "github_drive_raw_equality": true,
+    "members": {
+      "m4c3s-baseline.txt": {
+        "bytes": 1647,
+        "sha256": "a10cefa2164cd57a25631246d86ddcbc3e27d168d5f648cb5331b11724bed075",
+        "git_blob": "545f38fbbdbdc06db02bf3fe4daa1f77c4ce8b6c"
+      },
+      "m4c3s-baseline.xml": {
+        "bytes": 71740,
+        "sha256": "abe2416715521fb1448996b8b4412e9564799b8be314f0ca3fe3eccc33d5d29d",
+        "git_blob": "52da425dd28c86c7a09c0a387c611424a881ac51"
+      },
+      "m4c3s-candidate-hf1-identity.json": {
+        "bytes": 1849,
+        "sha256": "c2bb419a343cf6cd21385ef5cdc81acf7fdec37945060f65ece316e087da1756",
+        "git_blob": "7c959c3fdf2b69ddaac8b2c1f80a9746e2c3ac54"
+      },
+      "m4c3s-candidate-original-helper-identities.json": {
+        "bytes": 991,
+        "sha256": "6202f64ff3130295b43567cba4296c4311e2d508b96992794ef29c2cfe4cb002",
+        "git_blob": "4ffd190cd196e5a7f03a38186e3d2de3a43009f5"
+      },
+      "m4c3s-candidate-scope.json": {
+        "bytes": 420,
+        "sha256": "55c0cec992a4e0408af37c022958937c7e5183939d61215e7658c0a51dd92d4b",
+        "git_blob": "16ef72a2c0e975c924a478a7f0aa819b15f38a6d"
+      },
+      "m4c3s-candidate-source-hashes.json": {
+        "bytes": 5998,
+        "sha256": "160bfaf83f6988131239e86c41a76b2235ae447e1769c05874ca1c7e19820067",
+        "git_blob": "f44c6a483d6bbd3bd308538bc7a741ba43530cb0"
+      },
+      "m4c3s-complete.txt": {
+        "bytes": 2994,
+        "sha256": "87e2c976e86716eaaba856bbf0b8921c74775280d0951461468cf5fe7ae4b762",
+        "git_blob": "cdf2046bc191e3afe367175522d64b1911136ced"
+      },
+      "m4c3s-complete.xml": {
+        "bytes": 78745,
+        "sha256": "84fd34c516fe9ece8635b4e35349048845147c0889e859ae0e1f7d1967bec5f2",
+        "git_blob": "55191ae41c044c6643e8fed36213bc29b84aff2a"
+      },
+      "m4c3s-dependencies.txt": {
+        "bytes": 8251,
+        "sha256": "a45bd78d866e94d2b93d4e1e175829a53101630b9a23b88d8657511a05f2bf8d",
+        "git_blob": "83e7914ff2180a8a36178acdf45c2b386ee26cea"
+      },
+      "m4c3s-focused.txt": {
+        "bytes": 188,
+        "sha256": "3404b00571b1b0cc62d2305bd127bbd65415918ce16acaefab0a6248e4e3b464",
+        "git_blob": "93c34a44524659171daa73cc901f119f45da8c1f"
+      },
+      "m4c3s-focused.xml": {
+        "bytes": 6222,
+        "sha256": "de6d3823bf7f6cb104abd515a08261acd6130ded1a8cfc16d4a074e8a12ee9db",
+        "git_blob": "251440ff874a8d244d90f26380fcb48fbc27c18d"
+      },
+      "m4c3s-post0022-sealed-source-parity.json": {
+        "bytes": 6051,
+        "sha256": "3819a96f1bcac09c48d0fb6a52c3e23a9eb6c3237dc8bb1d52cd20a2b246f06b",
+        "git_blob": "d710b88bb8121db2d2d3c0d3dd642d69f14b80e8"
+      },
+      "m4c3s-published-chain-identities.json": {
+        "bytes": 4047,
+        "sha256": "9003357f40868d8ffac16e997d045ab66227b0b70518cf98ff1da45a058d1cd0",
+        "git_blob": "5cf9173c1251cbd65be90808cda020579b240c0f"
+      }
+    }
+  },
+  "input_identities": {
+    "sealed_artifact": {
+      "github_id": 10594550960,
+      "drive_id": "1CsjS1oBYL-wcHo82I_K3fgSnntsFDcp_",
+      "bytes": 679959,
+      "sha256": "b4f45fe3db4af1a019443cae1c563f9e3c371bad04708277fed8e0b1ed6207e0"
+    },
+    "sealed_source": {
+      "sha256": "2d48868a39883be1a19399dc55f9735806b8cfa050d4136757be0d5fed3c05bd",
+      "bytes": 663382,
+      "files": 58
+    },
+    "candidate_identity": {
+      "bytes": 49785,
+      "sha256": "3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933",
+      "git_blob": "82af12392377de6cbc7dd30297982aaa09d1f6ea"
+    },
+    "candidate_source_hash_inventory": {
+      "bytes": 5998,
+      "sha256": "160bfaf83f6988131239e86c41a76b2235ae447e1769c05874ca1c7e19820067",
+      "git_blob": "f44c6a483d6bbd3bd308538bc7a741ba43530cb0"
+    },
+    "discarded_cached_base_mismatch": {
+      "path": "m4c3s_candidate/base/src/noeron/static/vendor/three-r185/build/three.module.js",
+      "expected_sha256": "bbf5ed13fe4373f5bd38b14ea8e62e9f157327da5638edc6d3863e08b167c9c7",
+      "observed_sha256": "851381477d2da4f349260fb8c32e2fc5ee1a5c2cc1f25e784a7c634940eeaf00",
+      "resolution": "Cached base excluded from diagnostic execution; freshly extracted verified immutable post0022 archive into separate directory, verified all 58 source hashes. No provider/source repair or baseline gate rerun."
+    }
+  },
+  "diagnostic_script": {
+    "path": "docs/evidence/m4c3s_correction_diagnosis/diagnose.py",
+    "bytes": 6959,
+    "sha256": "9a4ffbdf83a9456b1ad14a666396fa9e8da2d52363a3905cc64c503dfe0421b1",
+    "git_blob": "58718b0e5ea5d4f624752c5cd4f8ec33e9279f2d"
+  },
+  "historical_test": {
+    "path": "tests/test_v082_hf2_reasoning.py",
+    "git_blob": "6a1913a4d930f1bedc953708405f01a650fa896b",
+    "unchanged": true
+  },
+  "focused_test": {
+    "path": "tests/hf2_m4c3s/test_direct_proof_provenance.py",
+    "git_blob": "1b66214ea5f378df46804361b7d931bcb43eac6f",
+    "unchanged": true
+  },
+  "architecture_contract": {
+    "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_RUNTIME_COMPATIBILITY_20260920.txt",
+    "git_blob": "031c6aec3a6dc176a8d9653713c1b7f7a9b1dc84",
+    "drive_id": "1iZDxf6v6DWdKYloPL8VY98Fo75Qglrry",
+    "source_commit": "1c9a3bf350b3042d131cb358846b457a787e41aa",
+    "verified_run": 35512293321,
+    "operative_contract": "Supersession events are explicit admission audit records, not formal derivations and not proof-budget expenditure. Removed premises cannot become explanation support. Legacy four-item unpack alone is not a proof-completeness claim."
+  },
+  "source_trace": [
+    "sealed post0022 inference.infer performs bounded admission and also appends an InferenceStep named bounded-correction-supersession to the same list as formal derivations",
+    "failed candidate direct_proof.admit preserves input order and exact subject/relation/universal/modality scope; emits old_key/new_key, removed_input_indexes, control_input_index, admission-event-not-formal-proof role and false semantic/answer authority",
+    "infer_compatible passes only admitted input rows to build_ledger, constructs steps exclusively from finite ledger.records, returns admission_audit separately in evidence-bearing InferenceResult",
+    "InferenceResult.__iter__ yields derived/steps/candidates/status; the historical test run helper discards the result object and therefore does not inspect its explicit admission_audit",
+    "reasoning.build_multi_memory_reasoning retains the result object and copies its admission_audit into MultiMemoryReasoningMathState.proof_admission_audit, which survives JSON serialization",
+    "select_query WHY uses genuine ledger records and excludes target self-support; gate_compatible projects only formal records for both response and autonomous candidates; admission events never bypass missing provenance or completeness"
+  ],
+  "diagnosis": "Historical assertion has an obsolete representation/semantic expectation: it requires a premise-admission operation to be emitted as a formal inference step. The correction itself and its typed audit are preserved. No runtime correction is demonstrated necessary for this failure.",
+  "why_not_restore_legacy_step": "Doing so would violate the externally verified separation of admission events and formal proof records; existing focused control explicitly forbids this rule in formal steps. The sealed direct WHY implementation is characterized to count that old event as support for the corrected target itself. No new semantic choice or proof route should be invented to satisfy a stale representation assertion.",
+  "test_contract_decision": "Migrate the historical correction assertion to the explicit admission audit with stronger typed/provenance/zero-authority assertions. Preserve all original parsed-proposition, correction marker, blue-answer and selection-status checks. Also require no correction event in formal steps/ledger, no self-explanation, and preserved reasoning-state audit. This is a test-contract migration, not weakening correction/provenance safety.",
+  "proposed_next_changed_file_scope": [
+    "tests/test_v082_hf2_reasoning.py"
+  ],
+  "runtime_scope_change_required": false,
+  "failed_intent_change_required_for_this_failure": false,
+  "test_contract_migration_applied": false,
+  "runtime_candidate_created": true,
+  "failed_candidate_unchanged": true,
+  "replacement_candidate_created": false,
+  "candidate_authoritative_green": false,
+  "ordinary_0023_published": false,
+  "m4c3s_sealed": false,
+  "stage8b_complete": false,
+  "diagnostics": {
+    "sealed": {
+      "mode": "sealed",
+      "source_module": "/workspace/scratch/71ea47ccf27d/m4c3s_diagnosis/exact_post0022/src/noeron/inference.py",
+      "checks": [
+        {
+          "id": "unchanged_bounded_answer_and_both_parsed_inputs",
+          "status": "PASS",
+          "evidence": {
+            "input": [
+              {
+                "subject": "box",
+                "relation": "is",
+                "object": "red",
+                "polarity": true,
+                "universal": false,
+                "modality": "",
+                "modifiers": [],
+                "source": "current-irg",
+                "confidence": 1.0,
+                "source_memory_id": "",
+                "source_memory_ids": [],
+                "source_record_id": "",
+                "derived": false
+              },
+              {
+                "subject": "box",
+                "relation": "is",
+                "object": "blue",
+                "polarity": true,
+                "universal": false,
+                "modality": "",
+                "modifiers": [
+                  "correction"
+                ],
+                "source": "current-irg",
+                "confidence": 1.0,
+                "source_memory_id": "",
+                "source_memory_ids": [],
+                "source_record_id": "",
+                "derived": false
+              }
+            ],
+            "derived": [],
+            "step_rules": [
+              "bounded-correction-supersession"
+            ],
+            "answers": [
+              "box::is::blue"
+            ],
+            "status": "unique-proof-supported-answer"
+          }
+        },
+        {
+          "id": "historical_step_slot_contains_one_admission_event",
+          "status": "PASS",
+          "evidence": {
+            "input": [
+              {
+                "subject": "box",
+                "relation": "is",
+                "object": "red",
+                "polarity": true,
+                "universal": false,
+                "modality": "",
+                "modifiers": [],
+                "source": "current-irg",
+                "confidence": 1.0,
+                "source_memory_id": "",
+                "source_memory_ids": [],
+                "source_record_id": "",
+                "derived": false
+              },
+              {
+                "subject": "box",
+                "relation": "is",
+                "object": "blue",
+                "polarity": true,
+                "universal": false,
+                "modality": "",
+                "modifiers": [
+                  "correction"
+                ],
+                "source": "current-irg",
+                "confidence": 1.0,
+                "source_memory_id": "",
+                "source_memory_ids": [],
+                "source_record_id": "",
+                "derived": false
+              }
+            ],
+            "derived": [],
+            "step_rules": [
+              "bounded-correction-supersession"
+            ],
+            "answers": [
+              "box::is::blue"
+            ],
+            "status": "unique-proof-supported-answer"
+          }
+        },
+        {
+          "id": "historical_direct_why_misclassifies_corrected_target_as_own_support",
+          "status": "PASS",
+          "evidence": {
+            "answers": [
+              "box::is::blue"
+            ],
+            "status": "unique-proof-supported-answer",
+            "steps": [
+              {
+                "rule": "bounded-correction-supersession",
+                "premises": [
+                  "box::is::red",
+                  "box::is::blue"
+                ],
+                "conclusion": "box::is::blue",
+                "confidence": 1.0
+              }
+            ]
+          }
+        }
+      ],
+      "passed": 3,
+      "failed": 0,
+      "scope": "diagnostic characterization, not a replacement-candidate gate; no source changed"
+    },
+    "candidate": {
+      "mode": "candidate",
+      "source_module": "/workspace/scratch/71ea47ccf27d/m4c3s_candidate/candidate/src/noeron/inference.py",
+      "checks": [
+        {
+          "id": "unchanged_bounded_answer_and_both_parsed_inputs",
+          "status": "PASS",
+          "evidence": {
+            "input": [
+              {
+                "subject": "box",
+                "relation": "is",
+                "object": "red",
+                "polarity": true,
+                "universal": false,
+                "modality": "",
+                "modifiers": [],
+                "source": "current-irg",
+                "confidence": 1.0,
+                "proof_node_key": [],
+                "proof_confidence": {},
+                "source_memory_id": "",
+                "source_memory_ids": [],
+                "source_record_id": "",
+                "derived": false
+              },
+              {
+                "subject": "box",
+                "relation": "is",
+                "object": "blue",
+                "polarity": true,
+                "universal": false,
+                "modality": "",
+                "modifiers": [
+                  "correction"
+                ],
+                "source": "current-irg",
+                "confidence": 1.0,
+                "proof_node_key": [],
+                "proof_confidence": {},
+                "source_memory_id": "",
+                "source_memory_ids": [],
+                "source_record_id": "",
+                "derived": false
+              }
+            ],
+            "derived": [],
+            "step_rules": [],
+            "answers": [
+              "box::is::blue"
+            ],
+            "status": "unique-proof-supported-answer"
+          }
+        },
+        {
+          "id": "one_typed_zero_authority_admission_event_preserved",
+          "status": "PASS",
+          "evidence": [
+            {
+              "kind": "bounded-correction-supersession",
+              "old_key": [
+                "box",
+                "is",
+                "red",
+                true,
+                false,
+                ""
+              ],
+              "new_key": [
+                "box",
+                "is",
+                "blue",
+                true,
+                false,
+                ""
+              ],
+              "removed_input_indexes": [
+                0
+              ],
+              "control_input_index": 1,
+              "role": "admission-event-not-formal-proof",
+              "semantic_truth_authority": false,
+              "answer_authority": false
+            }
+          ]
+        },
+        {
+          "id": "event_excluded_from_formal_ledger_and_steps",
+          "status": "PASS",
+          "evidence": {
+            "steps": [],
+            "records": [],
+            "indexes": [
+              1
+            ],
+            "complete": true
+          }
+        },
+        {
+          "id": "corrected_target_does_not_explain_itself",
+          "status": "PASS",
+          "evidence": {
+            "answers": [],
+            "status": "no-proof-supported-answer",
+            "steps": []
+          }
+        },
+        {
+          "id": "actual_reasoning_and_serialization_keep_admission_event",
+          "status": "PASS",
+          "evidence": {
+            "audit": [
+              {
+                "kind": "bounded-correction-supersession",
+                "old_key": [
+                  "box",
+                  "is",
+                  "red",
+                  true,
+                  false,
+                  ""
+                ],
+                "new_key": [
+                  "box",
+                  "is",
+                  "blue",
+                  true,
+                  false,
+                  ""
+                ],
+                "removed_input_indexes": [
+                  0
+                ],
+                "control_input_index": 1,
+                "role": "admission-event-not-formal-proof",
+                "semantic_truth_authority": false,
+                "answer_authority": false
+              }
+            ],
+            "roundtrip_audit": [
+              {
+                "kind": "bounded-correction-supersession",
+                "old_key": [
+                  "box",
+                  "is",
+                  "red",
+                  true,
+                  false,
+                  ""
+                ],
+                "new_key": [
+                  "box",
+                  "is",
+                  "blue",
+                  true,
+                  false,
+                  ""
+                ],
+                "removed_input_indexes": [
+                  0
+                ],
+                "control_input_index": 1,
+                "role": "admission-event-not-formal-proof",
+                "semantic_truth_authority": false,
+                "answer_authority": false
+              }
+            ],
+            "answers": [
+              "box::is::blue"
+            ],
+            "gate": "proof-gate-all-candidates-auditable"
+          }
+        },
+        {
+          "id": "response_and_autonomous_content_do_not_treat_admission_as_proof",
+          "status": "PASS",
+          "evidence": {
+            "answers": [],
+            "autonomous": [],
+            "gate": "proof-gate-no-inference-candidates"
+          }
+        },
+        {
+          "id": "correction_respects_subject_relation_modality_universal_bounds",
+          "status": "PASS",
+          "evidence": {
+            "admitted_indexes": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "audit": [
+              {
+                "kind": "bounded-correction-supersession",
+                "old_key": [
+                  "box",
+                  "is",
+                  "red",
+                  true,
+                  false,
+                  ""
+                ],
+                "new_key": [
+                  "box",
+                  "is",
+                  "blue",
+                  true,
+                  false,
+                  ""
+                ],
+                "removed_input_indexes": [
+                  0
+                ],
+                "control_input_index": 5,
+                "role": "admission-event-not-formal-proof",
+                "semantic_truth_authority": false,
+                "answer_authority": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "duplicate_removed_observations_have_one_event_with_both_indexes",
+          "status": "PASS",
+          "evidence": [
+            {
+              "kind": "bounded-correction-supersession",
+              "old_key": [
+                "box",
+                "is",
+                "red",
+                true,
+                false,
+                ""
+              ],
+              "new_key": [
+                "box",
+                "is",
+                "blue",
+                true,
+                false,
+                ""
+              ],
+              "removed_input_indexes": [
+                0,
+                1
+              ],
+              "control_input_index": 2,
+              "role": "admission-event-not-formal-proof",
+              "semantic_truth_authority": false,
+              "answer_authority": false
+            }
+          ]
+        },
+        {
+          "id": "independent_formal_routes_coexist_with_separate_admission_audit",
+          "status": "PASS",
+          "evidence": {
+            "rules": [
+              "structured-modus-ponens",
+              "structured-modus-ponens"
+            ],
+            "audit": [
+              {
+                "kind": "bounded-correction-supersession",
+                "old_key": [
+                  "box",
+                  "is",
+                  "red",
+                  true,
+                  false,
+                  ""
+                ],
+                "new_key": [
+                  "box",
+                  "is",
+                  "blue",
+                  true,
+                  false,
+                  ""
+                ],
+                "removed_input_indexes": [
+                  0
+                ],
+                "control_input_index": 1,
+                "role": "admission-event-not-formal-proof",
+                "semantic_truth_authority": false,
+                "answer_authority": false
+              }
+            ],
+            "answers": [
+              "mira::is::ready",
+              "mira::is::rested",
+              "mira::is::ready::implies-proposition::mira::is::calm",
+              "mira::is::rested::implies-proposition::mira::is::calm"
+            ]
+          }
+        },
+        {
+          "id": "tiny_proof_budget_retains_audit_and_blocks_both_content_consumers",
+          "status": "PASS",
+          "evidence": {
+            "complete": false,
+            "audit": [
+              {
+                "kind": "bounded-correction-supersession",
+                "old_key": [
+                  "box",
+                  "is",
+                  "red",
+                  true,
+                  false,
+                  ""
+                ],
+                "new_key": [
+                  "box",
+                  "is",
+                  "blue",
+                  true,
+                  false,
+                  ""
+                ],
+                "removed_input_indexes": [
+                  0
+                ],
+                "control_input_index": 1,
+                "role": "admission-event-not-formal-proof",
+                "semantic_truth_authority": false,
+                "answer_authority": false
+              }
+            ],
+            "response": [],
+            "autonomous": [],
+            "status": "proof-gated-incomplete-ledger"
+          }
+        },
+        {
+          "id": "admission_audit_does_not_spend_formal_budgets",
+          "status": "PASS",
+          "evidence": {
+            "closure_steps": 0,
+            "proof_record_lower_bound": 0,
+            "audit": [
+              {
+                "kind": "bounded-correction-supersession",
+                "old_key": [
+                  "box",
+                  "is",
+                  "red",
+                  true,
+                  false,
+                  ""
+                ],
+                "new_key": [
+                  "box",
+                  "is",
+                  "blue",
+                  true,
+                  false,
+                  ""
+                ],
+                "removed_input_indexes": [
+                  0
+                ],
+                "control_input_index": 1,
+                "role": "admission-event-not-formal-proof",
+                "semantic_truth_authority": false,
+                "answer_authority": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "separate_audit_does_not_bypass_missing_provenance",
+          "status": "PASS",
+          "evidence": {
+            "with_provenance": "proof-gate-all-candidates-auditable",
+            "missing_provenance": "proof-gated-missing-support",
+            "missing_audits": [
+              {
+                "target": "[\"proof-node-v1\",\"box\",\"is\",\"blue\",true,false,\"\"]",
+                "status": "proof-missing-support",
+                "support_gate_passed": false,
+                "support_nodes": [
+                  "[\"proof-node-v1\",\"box\",\"is\",\"blue\",true,false,\"\"]"
+                ],
+                "leaf_premises": [
+                  "[\"proof-node-v1\",\"box\",\"is\",\"blue\",true,false,\"\"]"
+                ],
+                "step_rules": [],
+                "unresolved_ambiguity_ids": [],
+                "unscoped_ambiguity_ids": [],
+                "conflicting_support": [],
+                "missing_provenance": [
+                  "[\"proof-node-v1\",\"box\",\"is\",\"blue\",true,false,\"\"]"
+                ],
+                "explanation_support": false,
+                "native_evidence": {
+                  "irg_event_ids": [],
+                  "dkt_activation_ids": [],
+                  "egr_region_ids": [],
+                  "rl_proof_ids": [],
+                  "frenet_trace_ids": []
+                },
+                "provenance": [],
+                "native_reasoning_path": "IRG->DKT->regional-EGR->RL/Frenet->DKT->native-cognition/action",
+                "authority": {
+                  "semantic_truth": false,
+                  "answer": false,
+                  "speech_act": false,
+                  "cognitive_memory": false,
+                  "relationship": false,
+                  "source_write": false,
+                  "deployment": false
+                },
+                "proof_ledger_complete": true,
+                "identity_encoding": "proof-node-v1",
+                "canonical_aliases": {
+                  "box::is::blue": [
+                    "[\"proof-node-v1\",\"box\",\"is\",\"blue\",true,false,\"\"]"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "passed": 12,
+      "failed": 0,
+      "scope": "diagnostic characterization, not a replacement-candidate gate; no source changed"
+    },
+    "total_passed": 15,
+    "total_failed": 0,
+    "interpretation": "PASS on sealed historical_direct_why_misclassifies_corrected_target_as_own_support means the old undesirable behavior was reproduced, not approved. These are targeted local diagnosis checks, not a rerun of any completed milestone/prototype/full suite and not an authoritative green candidate."
+  },
+  "source_verification": {
+    "sealed": {
+      "files": 58,
+      "all_hashes_match_before_and_after_diagnosis": true
+    },
+    "candidate": {
+      "files": 59,
+      "all_hashes_match_before_and_after_diagnosis": true
+    }
+  },
+  "backup": {
+    "drive_id": "1nBAgaC3KAzXcu8b5ab5X_2OhztRiBCEv",
+    "bytes": 184659,
+    "sha256": "acf71c0f3a7594a6ca350c7b54d17adb123cf6e637cebf3ce71c596629f38c3a",
+    "git_blob": "47ea22dc5ada249bf59ca8cef261d4c4d673fc81",
+    "raw_equality": true,
+    "contents": "Fresh provider root/candidate/closure, frozen test/intent/contract, diagnostic script and outputs, source verification and input identities. Exact source remains reconstructible from sealed artifact plus unchanged intent."
+  },
+  "latest_sealed_milestone": "M4C3R",
+  "m4c3r_sealed": true,
+  "m4c3q_sealed": true,
+  "published_reconstruction": "exact HF1 + ORIGINAL helpers + ordinary 0001 -> 0022",
+  "active_pending_run_count": 0,
+  "active_pending_run_ids": [],
+  "workflow_rerun": false,
+  "new_workflow_launched": false,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "authority": {
+    "same_ingress_prior_sentence_scope": true,
+    "current_sentence_self_reference_from_later_mentions": false,
+    "prepositional_complement_nominal_candidate": false,
+    "categorical_predicate_complement_removal": false,
+    "genuine_reference_alternatives_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "lexical_pos_inference_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "provider_divergence": false,
+  "cleanup_required": [],
+  "blockers": [
+    "Historical test contract migration and a new authoritative candidate gate are still required."
+  ],
+  "roadmap_boundary": "Remain strictly within Stage 8B. Do not begin Stage 8C\u20138M work, including the later Stage-8 self-upgrade milestones 8H\u20138K, and do not begin Stage 9. No roadmap changes.",
+  "next_action": "After verifying this checkpoint, implement and separately commit the justified historical test migration in tests/test_v082_hf2_reasoning.py only, locally verify that case plus all 34 unchanged focused controls and additional strengthened audit checks. Preserve exact failed intent bytes and failed run. Create an explicitly versioned second candidate-gate checkpoint documenting unchanged intent and changed test contract; mirror root/candidate continuation before launching one new authoritative baseline-first/fresh-replay workflow. Preserve unchanged 451-test post0022 baseline from 6d9b0df915d1e9aaa629731978cf52749da18764; record exact new test/workflow/source hashes. Stop recoverably after dispatch. No publication without inspected green evidence and separate published-chain gate.",
+  "final_live_deployment_package": "FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED"
+}
