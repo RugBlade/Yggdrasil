@@ -1,0 +1,241 @@
+{
+  "status": "INSPECTED_GREEN",
+  "run_id": 35597333634,
+  "job_id": 106325080956,
+  "source_commit": "752ed6c32229f2d7efe5f09f5566636dff744fc0",
+  "counts": {
+    "baseline": 451,
+    "focused": 34,
+    "complete": 485,
+    "replay-focused": 34,
+    "replay-complete": 485
+  },
+  "artifact_hashes_verified": 27,
+  "source_files_verified": 59,
+  "post0022_files_verified": 58,
+  "ordered_patches_verified": 22,
+  "original_helpers_verified": 7,
+  "fresh_hf1_reconstructions_verified": 2,
+  "baseline_first_verified": true,
+  "compile_both_verified": true,
+  "scope_verified": [
+    "src/noeron/cognition/kernel.py",
+    "src/noeron/cognition/models.py",
+    "src/noeron/conversation_proof.py",
+    "src/noeron/conversation_resolution.py",
+    "src/noeron/direct_proof.py",
+    "src/noeron/inference.py",
+    "src/noeron/math/models.py",
+    "src/noeron/reasoning.py"
+  ],
+  "test_contract": {
+    "tests/test_v082_hf2_reasoning.py": {
+      "bytes": 6293,
+      "sha256": "e839365e1d8e828a79046e252f73ab0f4fb2a67f9011cd63c73271e42a27009c",
+      "git_blob": "ff0729aec08a2c82603b75a677ead3a920df7d8a"
+    },
+    "tests/hf2_m4c3s/test_direct_proof_provenance.py": {
+      "bytes": 28897,
+      "sha256": "23bf4f98b41c5bedb7b3c3f647a13a839e2d96314ad025cf64e75ed391df62fd",
+      "git_blob": "1b66214ea5f378df46804361b7d931bcb43eac6f"
+    }
+  },
+  "intent": {
+    "bytes": 49785,
+    "sha256": "3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933",
+    "git_blob": "82af12392377de6cbc7dd30297982aaa09d1f6ea",
+    "path": "patches/hf2/0023-hf2-direct-proof-provenance.intent.patch",
+    "commit": "9e32af64693677f01cec688728b1456319e6ea6d"
+  },
+  "source_archive": {
+    "bytes": 663446,
+    "sha256": "ea733863f0e9a04f07859644824fa74476219d1fdf4be4f330fed6e753ea8c56",
+    "git_blob": "beb0b7a006430a66ada04477f2dea214ef83e797"
+  },
+  "authority": {
+    "same_ingress_prior_sentence_scope": true,
+    "current_sentence_self_reference_from_later_mentions": false,
+    "prepositional_complement_nominal_candidate": false,
+    "categorical_predicate_complement_removal": false,
+    "genuine_reference_alternatives_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "lexical_pos_inference_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "job_log": {
+    "bytes": 64372,
+    "sha256": "f052e426c65c274009b03c8fe3e1e2dae0261c166f5bf8afc8efc10611e652ba",
+    "git_blob": "87c834498096903da81a80eca3efacd0894f5b3d"
+  },
+  "artifact": {
+    "bytes": 2878507,
+    "sha256": "dd1dfafe18976bd35b771d0b14ce10a02510ae72718bf62300947993e8bdbe98",
+    "git_blob": "d4a184a003b7caa9820602077ce60270a92c5235",
+    "github_id": 10637099937,
+    "drive_id": "1YSTCTBWuZNYUGFPpKebUpgMWXM5HkDQY",
+    "raw_equality_verified": true,
+    "name": "hf2-m4c3s-direct-proof-provenance-gate-v2"
+  },
+  "candidate_authoritative_green": true,
+  "ordinary_0023_published": true,
+  "m4c3s_sealed": false,
+  "stage8b_complete": false,
+  "schema": "HF2-M4C3S-PUBLISHED-CHAIN-LAUNCH-v1",
+  "recorded_utc": "2026-09-21T22:26:13.673506+00:00",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "actual_starting_head": "752ed6c32229f2d7efe5f09f5566636dff744fc0",
+  "starting_tree": "e1a602747a913ab4cdf28a4e827d6770a9c7e702",
+  "stage": "8B v0.8.2 HF2",
+  "milestone": "M4C3S",
+  "latest_sealed_milestone": "M4C3R",
+  "m4c3r_sealed": true,
+  "m4c3q_sealed": true,
+  "published_reconstruction": "exact HF1 + ORIGINAL helpers + ordinary0001-0023 is published; latest separately verified/sealed chain remains0001-0022 until the separate0023 gate is inspected green",
+  "active_pending_run_count": 1,
+  "blockers": [],
+  "provider_divergence": false,
+  "cleanup_required": [],
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "historical_failed_run": {
+    "run": 35534036956,
+    "job": 106139739042,
+    "source": "ce05f10f5c03f2d3c4c8340e3596028dd7da2df5",
+    "conclusion": "failure",
+    "baseline_passed": 451,
+    "focused_passed": 34,
+    "full_passed": 484,
+    "full_failed": 1,
+    "replay": "NOT_REACHED_NOT_CERTIFIED",
+    "artifact": 10612158561,
+    "drive": "1_oAs2rgLr50p-8uGR2yaFdYkJVuU0cJo",
+    "preserved": true
+  },
+  "provider_backup": {
+    "bytes": 140101,
+    "sha256": "a7ef05d60a0f1303570dbe5c7c28000eda05780651bf2ffd1e4f4779dae03a54",
+    "git_blob": "c2052a1924ae85ad2f36c48aec548e5d21b791e9",
+    "drive_id": "1PL_SCxrJxM5ANlfO7EXFfluPaVwhrm-F"
+  },
+  "chronology": "Standing root/candidate and closure were still prelaunch local-green. A Drive-only launch manifest 1nUl6yV3CTmCG4Hqz45IAuijWykalFgJr records the intermediate in-progress observation; no corresponding Git launch documentation commit existed. Completed gate-v2 evidence now supersedes those observations. Historical records are preserved below.",
+  "next_action": "Inspect separate published run35662569862/job106540968319/sourcef525f3ba819725b46fcbc3d4716f2c4b19eab01a; do not rerun blindly. Inspect complete logs and hf2-m4c3s-exact-hf1-published-0023 artifact, exactHF1/ORIGINAL helpers, all23 ordinary identities, post0022 and green-candidate source parity, compile, actual485 full-suite result, post-test source immutability and authority flags. Mirror exact artifact to Drive and verify raw equality. If failed, classify narrowly and preserve evidence without seal. Only after inspected green published-chain and verified mirrors may final M4C3S continuation/manifest/root be created and M4C3S sealed. Stage8B remains incomplete. Update both continuations and closure at every run end.",
+  "roadmap": "Remain strictly within Stage 8B. Do not begin Stage 8C\u20138M, including later Stage-8 self-upgrade8H\u20138K, or Stage9. Stage9 is substrate-level continuity and mobility. No roadmap modification.",
+  "final_live_deployment_package": "FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED",
+  "phase": "SEPARATE_PUBLISHED_CHAIN_RUNNING_RESULTS_NOT_YET_INSPECTED",
+  "published_chain_pending": true,
+  "published_chain_green": false,
+  "publication": {
+    "publication_commit": "7455b655c5a22340985ce7b008165607835163f6",
+    "publication_tree": "fda186ab361d9535fcd5558f6ac7878e5f298e08",
+    "green_commit": "f681413a12bf325743eb526c904e7fdc6d70f2c9",
+    "green_receipt_drive": "19q9tYjE2q3O1sumX6fZUG1-9qR2pWW1P"
+  },
+  "ordinary_path": "patches/hf2/0023-hf2-direct-proof-provenance.patch",
+  "intent_published_blob_equality": true,
+  "intent_published_sha256_equality": true,
+  "intent_published_raw_equality": true,
+  "published_chain_run_id": 35662569862,
+  "published_chain_job_id": 106540968319,
+  "published_chain_source_commit": "f525f3ba819725b46fcbc3d4716f2c4b19eab01a",
+  "published_chain_source_tree": "1362128a243b069d6d76296d28659dd4f8cdd508",
+  "published_chain_status_last_observed": "in_progress",
+  "published_chain_conclusion_last_observed": null,
+  "published_chain_job_last_observed": {
+    "id": 106540968319,
+    "name": "published-exact-hf1-chain",
+    "status": "in_progress",
+    "conclusion": null,
+    "run_id": 35662569862,
+    "logs_url": null,
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2
+      },
+      {
+        "name": "Run actions/setup-python@v5",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3
+      },
+      {
+        "name": "Fresh exact-HF1 ordinary0001-0023 chain and complete suite",
+        "status": "in_progress",
+        "conclusion": null,
+        "number": 4
+      },
+      {
+        "name": "Preserve published-chain evidence even on failure",
+        "status": "pending",
+        "conclusion": null,
+        "number": 5
+      },
+      {
+        "name": "Post Run actions/setup-python@v5",
+        "status": "pending",
+        "conclusion": null,
+        "number": 9
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "pending",
+        "conclusion": null,
+        "number": 10
+      }
+    ]
+  },
+  "published_gate_identities": {
+    "runner": {
+      "bytes": 7965,
+      "sha256": "36bd734bb0eac436708e12bbbb5b9a2bbeec7644771a0effa7e03142ad0b43a0",
+      "git_blob": "1cff2ff1260ec41811d02d8e7bec111289e7ba86"
+    },
+    "workflow": {
+      "bytes": 1291,
+      "sha256": "da27c33ad898c5987fef6ec2d2dc9076c359373decf9fd1ece65f1cf8b816197",
+      "git_blob": "786cc86c842d28a3b2b89e4684299a5aca74538a"
+    }
+  },
+  "publication_checkpoint": "15636d8570e08d22be62b9b4203822735e1d3bd1",
+  "substantive_branch_mutations_frozen": true,
+  "published_chain_artifact_id": null,
+  "published_chain_results_inspected": false,
+  "expected_complete_test_count": 485,
+  "expected_source_files": 59,
+  "workflow_path": ".github/workflows/hf2-m4c3s-published-chain.yml",
+  "runner_path": "docs/evidence/m4c3s_candidate/run_published.py",
+  "expected_artifact_name": "hf2-m4c3s-exact-hf1-published-0023",
+  "unfinished_work": [
+    "External published-chain result pending inspection",
+    "Published artifact mirror pending availability",
+    "Final M4C3S seal not authorized before published evidence inspection"
+  ]
+}
