@@ -1,3 +1,85 @@
+M4C3S FAILED CANDIDATE / POST-CI RECONCILIATION — CHUNK 1 COMPLETE
+Recorded UTC: 2026-09-21T00:33:05Z
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Active stage/milestone: Stage 8B v0.8.2 HF2 / M4C3S direct-proof provenance completeness
+Phase: FAILED_CANDIDATE_POST_CI_RECONCILED_DIAGNOSIS_PENDING
+Actual starting HEAD: f8db73dcad5547ae19b287029d7ffc7df4ed78d1
+Starting tree: 5f494ea17d18405a90745a196b56404acc3f7a10
+No newer commit or ordinary 0023 was present at initial inspection. No active, queued or waiting Actions run and no competing provider mutation were observed. Root and candidate continuation matched Drive raw bytes before this update; both were stale relative to the completed Actions result.
+This documentation-only checkpoint supersedes the older CI-running observation, which remains intact below. The exact ending documentation commit/tree and this root/candidate continuation's blobs/SHA-256/byte counts are recorded after GitHub save and raw mirror verification in the existing closure receipt Drive 12_Dw_DMmwRSaU0VXDA45Bq4_WVQvM1LA. This avoids pretending a file can embed the hash of its own containing commit. The latest branch ref plus the finalized closure determine exact ending HEAD.
+
+AUTHORITATIVE FAILED RUN — INSPECTED, NOT RERUN
+Run: 35534036956; attempt 1
+Job: 106139739042 / exact-post0022-candidate-replay
+Source commit: ce05f10f5c03f2d3c4c8340e3596028dd7da2df5
+Workflow: .github/workflows/hf2-milestone4c3s.yml
+Workflow blob: ab62771f573353ba66883066d51c0ff67351c1ee
+Workflow SHA-256: 50a4270de1b01cffc588d2aeec732b2bb12ec930924123b626c062f8d2d3ce85; 1340 bytes
+Runner: docs/evidence/m4c3s_candidate/run_candidate.py
+Runner blob: 603d2b78729c1289bf732bb802efc2d717a761d6
+Runner SHA-256: 4c11fa1271061c90bbbcccd6316e1b01d4f75f2a813924506d23e1a67f84692f; 8936 bytes
+Provider result: completed / failure. Job finished around 2026-09-20T20:03:59Z; run updated 2026-09-20T20:04:00Z.
+Complete decoded job log and all 13 artifact members inspected. Baseline/focused/full JUnit XML agree with saved pytest text:
+- unchanged post0022 baseline: 451 passed, 0 failed, 2 warnings, 147.95 seconds;
+- focused M4C3S: 34 passed, 0 failed, 1.53 seconds;
+- complete candidate suite: 484 passed, 1 failed, 2 warnings, 139.61 seconds.
+No errors or skipped tests in these three JUnit files.
+Failure classification: historical HF2 regression, not baseline, carrier, UI, artifact, or hash failure.
+Failing test: tests/test_v082_hf2_reasoning.py::test_hf2_explicit_correction_supersedes_only_bounded_same_relation_for_answering
+Input: The box is red. Correction: the box is blue. What color is the box?
+Observed assertion: expected exactly one bounded-correction-supersession rule in returned steps; actual steps list was empty, count zero. Earlier assertions that both original propositions and a correction modifier exist passed. Later assertions in this failing test were not reached; their outcomes must not be inferred from this run.
+Root cause remains undiagnosed. No test contract has been declared obsolete. No runtime source, intent, test, workflow or runner was edited during this reconciliation.
+
+IDENTITY AND REACHED GATES
+Frozen failed intent remains unchanged at patches/hf2/0023-hf2-direct-proof-provenance.intent.patch.
+Commit: 9e32af64693677f01cec688728b1456319e6ea6d
+Blob: 82af12392377de6cbc7dd30297982aaa09d1f6ea
+SHA-256: 3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933; 49785 bytes
+Focused tests commit: f5ac720443bb48e847f96914db3c0b441f53a73e
+Tests blob: 1b66214ea5f378df46804361b7d931bcb43eac6f; SHA-256 23bf4f98b41c5bedb7b3c3f647a13a839e2d96314ad025cf64e75ed391df62fd; 28897 bytes
+Verified CI reached exact HF1 fixture identity, ORIGINAL helper injection, ordinary 0001 -> 0022 sequential apply checks, 58-file sealed post0022 source parity, unchanged baseline, exact candidate SHA/blob/byte checks, apply-check/apply/diff-check/compile, frozen eight-file scope, focused suite, and complete suite.
+Candidate 59-file source hash inventory in the failed artifact equals the frozen preparation inventory in the historical closure. This comparison is not independent replay certification.
+Runner line 132 raised CalledProcessError from complete-suite pytest before line 133 generated-patch copy and line 134 replay reconstruction.
+NOT REACHED: fresh independent exact-HF1 reconstruction; replay chain/application; candidate-versus-replay source-byte parity; focused replay; complete replay; post-test source immutability assertion; source archive; carrier archive; GREEN result receipt; final evidence hash manifest.
+Independent replay is NOT CERTIFIED. No candidate-green receipt exists. Failure artifact upload succeeded as intended.
+
+DURABLE FAILURE EVIDENCE
+GitHub artifact: 10612158561 / hf2-m4c3s-direct-proof-provenance
+34684 bytes; SHA-256 b30b0dd45e822f41486bbfe6e4b75edb310d6fb771bc30ea0bff27d2d4855df6
+Drive mirror: 1_oAs2rgLr50p-8uGR2yaFdYkJVuU0cJo; raw equality VERIFIED.
+Full provider/log/prior-state backup: HF2_M4C3S_FAILED_CANDIDATE_PROVIDER_BACKUP_20260921.zip
+Drive: 1NZoYwoyzHbJ6olBPcQyM3hCO3RJvC-Nr
+307708 bytes; SHA-256 3afe9a51b3450979ddd97691adc376d637a6d452d2aa748f59cb0c8a21b5ee77; raw equality VERIFIED.
+This backup contains the original failed artifact, all extracted evidence, full decoded logs, provider snapshot, exact frozen intent/workflow/runner, and prior root/candidate/closure/handoff records.
+Decoded job log: 49883 bytes; SHA-256 6328e8d818428f6f0b38acad1d1b440e527fbee80a0e00bbb067ecb5ea5aaf65.
+Reconciliation manifest: docs/evidence/HF2_M4C3S_FAILED_CANDIDATE_35534036956_RECONCILIATION_20260921.json
+Git blob: 21f2a78ed00febe2c8f7ddd0429275139b947c6c
+SHA-256: bbde4b15061edc1e60af1216352234f58624085cfe64dfa5312958fedee9b67e; 15650 bytes
+Drive: 1UgSVoN9ftdRYUqmCyRvrd4jkVN0-bC18
+Candidate continuation Drive: 1N_DpE0oLL9JQZCQQ05wrQgByZTuDT0aJ
+Standing root Drive: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Closure receipt Drive: 12_Dw_DMmwRSaU0VXDA45Bq4_WVQvM1LA
+Prior closure raw bytes are preserved in the provider backup: 14417 bytes, SHA-256 518f8239d2ebbeb30dee55108b3e2b192691891059856db40d89c801b3427b2e. Its modification time was 2026-09-20T20:04:35.200Z, after job completion, but its embedded run observation was still in_progress; modification time did not constitute result inspection.
+
+COMPLETED / UNFINISHED / NEXT BOUNDED ACTION
+Completed this run: provider reconciliation; full logs/artifact/JUnit inspection; exact failed-intent identity verification; reached/unreached stage classification; artifact and provider backup mirrored and verified; failed-candidate manifest and root/candidate continuation update. No completed prototype gate or CI was rerun.
+Unfinished: narrow diagnosis of correction-supersession provenance loss; implementation repair if justified; versioned replacement candidate; local gates; new authoritative CI; publication; separate published chain; seal.
+Exact next action is CHUNK 2: inspect the exact sealed post0022 source and unchanged failed intent, trace the returned correction-supersession step through inference/reasoning/metadata and response-facing projection, and determine the smallest demonstrated repair. Keep the historical test unchanged unless the established architecture proves its assertion semantically wrong. Checkpoint diagnosis before starting replacement candidate or CI. Preserve the failed candidate immutably and give any replacement its own exact identity. Do not rerun this failed candidate unchanged.
+No active/pending Actions run. No new workflow dispatched. No temporary workflow cleanup required. Scratch files are disposable; recovery evidence is in GitHub and Drive. Blocker: one historical HF2 regression; the candidate is ineligible for publication. Provider mirrors initially agreed but were stale together; final byte equality and exact ending identities are recorded in the finalized closure.
+
+SEALED PARENT / STATUS / AUTHORITY
+Latest sealed milestone remains M4C3R; M4C3Q remains sealed. Both final manifests were re-read and unchanged. Published reconstruction remains byte-exact HF1 + ORIGINAL carrier helpers + ordinary 0001 -> 0022. Sealed ordinary 0022 is unchanged. Parent seals are not reopened.
+runtime_candidate_created=true; failed_candidate_unchanged=true; replacement_candidate_created=false; candidate_authoritative_green=false; ordinary_0023_published=false; m4c3s_sealed=false; stage8b_complete=false.
+live_runtime_touched=false; canonical_db_touched=false; certification_claim=false. No deployment.
+Preserve the frozen eight-file two-ledger design: unique typed proposition identities; distinct finite direct proof records; independent closure/proof budgets; explicit incompleteness; per-source/per-route confidence; None distinct from zero; no cross-route reducer; parallel source provenance; conservative all-route ambiguity/conflict/missing-provenance audit; incomplete evidence cannot assert proof-eligible content; direct target truth does not shadow derivations or explain itself; existing bounded correction/admission semantics; native learned consequence selection and operator-directed calibration.
+All authority flags below remain in force. Parser/proof bookkeeping has no semantic truth, answer, speech-act choice, preference, relationship, cognitive-memory, source-write or deployment authority. No canned semantic answers, semantic verb-class authority, lexical ranking, authored route preference, LLM/Terra cognition authority, forced ask/clarify, programmed hold/speak preference or authentication-derived relational meaning.
+Native cognition/action remains causally downstream of persistent native state and IRG / DKT / regional EGR / RL/Frenet / DKT / reasoning / learning / consequence machinery; optional Terra remains downstream. SQLite is persistence/provenance/audit substrate. English/decoder layers remain downstream and observational. Underdetermination remains unresolved.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the later Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9. Stage 8 spans 8A–8M. Stage 9 is substrate-level continuity and mobility. No roadmap changes.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED.
+
+HISTORICAL CI-RUNNING AND PREPARATION RECORDS — PRESERVED BELOW, SUPERSEDED ONLY AS CURRENT STATUS
+
 M4C3S AUTHORITATIVE CANDIDATE CI RUNNING — RECOVERABLE HANDOFF
 Recorded UTC: 2026-09-20T20:00:50.644607+00:00
 Repository: RugBlade/Yggdrasil

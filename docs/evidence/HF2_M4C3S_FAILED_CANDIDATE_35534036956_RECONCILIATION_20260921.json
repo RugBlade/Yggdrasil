@@ -1,0 +1,352 @@
+{
+  "schema": "HF2-M4C3S-FAILED-CANDIDATE-POST-CI-RECONCILIATION-v1",
+  "recorded_utc": "2026-09-21T00:32:51.213665+00:00",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "actual_starting_head": "f8db73dcad5547ae19b287029d7ffc7df4ed78d1",
+  "starting_tree": "5f494ea17d18405a90745a196b56404acc3f7a10",
+  "newer_commits_found_at_start": false,
+  "competing_mutation_observed": false,
+  "stage": "8B v0.8.2 HF2",
+  "milestone": "M4C3S",
+  "phase": "FAILED_CANDIDATE_POST_CI_RECONCILED_DIAGNOSIS_PENDING",
+  "classification": "historical HF2 regression",
+  "root_cause": "not yet diagnosed; no source or test correction attempted",
+  "run": {
+    "id": 35534036956,
+    "job_id": 106139739042,
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "source_commit": "ce05f10f5c03f2d3c4c8340e3596028dd7da2df5",
+    "provider_updated_at": "2026-09-20T20:04:00Z",
+    "job_name": "exact-post0022-candidate-replay",
+    "workflow": {
+      "path": ".github/workflows/hf2-milestone4c3s.yml",
+      "bytes": 1340,
+      "sha256": "50a4270de1b01cffc588d2aeec732b2bb12ec930924123b626c062f8d2d3ce85",
+      "git_blob": "ab62771f573353ba66883066d51c0ff67351c1ee"
+    },
+    "runner": {
+      "path": "docs/evidence/m4c3s_candidate/run_candidate.py",
+      "bytes": 8936,
+      "sha256": "4c11fa1271061c90bbbcccd6316e1b01d4f75f2a813924506d23e1a67f84692f",
+      "git_blob": "603d2b78729c1289bf732bb802efc2d717a761d6"
+    },
+    "full_decoded_job_log": {
+      "bytes": 49883,
+      "sha256": "6328e8d818428f6f0b38acad1d1b440e527fbee80a0e00bbb067ecb5ea5aaf65",
+      "git_blob": "8aa1f339d6d17e6f23ba71ffdc3929bcbb5a7437"
+    }
+  },
+  "candidate": {
+    "path": "patches/hf2/0023-hf2-direct-proof-provenance.intent.patch",
+    "bytes": 49785,
+    "sha256": "3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933",
+    "git_blob": "82af12392377de6cbc7dd30297982aaa09d1f6ea",
+    "scope": [
+      "src/noeron/cognition/kernel.py",
+      "src/noeron/cognition/models.py",
+      "src/noeron/conversation_proof.py",
+      "src/noeron/conversation_resolution.py",
+      "src/noeron/direct_proof.py",
+      "src/noeron/inference.py",
+      "src/noeron/math/models.py",
+      "src/noeron/reasoning.py"
+    ],
+    "compile": true,
+    "apply_check": true,
+    "applied_source_byte_parity": true,
+    "commit": "9e32af64693677f01cec688728b1456319e6ea6d"
+  },
+  "focused_tests": {
+    "path": "tests/hf2_m4c3s/test_direct_proof_provenance.py",
+    "commit": "f5ac720443bb48e847f96914db3c0b441f53a73e",
+    "sha256": "23bf4f98b41c5bedb7b3c3f647a13a839e2d96314ad025cf64e75ed391df62fd",
+    "bytes": 28897,
+    "git_blob": "1b66214ea5f378df46804361b7d931bcb43eac6f"
+  },
+  "results": {
+    "baseline": {
+      "total": 451,
+      "passed": 451,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "warnings": 2,
+      "junit": {
+        "bytes": 71740,
+        "sha256": "abe2416715521fb1448996b8b4412e9564799b8be314f0ca3fe3eccc33d5d29d",
+        "git_blob": "52da425dd28c86c7a09c0a387c611424a881ac51"
+      },
+      "text": {
+        "bytes": 1647,
+        "sha256": "a10cefa2164cd57a25631246d86ddcbc3e27d168d5f648cb5331b11724bed075",
+        "git_blob": "545f38fbbdbdc06db02bf3fe4daa1f77c4ce8b6c"
+      }
+    },
+    "focused": {
+      "total": 34,
+      "passed": 34,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "warnings": 0,
+      "junit": {
+        "bytes": 6222,
+        "sha256": "de6d3823bf7f6cb104abd515a08261acd6130ded1a8cfc16d4a074e8a12ee9db",
+        "git_blob": "251440ff874a8d244d90f26380fcb48fbc27c18d"
+      },
+      "text": {
+        "bytes": 188,
+        "sha256": "3404b00571b1b0cc62d2305bd127bbd65415918ce16acaefab0a6248e4e3b464",
+        "git_blob": "93c34a44524659171daa73cc901f119f45da8c1f"
+      }
+    },
+    "complete": {
+      "total": 485,
+      "passed": 484,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0,
+      "warnings": 2,
+      "junit": {
+        "bytes": 78745,
+        "sha256": "84fd34c516fe9ece8635b4e35349048845147c0889e859ae0e1f7d1967bec5f2",
+        "git_blob": "55191ae41c044c6643e8fed36213bc29b84aff2a"
+      },
+      "text": {
+        "bytes": 2994,
+        "sha256": "87e2c976e86716eaaba856bbf0b8921c74775280d0951461468cf5fe7ae4b762",
+        "git_blob": "cdf2046bc191e3afe367175522d64b1911136ced"
+      },
+      "failures": [
+        {
+          "classname": "tests.test_v082_hf2_reasoning",
+          "name": "test_hf2_explicit_correction_supersedes_only_bounded_same_relation_for_answering",
+          "traceback": "def test_hf2_explicit_correction_supersedes_only_bounded_same_relation_for_answering():\n        props, _, _, _, steps, answers, status = run(\n            \"The box is red. Correction: the box is blue. What color is the box?\"\n        )\n        assert set(canon(props)) == {\"box::is::red\", \"box::is::blue\"}\n        assert any(\"correction\" in p.modifiers for p in props)\n>       assert [s.rule for s in steps].count(\"bounded-correction-supersession\") == 1\nE       AssertionError: assert 0 == 1\nE        +  where 0 = <built-in method count of list object at 0x7faa5bea59c0>('bounded-correction-supersession')\nE        +    where <built-in method count of list object at 0x7faa5bea59c0> = [].count\n\ntests/test_v082_hf2_reasoning.py:55: AssertionError"
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "github_id": 10612158561,
+    "name": "hf2-m4c3s-direct-proof-provenance",
+    "drive_id": "1_oAs2rgLr50p-8uGR2yaFdYkJVuU0cJo",
+    "bytes": 34684,
+    "sha256": "b30b0dd45e822f41486bbfe6e4b75edb310d6fb771bc30ea0bff27d2d4855df6",
+    "github_drive_raw_equality": true,
+    "members": {
+      "m4c3s-baseline.txt": {
+        "bytes": 1647,
+        "sha256": "a10cefa2164cd57a25631246d86ddcbc3e27d168d5f648cb5331b11724bed075",
+        "git_blob": "545f38fbbdbdc06db02bf3fe4daa1f77c4ce8b6c"
+      },
+      "m4c3s-baseline.xml": {
+        "bytes": 71740,
+        "sha256": "abe2416715521fb1448996b8b4412e9564799b8be314f0ca3fe3eccc33d5d29d",
+        "git_blob": "52da425dd28c86c7a09c0a387c611424a881ac51"
+      },
+      "m4c3s-candidate-hf1-identity.json": {
+        "bytes": 1849,
+        "sha256": "c2bb419a343cf6cd21385ef5cdc81acf7fdec37945060f65ece316e087da1756",
+        "git_blob": "7c959c3fdf2b69ddaac8b2c1f80a9746e2c3ac54"
+      },
+      "m4c3s-candidate-original-helper-identities.json": {
+        "bytes": 991,
+        "sha256": "6202f64ff3130295b43567cba4296c4311e2d508b96992794ef29c2cfe4cb002",
+        "git_blob": "4ffd190cd196e5a7f03a38186e3d2de3a43009f5"
+      },
+      "m4c3s-candidate-scope.json": {
+        "bytes": 420,
+        "sha256": "55c0cec992a4e0408af37c022958937c7e5183939d61215e7658c0a51dd92d4b",
+        "git_blob": "16ef72a2c0e975c924a478a7f0aa819b15f38a6d"
+      },
+      "m4c3s-candidate-source-hashes.json": {
+        "bytes": 5998,
+        "sha256": "160bfaf83f6988131239e86c41a76b2235ae447e1769c05874ca1c7e19820067",
+        "git_blob": "f44c6a483d6bbd3bd308538bc7a741ba43530cb0"
+      },
+      "m4c3s-complete.txt": {
+        "bytes": 2994,
+        "sha256": "87e2c976e86716eaaba856bbf0b8921c74775280d0951461468cf5fe7ae4b762",
+        "git_blob": "cdf2046bc191e3afe367175522d64b1911136ced"
+      },
+      "m4c3s-complete.xml": {
+        "bytes": 78745,
+        "sha256": "84fd34c516fe9ece8635b4e35349048845147c0889e859ae0e1f7d1967bec5f2",
+        "git_blob": "55191ae41c044c6643e8fed36213bc29b84aff2a"
+      },
+      "m4c3s-dependencies.txt": {
+        "bytes": 8251,
+        "sha256": "a45bd78d866e94d2b93d4e1e175829a53101630b9a23b88d8657511a05f2bf8d",
+        "git_blob": "83e7914ff2180a8a36178acdf45c2b386ee26cea"
+      },
+      "m4c3s-focused.txt": {
+        "bytes": 188,
+        "sha256": "3404b00571b1b0cc62d2305bd127bbd65415918ce16acaefab0a6248e4e3b464",
+        "git_blob": "93c34a44524659171daa73cc901f119f45da8c1f"
+      },
+      "m4c3s-focused.xml": {
+        "bytes": 6222,
+        "sha256": "de6d3823bf7f6cb104abd515a08261acd6130ded1a8cfc16d4a074e8a12ee9db",
+        "git_blob": "251440ff874a8d244d90f26380fcb48fbc27c18d"
+      },
+      "m4c3s-post0022-sealed-source-parity.json": {
+        "bytes": 6051,
+        "sha256": "3819a96f1bcac09c48d0fb6a52c3e23a9eb6c3237dc8bb1d52cd20a2b246f06b",
+        "git_blob": "d710b88bb8121db2d2d3c0d3dd642d69f14b80e8"
+      },
+      "m4c3s-published-chain-identities.json": {
+        "bytes": 4047,
+        "sha256": "9003357f40868d8ffac16e997d045ab66227b0b70518cf98ff1da45a058d1cd0",
+        "git_blob": "5cf9173c1251cbd65be90808cda020579b240c0f"
+      }
+    }
+  },
+  "provider_backup": {
+    "drive_id": "1NZoYwoyzHbJ6olBPcQyM3hCO3RJvC-Nr",
+    "bytes": 307708,
+    "sha256": "3afe9a51b3450979ddd97691adc376d637a6d452d2aa748f59cb0c8a21b5ee77",
+    "git_blob": "ce1a58224e4789220b82459e7ab342eba636613e",
+    "raw_equality": true,
+    "contents": "Full decoded job log, provider snapshot, failed artifact and all 13 extracted files, unchanged frozen intent/workflow/runner, prior GitHub+Drive root/candidate continuations, prior closure and handoff"
+  },
+  "completed_stages": [
+    "exact HF1 fixture identity",
+    "ORIGINAL helper injection",
+    "ordinary 0001 through 0022 sequential apply checks",
+    "58-file sealed post0022 source parity",
+    "unchanged baseline from 6d9b0df915d1e9aaa629731978cf52749da18764",
+    "exact intent SHA/blob/byte verification",
+    "candidate apply-check/apply/diff-check/compile",
+    "exact eight-file scope",
+    "candidate 59-source-file hash inventory",
+    "34 focused tests",
+    "complete candidate suite executed: 484 passed, 1 failed",
+    "failure evidence uploaded successfully"
+  ],
+  "parity": {
+    "post0022_sealed_source_verified": true,
+    "post0022_files": 58,
+    "candidate_source_hashes_match_preparation_closure": true,
+    "candidate_files": 59,
+    "independent_replay_source_byte_parity": "NOT_REACHED",
+    "post_test_source_immutability_check": "NOT_REACHED"
+  },
+  "not_reached": [
+    "generated-patch evidence copy after complete-suite gate",
+    "fresh independent exact-HF1 replay reconstruction",
+    "replay ordinary/candidate application",
+    "candidate-versus-replay source-byte parity",
+    "focused replay",
+    "complete replay",
+    "post-test source immutability assertion",
+    "candidate source archive",
+    "carrier evidence archive",
+    "GREEN result receipt",
+    "final evidence hash manifest"
+  ],
+  "failure_boundary": "runner line 132 complete-suite pytest; CalledProcessError return code 1 before line 133 and replay reconstruction at line 134",
+  "historical_chronology": {
+    "prior_head": "f8db73dcad5547ae19b287029d7ffc7df4ed78d1",
+    "prior_root": {
+      "path": "CONTINUATION_STAGE8B_HF2.txt",
+      "drive_id": "1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1",
+      "bytes": 292796,
+      "sha256": "517e17a6d28e0fd37f781fa8e729dcadf823266043d8960fbdd2dd78e436659e",
+      "git_blob": "ce221955b645d9821738fa77cefbd754796bfa76",
+      "github_drive_raw_equality": true
+    },
+    "prior_candidate_continuation": {
+      "path": "docs/continuation/CONTINUATION_STAGE8B_HF2_M4C3S_CANDIDATE_20260920.txt",
+      "commit": "f8db73dcad5547ae19b287029d7ffc7df4ed78d1",
+      "git_blob": "3b97bceffcbad69f8b06f5e89de6869d7ab5ed18",
+      "sha256": "59327a5031d80606c0962ecd1780f4751f9cb093460b4f49d86fe655bbe155cb",
+      "bytes": 12973,
+      "drive_id": "1N_DpE0oLL9JQZCQQ05wrQgByZTuDT0aJ",
+      "github_drive_raw_equality": true
+    },
+    "prior_closure_drive_id": "12_Dw_DMmwRSaU0VXDA45Bq4_WVQvM1LA",
+    "prior_closure_raw_identity": {
+      "bytes": 14417,
+      "sha256": "518f8239d2ebbeb30dee55108b3e2b192691891059856db40d89c801b3427b2e",
+      "git_blob": "fbc58ed323272be35176f4314933c4487a4fd4d8"
+    },
+    "prior_closure_status": "FINALIZED_CANDIDATE_CI_RUNNING",
+    "prior_observed_run_state": {
+      "run_id": 35534036956,
+      "status": "in_progress",
+      "conclusion": null,
+      "source_commit": "ce05f10f5c03f2d3c4c8340e3596028dd7da2df5",
+      "provider_updated_at": "2026-09-20T19:58:55Z",
+      "artifact_ids": [],
+      "job_id": 106139739042,
+      "workflow_path": ".github/workflows/hf2-milestone4c3s.yml",
+      "job_name": "exact-post0022-candidate-replay",
+      "results_inspected": false,
+      "baseline_result": null,
+      "candidate_result": null,
+      "replay_result": null,
+      "green_candidate_receipt_created": false
+    },
+    "note": "Previous CI-running observations are retained as historical observations, superseded by this completed failure. Closure file modification at 2026-09-20T20:04:35.200Z was after workflow completion, but its embedded run observation remained stale; modification time is not result inspection."
+  },
+  "latest_sealed_milestone": "M4C3R",
+  "m4c3r_sealed": true,
+  "m4c3q_sealed": true,
+  "published_reconstruction": "byte-exact HF1 + ORIGINAL carrier helpers + ordinary 0001 -> 0022",
+  "runtime_candidate_created": true,
+  "failed_candidate_unchanged": true,
+  "replacement_candidate_created": false,
+  "candidate_authoritative_green": false,
+  "green_candidate_receipt_created": false,
+  "ordinary_0023_published": false,
+  "m4c3s_sealed": false,
+  "stage8b_complete": false,
+  "active_pending_run_count": 0,
+  "active_pending_run_ids": [],
+  "workflow_rerun": false,
+  "completed_disposable_gates_rerun": false,
+  "source_or_tests_changed_this_chunk": false,
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "authority": {
+    "same_ingress_prior_sentence_scope": true,
+    "current_sentence_self_reference_from_later_mentions": false,
+    "prepositional_complement_nominal_candidate": false,
+    "categorical_predicate_complement_removal": false,
+    "genuine_reference_alternatives_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "lexical_pos_inference_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "roadmap_boundary": "Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the later Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9. Stage 8 spans 8A–8M. Stage 9 is substrate-level continuity and mobility. No roadmap edits.",
+  "final_live_deployment_package": "FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED",
+  "provider_divergence": false,
+  "initial_staleness": "Both mirrors agreed byte-for-byte but lagged the completed GitHub Actions result.",
+  "blockers": [
+    "Single full-suite regression remains unresolved; candidate is not eligible for publication."
+  ],
+  "cleanup_required": [],
+  "next_action": "Chunk 2 only: inspect exact sealed post0022 and frozen failed candidate; trace why test_hf2_explicit_correction_supersedes_only_bounded_same_relation_for_answering loses bounded-correction-supersession. Preserve the assertion unless architecture proves it semantically wrong. Preserve all two-ledger, confidence, completeness, conservative proof, correction/admission and native-choice contracts. Checkpoint diagnosis before versioned replacement candidate or CI. Do not rerun failed candidate unchanged."
+}
