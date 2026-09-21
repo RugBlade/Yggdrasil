@@ -1,0 +1,45 @@
+name: HF2 M4C3S - published exact-HF1 chain through 0023
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage8B/v0.8.2-conversation-completion-hf2
+    paths:
+      - 'patches/hf2/0023-hf2-direct-proof-provenance.patch'
+      - 'docs/evidence/m4c3s_candidate/run_published.py'
+      - '.github/workflows/hf2-m4c3s-published-chain.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: hf2-m4c3s-published-chain
+  cancel-in-progress: false
+
+jobs:
+  published-exact-hf1-chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      NOERON_AUTONOMY_ENABLED: 'false'
+      NOERON_TERRA_ENABLED: 'false'
+      NOERON_LLM_BACKEND: mock
+      NOERON_OWNER_TOKEN: ''
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fresh exact-HF1 ordinary0001-0023 chain and complete suite
+        run: python docs/evidence/m4c3s_candidate/run_published.py
+      - name: Preserve published-chain evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf2-m4c3s-exact-hf1-published-0023
+          path: evidence/
+          if-no-files-found: error
