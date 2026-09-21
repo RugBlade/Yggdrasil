@@ -1,0 +1,906 @@
+diff --git a/src/noeron/cognition/kernel.py b/src/noeron/cognition/kernel.py
+index 27f29c6af6d4892fb66a8bcaa89e571faace6dd1..2a5b31f66f95744910ab3d22dd347b9062013ea3 100644
+--- a/src/noeron/cognition/kernel.py
++++ b/src/noeron/cognition/kernel.py
+@@ -44,12 +44,12 @@ class GeometricCognitionKernel:
+             m.frenet.first_curvature / (1.0 + m.frenet.first_curvature),
+         ]
+         importance = math.sqrt(sum(x * x for x in vals) / len(vals))
+-        if m.reasoning.native_inference_active:
++        if m.reasoning.native_inference_active or m.reasoning.proof_ledger_complete is False:
+             confidence = m.reasoning.confidence
+         else:
+             residuals = [abs(m.egr.bridge_residual), abs(m.egr.balance_residual), m.rl.geodesic_acceleration_norm]
+             confidence = 1.0 / (1.0 + math.sqrt(sum(x * x for x in residuals) / len(residuals)))
+-        return clamp(importance, 0.0, 1.0), novelty, clamp(confidence, 0.0, 1.0)
++        return clamp(importance, 0.0, 1.0), novelty, (None if confidence is None else clamp(confidence, 0.0, 1.0))
+ 
+     @staticmethod
+     def _realize(props: list[NativeProposition]) -> str:
+@@ -72,11 +72,14 @@ class GeometricCognitionKernel:
+         )
+ 
+     @staticmethod
+-    def _proof_grounds(result: CausalMathResult, canonical: str) -> list[str]:
++    def _proof_grounds(result: CausalMathResult, proposition) -> list[str]:
+         r = result.state.reasoning
+         grounds = []
++        canonical = proposition.canonical()
++        from noeron.inference import proposition_key
+         for step in r.inference_steps:
+-            if step.conclusion == canonical:
++            matches = (tuple(step.proof_record['conclusion_key']) == proposition_key(proposition)) if step.proof_record else step.conclusion == canonical
++            if matches:
+                 grounds.append(f'rule={step.rule}')
+                 grounds.extend(f'premise={x}' for x in step.premises)
+         if not grounds:
+@@ -100,9 +103,9 @@ class GeometricCognitionKernel:
+             subj,rel,obj=render_logical_proposition(a)
+             props.append(NativeProposition(
+                 subject=subj,relation=rel,object=obj,
+-                grounds=self._proof_grounds(result,a.canonical()),
++                grounds=self._proof_grounds(result,a),
+                 epistemic_status=('native-derived-proof' if a.derived else 'proof-supported-premise'),
+-                confidence=a.confidence,
++                confidence=a.confidence, proof_evidence={"node_key": a.proof_node_key, "confidence": a.proof_confidence, "ledger_complete": m.reasoning.proof_ledger_complete},
+             ))
+         statement=self._realize(props) if props else ''
+         thought=NativeThought(
+@@ -110,6 +113,7 @@ class GeometricCognitionKernel:
+             evidence_memory_ids=evidence,dkt_distances=distances,importance=importance,
+             novelty=novelty,confidence=confidence,should_surface=bool(statement),
+             origin='noeron-native-compositional-proof-field-v0.7.5',causal_trace=m.causal_trace,
++            proof_evidence={"ledger_complete": m.reasoning.proof_ledger_complete, "confidence": m.reasoning.confidence_evidence},
+             mathematical_provenance=self._provenance(event,result,consolidated_memory_id),
+         )
+         if statement:
+@@ -126,12 +130,12 @@ class GeometricCognitionKernel:
+         m=result.state
+         importance,novelty,confidence=self._support_metrics(result)
+         props=[]
+-        for a in m.reasoning.derived_propositions:
++        for a in (m.reasoning.autonomous_proof_candidates if m.reasoning.proof_ledger else m.reasoning.derived_propositions):
+             subj,rel,obj=render_logical_proposition(a)
+             props.append(NativeProposition(
+                 subject=subj,relation=rel,object=obj,
+-                grounds=self._proof_grounds(result,a.canonical()),
+-                epistemic_status='native-derived-proof',confidence=a.confidence,
++                grounds=self._proof_grounds(result,a),
++                epistemic_status='native-derived-proof',confidence=a.confidence, proof_evidence={"node_key": a.proof_node_key, "confidence": a.proof_confidence, "ledger_complete": m.reasoning.proof_ledger_complete},
+             ))
+         questions=[
+             f'What relation holds between {q.subject} and {q.object}?'
+@@ -148,6 +152,7 @@ class GeometricCognitionKernel:
+             should_surface=False,
+             origin='noeron-native-compositional-endogenous-field-v0.7.5',
+             causal_trace=m.causal_trace,
++            proof_evidence={"ledger_complete": m.reasoning.proof_ledger_complete, "confidence": m.reasoning.confidence_evidence},
+             mathematical_provenance=self._provenance(event,result,consolidated_memory_id),
+         )
+         if statement or props or questions:
+diff --git a/src/noeron/cognition/models.py b/src/noeron/cognition/models.py
+index 5ecd358a94d3fa3ab38ae70a57db5c5b23c920ed..ef336281e2accf70ebc94ee7a5a2fc79a8e73ea8 100644
+--- a/src/noeron/cognition/models.py
++++ b/src/noeron/cognition/models.py
+@@ -668,7 +668,8 @@ class NativeProposition(BaseModel):
+     object: str
+     grounds: list[str] = Field(default_factory=list)
+     epistemic_status: str = 'derived'  # observed-runtime / retrieved-memory / derived / hypothesis
+-    confidence: float = 0.5
++    confidence: float | None = 0.5
++    proof_evidence: dict = Field(default_factory=dict)
+ 
+ 
+ class NativeJudgment(BaseModel):
+@@ -734,7 +735,8 @@ class NativeThought(BaseModel):
+     dkt_distances: list[float] = Field(default_factory=list)
+     importance: float = 0.5
+     novelty: float = 0.5
+-    confidence: float = 0.5
++    confidence: float | None = 0.5
++    proof_evidence: dict = Field(default_factory=dict)
+     should_surface: bool = False
+     origin: str = 'noeron-math-causal-kernel-v0.6.9'
+     causal_trace: list[str] = Field(default_factory=list)
+diff --git a/src/noeron/conversation_proof.py b/src/noeron/conversation_proof.py
+index d9deb1fdff28aae23e509358b45871784cdce022..03a3173abb924f5e6fcc2201d322e53f976ee529 100644
+--- a/src/noeron/conversation_proof.py
++++ b/src/noeron/conversation_proof.py
+@@ -41,7 +41,7 @@ class ProofStepView:
+     rule: str
+     premises: tuple[str, ...]
+     conclusion: str
+-    confidence: float = 1.0
++    confidence: float | None = None
+ 
+ 
+ @dataclass(frozen=True)
+@@ -79,7 +79,8 @@ def normalize_inference_steps(steps: Iterable[object]) -> tuple[ProofStepView, .
+         premises = tuple(str(x).strip() for x in _seq(raw, "premises") if str(x).strip())
+         if not rule or not conclusion:
+             continue
+-        confidence = float(_field(raw, "confidence", 1.0) or 1.0)
++        raw_confidence = _field(raw, "confidence", None)
++        confidence = None if raw_confidence is None else float(raw_confidence)
+         out.append(ProofStepView(rule=rule, premises=premises, conclusion=conclusion, confidence=confidence))
+     return tuple(out)
+ 
+diff --git a/src/noeron/conversation_resolution.py b/src/noeron/conversation_resolution.py
+index 55df2737c38974ae8a0b70b4e62dd79d7bafd6a4..f282a55869cf58e48320546e801ac75e93460c9c 100644
+--- a/src/noeron/conversation_resolution.py
++++ b/src/noeron/conversation_resolution.py
+@@ -250,8 +250,15 @@ def native_current_turn_alternative_sources(
+         answers = list(_field(reasoning, "answer_candidates", ()) or ())
+         selection = str(_field(reasoning, "answer_selection_status", "") or "")
+         canonicals = []
++        from noeron.inference import proposition_key
++        alias_keys = {}
++        for row in answers:
++            if hasattr(row, 'canonical'):
++                alias_keys.setdefault(row.canonical(), set()).add(proposition_key(row))
+         for row in answers:
+             canonical = row.canonical() if hasattr(row, "canonical") else str(_field(row, "canonical", "") or "")
++            if canonical and len(alias_keys.get(canonical, ())) > 1:
++                canonical = json.dumps({'canonical': canonical, 'proposition_key': list(proposition_key(row))}, sort_keys=True, separators=(',', ':'))
+             if canonical and canonical not in canonicals:
+                 canonicals.append(canonical)
+         if selection.startswith("multiple-proof-supported-answers-no-forced-choice") and len(canonicals) >= 2:
+@@ -276,6 +283,13 @@ def native_current_turn_alternative_sources(
+                 continue
+             payload = json.dumps({"conclusion": conclusion, "premises": premises, "rule": rule},
+                                  sort_keys=True, separators=(",", ":"))
++            record = _field(step, 'proof_record', {}) or {}
++            if record:
++                payload = json.dumps({'conclusion': conclusion, 'premises': premises, 'rule': rule,
++                    'record_id': record['record_id'], 'premise_keys': record['premise_keys'],
++                    'conclusion_key': record['conclusion_key'], 'rule_evidence_keys': record['rule_evidence_keys']},
++                    sort_keys=True, separators=(',', ':'))
++                conclusion = json.dumps(record['conclusion_key'], separators=(',', ':'))
+             groups.setdefault(conclusion, []).append(payload)
+         for conclusion, rows in groups.items():
+             alternatives = tuple(dict.fromkeys(rows))
+diff --git a/src/noeron/direct_proof.py b/src/noeron/direct_proof.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..dbf768e286e6c7cae5f757120d0efe5b753e6b3e
+--- /dev/null
++++ b/src/noeron/direct_proof.py
+@@ -0,0 +1,408 @@
++"""Finite typed proposition closure and transparent direct-proof provenance.
++
++No route-confidence reducer or semantic, answer, speech-act or memory authority
++is supplied by this bookkeeping. Completeness is explicit and budgets independent.
++"""
++from __future__ import annotations
++
++from dataclasses import asdict, dataclass, field
++import hashlib
++import json
++import math
++from typing import Iterator
++
++from noeron.inference import _from_canonical, _relation_matches, proposition_key
++from noeron.math.models import InferenceStep
++from noeron.conversation_runtime_gate import gate_inference_candidates
++
++Key = tuple[str, str, str, bool, bool, str]
++AUTHORITY = {name: False for name in (
++    'semantic_truth', 'answer', 'speech_act', 'preference', 'relationship',
++    'cognitive_memory', 'source_write', 'deployment', 'candidate_ranking')}
++
++
++def digest(value):
++    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':'),
++                                     ensure_ascii=False).encode()).hexdigest()
++
++
++def canonical(key: Key) -> str:
++    s, r, o, positive, _universal, modal = key
++    return ('' if positive else 'not ') + (modal + ' ' if modal else '') + f'{s}::{r}::{o}'
++
++
++@dataclass(frozen=True)
++class DirectRule:
++    rule: str
++    premises: tuple[Key, ...]
++    conclusion: Key
++    rule_evidence: tuple[Key, ...] = ()
++
++
++def direct_rules(keys: set[Key]) -> Iterator[DirectRule]:
++    """The five existing formal rule families; no confidence affects discovery."""
++    # Ordering below serializes finite sets only. No prefix is admitted as proof.
++    rows = sorted(keys)
++    positive = [k for k in rows if k[3] and not k[5]]
++    declarations = [k for k in rows if k[3] and k[1] == 'has-property'
++                    and k[2] == 'transitive' and k[0].startswith('relation:')]
++    for a in positive:
++        witnesses = [k for k in declarations if k[0] == 'relation:' + a[1]]
++        if a[1] != 'implies' and not witnesses:
++            continue
++        for b in positive:
++            if a[1] != b[1] or a[2] != b[0] or a[0] == b[2]:
++                continue
++            evidence = [()] if a[1] == 'implies' else [(w,) for w in witnesses]
++            for witness in evidence:
++                yield DirectRule('transitive-composition', (a, b),
++                                 (a[0], a[1], b[2], True, False, ''), witness)
++    members = [k for k in rows if not k[4] and k[3] and k[1] == 'is' and not k[5]]
++    for u in rows:
++        if not u[4] or u[1] != 'is' or u[5]:
++            continue
++        for a in members:
++            if a[2] == u[0]:
++                rule = 'universal-membership' if u[3] else 'universal-negative-membership'
++                yield DirectRule(rule, (a, u), (a[0], 'is', u[2], u[3], False, ''))
++    for imp in rows:
++        if not imp[3]:
++            continue
++        if imp[1] == 'implies-proposition':
++            # This immutable decoder is used only for its typed identity fields.
++            decoded = _from_canonical(imp[2])
++            if decoded is not None:
++                for antecedent in rows:
++                    if canonical(antecedent) == imp[0]:
++                        yield DirectRule('structured-modus-ponens', (imp, antecedent),
++                                         proposition_key(decoded))
++        elif imp[1] == 'implies':
++            for truth in rows:
++                if truth[3] and truth[1] == 'true' and truth[2] == 'true' and truth[0] == imp[0]:
++                    yield DirectRule('modus-ponens', (imp, truth),
++                                     (imp[2], 'true', 'true', True, False, ''))
++
++
++@dataclass
++class Ledger:
++    keys: tuple[Key, ...]
++    premise_keys: tuple[Key, ...]
++    sources: dict[str, dict]
++    records: tuple[dict, ...]
++    closure_complete: bool
++    proof_enumeration_complete_for_known: bool
++    proof_ledger_complete: bool
++    max_conclusion_steps: int
++    max_proof_records: int
++    conclusion_steps_used: int
++    proof_record_lower_bound: int
++    blocked_frontier: tuple[Key, ...]
++    authority: dict = field(default_factory=lambda: dict(AUTHORITY))
++
++    def to_dict(self):
++        return asdict(self)
++
++
++def build_ledger(premises, *, max_conclusion_steps=128, max_proof_records=1024, admission_complete=False):
++    """Separate finite budgets, synchronous closure and all-or-incomplete proofs.
++
++    Inputs are already-admitted premise observations. Correction admission is an
++    existing upstream/order-sensitive operation, not redefined by proof enumeration.
++    On proof overflow no arbitrarily preferred prefix is exposed. The lower bound
++    is cap+1, and the entire proof-dependent consumer view is explicitly ineligible.
++    """
++    for value in (max_conclusion_steps, max_proof_records):
++        if type(value) is not int or value < 0:
++            raise ValueError('budgets must be nonnegative integers')
++    sources = {}
++    original = set()
++    for p in premises:
++        if 'correction' in p.modifiers and not admission_complete:
++            raise ValueError('proof ledger requires already-admitted premises; correction admission is not replaced')
++        key = proposition_key(p)
++        value = float(p.confidence)
++        if not math.isfinite(value) or not 0 <= value <= 1:
++            raise ValueError('source confidence must be finite and in [0,1]')
++        identity = {'key': key, 'source': p.source, 'source_record_id': p.source_record_id,
++                    'source_memory_id': p.source_memory_id,
++                    'source_memory_ids': sorted(set(p.source_memory_ids)),
++                    'modifiers': sorted(set(p.modifiers)), 'input_derived_flag': p.derived}
++        sid = digest(identity)
++        if sid not in sources:
++            sources[sid] = {'source_id': sid, **identity, 'confidence_readings': []}
++        if value not in sources[sid]['confidence_readings']:
++            sources[sid]['confidence_readings'].append(value)
++        original.add(key)
++    for row in sources.values():
++        row['confidence_readings'].sort()  # serialization only, never selected
++    sources = dict(sorted(sources.items()))
++    known = set(original)
++    used = 0
++    blocked = set()
++    while True:
++        frontier = {rule.conclusion for rule in direct_rules(known)} - known
++        if not frontier:
++            break
++        if used + len(frontier) > max_conclusion_steps:
++            blocked = frontier
++            break
++        known.update(frontier)
++        used += len(frontier)
++    closure_complete = not blocked
++    node_sources = {k: sorted(sid for sid, s in sources.items() if tuple(s['key']) == k) for k in known}
++    records = {}
++    overflow = False
++    lower_bound = 0
++    for rule in direct_rules(known):
++        if rule.conclusion not in known:
++            continue
++        fingerprint_data = {
++            'version': 1, 'rule': rule.rule, 'premise_keys': rule.premises,
++            'conclusion_key': rule.conclusion, 'rule_evidence_keys': rule.rule_evidence,
++            'premise_source_ids': [node_sources[k] for k in rule.premises],
++            'rule_evidence_source_ids': [node_sources[k] for k in rule.rule_evidence],
++        }
++        rid = digest(fingerprint_data)
++        if rid in records:
++            continue
++        lower_bound += 1
++        if len(records) == max_proof_records:
++            overflow = True
++            records.clear()
++            break
++        records[rid] = {'record_id': rid, **fingerprint_data}
++    producer_refs = {k: sorted(rid for rid, r in records.items() if tuple(r['conclusion_key']) == k)
++                     for k in known}
++    for r in records.values():
++        refs, direct_values = [], []
++        scalar_representable = True
++        for key in r['premise_keys']:
++            key = tuple(key)
++            observations = [sources[sid] for sid in node_sources[key]]
++            values = {v for s in observations for v in s['confidence_readings']}
++            refs.append({'key': key, 'source_ids': node_sources[key], 'producer_record_ids': producer_refs[key]})
++            if len(values) != 1 or producer_refs[key]:
++                scalar_representable = False
++            else:
++                direct_values.append(next(iter(values)))
++        # Preserve the existing conjunction/weakest-premise operation WITHIN ONE
++        # route only. Rule-enabling evidence is audited separately as in the model.
++        r['confidence'] = {
++            'operator': 'existing-within-route-min', 'premise_support_refs': refs,
++            'value': min(direct_values) if scalar_representable and direct_values else None,
++            'status': 'exact-direct-input-values' if scalar_representable else 'symbolic-unaggregated',
++            'cross_route_reducer': None,
++        }
++    return Ledger(keys=tuple(sorted(known)), premise_keys=tuple(sorted(original)),
++        sources=sources, records=tuple(records[k] for k in sorted(records)),
++        closure_complete=closure_complete, proof_enumeration_complete_for_known=not overflow,
++        proof_ledger_complete=closure_complete and not overflow,
++        max_conclusion_steps=max_conclusion_steps, max_proof_records=max_proof_records,
++        conclusion_steps_used=used, proof_record_lower_bound=lower_bound,
++        blocked_frontier=tuple(sorted(blocked)))
++
++
++
++from dataclasses import dataclass, replace
++import json
++
++from noeron.inference import proposition_key, _relation_matches, _spatial_relation
++from noeron.math.models import LogicalProposition, InferenceStep
++from noeron.conversation_proof import AmbiguityConstraint
++from noeron.conversation_runtime_gate import gate_inference_candidates, RuntimeProofGateResult, _zero_authority
++
++
++def typed_id(key):
++    return json.dumps(['proof-node-v1', *key], ensure_ascii=False, separators=(',', ':'))
++
++
++def admit(rows, mode):
++    """Keep the established admission order separate from unordered proof closure.
++
++    Reasoning historically keeps the last representative in the first insertion
++    position. Use that representative for correction control only, retaining all
++    admitted observations. Direct infer historically applies corrections in input
++    order. No representative confidence is used for proof aggregation.
++    """
++    if mode not in ('direct', 'reasoning'):
++        raise ValueError('unknown admission mode')
++    grouped = {}
++    for i, p in enumerate(rows):
++        grouped.setdefault(proposition_key(p), []).append(i)
++    groups = (list(grouped.values()) if mode == 'reasoning' else [[i] for i in range(len(rows))])
++    active, audit = {}, []
++    for indexes in groups:
++        control = rows[indexes[-1]]
++        key = proposition_key(control)
++        if 'correction' in control.modifiers:
++            removed = [k for k in active if k != key and (k[0], k[1], k[4], k[5]) == (key[0], key[1], key[4], key[5])]
++            for old in removed:
++                audit.append({'kind': 'bounded-correction-supersession', 'old_key': old,
++                    'new_key': key, 'removed_input_indexes': active.pop(old),
++                    'control_input_index': indexes[-1], 'role': 'admission-event-not-formal-proof',
++                    'semantic_truth_authority': False, 'answer_authority': False})
++        active.setdefault(key, []).extend(indexes)
++    admitted_indexes = sorted({i for indexes in active.values() for i in indexes})
++    return admitted_indexes, audit
++
++
++@dataclass
++class InferenceResult:
++    derived: list
++    steps: list
++    candidates: list
++    status: str
++    ledger: object
++    propositions: list
++    admitted_indexes: list
++    admission_audit: list
++
++    def __iter__(self):
++        return iter((self.derived, self.steps, self.candidates, self.status))
++
++    def __len__(self):
++        return 4
++
++    def __getitem__(self, index):
++        return tuple(self)[index]
++
++
++def infer_compatible(rows, query, *, max_steps=128, max_proof_records=1024, admission_mode='direct'):
++    rows = list(rows)
++    indexes, admission_audit = admit(rows, admission_mode)
++    ledger = build_ledger([rows[i] for i in indexes], max_conclusion_steps=max_steps,
++                          max_proof_records=max_proof_records, admission_complete=True)
++    producers = {k: [r for r in ledger.records if tuple(r['conclusion_key']) == k] for k in ledger.keys}
++    observations = {k: [s for s in ledger.sources.values() if tuple(s['key']) == k] for k in ledger.keys}
++    # There is deliberately no recursively selected producer. A scalar is exposed
++    # only for a single direct observation or one already-numeric direct route.
++    # Nested/cyclic/multiple support remains a finite symbolic reference graph.
++    known = {}
++    for key in ledger.keys:
++        ss, rr = observations[key], producers[key]
++        readings = [v for s in ss for v in s['confidence_readings']]
++        if len(ss) == 1 and len(readings) == 1 and not rr:
++            value, status = readings[0], 'single-observed-source'
++        elif not ss and len(rr) == 1 and rr[0]['confidence']['value'] is not None:
++            value, status = rr[0]['confidence']['value'], 'single-direct-route-existing-conjunction'
++        else:
++            value, status = None, 'unaggregated-support'
++        if not ledger.proof_ledger_complete:
++            value, status = None, 'incomplete-proof-ledger'
++        confidence = {'value': value, 'status': status,
++            'source_ids': sorted(s['source_id'] for s in ss),
++            'producer_record_ids': sorted(r['record_id'] for r in rr), 'cross_route_reducer': None}
++        # Source/memory fields are set only where unique, never picked by ordering.
++        source_fields = {}
++        for name in ('source', 'source_record_id', 'source_memory_id'):
++            values = {s[name] for s in ss if s.get(name)}
++            source_fields[name] = next(iter(values)) if len(values) == 1 else ''
++        source_fields['source_memory_ids'] = sorted({x for s in ss for x in s['source_memory_ids']})
++        known[key] = LogicalProposition(subject=key[0], relation=key[1], object=key[2],
++            polarity=key[3], universal=key[4], modality=key[5], confidence=value,
++            derived=key not in ledger.premise_keys, proof_node_key=list(key),
++            proof_confidence=confidence, **source_fields)
++    steps = [InferenceStep(rule=r['rule'],
++        premises=[canonical(k) for k in r['premise_keys'] + r['rule_evidence_keys']],
++        conclusion=canonical(r['conclusion_key']), confidence=r['confidence']['value'], proof_record=r)
++        for r in ledger.records]
++    derived = [p for k, p in known.items() if k not in ledger.premise_keys]
++    candidates = select_query(known, ledger, query)
++    if not ledger.proof_ledger_complete:
++        candidates, status = [], 'proof-gated-incomplete-ledger'
++    elif len(candidates) == 1:
++        status = ('unique-proof-supported-negative-answer' if query.kind == 'exact-proposition' and not candidates[0].polarity
++                  else 'unique-proof-supported-answer')
++    elif candidates:
++        status = 'multiple-proof-supported-answers-no-forced-choice'
++    else:
++        status = ('no-logical-selection-requested' if query.kind in {'none','unresolved-surface-question','unresolved-reference'}
++                  else 'no-proof-supported-answer')
++    return InferenceResult(derived, steps, candidates, status, ledger, list(known.values()), indexes, admission_audit)
++
++
++def select_query(known, ledger, query):
++    rows = list(known.values())
++    kind = query.kind
++    match = lambda p: _relation_matches(p.relation, query.relation)
++    if kind == 'derive-all':
++        return [p for p in rows if p.derived]
++    if kind == 'relation-between':
++        return [p for p in rows if p.subject == query.subject and p.object == query.object]
++    if kind == 'relation-from-subject':
++        return [p for p in rows if p.subject == query.subject and match(p)]
++    if kind == 'relation-to-object':
++        return [p for p in rows if p.object == query.object and match(p)]
++    if kind == 'exact-proposition':
++        return [p for p in rows if p.subject == query.subject and p.object == query.object and match(p)]
++    if kind == 'why-proposition':
++        targets = {k for k,p in known.items() if p.subject == query.subject and p.object == query.object and match(p)}
++        support = {tuple(k) for r in ledger.records if tuple(r['conclusion_key']) in targets
++                   for k in r['premise_keys'] + r['rule_evidence_keys']}
++        target_text = {canonical(k) for k in targets}
++        support.update(k for k,p in known.items() if p.polarity and p.relation in {'causes','explains'} and p.object in target_text)
++        return [p for k,p in known.items() if k in support and k not in targets]
++    if kind == 'copular-value-from-subject':
++        return [p for p in rows if p.polarity and p.subject == query.subject and p.relation == 'is']
++    if kind == 'relation-subjects':
++        return [p for p in rows if p.polarity and match(p)]
++    if kind == 'where-from-subject':
++        return [p for p in rows if p.subject == query.subject and _spatial_relation(p.relation) and match(p)]
++    if kind in {'when-from-subject','how-from-subject'}:
++        prefix = 'time-' if kind.startswith('when-') else 'manner-'
++        return [p for p in rows if p.subject == query.subject and p.relation.startswith(prefix) and match(p)]
++    return []
++
++
++@dataclass(frozen=True)
++class AuditNode:
++    proposition: object
++    def canonical(self):
++        return typed_id(proposition_key(self.proposition))
++
++
++def gate_compatible(result, query, bindings, ambiguities=(), *, candidates=None):
++    candidates = list(result.candidates if candidates is None else candidates)
++    if not result.ledger.proof_ledger_complete:
++        return RuntimeProofGateResult((), 'proof-gated-incomplete-ledger',
++            ({'proof_ledger_complete': False, 'support_gate_passed': False,
++              'semantic_truth_authority': False, 'answer_authority': False},), len(candidates), _zero_authority())
++    # Bind each envelope to its actual typed input, before any canonical collapse.
++    premises = [replace(envelope, canonical=typed_id(proposition_key(p))) for p,envelope in bindings]
++    projected = [dict(rule=r['rule'], conclusion=typed_id(r['conclusion_key']),
++        premises=[typed_id(k) for k in r['premise_keys'] + r['rule_evidence_keys']],
++        confidence=r['confidence']['value']) for r in result.ledger.records]
++    # Legacy ambiguity scope is broad: expand to EVERY typed node with that text.
++    # Do not select a typed interpretation of an underspecified legacy scope.
++    aliases = {}
++    for k in result.ledger.keys:
++        aliases.setdefault(canonical(k), []).append(typed_id(k))
++    scoped = [replace(a, affected_canonicals=tuple(v for c in a.affected_canonicals
++              for v in aliases.get(c, [c]))) for a in ambiguities]
++    targets = [p for p in result.propositions if p.subject == query.subject and p.object == query.object
++               and _relation_matches(p.relation, query.relation)]
++    audit = gate_inference_candidates(query_kind=query.kind, candidates=[AuditNode(p) for p in candidates],
++        provenance_premises=premises, inference_steps=projected, ambiguities=scoped,
++        why_targets=[AuditNode(p) for p in targets] if query.kind == 'why-proposition' else (),
++        block_unscoped_ambiguity=True)
++    return replace(audit, eligible_candidates=tuple(p.proposition for p in audit.eligible_candidates),
++        audits=tuple({**a, 'proof_ledger_complete': True, 'identity_encoding': 'proof-node-v1',
++            'canonical_aliases': aliases} for a in audit.audits))
++
++
++def workspace_confidence(result, answers, query, geometric_value, has_memory):
++    import math
++    context = ([p for p in result.propositions if p.subject == query.subject and p.object == query.object
++                and _relation_matches(p.relation, query.relation)] if query.kind == 'why-proposition' else answers)
++    if not result.ledger.proof_ledger_complete or any(p.confidence is None for p in context):
++        return None, {'status': 'incomplete-or-unaggregated-proof-support', 'cross_route_reducer': None,
++                      'geometric_support': geometric_value}
++    if not answers:
++        return geometric_value, {'status': 'existing-geometry-only', 'cross_route_reducer': None}
++    if any(p.confidence is None for p in answers):
++        return None, {'status': 'unaggregated-proof-support', 'cross_route_reducer': None}
++    # Existing workspace conjunction of answer premises, only when all operands
++    # are defined. It is never a reducer of parallel routes to one proposition.
++    proof = min(p.confidence for p in answers)
++    value = math.sqrt(max(0.0,min(1.0,proof*geometric_value))) if has_memory else proof
++    return value, {'status': 'existing-defined-workspace-conjunction', 'cross_route_reducer': None}
+diff --git a/src/noeron/inference.py b/src/noeron/inference.py
+index 76cc0dc723f5a56ddfe7df7ce07f7ed5eec83a14..2cbbc8ba4ca77c8f6d4545019006bdbf9b067f47 100644
+--- a/src/noeron/inference.py
++++ b/src/noeron/inference.py
+@@ -628,201 +628,15 @@ def _spatial_relation(relation: str) -> bool:
+     return str(relation or '').lower() in {'inside','beside','near','under','above','behind','before','after','on','in','at','from','to'}
+ 
+ 
+-def infer(
+-    premises: Sequence[LogicalProposition],
+-    query: LogicalQuery,
+-    *,
+-    max_steps: int = 128,
+-) -> tuple[list[LogicalProposition], list[InferenceStep], list[LogicalProposition], str]:
+-    """Compute finite deductive closure with no domain answer table or forced tie break."""
+-    known: dict[tuple[str, str, str, bool, bool, str], LogicalProposition] = {}
+-    premise_keys: set[tuple[str, str, str, bool, bool, str]] = set()
+-    steps: list[InferenceStep] = []
+-    for p in premises:
+-        cp = p.model_copy(deep=True)
+-        if 'correction' in cp.modifiers:
+-            superseded = [
+-                k for k, oldp in known.items()
+-                if oldp.subject == cp.subject and oldp.relation == cp.relation
+-                and oldp.modality == cp.modality and oldp.universal == cp.universal
+-                and proposition_key(oldp) != proposition_key(cp)
+-            ]
+-            for sk in superseded:
+-                oldp = known.pop(sk)
+-                steps.append(InferenceStep(
+-                    rule='bounded-correction-supersession',
+-                    premises=[oldp.canonical(), cp.canonical()],
+-                    conclusion=cp.canonical(), confidence=min(oldp.confidence, cp.confidence),
+-                ))
+-        k = proposition_key(cp)
+-        old = known.get(k)
+-        if old is None or cp.confidence > old.confidence:
+-            known[k] = cp
+-        premise_keys.add(k)
+-
+-    changed = True
+-    rounds = 0
+-    while changed and len(steps) < max_steps:
+-        changed = False; rounds += 1
+-        rows = list(known.values())
+-
+-        # Transitive composition applies only to positive, non-modal relation facts.
+-        by_relation: dict[str, list[LogicalProposition]] = {}
+-        for p in rows:
+-            if p.polarity and not p.modality:
+-                by_relation.setdefault(p.relation, []).append(p)
+-        transitive_relations={'implies'}
+-        transitive_relations.update(
+-            p.subject.split(':',1)[1]
+-            for p in rows
+-            if p.polarity and p.relation=='has-property' and p.object=='transitive' and p.subject.startswith('relation:')
+-        )
+-        for rel, rrows in by_relation.items():
+-            if rel not in transitive_relations:
+-                continue
+-            for a in rrows:
+-                for b in rrows:
+-                    if a.object != b.subject or a.subject == b.object:
+-                        continue
+-                    c = LogicalProposition(subject=a.subject, relation=rel, object=b.object, source='native-inference', confidence=min(a.confidence, b.confidence), derived=True)
+-                    ck = proposition_key(c)
+-                    if ck in known:
+-                        continue
+-                    known[ck] = c; changed = True
+-                    steps.append(InferenceStep(rule='transitive-composition',premises=[a.canonical(), b.canonical()],conclusion=c.canonical(),confidence=c.confidence))
+-                    if len(steps) >= max_steps: break
+-                if len(steps) >= max_steps: break
+-
+-        # Positive universal membership: every A is B; x is A -> x is B.
+-        rows=list(known.values())
+-        universals=[p for p in rows if p.universal and p.polarity and p.relation=='is' and not p.modality]
+-        negative_universals=[p for p in rows if p.universal and (not p.polarity) and p.relation=='is' and not p.modality]
+-        memberships=[p for p in rows if (not p.universal) and p.polarity and p.relation=='is' and not p.modality]
+-        for u in universals:
+-            for a in memberships:
+-                if a.object!=u.subject: continue
+-                c=LogicalProposition(subject=a.subject,relation='is',object=u.object,source='native-inference',confidence=min(a.confidence,u.confidence),derived=True)
+-                ck=proposition_key(c)
+-                if ck in known: continue
+-                known[ck]=c;changed=True
+-                steps.append(InferenceStep(rule='universal-membership',premises=[a.canonical(),u.canonical()],conclusion=c.canonical(),confidence=c.confidence))
+-                if len(steps)>=max_steps: break
+-            if len(steps)>=max_steps: break
+-
+-        # Negative universal membership: no A is B; x is A -> not(x is B).
+-        rows=list(known.values())
+-        memberships=[p for p in rows if (not p.universal) and p.polarity and p.relation=='is' and not p.modality]
+-        for u in negative_universals:
+-            for a in memberships:
+-                if a.object!=u.subject: continue
+-                c=LogicalProposition(subject=a.subject,relation='is',object=u.object,polarity=False,source='native-inference',confidence=min(a.confidence,u.confidence),derived=True)
+-                ck=proposition_key(c)
+-                if ck in known: continue
+-                known[ck]=c;changed=True
+-                steps.append(InferenceStep(rule='universal-negative-membership',premises=[a.canonical(),u.canonical()],conclusion=c.canonical(),confidence=c.confidence))
+-                if len(steps)>=max_steps: break
+-            if len(steps)>=max_steps: break
+-        if len(steps) >= max_steps: break
+-
+-        # Structured proposition modus ponens. Endpoints are canonical forms
+-        # produced by this parser, not free-form text interpreted by a hidden model.
+-        rows = list(known.values())
+-        structured_implications = [p for p in rows if p.polarity and p.relation == 'implies-proposition']
+-        canonical_known = {p.canonical(): p for p in rows}
+-        for imp in structured_implications:
+-            antecedent = canonical_known.get(imp.subject)
+-            consequent = _from_canonical(imp.object, confidence=imp.confidence)
+-            if antecedent is None or consequent is None:
+-                continue
+-            consequent.confidence = min(imp.confidence, antecedent.confidence)
+-            ck = proposition_key(consequent)
+-            if ck in known:
+-                continue
+-            known[ck] = consequent; changed = True
+-            steps.append(InferenceStep(
+-                rule='structured-modus-ponens',
+-                premises=[imp.canonical(), antecedent.canonical()],
+-                conclusion=consequent.canonical(), confidence=consequent.confidence,
+-            ))
+-            if len(steps) >= max_steps:
+-                break
+-        if len(steps) >= max_steps:
+-            break
++def infer(premises, query, *, max_steps=128, max_proof_records=1024, admission_mode='direct'):
++    """Return finite typed closure and direct-proof evidence.
+ 
+-        # Historical atomic-truth modus ponens.
+-        rows = list(known.values())
+-        implications = [p for p in rows if p.polarity and p.relation == 'implies']
+-        truths = {p.subject: p for p in rows if p.polarity and p.relation == 'true' and p.object == 'true'}
+-        for imp in implications:
+-            tp = truths.get(imp.subject)
+-            if tp is None: continue
+-            c = LogicalProposition(subject=imp.object, relation='true', object='true', source='native-inference', confidence=min(imp.confidence, tp.confidence), derived=True)
+-            ck = proposition_key(c)
+-            if ck in known: continue
+-            known[ck] = c; changed = True
+-            steps.append(InferenceStep(rule='modus-ponens', premises=[imp.canonical(), tp.canonical()], conclusion=c.canonical(), confidence=c.confidence))
+-            if len(steps) >= max_steps: break
+-        if rounds > max_steps: break
+-
+-    derived = [p for k, p in known.items() if k not in premise_keys]
+-    candidates: list[LogicalProposition] = []
+-    if query.kind == 'derive-all':
+-        candidates = list(derived)
+-    elif query.kind == 'relation-between':
+-        candidates = [p for p in known.values() if p.subject == query.subject and p.object == query.object]
+-    elif query.kind == 'relation-from-subject':
+-        candidates = [p for p in known.values() if p.subject == query.subject and _relation_matches(p.relation,query.relation)]
+-    elif query.kind == 'relation-to-object':
+-        candidates = [p for p in known.values() if p.object == query.object and _relation_matches(p.relation,query.relation)]
+-    elif query.kind == 'exact-proposition':
+-        candidates = [p for p in known.values() if p.subject==query.subject and p.object==query.object and _relation_matches(p.relation,query.relation)]
+-        if not any(p.polarity for p in candidates):
+-            negative = [p for p in known.values() if (not p.polarity) and p.subject==query.subject and p.object==query.object and _relation_matches(p.relation,query.relation)]
+-            if negative:
+-                candidates = negative
+-    elif query.kind == 'why-proposition':
+-        # Event truth is not an explanation of itself. A why answer must be backed
+-        # either by an explicit causal/explanatory proposition whose object is the
+-        # target canonical proposition, or by an inference step that actually
+-        # derived the target from premises.
+-        targets = [p for p in known.values() if p.subject==query.subject and p.object==query.object and _relation_matches(p.relation,query.relation)]
+-        target_canon = {p.canonical() for p in targets}
+-        support_canon: set[str] = set()
+-        for step in steps:
+-            if step.conclusion in target_canon:
+-                support_canon.update(step.premises)
+-        candidates = [p for p in known.values() if p.canonical() in support_canon]
+-        for p in known.values():
+-            if p.polarity and p.relation in {'causes','explains'} and p.object in target_canon:
+-                candidates.append(p)
+-    elif query.kind == 'copular-value-from-subject':
+-        candidates = [p for p in known.values() if p.polarity and p.subject==query.subject and p.relation=='is']
+-    elif query.kind == 'relation-subjects':
+-        candidates = [p for p in known.values() if p.polarity and _relation_matches(p.relation, query.relation)]
+-    elif query.kind == 'where-from-subject':
+-        candidates = [p for p in known.values() if p.subject==query.subject and _spatial_relation(p.relation) and _relation_matches(p.relation,query.relation)]
+-    elif query.kind in {'when-from-subject','how-from-subject'}:
+-        # Time/manner answers require explicit native propositions; the grammar
+-        # does not invent a temporal or manner relation from surface shape.
+-        prefix='time-' if query.kind.startswith('when-') else 'manner-'
+-        candidates = [p for p in known.values() if p.subject==query.subject and str(p.relation).startswith(prefix) and _relation_matches(p.relation,query.relation)]
+-
+-    if query.kind == 'derive-all' and derived:
+-        candidates = [p for p in candidates if p.derived]
+-    dedup = {proposition_key(p): p for p in candidates}
+-    candidates = sorted(dedup.values(), key=lambda p: p.canonical())
+-    if len(candidates) == 1:
+-        if query.kind == 'exact-proposition' and not candidates[0].polarity:
+-            status = 'unique-proof-supported-negative-answer'
+-        else:
+-            status = 'unique-proof-supported-answer'
+-    elif len(candidates) > 1:
+-        status = 'multiple-proof-supported-answers-no-forced-choice'
+-    elif query.kind in {'none', 'unresolved-surface-question', 'unresolved-reference'}:
+-        status = 'no-logical-selection-requested'
+-    else:
+-        status = 'no-proof-supported-answer'
+-    return derived, steps, candidates, status
++    max_steps budgets new conclusions; max_proof_records independently budgets
++    direct records. Four-item unpack remains compatible; consumers must retain
++    the result ledger to inspect proof completeness and confidence provenance.
++    """
++    from noeron.direct_proof import infer_compatible
++    return infer_compatible(premises, query, max_steps=max_steps, max_proof_records=max_proof_records, admission_mode=admission_mode)
+ 
+ 
+ def render_logical_proposition(p: LogicalProposition) -> tuple[str, str, str]:
+diff --git a/src/noeron/math/models.py b/src/noeron/math/models.py
+index 2a32e9c928a1533b3c6afc78c441cc51ecfa8575..c4ea8ff5e2df4e376856837c58c3a00fd755e6c7 100644
+--- a/src/noeron/math/models.py
++++ b/src/noeron/math/models.py
+@@ -40,7 +40,9 @@ class LogicalProposition(BaseModel):
+     modality: str = ''
+     modifiers: list[str] = Field(default_factory=list)
+     source: str = ''
+-    confidence: float = 0.5
++    confidence: float | None = 0.5
++    proof_node_key: list = Field(default_factory=list)
++    proof_confidence: dict = Field(default_factory=dict)
+     source_memory_id: str = ''
+     source_memory_ids: list[str] = Field(default_factory=list)
+     source_record_id: str = ''
+@@ -64,7 +66,8 @@ class InferenceStep(BaseModel):
+     rule: str = ''
+     premises: list[str] = Field(default_factory=list)
+     conclusion: str = ''
+-    confidence: float = 0.0
++    confidence: float | None = 0.0
++    proof_record: dict = Field(default_factory=dict)
+ 
+ class KnotState(BaseModel):
+     """Finite real Fourier representative of a DKT Sobolev knot.
+@@ -327,7 +330,12 @@ class MultiMemoryReasoningMathState(BaseModel):
+     contrast_knot: KnotState | None = None
+     bridge_distance_hs: float = 0.0
+     frontier_candidate_links: int = 0
+-    confidence: float = 0.0
++    confidence: float | None = 0.0
++    confidence_evidence: dict = Field(default_factory=dict)
++    proof_ledger: dict = Field(default_factory=dict)
++    proof_ledger_complete: bool | None = None
++    proof_admission_audit: list[dict] = Field(default_factory=list)
++    autonomous_proof_candidates: list[LogicalProposition] = Field(default_factory=list)
+     concept_candidate_id: str = ''
+     concept_candidate_status: str = ''
+     concept_descriptor_terms: list[str] = Field(default_factory=list)
+diff --git a/src/noeron/reasoning.py b/src/noeron/reasoning.py
+index 1d2e323941d7da6d3eeacbd51b1a5166ebc9e6e7..ff029b40142cff67af2880745a78ebed697cfecf 100644
+--- a/src/noeron/reasoning.py
++++ b/src/noeron/reasoning.py
+@@ -278,6 +278,8 @@ def build_multi_memory_reasoning(
+     current_language_structure: Mapping[str,object] | None = None,
+     current_language_parse_audit: Mapping[str,object] | None = None,
+     current_turn_index: int = 0,
++    max_conclusion_steps: int = 128,
++    max_proof_records: int = 1024,
+ ) -> MultiMemoryReasoningMathState:
+     """Construct the geometric workspace and runtime proof closure.
+ 
+@@ -362,13 +364,13 @@ def build_multi_memory_reasoning(
+     bounded_premises,bounded_audit,bounded_selected=_bounded_dialogue_premises_for_post_closure(
+         bounded_dialogue_premises or [],post_closure_knot,
+     )
+-    # Identical canonical propositions are de-duplicated without creating new
+-    # semantic content. Current-turn input remains the final representative when an
+-    # identical proposition also exists in bounded or persistent provenance.
+-    premise_map = {p.canonical(): p for p in (bounded_premises + learned_premises + current_premises)}
+-    premises = list(premise_map.values())
++    # Preserve parallel observations; established control admission is explicit.
++    input_premises = bounded_premises + learned_premises + current_premises
+     query = (logical_query or LogicalQuery()).model_copy(deep=True)
+-    derived, inference_steps, raw_answers, selection_status = infer(premises, query)
++    inference_result = infer(input_premises, query, admission_mode='reasoning',
++        max_steps=max_conclusion_steps, max_proof_records=max_proof_records)
++    derived, inference_steps, raw_answers, selection_status = inference_result
++    premises = [input_premises[i] for i in inference_result.admitted_indexes]
+ 
+     # Preserve all three proof-premise provenance classes before canonical
+     # de-duplication. The proof gate filters unsupported packages only; it never
+@@ -384,11 +386,12 @@ def build_multi_memory_reasoning(
+     proof_provenance=tuple(bounded_selected)+tuple(persistent_provenance)+tuple(current_provenance)
+     ambiguity_constraints=_current_ambiguity_constraints(current_language_structure,current_language_parse_audit)
+     why_targets=query_target_propositions(premises+derived,query) if query.kind=='why-proposition' else []
+-    proof_gate=gate_inference_candidates(
+-        query_kind=query.kind,candidates=raw_answers,provenance_premises=proof_provenance,
+-        inference_steps=inference_steps,ambiguities=ambiguity_constraints,why_targets=why_targets,
+-        block_unscoped_ambiguity=True,
+-    )
++    from noeron.direct_proof import gate_compatible, workspace_confidence
++    all_bindings = list(zip(input_premises, proof_provenance, strict=True))
++    bindings = [all_bindings[i] for i in inference_result.admitted_indexes]
++    proof_gate = gate_compatible(inference_result, query, bindings, ambiguity_constraints)
++    autonomous_gate = gate_compatible(inference_result, LogicalQuery(kind='derive-all'),
++        bindings, ambiguity_constraints, candidates=derived)
+     answers=list(proof_gate.eligible_candidates)
+     if raw_answers and not answers:
+         selection_status=proof_gate.status
+@@ -399,11 +402,10 @@ def build_multi_memory_reasoning(
+         active_region_ids=(set(active_region_ids) if active_region_ids is not None else None),
+     )
+ 
+-    # Proof confidence is constrained by its weakest premise; geometric confidence
+-    # remains a separate audit quantity rather than being mixed with arbitrary weights.
+-    if answers:
+-        proof_conf = min(p.confidence for p in answers)
+-        confidence = proof_conf if not items else math.sqrt(max(0.0, min(1.0, proof_conf * confidence)))
++    if not inference_result.ledger.proof_ledger_complete:
++        open_questions, question_distances, question_status = [], {}, 'proof-gated-incomplete-ledger'
++    confidence, confidence_evidence = workspace_confidence(
++        inference_result, answers, query, confidence, bool(items))
+ 
+     return MultiMemoryReasoningMathState(
+         active=(len(items) >= 2 or bool(inference_steps) or bool(answers)),
+@@ -417,6 +419,10 @@ def build_multi_memory_reasoning(
+         contrast_knot=alternative_knot, bridge_distance_hs=bridge_distance,
+         frontier_candidate_links=frontier_hits, confidence=confidence,
+         premise_propositions=premises, derived_propositions=derived,
++        confidence_evidence=confidence_evidence, proof_ledger=inference_result.ledger.to_dict(),
++        proof_ledger_complete=inference_result.ledger.proof_ledger_complete,
++        proof_admission_audit=inference_result.admission_audit,
++        autonomous_proof_candidates=list(autonomous_gate.eligible_candidates),
+         inference_steps=inference_steps, logical_query=query, answer_candidates=answers,
+         answer_selection_status=selection_status,
+         proof_support_audits=list(proof_gate.audits),proof_gate_status=proof_gate.status,
