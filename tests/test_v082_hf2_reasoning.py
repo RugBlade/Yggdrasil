@@ -47,14 +47,58 @@ def test_hf2_property_query_preserves_multiple_values_without_forced_choice():
 
 
 def test_hf2_explicit_correction_supersedes_only_bounded_same_relation_for_answering():
-    props, _, _, _, steps, answers, status = run(
-        "The box is red. Correction: the box is blue. What color is the box?"
+    from noeron.inference import proposition_key
+    from noeron.math import dkt
+    from noeron.reasoning import build_multi_memory_reasoning
+
+    props, query, _ = parse_surface_logic_detailed(
+        "The box is red. Correction: the box is blue. What color is the box?", {}
     )
+    result = infer(props, query)
+    _, steps, answers, status = result
     assert set(canon(props)) == {"box::is::red", "box::is::blue"}
     assert any("correction" in p.modifiers for p in props)
-    assert [s.rule for s in steps].count("bounded-correction-supersession") == 1
     assert canon(answers) == ["box::is::blue"]
     assert status == "unique-proof-supported-answer"
+
+    # M4C3S keeps premise admission auditable without turning it into a proof.
+    # Retain the evidence-bearing result rather than discard it on unpacking.
+    assert result.admission_audit == [{
+        "kind": "bounded-correction-supersession",
+        "old_key": proposition_key(props[0]),
+        "new_key": proposition_key(props[1]),
+        "removed_input_indexes": [0],
+        "control_input_index": 1,
+        "role": "admission-event-not-formal-proof",
+        "semantic_truth_authority": False,
+        "answer_authority": False,
+    }]
+    assert result.admitted_indexes == [1]
+    assert not steps
+    assert not result.ledger.records
+    assert result.ledger.proof_ledger_complete
+
+    reasoning = build_multi_memory_reasoning(
+        dkt.reference_knot(), [], logical_propositions=props, logical_query=query,
+    )
+    assert reasoning.proof_admission_audit == result.admission_audit
+    assert canon(reasoning.answer_candidates) == ["box::is::blue"]
+    assert not reasoning.inference_steps
+    restored = type(reasoning).model_validate_json(reasoning.model_dump_json())
+    assert restored.proof_admission_audit == reasoning.model_dump(mode="json")["proof_admission_audit"]
+
+    # The corrected target cannot explain itself through an admission event.
+    why = query.model_copy(update={"kind": "why-proposition", "object": "blue"})
+    explanation = infer(props, why)
+    assert explanation.admission_audit == result.admission_audit
+    assert not explanation.candidates
+    assert explanation.status == "no-proof-supported-answer"
+    why_reasoning = build_multi_memory_reasoning(
+        dkt.reference_knot(), [], logical_propositions=props, logical_query=why,
+    )
+    assert why_reasoning.proof_admission_audit == result.admission_audit
+    assert not why_reasoning.answer_candidates
+    assert not why_reasoning.autonomous_proof_candidates
 
 
 def test_hf2_natural_conditional_enters_structured_modus_ponens():
