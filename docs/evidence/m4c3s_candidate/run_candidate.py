@@ -1,4 +1,4 @@
-"""Authoritative M4C3S exact-HF1 baseline / intent / independent replay gate."""
+"""M4C3S gate v2: unchanged intent, migrated admission audit test, fresh replay."""
 from pathlib import Path
 import hashlib
 import io
@@ -18,6 +18,8 @@ BASELINE_COMMIT='6d9b0df915d1e9aaa629731978cf52749da18764'
 INTENT=REPO/'patches/hf2/0023-hf2-direct-proof-provenance.intent.patch'
 INTENT_SHA='3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933'
 INTENT_BYTES=49785
+CANDIDATE_GATE_REVISION=2
+PREVIOUS_FAILED_RUN=35534036956
 SCOPE={'src/noeron/direct_proof.py','src/noeron/inference.py','src/noeron/reasoning.py',
        'src/noeron/math/models.py','src/noeron/cognition/models.py','src/noeron/cognition/kernel.py',
        'src/noeron/conversation_proof.py','src/noeron/conversation_resolution.py'}
@@ -118,6 +120,23 @@ def apply_candidate(root,label,expected_source):
     save(f'm4c3s-{label}-scope.json',{'files':sorted(changed),'patch_sha256':INTENT_SHA,'patch_bytes':INTENT_BYTES})
     return current
 
+
+def verify_candidate_test_contract():
+    expected = {
+        'tests/test_v082_hf2_reasoning.py': (6293, 'e839365e1d8e828a79046e252f73ab0f4fb2a67f9011cd63c73271e42a27009c', 'ff0729aec08a2c82603b75a677ead3a920df7d8a'),
+        'tests/hf2_m4c3s/test_direct_proof_provenance.py': (28897, '23bf4f98b41c5bedb7b3c3f647a13a839e2d96314ad025cf64e75ed391df62fd', '1b66214ea5f378df46804361b7d931bcb43eac6f'),
+    }
+    identities = {}
+    for name, (size, sha, blob) in expected.items():
+        raw = (REPO/name).read_bytes()
+        assert len(raw) == size and hashlib.sha256(raw).hexdigest() == sha, name
+        assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest() == blob, name
+        identities[name] = dict(bytes=size, sha256=sha, git_blob=blob)
+    save('m4c3s-gate-v2-test-contract.json', dict(candidate_gate_revision=CANDIDATE_GATE_REVISION,
+        previous_failed_run=PREVIOUS_FAILED_RUN, test_migration_commit='4f4ca63eb824f49983ad07b9e6432352fea9a8ae',
+        baseline_commit=BASELINE_COMMIT, runtime_intent_unchanged=True, tests=identities))
+    return identities
+
 fix=reconstruct('candidate')
 expected=sealed_source();assert hashes(fix)==expected and len(expected)==58
 save('m4c3s-post0022-sealed-source-parity.json',{'verified':True,'files':expected})
@@ -127,6 +146,7 @@ archive=TMP/'m4c3s-baseline-carrier.tar'
 run(['git','archive','--format=tar','--output='+str(archive),BASELINE_COMMIT])
 with tarfile.open(archive) as t:t.extractall(baseline,filter='data')
 results={'baseline':pytest(fix,baseline,'baseline',suite(baseline,False),451)}
+test_contract=verify_candidate_test_contract()
 candidate_hashes=apply_candidate(fix,'candidate',expected)
 results['focused']=pytest(fix,REPO,'focused',[REPO/'tests/hf2_m4c3s'],34)
 results['complete']=pytest(fix,REPO,'complete',suite(REPO,True),485)
@@ -144,6 +164,7 @@ with tarfile.open(source_archive,'w:gz') as t:
 run(['git','archive','--format=tar.gz','--output='+str(OUT/'m4c3s-carrier-evidence.tar.gz'),os.environ['GITHUB_SHA']])
 design=json.loads((REPO/'docs/evidence/HF2_M4C3S_RUNTIME_COMPATIBILITY_20260920_MANIFEST.json').read_text())
 save('HF2_M4C3S_CANDIDATE_RESULT.json',{'milestone':'M4C3S','status':'GREEN','run_id':os.environ['GITHUB_RUN_ID'],
+    'candidate_gate_revision':CANDIDATE_GATE_REVISION,'previous_failed_run':PREVIOUS_FAILED_RUN,'test_contract':test_contract,
     'run_attempt':os.environ['GITHUB_RUN_ATTEMPT'],'source_commit':os.environ['GITHUB_SHA'],'baseline_commit':BASELINE_COMMIT,
     'patch_sha256':INTENT_SHA,'patch_bytes':INTENT_BYTES,'results':results,'source_byte_parity':True,
     'source_archive_sha256':hashlib.sha256(source_archive.read_bytes()).hexdigest(),'scope':sorted(SCOPE),

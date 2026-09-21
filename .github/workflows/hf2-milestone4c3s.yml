@@ -1,4 +1,4 @@
-name: HF2 M4C3S - direct proof provenance candidate
+name: HF2 M4C3S - direct proof provenance candidate gate v2
 
 on:
   workflow_dispatch:
@@ -8,6 +8,7 @@ on:
     paths:
       - 'patches/hf2/0023-hf2-direct-proof-provenance.intent.patch'
       - 'tests/hf2_m4c3s/**'
+      - 'tests/test_v082_hf2_reasoning.py'
       - 'docs/evidence/m4c3s_candidate/run_candidate.py'
       - '.github/workflows/hf2-milestone4c3s.yml'
 
@@ -43,6 +44,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: hf2-m4c3s-direct-proof-provenance
+          name: hf2-m4c3s-direct-proof-provenance-gate-v2
           path: evidence/
           if-no-files-found: error
