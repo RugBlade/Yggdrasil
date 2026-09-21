@@ -1,0 +1,338 @@
+{
+  "schema": "HF2-M4C3S-GATE-V2-LOCAL-ABORT-v1",
+  "recorded_utc": "2026-09-21T11:44:21.790299+00:00",
+  "repository": "RugBlade/Yggdrasil",
+  "branch": "stage8B/v0.8.2-conversation-completion-hf2",
+  "actual_starting_head": "fd4e24d3247000d365ea9fbdd7e803d30d52fad2",
+  "starting_tree": "6f9f9ff6b79ed81e43abe3e3b7796d0952c26412",
+  "provider_newer_work_found": false,
+  "provider_root_candidate_raw_equality_at_start": true,
+  "stage": "8B v0.8.2 HF2",
+  "milestone": "M4C3S",
+  "phase": "GATE_V2_TEST_MIGRATION_COMMITTED_LOCAL_VERIFICATION_ABORTED_CI_NOT_LAUNCHED",
+  "candidate_gate_revision": 2,
+  "test_migration_commit": "4f4ca63eb824f49983ad07b9e6432352fea9a8ae",
+  "test_migration_tree": "0070637cbfa8a69b3c652a518dc665053d3d7934",
+  "test": {
+    "path": "tests/test_v082_hf2_reasoning.py",
+    "bytes": 6293,
+    "sha256": "e839365e1d8e828a79046e252f73ab0f4fb2a67f9011cd63c73271e42a27009c",
+    "git_blob": "ff0729aec08a2c82603b75a677ead3a920df7d8a",
+    "previous_blob": "6a1913a4d930f1bedc953708405f01a650fa896b"
+  },
+  "test_migration_diff": {
+    "bytes": 2975,
+    "sha256": "43bd7f69854ea4a448928e5b325e0d8ec66a3503495b2f99ae368da69a3fb47f",
+    "git_blob": "2948f8ff2b4afb55309a047273799111bea56f1b"
+  },
+  "test_changed_scope": [
+    "tests/test_v082_hf2_reasoning.py::test_hf2_explicit_correction_supersedes_only_bounded_same_relation_for_answering"
+  ],
+  "test_contract": "Retain infer result; preserve parsed red/blue propositions, correction modifier, blue answer and status. Assert one exact typed admission event including source input indexes, non-proof role and false semantic/answer authority. Assert admitted index, empty formal records/steps and completeness. Preserve reasoning audit across JSON roundtrip. Assert correction alone has no WHY answer or autonomous proof content.",
+  "diagnosis_checkpoint": {
+    "commit": "fd4e24d3247000d365ea9fbdd7e803d30d52fad2",
+    "manifest_path": "docs/evidence/HF2_M4C3S_CORRECTION_DIAGNOSIS_20260921.json",
+    "git_blob": "234337ddabed88d9b22a6a452f9062415b3fa4f2",
+    "drive_id": "1DCkR7i8s9CPin7YawOKzwyfXxYNeO1Dn"
+  },
+  "source_identities": {
+    "before_and_after_candidate_source_hashes_verified": true,
+    "candidate_files": 59,
+    "failed_intent_path": "patches/hf2/0023-hf2-direct-proof-provenance.intent.patch",
+    "failed_intent_commit": "9e32af64693677f01cec688728b1456319e6ea6d",
+    "failed_intent_blob": "82af12392377de6cbc7dd30297982aaa09d1f6ea",
+    "failed_intent_bytes": 49785,
+    "failed_intent_sha256": "3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933",
+    "focus_blob": "1b66214ea5f378df46804361b7d931bcb43eac6f",
+    "focus_unchanged": true,
+    "test_migration_commit": "4f4ca63eb824f49983ad07b9e6432352fea9a8ae",
+    "test": {
+      "path": "tests/test_v082_hf2_reasoning.py",
+      "bytes": 6293,
+      "sha256": "e839365e1d8e828a79046e252f73ab0f4fb2a67f9011cd63c73271e42a27009c",
+      "git_blob": "ff0729aec08a2c82603b75a677ead3a920df7d8a",
+      "previous_blob": "6a1913a4d930f1bedc953708405f01a650fa896b"
+    }
+  },
+  "local_verification": {
+    "schema": "HF2-M4C3S-LOCAL-VERIFICATION-ABORT-OBSERVATION-v1",
+    "evidence_origin": "Observed exec_command response, chunk_id aa4326; selected traceback frames transcribed below. This is not a complete raw stderr capture.",
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=m4c3s_candidate/candidate/src:m4c3s_candidate/deps python3 -m pytest -q m4c3s_gate_v2/test_v082_hf2_reasoning.py m4c3s_gate_v2/test_direct_proof_provenance.py --junitxml=m4c3s_gate_v2/local.xml",
+    "exit_code": 135,
+    "wall_time_seconds": 0.757675641,
+    "observed_output_prefix": "........Fatal Python error: Bus error",
+    "traceback_frames": [
+      "<frozen importlib._bootstrap_external>, line 1293, in create_module",
+      "/workspace/scratch/71ea47ccf27d/m4c3s_candidate/deps/PIL/Image.py, line 95, in <module>",
+      "/workspace/scratch/71ea47ccf27d/m4c3s_candidate/candidate/src/noeron/perception.py, line 26, in <module>",
+      "/workspace/scratch/71ea47ccf27d/m4c3s_candidate/candidate/src/noeron/orchestrator.py, line 53, in <module>",
+      "/workspace/scratch/71ea47ccf27d/m4c3s_gate_v2/test_direct_proof_provenance.py, line 41, in candidate_checks",
+      "/workspace/scratch/71ea47ccf27d/m4c3s_candidate/deps/_pytest/fixtures.py, line 898, in call_fixture_func"
+    ],
+    "junit_requested": "m4c3s_gate_v2/local.xml",
+    "junit_exists": false,
+    "observed_assertion_failure": false,
+    "complete_test_result": null,
+    "expected_combined_cases": 42,
+    "expected_historical_cases": 8,
+    "expected_focused_cases": 34,
+    "interpretation": "Eight historical test progress dots appeared before focused module fixture setup aborted during Pillow native-module loading. No completed pytest/JUnit result exists; do not claim 42 green or a completed focused gate.",
+    "classification": "local environment/native dependency import process abort; underlying cause undetermined",
+    "followup": "Read-only Pillow RECORD integrity inspection only. No import retry, no test rerun, no dependency/source change, no authoritative CI launch."
+  },
+  "local_environment_inspection": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "pillow_file_integrity": [
+      {
+        "path": "m4c3s_candidate/deps/PIL/Image.py",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=BK8_Lbf_3WHoKfp6qPVIHTlKCkEpqP2KpbE5CJKPzW0",
+        "actual_hash": "sha256=BK8_Lbf_3WHoKfp6qPVIHTlKCkEpqP2KpbE5CJKPzW0",
+        "expected_bytes": "153786",
+        "actual_bytes": 153786,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imaging.cpython-312-x86_64-linux-gnu.so",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=lDEPSgc-l3OgZ9-IUTgEZJ9QqXT3i9haUsUtIRcHg_I",
+        "actual_hash": "sha256=lDEPSgc-l3OgZ9-IUTgEZJ9QqXT3i9haUsUtIRcHg_I",
+        "expected_bytes": "3402345",
+        "actual_bytes": 3402345,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imaging.pyi",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=fT-TTGQS0kym1gv77gXTKQtJrAmO1NynS5LKBtG3G6M",
+        "actual_hash": "sha256=fT-TTGQS0kym1gv77gXTKQtJrAmO1NynS5LKBtG3G6M",
+        "expected_bytes": "893",
+        "actual_bytes": 893,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imagingcms.cpython-312-x86_64-linux-gnu.so",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=LUYA29jCnXyyQ1YN32p8bONtE-Fc81nRQFBiOtfRU6w",
+        "actual_hash": "sha256=LUYA29jCnXyyQ1YN32p8bONtE-Fc81nRQFBiOtfRU6w",
+        "expected_bytes": "157841",
+        "actual_bytes": 157841,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imagingcms.pyi",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=ZZ8iIoi6EHWLvgAdfm1hPD5CQmxi75LiJl5x8yGxYoU",
+        "actual_hash": "sha256=ZZ8iIoi6EHWLvgAdfm1hPD5CQmxi75LiJl5x8yGxYoU",
+        "expected_bytes": "4433",
+        "actual_bytes": 4433,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imagingft.cpython-312-x86_64-linux-gnu.so",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=MeKEtrKp_TnQnMarJs8k0PIP29mS-ea6yY-SbjjVhMs",
+        "actual_hash": "sha256=MeKEtrKp_TnQnMarJs8k0PIP29mS-ea6yY-SbjjVhMs",
+        "expected_bytes": "327073",
+        "actual_bytes": 327073,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imagingft.pyi",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=cYySzvcKBCiHPBsvttMie9AdfUcEsqZR-3256YQtz2Q",
+        "actual_hash": "sha256=cYySzvcKBCiHPBsvttMie9AdfUcEsqZR-3256YQtz2Q",
+        "expected_bytes": "1833",
+        "actual_bytes": 1833,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imagingmath.cpython-312-x86_64-linux-gnu.so",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=lb1pIJVgyf1k5mZSBPMyB8e2HMzUwpeX8PUiVhvFxpM",
+        "actual_hash": "sha256=lb1pIJVgyf1k5mZSBPMyB8e2HMzUwpeX8PUiVhvFxpM",
+        "expected_bytes": "142280",
+        "actual_bytes": 142280,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imagingmath.pyi",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=3fBxcSppJr6EOEcUojvflG3Eegg7lv2Qp0dNQQILrP4",
+        "actual_hash": "sha256=3fBxcSppJr6EOEcUojvflG3Eegg7lv2Qp0dNQQILrP4",
+        "expected_bytes": "63",
+        "actual_bytes": 63,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imagingmorph.cpython-312-x86_64-linux-gnu.so",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=wvNzEzmupSYIELYCjxxpQOVOmoAFvRGbG5-EY_I_wIk",
+        "actual_hash": "sha256=wvNzEzmupSYIELYCjxxpQOVOmoAFvRGbG5-EY_I_wIk",
+        "expected_bytes": "39312",
+        "actual_bytes": 39312,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imagingmorph.pyi",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=3fBxcSppJr6EOEcUojvflG3Eegg7lv2Qp0dNQQILrP4",
+        "actual_hash": "sha256=3fBxcSppJr6EOEcUojvflG3Eegg7lv2Qp0dNQQILrP4",
+        "expected_bytes": "63",
+        "actual_bytes": 63,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imagingtk.cpython-312-x86_64-linux-gnu.so",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=6PnZb7-gzP2BbYLTyIDrBYcvTRB54J1j39e1E8mvc_8",
+        "actual_hash": "sha256=6PnZb7-gzP2BbYLTyIDrBYcvTRB54J1j39e1E8mvc_8",
+        "expected_bytes": "47200",
+        "actual_bytes": 47200,
+        "matches_record": true
+      },
+      {
+        "path": "m4c3s_candidate/deps/PIL/_imagingtk.pyi",
+        "record": "m4c3s_candidate/deps/pillow-12.3.0.dist-info/RECORD",
+        "expected_hash": "sha256=3fBxcSppJr6EOEcUojvflG3Eegg7lv2Qp0dNQQILrP4",
+        "actual_hash": "sha256=3fBxcSppJr6EOEcUojvflG3Eegg7lv2Qp0dNQQILrP4",
+        "expected_bytes": "63",
+        "actual_bytes": 63,
+        "matches_record": true
+      }
+    ],
+    "junit_exists": false,
+    "interpretation": "Read-only file integrity check following local process abort; no import retry and no test rerun."
+  },
+  "environment_conclusion": "Abort localized to Pillow native image import during focused fixture setup. Inspected PIL/Image.py and _imaging binaries match installed Pillow 12.3.0 RECORD hashes and byte counts. This does not establish binary/platform compatibility or rule out filesystem/mapping/runtime causes. Root cause unresolved; no runtime/source defect inferred.",
+  "required_stop_rule_applied": true,
+  "local_green": false,
+  "local_complete_counts": null,
+  "local_focused_complete": false,
+  "test_contract_migration_applied": true,
+  "test_contract_migration_fully_verified": false,
+  "runtime_source_changed": false,
+  "candidate_intent_changed": false,
+  "focused_test_changed": false,
+  "workflow_or_runner_changed": false,
+  "first_authoritative_failed_run": {
+    "run_id": 35534036956,
+    "job_id": 106139739042,
+    "source_commit": "ce05f10f5c03f2d3c4c8340e3596028dd7da2df5",
+    "status": "completed",
+    "conclusion": "failure",
+    "results_inspected": true,
+    "baseline": {
+      "passed": 451,
+      "failed": 0,
+      "warnings": 2
+    },
+    "focused": {
+      "passed": 34,
+      "failed": 0
+    },
+    "complete": {
+      "passed": 484,
+      "failed": 1,
+      "warnings": 2
+    },
+    "replay": "NOT_REACHED_NOT_CERTIFIED",
+    "artifact_ids": [
+      10612158561
+    ],
+    "green_candidate_receipt_created": false
+  },
+  "first_failure_artifact": {
+    "github_id": 10612158561,
+    "drive_id": "1_oAs2rgLr50p-8uGR2yaFdYkJVuU0cJo",
+    "bytes": 34684,
+    "sha256": "b30b0dd45e822f41486bbfe6e4b75edb310d6fb771bc30ea0bff27d2d4855df6"
+  },
+  "new_authoritative_run_id": null,
+  "new_job_id": null,
+  "new_artifact_id": null,
+  "active_pending_run_count": 0,
+  "active_pending_run_ids": [],
+  "candidate_authoritative_green": false,
+  "runtime_candidate_created": true,
+  "replacement_runtime_candidate_created": false,
+  "ordinary_0023_published": false,
+  "m4c3s_sealed": false,
+  "stage8b_complete": false,
+  "latest_sealed_milestone": "M4C3R",
+  "m4c3r_sealed": true,
+  "m4c3q_sealed": true,
+  "published_reconstruction": "exact HF1 + ORIGINAL carrier helpers + ordinary 0001 -> 0022",
+  "backup": {
+    "drive_id": "1hLgt1G9aJ8neDcGkCEZhPRsHHcHG2-Af",
+    "bytes": 194742,
+    "sha256": "4cd70fe9bcf543bfc3aa9656335ea8133b9da9d0c2dad0f12a93657d24e1ebd4",
+    "git_blob": "90735f312df29e36de3f8f9b1859059842c18de3",
+    "contents": "Fresh root/candidate/closure provider state, frozen input test/intent/workflow/runner/diagnosis, migrated test and diff, unchanged focused test, migration script, tool-observed crash excerpt receipt, read-only environment inspection and source identities. No complete local raw stderr/JUnit exists.",
+    "local_drive_raw_equality": true
+  },
+  "work_completed": [
+    "Provider reconciliation",
+    "Justified test-contract migration",
+    "One attempted combined 8+34 local run, aborted",
+    "Read-only Pillow file integrity inspection",
+    "Candidate 59-source-file hashes reverified unchanged",
+    "Test migration committed separately",
+    "Evidence preserved"
+  ],
+  "work_unfinished": [
+    "Resolve local native-import environment blocker",
+    "Complete 8 historical plus 34 focused local tests",
+    "Freeze second candidate-gate continuation",
+    "One new authoritative baseline-first/replay workflow",
+    "Inspected green candidate receipt",
+    "Ordinary publication",
+    "Separate published chain",
+    "Seal"
+  ],
+  "next_action": "Inspect current GitHub/Drive and this local-abort checkpoint. Diagnose the Pillow native-module loading failure in an isolated disposable local environment; preserve the failed environment and observations. Do not modify Yggdrasil source or weaken tests to bypass native imports. Once environment is proven usable, run the committed migrated historical file (8 tests) plus unchanged M4C3S focused file (34 tests), capture full logs and JUnit. If local checks fail, checkpoint and stop before CI. Only if all local checks are green freeze/mirror the explicit gate-v2 checkpoint with exact identities, then launch one new authoritative exact-HF1/original-helpers/ordinary0001-0022/unchanged451-baseline/intent/focused/full/fresh-replay gate and immediately save source/run/job IDs. Do not rerun the old failed workflow blindly.",
+  "baseline_must_remain_unchanged": {
+    "carrier_commit": "6d9b0df915d1e9aaa629731978cf52749da18764",
+    "expected_tests": 451
+  },
+  "provider_divergence": false,
+  "blockers": [
+    "Local verification process aborts with Bus error during Pillow native-module import; no complete local green gate."
+  ],
+  "cleanup_required": [],
+  "scratch_state": "Preserved for diagnosis; do not assume cached native dependencies are execution-compatible merely because RECORD hashes match.",
+  "live_runtime_touched": false,
+  "canonical_db_touched": false,
+  "certification_claim": false,
+  "authority": {
+    "same_ingress_prior_sentence_scope": true,
+    "current_sentence_self_reference_from_later_mentions": false,
+    "prepositional_complement_nominal_candidate": false,
+    "categorical_predicate_complement_removal": false,
+    "genuine_reference_alternatives_preserved": true,
+    "semantic_truth_authority": false,
+    "answer_authority": false,
+    "speech_act_choice_authority": false,
+    "preference_authority": false,
+    "relationship_authority": false,
+    "cognitive_memory_authority": false,
+    "source_write_authority": false,
+    "deployment_authority": false,
+    "proof_ambiguity_gate_weakened": false,
+    "semantic_verb_class_table_added": false,
+    "lexical_candidate_ranking_added": false,
+    "lexical_pos_inference_added": false,
+    "llm_inference_added": false,
+    "canned_clarification_added": false,
+    "autoplay_added": false,
+    "microphone_camera_expansion": false,
+    "human_hearing_inference": false,
+    "stage8b_only": true,
+    "live_runtime_touched": false,
+    "canonical_db_touched": false,
+    "certification_claim": false
+  },
+  "roadmap_boundary": "Remain strictly within Stage 8B. Do not begin Stage 8C\u20138M work, including the later Stage-8 self-upgrade milestones 8H\u20138K, and do not begin Stage 9. Stage 8 spans 8A\u20138M; Stage 9 is substrate-level continuity and mobility. No roadmap changes.",
+  "final_live_deployment_package": "FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED"
+}

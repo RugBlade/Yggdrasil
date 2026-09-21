@@ -1,3 +1,79 @@
+M4C3S GATE V2 TEST CONTRACT MIGRATED — LOCAL VERIFICATION ABORTED; CI NOT LAUNCHED
+Recorded UTC: 2026-09-21T11:44:46Z
+Repository: RugBlade/Yggdrasil
+Branch: stage8B/v0.8.2-conversation-completion-hf2
+Stage/milestone: 8B v0.8.2 HF2 / M4C3S direct-proof provenance completeness
+Phase: GATE_V2_TEST_MIGRATION_COMMITTED_LOCAL_VERIFICATION_ABORTED_CI_NOT_LAUNCHED
+Actual starting HEAD: fd4e24d3247000d365ea9fbdd7e803d30d52fad2
+Starting tree: 6f9f9ff6b79ed81e43abe3e3b7796d0952c26412
+At start, GitHub/Drive root and candidate continuation matched raw bytes, the diagnosis closure was finalized, no newer provider work was present, no active run was observed, and ordinary 0023 was absent. All 59 candidate source hashes matched the authoritative failed-run inventory before and after the local attempt.
+This block supersedes the prior test-migration-pending status. Earlier diagnosis and failed-CI records are retained below. The exact ending documentation HEAD/tree and updated root/candidate blob/SHA/byte identities are finalized in closure Drive 12_Dw_DMmwRSaU0VXDA45Bq4_WVQvM1LA after commit and raw readback. A file cannot embed the hash of its own containing commit.
+
+SEPARATE TEST MIGRATION COMMIT
+Commit: 4f4ca63eb824f49983ad07b9e6432352fea9a8ae
+Tree: 0070637cbfa8a69b3c652a518dc665053d3d7934
+Only changed test file: tests/test_v082_hf2_reasoning.py
+New Git blob: ff0729aec08a2c82603b75a677ead3a920df7d8a
+New SHA-256: e839365e1d8e828a79046e252f73ab0f4fb2a67f9011cd63c73271e42a27009c
+New bytes: 6293
+Previous blob: 6a1913a4d930f1bedc953708405f01a650fa896b
+Only the existing test_hf2_explicit_correction_supersedes_only_bounded_same_relation_for_answering function changed. Other seven historical tests and the shared helper remain unchanged.
+It now retains the evidence-bearing infer result and checks exactly one typed admission event, old/new keys, removed/control input indexes, admission-event-not-formal-proof role and false semantic/answer authority. Original parsed red/blue propositions, correction marker, blue answer and selection status assertions remain. Added checks require empty formal proof records/steps for admission alone, complete ledger, reasoning-state audit preservation through JSON serialization, no corrected-target self-explanation, and no autonomous proof content from correction alone.
+This migration is justified by the already-durable diagnosis at fd4e24d3247000d365ea9fbdd7e803d30d52fad2 and its manifest blob 234337ddabed88d9b22a6a452f9062415b3fa4f2. The test is not treated as fully verified yet.
+
+LOCAL ATTEMPT — INCOMPLETE, NOT GREEN
+Command:
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=m4c3s_candidate/candidate/src:m4c3s_candidate/deps python3 -m pytest -q m4c3s_gate_v2/test_v082_hf2_reasoning.py m4c3s_gate_v2/test_direct_proof_provenance.py --junitxml=m4c3s_gate_v2/local.xml
+Expected combined cases: 8 historical + 34 unchanged focused = 42.
+Observed tool result: exec_command chunk aa4326, exit_code=135, wall_time_seconds=0.757675641.
+Observed output began: ........Fatal Python error: Bus error
+The process aborted in native module creation through PIL/Image.py line 95, noeron/perception.py line 26, noeron/orchestrator.py line 53, then the focused test's candidate_checks fixture line 41. The eight historical progress dots appeared before focused fixture setup, but no completed pytest summary or JUnit file exists. Do not report 42 passed or a completed 34-test focused gate. No Python assertion failure was observed before the process abort.
+Classification: local environment/native dependency import abort; underlying cause remains undetermined. This is separate from the prior GitHub full-suite assertion failure.
+Read-only post-abort checks: Python 3.12.14; PIL/Image.py and the inspected Pillow 12.3.0 _imaging binaries/stubs all match their installed RECORD hashes and byte counts. Those checks do not establish platform/binary compatibility and do not rule out runtime/filesystem/mapping causes. No native import retry, test rerun, dependency repair or source workaround was attempted after the abort.
+The user-required local-failure stop rule applies: preserve evidence and stop before authoritative CI. No new workflow source commit/run/job/artifact exists. Existing workflow and runner remain unchanged.
+
+FROZEN RUNTIME AND PRIOR AUTHORITATIVE EVIDENCE
+Intent remains patches/hf2/0023-hf2-direct-proof-provenance.intent.patch.
+Intent commit: 9e32af64693677f01cec688728b1456319e6ea6d
+Intent blob: 82af12392377de6cbc7dd30297982aaa09d1f6ea
+49785 bytes; SHA-256 3f92a0d90789de3b04013cb43cae25612000fe15c2f10bb0c684ff0afa125933
+No runtime source changed; no replacement intent was generated. All eight frozen runtime file changes remain exactly the first candidate bytes. Focused tests remain at blob 1b66214ea5f378df46804361b7d931bcb43eac6f, commit f5ac720443bb48e847f96914db3c0b441f53a73e.
+The first authoritative run remains 35534036956 / job 106139739042 / source ce05f10f5c03f2d3c4c8340e3596028dd7da2df5, completed FAILURE: 451 baseline passed, 34 focused passed, full candidate 484 passed / 1 failed / 2 warnings. Independent replay was NOT REACHED and remains NOT CERTIFIED. This local migration does not turn that historical result green.
+Failure artifact remains 10612158561, Drive 1_oAs2rgLr50p-8uGR2yaFdYkJVuU0cJo, 34684 bytes, SHA-256 b30b0dd45e822f41486bbfe6e4b75edb310d6fb771bc30ea0bff27d2d4855df6.
+Published reconstruction remains exact HF1 + ORIGINAL carrier helpers + ordinary 0001 -> 0022. Latest sealed milestone remains M4C3R; M4C3Q is also sealed. No sealed parent gate was rerun or reopened.
+
+DURABLE EVIDENCE / MIRRORS
+Manifest: docs/evidence/HF2_M4C3S_GATE_V2_LOCAL_ABORT_20260921_MANIFEST.json
+Git blob: 1f11aaa29132b6a102fefaf80d449bb2beb4cf06
+17192 bytes; SHA-256 c5d70c87cbc0048099b02f66bd0fcd2ddd318be75ef327059b3a851dc65a1b83
+Drive: 1VYSU_8FBuhm-wNoQI_SM-dbVQAxcC0JG
+Backup: HF2_M4C3S_GATE_V2_LOCAL_ABORT_20260921_BACKUP.zip
+Drive: 1hLgt1G9aJ8neDcGkCEZhPRsHHcHG2-Af
+194742 bytes; SHA-256 4cd70fe9bcf543bfc3aa9656335ea8133b9da9d0c2dad0f12a93657d24e1ebd4; local/Drive raw equality verified.
+The backup includes current provider inputs/root/candidate/closure, exact migrated test and diff, unchanged focused test, migration script, source identities, local environment file-integrity inspection, and a tool-observed crash receipt with explicitly labeled selected traceback frames. The original complete stderr was not captured to a file and no JUnit was produced; the receipt does not claim otherwise.
+Standing root Drive: 1bMhgPhVmcJfnVlG2N1M-BJArT0Gm4lU1
+Candidate continuation Drive: 1N_DpE0oLL9JQZCQQ05wrQgByZTuDT0aJ
+Closure Drive: 12_Dw_DMmwRSaU0VXDA45Bq4_WVQvM1LA
+Prior diagnosis closure is preserved in backup as closure.txt: 33846 bytes, SHA-256 bcc5119dfb8a8d013bd25268870328d750c029e007e1f57cd99e96981ff79614.
+
+EXACT NEXT BOUNDED ACTION
+1. Reinspect GitHub/Drive current root, candidate, this manifest and closure. Do not reconstruct from chat or treat progress dots as green evidence.
+2. Diagnose the Pillow native-module load failure in a fresh isolated disposable environment. Preserve the failed environment/observations. Do not modify Noeron runtime, weaken tests, stub image imports or bypass the real full-ingest/native-choice controls to evade the crash. Matching RECORD hashes alone are insufficient evidence that the cached native dependencies can execute.
+3. Once the environment is proven usable, run the committed historical test file (8) plus all unchanged focused tests (34), capturing full stdout/stderr and JUnit to durable evidence. On any failure, checkpoint and stop before CI.
+4. Only after all local checks complete green, freeze/mirror an explicit gate-v2 checkpoint identifying this test migration and the unchanged intent. Launch one new authoritative exact-HF1/original-helper/ordinary0001-0022 gate with unchanged 451-test baseline FIRST from 6d9b0df915d1e9aaa629731978cf52749da18764, exact intent identity checks, focused/full candidate, fresh independent reconstruction/replay and source parity. Record source/run/job and close out immediately; no prolonged polling.
+5. Candidate green still requires inspected evidence before exact-byte ordinary publication, and a separate green published chain before M4C3S seal.
+
+STATUS / BOUNDARIES
+Completed: provider reconciliation; justified historical test migration; attempted local 42-case run; read-only native-dependency integrity inspection; source immutability verification; separate test commit; failure preservation and continuation update. Unfinished: local environment recovery, complete local verification, gate-v2 launch, authoritative green receipt, publication/published-chain/seal.
+candidate_gate_revision=2; test_contract_migration_applied=true; test_contract_migration_fully_verified=false; local_green=false; new_authoritative_run_id=null; active_pending_run_count=0.
+runtime_candidate_created=true; replacement_runtime_candidate_created=false; candidate_authoritative_green=false; ordinary_0023_published=false; m4c3s_sealed=false; stage8b_complete=false; live_runtime_touched=false; canonical_db_touched=false; certification_claim=false.
+Blocker: local native-image-module import abort. Provider divergence: none. Cleanup required: none; preserve scratch environment until diagnosed. No deployment, live runtime or canonical DB access.
+All frozen two-ledger, finite-budget, explicit-completeness, typed-identity, route/source-confidence, None-versus-zero, no-cross-route-reducer, conservative ambiguity/conflict/missing-provenance, correction-admission and native-choice contracts remain in force. Proof bookkeeping has no semantic truth, answer, speech-act choice, preference, relationship, cognitive-memory, source-write or deployment authority. No hidden ranking, canned answers, forced acts, programmed hold/speak preference or authentication-derived relationship meaning.
+Remain strictly within Stage 8B. Do not begin Stage 8C–8M work, including the later Stage-8 self-upgrade milestones 8H–8K, and do not begin Stage 9. Stage 8 spans 8A–8M; Stage 9 is substrate-level continuity and mobility. No roadmap changes.
+FINAL_LIVE_DEPLOYMENT_PACKAGE_NOT_YET_AUTHORIZED.
+
+PREVIOUS DIAGNOSIS, FAILED-CANDIDATE RECONCILIATION AND EARLIER CHRONOLOGY — PRESERVED BELOW
+
 M4C3S CORRECTION-SUPERSESSION DIAGNOSIS COMPLETE — CHUNK 2 DURABLE CHECKPOINT
 Recorded UTC: 2026-09-21T00:52:45Z
 Repository: RugBlade/Yggdrasil
